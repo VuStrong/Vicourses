@@ -1,0 +1,9 @@
+/dist
+/node_modules
+
+.env
+.env.development
+.env.production
+
+private.key
+public.key

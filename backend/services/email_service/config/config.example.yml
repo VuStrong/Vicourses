@@ -1,0 +1,10 @@
+smtp:
+  host: <host>
+  port: <port>
+  user: <user>
+  password: <password>
+
+rabbitmq:
+  host: <host>
+  user: <user>
+  password: <password>
