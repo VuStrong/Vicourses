@@ -1,10 +1,6 @@
 import dotenv from "dotenv";
 
-if (process.env.NODE_ENV) {
-    dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-} else {
-    dotenv.config({ path: ".env.development" });
-}
+dotenv.config();
 
 const Config = {
     NODE_ENV: process.env.NODE_ENV || "development",
