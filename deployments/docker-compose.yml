@@ -45,7 +45,8 @@ services:
 
   ###
   auth-service:
-    image: vustrong/vicourses-authservice
+    build:
+      context: ./services/auth_service
     networks:
       - vicourses-network
     depends_on:
@@ -64,6 +65,8 @@ services:
       rabbitmq:
         condition: service_healthy
     restart: always
+    env_file:
+      - services/email_service/.env
 
 networks:
   vicourses-network:
