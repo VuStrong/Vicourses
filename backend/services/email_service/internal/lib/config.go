@@ -3,8 +3,9 @@ package lib
 import (
 	"fmt"
 	"os"
+	"strconv"
 
-	"gopkg.in/yaml.v3"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -14,35 +15,33 @@ type Config struct {
 		User     string
 		Password string
 	}
-	RabbitMQ struct {
-		Host     string
-		User     string
-		Password string
-	}
+	RabbitMQ_URL string
 }
 
 var Conf *Config
 
 func LoadConfig() {
-	env := os.Getenv("ENV")
-
-	var configPath string
-	if env != "" {
-		configPath = fmt.Sprintf("config/config.%s.yml", env)
-	} else {
-		configPath = "config/config.dev.yml"
-	}
-
-	fileData, err := os.ReadFile(configPath)
+	err := godotenv.Load()
 	if err != nil {
-		panic(err)
+		fmt.Println("Error loading .env file")
 	}
 
 	Conf = new(Config)
-
-	err = yaml.Unmarshal(fileData, Conf)
-
+	port, err := strconv.Atoi(os.Getenv("SMTP_PORT"))
 	if err != nil {
 		panic(err)
 	}
+
+	Conf.Smtp = struct {
+		Host     string
+		Port     int
+		User     string
+		Password string
+	}{
+		Host:     os.Getenv("SMTP_HOST"),
+		Port:     port,
+		User:     os.Getenv("SMTP_USER"),
+		Password: os.Getenv("SMTP_PASS"),
+	}
+	Conf.RabbitMQ_URL = os.Getenv("RABBITMQ_URL")
 }

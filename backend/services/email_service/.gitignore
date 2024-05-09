@@ -19,3 +19,5 @@ go.work
 
 config/config.dev.yml
 config/config.prod.yml
+
+.env

@@ -25,8 +25,7 @@ func ConnectRabbitmq() *RabbitMQ {
 	var err error
 	rmq := &RabbitMQ{}
 
-	rabbitConf := Conf.RabbitMQ
-	rmq.Connection, err = amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s/", rabbitConf.User, rabbitConf.Password, rabbitConf.Host))
+	rmq.Connection, err = amqp.Dial(Conf.RabbitMQ_URL)
 	if err != nil {
 		panic(err)
 	}
