@@ -28,9 +28,8 @@ services:
 
   ###
   mysql:
-    build: 
-      context: ./db/mysql
-    command: --default-authentication-plugin=mysql_native_password
+    image: mysql:8.4.0
+    command: ["mysqld", "--mysql-native-password=ON"]
     restart: always
     env_file:
       - db/mysql/.env
@@ -38,15 +37,22 @@ services:
       - "13306:3306"
     volumes:
       - mysqldb_data:/var/lib/mysql
+      - ./db/mysql/scripts:/docker-entrypoint-initdb.d
     networks:
       - vicourses-network
     healthcheck:
-      test: "exit 0"
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
 
   ###
   auth-service:
-    build:
-      context: ./services/auth_service
+    image: vustrong/vicourses-authservice
+    env_file:
+      - services/auth_service/.env
+    volumes:
+      - ./services/auth_service/private.key:/app/private.key
+      - ./services/auth_service/public.key:/app/public.key
     networks:
       - vicourses-network
     depends_on:
