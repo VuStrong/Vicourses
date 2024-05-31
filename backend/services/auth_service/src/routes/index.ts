@@ -5,8 +5,8 @@ import swaggerDoc from "../../swagger/swagger.json";
 
 const router = Router();
 
-router.use("/api-docs", swaggerUi.serve);
-router.get("/api-docs", swaggerUi.setup(swaggerDoc));
+router.use("/swagger", swaggerUi.serve);
+router.get("/swagger", swaggerUi.setup(swaggerDoc));
 router.get('/swagger.json', (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerDoc);

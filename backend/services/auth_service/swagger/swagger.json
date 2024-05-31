@@ -91,12 +91,6 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "accessToken": {
-                                            "type": "string"
-                                        },
-                                        "refreshToken": {
-                                            "type": "string"
-                                        },
                                         "user": {
                                             "type": "object",
                                             "$ref": "#/definitions/User"
