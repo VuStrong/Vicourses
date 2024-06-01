@@ -1,5 +1,6 @@
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using SwaggerEndPoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,18 +17,13 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.Map("/swagger/v1/swagger-auth.json", b =>
-{
-    b.Run(async x => {
-        var json = File.ReadAllText("swagger/swagger-auth.json");
-        await x.Response.WriteAsync(json);
-    });
-});
+app.MapServiceSwaggers(builder.Configuration);
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger-auth.json", "Auth");
+    c.SwaggerEndpoint("/swagger/v1/swagger-auth.json", "Auth API - v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger-course.json", "Course API - v1");
 });
 
 app.UseHttpsRedirection();

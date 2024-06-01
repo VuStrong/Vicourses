@@ -12,7 +12,7 @@
                     "Port": 3000
                 }
             ],
-            "UpstreamPathTemplate": "/{version}/auth/{everything}",
+            "UpstreamPathTemplate": "/api/{version}/auth/{everything}",
             "UpstreamHttpMethod": [ "POST" ]
         }
     ]
