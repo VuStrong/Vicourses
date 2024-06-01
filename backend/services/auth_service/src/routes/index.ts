@@ -1,16 +1,31 @@
 import { Request, Response, Router } from "express";
-import swaggerUi from "swagger-ui-express";
+import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
 import authRoute from "./auth.route";
-import swaggerDoc from "../../swagger/swagger.json";
+import swaggerDocV1 from "../../swagger/swagger-v1.json";
+
+var options: SwaggerUiOptions = {
+    explorer: true,
+    swaggerOptions: {
+        urls: [
+            {
+                url: "/swagger/v1/swagger.json",
+                name: "Auth API - v1",
+            },
+        ],
+    },
+};
 
 const router = Router();
 
-router.use("/swagger", swaggerUi.serve);
-router.get("/swagger", swaggerUi.setup(swaggerDoc));
-router.get('/swagger.json', (req: Request, res: Response) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerDoc);
+router.get("/swagger/v1/swagger.json", (req: Request, res: Response) => {
+    res.setHeader("Content-Type", "application/json");
+    res.send(swaggerDocV1);
 });
+router.use(
+    "/swagger",
+    swaggerUi.serveFiles(undefined, options),
+    swaggerUi.setup(undefined, options)
+);
 
 router.use("/api/v1/auth", authRoute);
 
