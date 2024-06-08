@@ -7,6 +7,7 @@ import User from "../entity/user.entity";
 import { TokenType } from "../entity/token.entity";
 import { EventType, event } from "../events";
 import { AppError } from "../utils/app-error";
+import logger from "../logger";
 
 export async function login(email: string, password: string): Promise<{
     accessToken: string,
@@ -33,6 +34,10 @@ export async function login(email: string, password: string): Promise<{
 
     const accessToken = await jwt.signForUser(user);
     const refreshToken = await tokenRepository.generateRefreshToken(user.id);
+
+    logger.info("User logged in", {
+        email: user.email
+    });
 
     return {
         user,
@@ -62,6 +67,11 @@ export async function register({
         const newUser = await userRepository.save(user);
 
         event.emit(EventType.USER_CREATED, newUser);
+
+        logger.info(`New user registered`, {
+            id: newUser.id,
+            email: newUser.email,
+        });
 
         return newUser;
     } catch (error) {

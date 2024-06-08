@@ -3,6 +3,7 @@ import * as authController from "../controllers/auth.controller";
 import {
     checkValidationResult,
     validateConfirmEmailRequest,
+    validateGoogleLogin,
     validateLogin,
     validateRefreshTokenRequest,
     validateRegister,
@@ -64,6 +65,13 @@ authRoute.post(
     validateSendResetPasswordLinkRequest(),
     checkValidationResult,
     authController.handleSendResetPasswordLink
+);
+
+authRoute.post(
+    "/google-login",
+    validateGoogleLogin(),
+    checkValidationResult,
+    authController.handleGoogleLogin
 );
 
 export default authRoute;

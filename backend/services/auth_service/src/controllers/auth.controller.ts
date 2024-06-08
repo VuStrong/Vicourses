@@ -109,3 +109,19 @@ export async function handleSendResetPasswordLink(req: Request, res: Response, n
         next(error);
     }
 }
+
+export async function handleGoogleLogin(req: Request, res: Response, next: NextFunction) {
+    const { idToken } = req.body;
+
+    try {
+        const { user, accessToken, refreshToken } = await authService.googleLogin(idToken);
+        
+        res.status(200).send({
+            user,
+            accessToken,
+            refreshToken
+        });
+    } catch (error) {
+        next(error);
+    }
+}
