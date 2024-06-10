@@ -1,32 +1,28 @@
 import winston from "winston";
-import {
-    ElasticsearchTransport,
-    ElasticsearchTransportOptions,
-} from "winston-elasticsearch";
-import Config from "../config";
-import * as fs from 'fs';
+import "winston-daily-rotate-file";
 
-const esTransportOpts: ElasticsearchTransportOptions = {
-    indexPrefix: "vicourses-services-logs",
-    clientOpts: {
-        node: Config.ELASTICSEARCH_URL,
-        auth: {
-            username: Config.ELASTICSEARCH_USER || "",
-            password: Config.ELASTICSEARCH_PASS || "",
-        },
-        tls: {
-            ca: fs.readFileSync(Config.ELASTICSEARCH_CERTS_PATH || "")
-        }
-    },
-};
-
-const esTransport = new ElasticsearchTransport(esTransportOpts);
 const logger = winston.createLogger({
     format: winston.format.combine(
-        winston.format.label({ label: "Auth Service", message: true }),
-        winston.format.prettyPrint()
+        winston.format.label({
+            label: "Auth Service",
+            message: true,
+        }),
+        winston.format.timestamp(),
+        winston.format.printf((info) => {
+            return JSON.stringify(info);
+        })
     ),
-    transports: [new winston.transports.Console(), esTransport],
+    transports: [
+        new winston.transports.Console({
+            format: winston.format.prettyPrint(),
+        }),
+        new winston.transports.DailyRotateFile({
+            filename: "logs/auth-service-%DATE%.log",
+            datePattern: "YYYY-MM-DD",
+            maxSize: 2242880,
+            maxFiles: "2d",
+        }),
+    ],
 });
 
 export default logger;

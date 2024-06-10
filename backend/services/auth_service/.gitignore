@@ -1,9 +1,8 @@
 /dist
 /node_modules
+/logs
 
 .env
 
 private.key
 public.key
-
-/es-certs
