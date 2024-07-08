@@ -1,0 +1,11 @@
+filebeat.inputs:
+  - type: filestream
+    id: vicourses-services-filestream-id
+    paths:
+      - "/var/log/services/*.log"
+
+output.elasticsearch:
+  hosts: ["https://elasticsearch01:9200"]
+  username: "elastic"
+  password: ""
+  ssl.certificate_authorities: ["certs/ca/ca.crt"]
