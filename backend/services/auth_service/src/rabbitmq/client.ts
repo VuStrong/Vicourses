@@ -29,9 +29,13 @@ export async function connect() {
 }
 
 export function sendToQueue(queue: Queue, message: any) {
+    if (!channel) return;
+
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
 }
 
 export function publishNewCreatedUser(user: User) {
+    if (!channel) return;
+
     channel.publish(Exchange.USER_CREATED, "", Buffer.from(JSON.stringify(user)));
 }

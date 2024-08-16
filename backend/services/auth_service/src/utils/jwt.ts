@@ -4,6 +4,10 @@ import User from "../entity/user.entity";
 import Config from "../config";
 
 export async function signForUser(user: User) {
+    if (!fs.existsSync("private.key")) {
+        throw new Error("Private key is missing!");
+    }
+
     var privateKey = fs.readFileSync('private.key');
 
     const token = jwt.sign({
