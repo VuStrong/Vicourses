@@ -1,4 +1,9 @@
 Ports:
- - Api Gateway: dev:5075 prod:8000
+ - Api Gateway: dev:5139 prod:8000
+ - Mysql: 13306:3306
+ - Mongodb: 37017:27017
  - Rabbitmq: 5672 ui:15672
- - Auth Service: Db:3306 dev:prod:3000
+ - Elasticsearch: 9200
+ - Kibana: 5601
+ - Auth Service: dev:prod:3000
+ - Course Service: dev:prod:5182
