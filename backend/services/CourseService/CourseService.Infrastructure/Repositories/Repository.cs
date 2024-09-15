@@ -18,6 +18,13 @@ namespace CourseService.Infrastructure.Repositories
             await _collection.InsertOneAsync(entity);
         }
 
+        public async Task<T?> FindOneAsync(string id)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", id);
+
+            return await _collection.Find(filter).FirstOrDefaultAsync();
+        }
+
         public async Task<T?> FindOneAsync(Expression<Func<T, bool>> filter)
         {
             return await _collection.Find(filter).FirstOrDefaultAsync();
@@ -28,11 +35,25 @@ namespace CourseService.Infrastructure.Repositories
             return await _collection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<bool> ExistAsync(Expression<Func<T, bool>>? filter = null)
+        public async Task<bool> ExistsAsync(string id)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", id);
+
+            return await _collection.Find(filter).AnyAsync();
+        }
+
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>>? filter = null)
         {
             filter ??= (_) => true;
 
             return await _collection.Find(filter).AnyAsync();
+        }
+
+        public async Task DeleteOneAsync(string id)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", id);
+
+            await _collection.DeleteOneAsync(filter);
         }
 
         public async Task DeleteOneAsync(Expression<Func<T, bool>> filter)

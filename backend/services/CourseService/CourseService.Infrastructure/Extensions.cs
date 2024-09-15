@@ -23,6 +23,7 @@ namespace CourseService.Infrastructure
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
         }
 
         public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString, string databaseName)

@@ -36,7 +36,7 @@ namespace CourseService.Application.Services
 
             var category = Category.Create(data.Name, banner);
 
-            if (await _categoryRepository.ExistAsync(c => c.Slug == category.Slug))
+            if (await _categoryRepository.ExistsAsync(c => c.Slug == category.Slug))
             {
                 throw new BadRequestException($"Category {category.Name} already exists");
             }
@@ -50,17 +50,17 @@ namespace CourseService.Application.Services
 
         public async Task DeleteCategoryAsync(string categoryId)
         {
-            if (await _courseRepository.ExistAsync(c => c.Category.Id == categoryId))
-            {
-                throw new InternalServerException("This category could not be deleted");
-            }
-
-            if (!(await _categoryRepository.ExistAsync(c => c.Id == categoryId)))
+            if (!(await _categoryRepository.ExistsAsync(categoryId)))
             {
                 throw new CategoryNotFoundException(categoryId);
             }
 
-            await _categoryRepository.DeleteOneAsync(c => c.Id == categoryId);
+            if (await _courseRepository.ExistsAsync(c => c.Category.Id == categoryId))
+            {
+                throw new ForbiddenException("This category could not be deleted");
+            }
+
+            await _categoryRepository.DeleteOneAsync(categoryId);
 
             _logger.LogInformation($"Deleted category: {categoryId}");
         }
@@ -72,13 +72,13 @@ namespace CourseService.Application.Services
             return _mapper.Map<List<CategoryDto>>(categories);
         }
 
-        public async Task<CategoryDto> GetCategoryByIdAsync(string categoryId)
+        public async Task<CategoryDto> GetCategoryBySlugAsync(string slug)
         {
-            var category = await _categoryRepository.FindOneAsync(c => c.Id == categoryId);
+            var category = await _categoryRepository.FindOneAsync(c => c.Slug == slug);
 
             if (category == null)
             {
-                throw new CategoryNotFoundException(categoryId);
+                throw new CategoryNotFoundException(slug);
             }
 
             return _mapper.Map<CategoryDto>(category);
@@ -86,7 +86,7 @@ namespace CourseService.Application.Services
 
         public async Task<CategoryDto> UpdateCategoryAsync(string categoryId, UpdateCategoryDto data)
         {
-            var category = await _categoryRepository.FindOneAsync(c => c.Id == categoryId);
+            var category = await _categoryRepository.FindOneAsync(categoryId);
 
             if (category == null)
             {

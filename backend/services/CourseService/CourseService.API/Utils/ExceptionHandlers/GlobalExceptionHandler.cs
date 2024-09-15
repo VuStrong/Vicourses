@@ -30,6 +30,11 @@ namespace CourseService.API.Utils.ExceptionHandlers
                 responseDto = new FailedResponseDto(exception.Message, 400);
                 httpContext.Response.StatusCode = 400;
             }
+            else if (exception is ForbiddenException)
+            {
+                responseDto = new FailedResponseDto(exception.Message, 403);
+                httpContext.Response.StatusCode = 403;
+            }
             else if (exception is InternalServerException)
             {
                 responseDto = new FailedResponseDto(exception.Message, 500);

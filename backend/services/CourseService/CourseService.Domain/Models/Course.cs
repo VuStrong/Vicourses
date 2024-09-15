@@ -49,5 +49,44 @@ namespace CourseService.Domain.Models
                 UpdatedAt = DateTime.Now,
             };
         }
+
+        public void UpdateInfo(string? title = null, string? description = null, List<string>? tags = null, List<string>? requirements = null,
+            List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? language = null,
+            ImageFile? thumbnail = null, VideoFile? previewVideo = null, CategoryInCourse? category = null)
+        {
+            if (title != null)
+            {
+                Title = title;
+                TitleCleaned = title.ToSlug();
+            }
+
+            if (description != null) Description = description;
+
+            if (tags != null) Tags = tags;
+
+            if (requirements != null) Requirements = requirements;
+
+            if (targetStudents != null) TargetStudents = targetStudents;
+
+            if (learnedContents != null) LearnedContents = learnedContents;
+
+            if (price != null)
+            {
+                ArgumentOutOfRangeException.ThrowIfNegative(price ?? 0);
+
+                Price = price ?? 0;
+                IsPaid = price != 0;
+            }
+
+            if (language != null) Language = language;
+            
+            if (thumbnail != null) Thumbnail = thumbnail;
+
+            if (previewVideo != null) PreviewVideo = previewVideo;
+
+            if (category != null) Category = category;
+
+            UpdatedAt = DateTime.Now;
+        }
     }
 }

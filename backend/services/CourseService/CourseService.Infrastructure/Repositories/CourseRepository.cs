@@ -8,6 +8,14 @@ namespace CourseService.Infrastructure.Repositories
     {
         public CourseRepository(IMongoCollection<Course> collection) : base(collection) {}
 
+        public async Task IncreaseStudentCount(string courseId, int count)
+        {
+            var filter = Builders<Course>.Filter.Eq("_id", courseId);
+            var update = Builders<Course>.Update.Inc(c => c.StudentCount, count);
+
+            await _collection.UpdateOneAsync(filter, update);
+        }
+
         public async Task UpdateCategoryInCourses(Category category)
         {
             var filter = Builders<Course>.Filter

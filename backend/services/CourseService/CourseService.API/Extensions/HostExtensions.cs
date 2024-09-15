@@ -7,6 +7,8 @@ using CourseService.Application.Dtos;
 using CourseService.Application;
 using CourseService.Infrastructure;
 using CourseService.API.Utils.ExceptionHandlers;
+using CourseService.API.Utils.AuthorizationHandlers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CourseService.API.Extensions
 {
@@ -35,7 +37,13 @@ namespace CourseService.API.Extensions
                 options.TokenValidationParameters = TokenHelper.GetTokenValidationParameters("public.key");
             });
 
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("GetCoursePolicy", policy => 
+                    policy.Requirements.Add(new GetCourseRequirement()));
+            });
+
+            builder.Services.AddScoped<IAuthorizationHandler, GetCourseAuthorizationHandler>();
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 

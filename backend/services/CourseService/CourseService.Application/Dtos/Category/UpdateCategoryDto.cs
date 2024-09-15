@@ -3,11 +3,11 @@
     public class UpdateCategoryDto
     {
         public string? Name { get; set; }
-        public CategoryBannerDto? Banner { get; set; }
+        public ImageFileDto? Banner { get; set; }
 
         public UpdateCategoryDto() { }
 
-        public UpdateCategoryDto(string? name, CategoryBannerDto? banner)
+        public UpdateCategoryDto(string? name, ImageFileDto? banner)
         {
             Name = name;
             Banner = banner;

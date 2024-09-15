@@ -3,9 +3,9 @@
     public class CreateCategoryDto
     {
         public string Name { get; set; } = null!;
-        public CategoryBannerDto? Banner { get; set; }
+        public ImageFileDto? Banner { get; set; }
 
-        public CreateCategoryDto(string name, CategoryBannerDto? banner)
+        public CreateCategoryDto(string name, ImageFileDto? banner)
         {
             Name = name;
             Banner = banner;

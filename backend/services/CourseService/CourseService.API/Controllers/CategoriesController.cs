@@ -1,5 +1,6 @@
 ﻿using CourseService.API.Models;
 using CourseService.API.Utils;
+using CourseService.Application.Dtos;
 using CourseService.Application.Dtos.Category;
 using CourseService.Application.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -33,14 +34,14 @@ namespace CourseService.API.Controllers
         }
 
         /// <summary>
-        /// Get one category by ID
+        /// Get one category by slug
         /// </summary>
         /// <response code="404">Category not found</response>
-        [HttpGet("{id}")]
+        [HttpGet("{slug}")]
         [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCategoryById(string id)
+        public async Task<IActionResult> GetCategoryBySlug(string slug)
         {
-            var category = await _categoryService.GetCategoryByIdAsync(id);
+            var category = await _categoryService.GetCategoryBySlugAsync(slug);
 
             return Ok(category);
         }
@@ -55,15 +56,15 @@ namespace CourseService.API.Controllers
         [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequest request)
         {
-            CategoryBannerDto? banner = request.BannerFile != null ?
-                new CategoryBannerDto(request.BannerFile.FileId, request.BannerFile.Url) : null;
+            ImageFileDto? banner = request.BannerFile != null ?
+                new ImageFileDto(request.BannerFile.FileId, request.BannerFile.Url) : null;
                 
             var category = await _categoryService.CreateCategoryAsync(
                 new CreateCategoryDto(request.Name, banner)  
             );
 
             return CreatedAtAction(
-                nameof(GetCategoryById),
+                nameof(GetCategoryBySlug),
                 new { id = category.Id },
                 category);
         }
@@ -79,8 +80,8 @@ namespace CourseService.API.Controllers
         [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateCategory(string id, UpdateCategoryRequest request)
         {
-            CategoryBannerDto? banner = request.BannerFile != null ?
-                new CategoryBannerDto(request.BannerFile.FileId, request.BannerFile.Url) : null;
+            ImageFileDto? banner = request.BannerFile != null ?
+                new ImageFileDto(request.BannerFile.FileId, request.BannerFile.Url) : null;
 
             var category = await _categoryService.UpdateCategoryAsync(
                 id,
