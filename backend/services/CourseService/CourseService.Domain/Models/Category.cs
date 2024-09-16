@@ -8,40 +8,33 @@ namespace CourseService.Domain.Models
         public string Id { get; protected set; } = null!;
         public string Name { get; set; } = null!;
         public string Slug { get; set; } = null!;
-        public ImageFile? Banner { get; set; }
+        public string? ParentId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public static Category Create(string name, ImageFile? banner)
+        public static Category Create(string name, string? parentId)
         {
             return new Category()
             {
                 Id = StringUtils.GenerateNumericIdString(6),
                 Name = name,
                 Slug = name.ToSlug(),
-                Banner = banner,
+                ParentId = parentId,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
         }
 
-        public void UpdateInfo(string? name = null, ImageFile? banner = null)
+        public void UpdateInfo(string name, string? parentId)
         {
-            if (name != null)
+            if (name != Name)
             {
                 Name = name;
                 Slug = name.ToSlug();
             }
 
-            if (banner != null)
-            {
-                Banner = banner;
-            }
-
-            if (name != null || banner != null)
-            {
-                UpdatedAt = DateTime.Now;
-            }
+            ParentId = parentId;
+            UpdatedAt = DateTime.Now;
         }
     }
 }

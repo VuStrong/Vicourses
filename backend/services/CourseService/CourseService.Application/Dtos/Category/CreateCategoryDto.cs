@@ -2,13 +2,13 @@
 {
     public class CreateCategoryDto
     {
-        public string Name { get; set; } = null!;
-        public ImageFileDto? Banner { get; set; }
+        public string Name { get; set; }
+        public string? ParentId { get; set; }
 
-        public CreateCategoryDto(string name, ImageFileDto? banner)
+        public CreateCategoryDto(string name, string? parentId)
         {
             Name = name;
-            Banner = banner;
+            ParentId = parentId;
         }
     }
 }

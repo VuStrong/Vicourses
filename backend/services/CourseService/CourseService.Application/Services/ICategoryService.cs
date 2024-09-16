@@ -4,7 +4,8 @@ namespace CourseService.Application.Services
 {
     public interface ICategoryService
     {
-        Task<List<CategoryDto>> GetAllCategoriesAsync();
+        Task<List<CategoryDto>> GetAllCategoriesAsync(GetCategoriesParamsDto? paramsDto = null);
+        Task<List<CategoryWithSubsDto>> GetRootCategoriesWithSubCategories();
         Task<CategoryDto> GetCategoryBySlugAsync(string slug);
 
         Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto data);

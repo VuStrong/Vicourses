@@ -53,9 +53,15 @@ namespace CourseService.Application.Services
         public async Task<CourseDto> CreateCourseAsync(CreateCourseDto data)
         {
             var category = await _categoryRepository.FindOneAsync(data.CategoryId);
-            if (category == null)
+            if (category == null || category.ParentId != null)
             {
                 throw new CategoryNotFoundException(data.CategoryId);
+            }
+
+            var subCategory = await _categoryRepository.FindOneAsync(data.SubCategoryId);
+            if (subCategory == null || subCategory.ParentId != category.Id)
+            {
+                throw new CategoryNotFoundException(data.SubCategoryId);
             }
 
             var user = await _userRepository.FindOneAsync(data.UserId);
@@ -68,6 +74,7 @@ namespace CourseService.Application.Services
                 data.Title,
                 data.Description,
                 new CategoryInCourse(category.Id, category.Name, category.Slug),
+                new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug),
                 new UserInCourse(user.Id, user.Name, user.ThumbnailUrl));
 
             await _courseRepository.CreateAsync(course);
@@ -91,13 +98,36 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException($"Forbidden resourse");
             }
 
+            if (data.CategoryId != null && data.SubCategoryId == null)
+            {
+                throw new BadRequestException("SubCategoryId is required when CategoryId is set");
+            }
+
             CategoryInCourse? categoryToUpdate = null;
             if (data.CategoryId != null && data.CategoryId != course.Category.Id)
             {
-                var category = await _categoryRepository.FindOneAsync(data.CategoryId) ?? 
+                var category = await _categoryRepository.FindOneAsync(data.CategoryId);
+                
+                if (category == null || category.ParentId != null)
+                {
                     throw new CategoryNotFoundException(data.CategoryId);
+                }
 
                 categoryToUpdate = new CategoryInCourse(category.Id, category.Name, category.Slug);
+            }
+
+            CategoryInCourse? subCategoryToUpdate = null;
+            if (data.SubCategoryId != null && (data.SubCategoryId != course.SubCategory.Id || categoryToUpdate != null))
+            {
+                var subCategory = await _categoryRepository.FindOneAsync(data.SubCategoryId);
+                var categoryIdToCheck = categoryToUpdate?.Id ?? course.Category.Id;
+
+                if (subCategory == null || subCategory.ParentId != categoryIdToCheck)
+                {
+                    throw new CategoryNotFoundException(data.SubCategoryId);
+                }
+
+                subCategoryToUpdate = new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug);
             }
 
             ImageFile? thumbnail = data.Thumbnail != null ? new ImageFile()
@@ -112,8 +142,8 @@ namespace CourseService.Application.Services
                 FileName = data.PreviewVideo.FileName,
             } : null;
 
-            course.UpdateInfo(data.Title, data.Description, data.Tags, data.Requirements, data.TargetStudents,
-                data.LearnedContents, data.Price, data.Language, thumbnail, previewVideo, categoryToUpdate);
+            course.UpdateInfoIgnoreNull(data.Title, data.Description, data.Tags, data.Requirements, data.TargetStudents,
+                data.LearnedContents, data.Price, data.Language, thumbnail, previewVideo, categoryToUpdate, subCategoryToUpdate);
 
             await _courseRepository.UpdateAsync(course);
 
@@ -134,7 +164,7 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException($"Forbidden resourse");
             }
 
-            if (await _enrollmentRepository.ExistsAsync(e => e.CourseId == courseId))
+            if (course.StudentCount > 0)
             {
                 throw new ForbiddenException(
                     $"The course {courseId} cannot be deleted because it already has students enrolled"

@@ -1,4 +1,4 @@
-﻿using CourseService.API.Models;
+﻿using CourseService.API.Models.Course;
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Services;
@@ -72,7 +72,8 @@ namespace CourseService.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
             var course = await _courseService.CreateCourseAsync(
-                new CreateCourseDto(request.Title, request.CategoryId, userId, request.Description)    
+                new CreateCourseDto(request.Title, request.CategoryId, request.SubCategoryId, 
+                    userId, request.Description)    
             );
 
             return CreatedAtAction(

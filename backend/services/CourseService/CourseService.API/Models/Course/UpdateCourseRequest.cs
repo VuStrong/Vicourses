@@ -2,7 +2,7 @@
 using CourseService.Application.Dtos.Course;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models
+namespace CourseService.API.Models.Course
 {
     public class UpdateCourseRequest
     {
@@ -10,6 +10,7 @@ namespace CourseService.API.Models
         public string? Title { get; set; }
 
         public string? CategoryId { get; set; }
+        public string? SubCategoryId { get; set; }
 
         [MinLength(100, ErrorMessage = "{0} must have minimum length of 100 words")]
         public string? Description { get; set; }
@@ -42,6 +43,7 @@ namespace CourseService.API.Models
             {
                 Title = Title,
                 CategoryId = CategoryId,
+                SubCategoryId = SubCategoryId,
                 Description = Description,
                 Tags = Tags,
                 Requirements = Requirements,

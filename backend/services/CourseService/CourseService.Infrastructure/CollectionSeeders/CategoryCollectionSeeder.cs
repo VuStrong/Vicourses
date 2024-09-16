@@ -13,6 +13,7 @@ namespace CourseService.Infrastructure.CollectionSeeders
                 new (indexBuilder.Ascending(c => c.Slug),
                     new () { Unique = true }
                 ),
+                new (indexBuilder.Ascending(c => c.ParentId))
             };
 
             await collection.Indexes.CreateManyAsync(indexes);

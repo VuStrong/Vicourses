@@ -31,11 +31,13 @@ namespace CourseService.Domain.Models
         public ImageFile? Thumbnail { get; set; }
         public VideoFile? PreviewVideo { get; set; }
         public CategoryInCourse Category { get; set; } = null!;
+        public CategoryInCourse SubCategory { get; set; } = null!;
         public UserInCourse User { get; set; } = null!;
 
         private Course() {}
 
-        public static Course Create(string title, string? description, CategoryInCourse category, UserInCourse user)
+        public static Course Create(string title, string? description, CategoryInCourse category, 
+            CategoryInCourse subCategory, UserInCourse user)
         {
             return new Course()
             {
@@ -44,15 +46,16 @@ namespace CourseService.Domain.Models
                 TitleCleaned = title.ToSlug(),
                 Description = description,
                 Category = category,
+                SubCategory = subCategory,
                 User = user,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
         }
 
-        public void UpdateInfo(string? title = null, string? description = null, List<string>? tags = null, List<string>? requirements = null,
+        public void UpdateInfoIgnoreNull(string? title = null, string? description = null, List<string>? tags = null, List<string>? requirements = null,
             List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? language = null,
-            ImageFile? thumbnail = null, VideoFile? previewVideo = null, CategoryInCourse? category = null)
+            ImageFile? thumbnail = null, VideoFile? previewVideo = null, CategoryInCourse? category = null, CategoryInCourse? subCategory = null)
         {
             if (title != null)
             {
@@ -85,6 +88,8 @@ namespace CourseService.Domain.Models
             if (previewVideo != null) PreviewVideo = previewVideo;
 
             if (category != null) Category = category;
+
+            if (subCategory != null) SubCategory = subCategory;
 
             UpdatedAt = DateTime.Now;
         }

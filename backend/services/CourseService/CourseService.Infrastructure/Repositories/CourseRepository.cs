@@ -15,17 +15,5 @@ namespace CourseService.Infrastructure.Repositories
 
             await _collection.UpdateOneAsync(filter, update);
         }
-
-        public async Task UpdateCategoryInCourses(Category category)
-        {
-            var filter = Builders<Course>.Filter
-                .Eq(c => c.Category.Id, category.Id);
-
-            var update = Builders<Course>.Update
-                .Set(c => c.Category.Name, category.Name)
-                .Set(c => c.Category.Slug, category.Slug);
-
-            await _collection.UpdateManyAsync(filter, update);
-        }
     }
 }

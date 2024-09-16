@@ -23,5 +23,6 @@ namespace CourseService.Application.Dtos.Course
         public string? ThumbnailUrl { get; set; }
         public UserInCourseDto User { get; set; } = null!;
         public CategoryInCourseDto Category { get; set; } = null!;
+        public CategoryInCourseDto SubCategory { get; set; } = null!;
     }
 }

@@ -3,14 +3,7 @@
     public class UpdateCategoryDto
     {
         public string? Name { get; set; }
-        public ImageFileDto? Banner { get; set; }
-
-        public UpdateCategoryDto() { }
-
-        public UpdateCategoryDto(string? name, ImageFileDto? banner)
-        {
-            Name = name;
-            Banner = banner;
-        }
+        public string? ParentId { get; set; }
+        public bool SetRoot { get; set; }
     }
 }

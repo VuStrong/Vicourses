@@ -4,6 +4,7 @@ using CourseService.Application.Exceptions;
 using CourseService.Domain.Constracts;
 using CourseService.Domain.Models;
 using Microsoft.Extensions.Logging;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CourseService.Application.Services
 {
@@ -28,13 +29,12 @@ namespace CourseService.Application.Services
 
         public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto data)
         {
-            ImageFile? banner = data.Banner != null ? new ImageFile()
+            if (data.ParentId != null)
             {
-                FileId = data.Banner.FileId,
-                Url = data.Banner.Url,
-            } : null;
+                await CheckValidParentCategory(data.ParentId);
+            }
 
-            var category = Category.Create(data.Name, banner);
+            var category = Category.Create(data.Name, data.ParentId);
 
             if (await _categoryRepository.ExistsAsync(c => c.Slug == category.Slug))
             {
@@ -55,9 +55,14 @@ namespace CourseService.Application.Services
                 throw new CategoryNotFoundException(categoryId);
             }
 
-            if (await _courseRepository.ExistsAsync(c => c.Category.Id == categoryId))
+            if (await _categoryRepository.ExistsAsync(c => c.ParentId == categoryId))
             {
-                throw new ForbiddenException("This category could not be deleted");
+                throw new ForbiddenException("This category cannot be deleted a");
+            }
+
+            if (await ExistsCategoryInAnyCourses(categoryId))
+            {
+                throw new ForbiddenException("This category cannot be deleted b");
             }
 
             await _categoryRepository.DeleteOneAsync(categoryId);
@@ -65,9 +70,9 @@ namespace CourseService.Application.Services
             _logger.LogInformation($"Deleted category: {categoryId}");
         }
 
-        public async Task<List<CategoryDto>> GetAllCategoriesAsync()
+        public async Task<List<CategoryDto>> GetAllCategoriesAsync(GetCategoriesParamsDto? paramsDto = null)
         {
-            var categories = await _categoryRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllAsync(paramsDto?.Keyword, paramsDto?.ParentId);
 
             return _mapper.Map<List<CategoryDto>>(categories);
         }
@@ -84,6 +89,13 @@ namespace CourseService.Application.Services
             return _mapper.Map<CategoryDto>(category);
         }
 
+        public async Task<List<CategoryWithSubsDto>> GetRootCategoriesWithSubCategories()
+        {
+            var results = await _categoryRepository.GetRootCategoriesWithSubCategories();
+
+            return _mapper.Map<List<CategoryWithSubsDto>>(results);
+        }
+
         public async Task<CategoryDto> UpdateCategoryAsync(string categoryId, UpdateCategoryDto data)
         {
             var category = await _categoryRepository.FindOneAsync(categoryId);
@@ -93,25 +105,48 @@ namespace CourseService.Application.Services
                 throw new CategoryNotFoundException(categoryId);
             }
 
-            var oldCategoryName = category.Name;
-            ImageFile? banner = data.Banner != null ? new ImageFile()
+            if (await ExistsCategoryInAnyCourses(categoryId))
             {
-                FileId = data.Banner.FileId,
-                Url = data.Banner.Url,
-            } : null;
+                throw new ForbiddenException($"Cannot update category {categoryId} because it already in use by courses");
+            }
 
-            category.UpdateInfo(data.Name, banner);
+            if (!data.SetRoot && data.ParentId != null)
+            {
+                await CheckValidParentCategory(data.ParentId, categoryId);
+            }
+
+            var parentIdToUpdate = data.SetRoot ? null : (data.ParentId ?? category.ParentId);
+            category.UpdateInfo(
+                data.Name ?? category.Name,
+                parentIdToUpdate
+            );
 
             await _categoryRepository.UpdateAsync(category);
-
-            if (data.Name != null && data.Name != oldCategoryName)
-            {
-                _courseRepository.UpdateCategoryInCourses(category);
-            }
 
             _logger.LogInformation($"Category {category.Id} updated");
 
             return _mapper.Map<CategoryDto>(category);
+        }
+
+        private async Task<bool> ExistsCategoryInAnyCourses(string categoryId)
+        {
+            return await _courseRepository.ExistsAsync(
+                c => c.Category.Id == categoryId || c.SubCategory.Id == categoryId);
+        }
+
+        private async Task CheckValidParentCategory(string parentCategoryId, string? subCategoryId = null)
+        {
+            if (subCategoryId != null && parentCategoryId == subCategoryId)
+            {
+                throw new BadRequestException("ParentId of category is reference to itself");
+            }
+
+            var parentCategory = await _categoryRepository.FindOneAsync(parentCategoryId);
+
+            if (parentCategory == null || parentCategory.ParentId != null)
+            {
+                throw new CategoryNotFoundException(parentCategoryId);
+            }
         }
     }
 }

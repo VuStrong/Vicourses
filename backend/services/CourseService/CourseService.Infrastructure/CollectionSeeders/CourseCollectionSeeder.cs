@@ -11,6 +11,7 @@ namespace CourseService.Infrastructure.CollectionSeeders
 
             var indexes = new List<CreateIndexModel<Course>> {
                 new (indexBuilder.Ascending(c => c.Category.Id)),
+                new (indexBuilder.Ascending(c => c.SubCategory.Id)),
                 new (indexBuilder.Ascending(c => c.User.Id))
             };
 
