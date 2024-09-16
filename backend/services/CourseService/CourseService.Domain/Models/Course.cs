@@ -1,6 +1,6 @@
 ﻿using CourseService.Domain.Constracts;
 using CourseService.Domain.Enums;
-using CourseService.Domain.Utils;
+using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models
 {
@@ -41,7 +41,7 @@ namespace CourseService.Domain.Models
         {
             return new Course()
             {
-                Id = StringUtils.GenerateNumericIdString(8),
+                Id = StringExtensions.GenerateNumericIdString(8),
                 Title = title,
                 TitleCleaned = title.ToSlug(),
                 Description = description,

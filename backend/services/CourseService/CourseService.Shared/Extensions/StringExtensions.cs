@@ -1,11 +1,11 @@
 ﻿using System.Globalization;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
+using System.Text;
 
-namespace CourseService.Domain.Utils
+namespace CourseService.Shared.Extensions
 {
-    public static class StringUtils
+    public static class StringExtensions
     {
         public static string ToSlug(this string value)
         {

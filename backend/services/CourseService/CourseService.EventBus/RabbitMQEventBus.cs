@@ -93,7 +93,7 @@ namespace CourseService.EventBus
 
             _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout, durable: true);
             var queueName = _channel.QueueDeclare(
-                queue: $"courses_{eventType.Name}", 
+                queue: $"courses_{exchangeName}", 
                 durable: true,
                 autoDelete: false,
                 exclusive: false).QueueName;

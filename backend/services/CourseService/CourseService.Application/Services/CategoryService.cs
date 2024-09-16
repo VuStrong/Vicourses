@@ -4,7 +4,6 @@ using CourseService.Application.Exceptions;
 using CourseService.Domain.Constracts;
 using CourseService.Domain.Models;
 using Microsoft.Extensions.Logging;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CourseService.Application.Services
 {
@@ -29,9 +28,10 @@ namespace CourseService.Application.Services
 
         public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto data)
         {
-            if (data.ParentId != null)
+            if (data.ParentId != null && 
+                !(await _categoryRepository.ExistsAsync(c => c.Id == data.ParentId && c.ParentId == null)))
             {
-                await CheckValidParentCategory(data.ParentId);
+                throw new CategoryNotFoundException(data.ParentId);
             }
 
             var category = Category.Create(data.Name, data.ParentId);
@@ -57,12 +57,12 @@ namespace CourseService.Application.Services
 
             if (await _categoryRepository.ExistsAsync(c => c.ParentId == categoryId))
             {
-                throw new ForbiddenException("This category cannot be deleted a");
+                throw new ForbiddenException("This category cannot be deleted");
             }
 
             if (await ExistsCategoryInAnyCourses(categoryId))
             {
-                throw new ForbiddenException("This category cannot be deleted b");
+                throw new ForbiddenException("This category cannot be deleted");
             }
 
             await _categoryRepository.DeleteOneAsync(categoryId);
@@ -110,16 +110,7 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException($"Cannot update category {categoryId} because it already in use by courses");
             }
 
-            if (!data.SetRoot && data.ParentId != null)
-            {
-                await CheckValidParentCategory(data.ParentId, categoryId);
-            }
-
-            var parentIdToUpdate = data.SetRoot ? null : (data.ParentId ?? category.ParentId);
-            category.UpdateInfo(
-                data.Name ?? category.Name,
-                parentIdToUpdate
-            );
+            category.UpdateInfo(data.Name ?? category.Name);
 
             await _categoryRepository.UpdateAsync(category);
 
@@ -132,21 +123,6 @@ namespace CourseService.Application.Services
         {
             return await _courseRepository.ExistsAsync(
                 c => c.Category.Id == categoryId || c.SubCategory.Id == categoryId);
-        }
-
-        private async Task CheckValidParentCategory(string parentCategoryId, string? subCategoryId = null)
-        {
-            if (subCategoryId != null && parentCategoryId == subCategoryId)
-            {
-                throw new BadRequestException("ParentId of category is reference to itself");
-            }
-
-            var parentCategory = await _categoryRepository.FindOneAsync(parentCategoryId);
-
-            if (parentCategory == null || parentCategory.ParentId != null)
-            {
-                throw new CategoryNotFoundException(parentCategoryId);
-            }
         }
     }
 }

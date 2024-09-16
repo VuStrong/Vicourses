@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CourseService.Shared\CourseService.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

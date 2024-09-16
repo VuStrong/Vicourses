@@ -1,5 +1,5 @@
 ﻿using CourseService.Domain.Constracts;
-using CourseService.Domain.Utils;
+using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models
 {
@@ -16,7 +16,7 @@ namespace CourseService.Domain.Models
         {
             return new Category()
             {
-                Id = StringUtils.GenerateNumericIdString(6),
+                Id = StringExtensions.GenerateNumericIdString(6),
                 Name = name,
                 Slug = name.ToSlug(),
                 ParentId = parentId,
@@ -25,7 +25,7 @@ namespace CourseService.Domain.Models
             };
         }
 
-        public void UpdateInfo(string name, string? parentId)
+        public void UpdateInfo(string name)
         {
             if (name != Name)
             {
@@ -33,7 +33,6 @@ namespace CourseService.Domain.Models
                 Slug = name.ToSlug();
             }
 
-            ParentId = parentId;
             UpdatedAt = DateTime.Now;
         }
     }

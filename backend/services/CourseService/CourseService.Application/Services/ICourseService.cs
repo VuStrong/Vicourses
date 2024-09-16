@@ -1,10 +1,11 @@
 ﻿using CourseService.Application.Dtos.Course;
+using CourseService.Shared.Paging;
 
 namespace CourseService.Application.Services
 {
     public interface ICourseService
     {
-        Task<List<CourseDto>> GetCoursesAsync();
+        Task<PagedResult<CourseDto>> GetCoursesAsync(GetCoursesParamsDto? paramsDto = null);
         Task<CourseDetailDto> GetCourseDetailByIdAsync(string courseId);
 
         Task<CourseDto> CreateCourseAsync(CreateCourseDto data);

@@ -2,6 +2,7 @@
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Services;
+using CourseService.Shared.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -24,13 +25,15 @@ namespace CourseService.API.Controllers
         }
 
         /// <summary>
-        /// Get list of courses
+        /// Get courses
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(List<CourseDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCourses()
+        [ProducesResponseType(typeof(PagedResult<CourseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCourses(GetCoursesRequest request)
         {
-            return Ok(await _courseService.GetCoursesAsync());
+            var results = await _courseService.GetCoursesAsync(request.ToGetCoursesDto());
+
+            return Ok(results);
         }
 
         /// <summary>

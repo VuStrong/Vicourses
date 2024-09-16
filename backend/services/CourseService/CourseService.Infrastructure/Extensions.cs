@@ -6,6 +6,7 @@ using CourseService.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 
 namespace CourseService.Infrastructure
 {
@@ -28,6 +29,17 @@ namespace CourseService.Infrastructure
 
         public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString, string databaseName)
         {
+            //var mongoClientSettings = MongoClientSettings.FromConnectionString(connectionString);
+            //mongoClientSettings.ClusterConfigurator = cb =>
+            //{
+            //    cb.Subscribe<CommandStartedEvent>(e =>
+            //    {
+            //        Console.WriteLine($"{e.CommandName} - {e.Command.ToString()}");
+            //    });
+            //};
+            //var mongoCfgClient = new MongoClient(mongoClientSettings);
+            //services.AddSingleton<IMongoClient>(mongoCfgClient);
+
             services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
 
             services.AddCollection<Course>(databaseName, "courses")

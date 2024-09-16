@@ -3,6 +3,7 @@ using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
 using CourseService.Domain.Constracts;
 using CourseService.Domain.Models;
+using CourseService.Shared.Paging;
 using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.Services
@@ -31,11 +32,14 @@ namespace CourseService.Application.Services
             _logger = logger;
         }
 
-        public async Task<List<CourseDto>> GetCoursesAsync()
+        public async Task<PagedResult<CourseDto>> GetCoursesAsync(GetCoursesParamsDto? paramsDto = null)
         {
-            var courses = await _courseRepository.GetAllAsync();
+            int skip = (paramsDto == null || paramsDto.Skip < 0) ? 0 : paramsDto.Skip;
+            int limit = (paramsDto == null || paramsDto.Limit <= 0) ? 10 : paramsDto.Limit;
 
-            return _mapper.Map<List<CourseDto>>(courses);
+            var results = await _courseRepository.FindManyAsync(skip, limit, searchKeyword: paramsDto?.SearchKeyword);
+
+            return _mapper.Map<PagedResult<CourseDto>>(results);
         }
 
         public async Task<CourseDetailDto> GetCourseDetailByIdAsync(string courseId)
@@ -52,14 +56,18 @@ namespace CourseService.Application.Services
 
         public async Task<CourseDto> CreateCourseAsync(CreateCourseDto data)
         {
-            var category = await _categoryRepository.FindOneAsync(data.CategoryId);
-            if (category == null || category.ParentId != null)
+            var category = await _categoryRepository.FindOneAsync(
+                c => c.Id == data.CategoryId && c.ParentId == null
+            );
+            if (category == null)
             {
                 throw new CategoryNotFoundException(data.CategoryId);
             }
 
-            var subCategory = await _categoryRepository.FindOneAsync(data.SubCategoryId);
-            if (subCategory == null || subCategory.ParentId != category.Id)
+            var subCategory = await _categoryRepository.FindOneAsync(
+                c => c.Id == data.SubCategoryId && c.ParentId == category.Id    
+            );
+            if (subCategory == null)
             {
                 throw new CategoryNotFoundException(data.SubCategoryId);
             }
@@ -106,26 +114,21 @@ namespace CourseService.Application.Services
             CategoryInCourse? categoryToUpdate = null;
             if (data.CategoryId != null && data.CategoryId != course.Category.Id)
             {
-                var category = await _categoryRepository.FindOneAsync(data.CategoryId);
+                var category = await _categoryRepository.FindOneAsync(
+                    c => c.Id == data.CategoryId && c.ParentId == null
+                ) ?? throw new CategoryNotFoundException(data.CategoryId);
                 
-                if (category == null || category.ParentId != null)
-                {
-                    throw new CategoryNotFoundException(data.CategoryId);
-                }
-
                 categoryToUpdate = new CategoryInCourse(category.Id, category.Name, category.Slug);
             }
 
             CategoryInCourse? subCategoryToUpdate = null;
             if (data.SubCategoryId != null && (data.SubCategoryId != course.SubCategory.Id || categoryToUpdate != null))
             {
-                var subCategory = await _categoryRepository.FindOneAsync(data.SubCategoryId);
                 var categoryIdToCheck = categoryToUpdate?.Id ?? course.Category.Id;
-
-                if (subCategory == null || subCategory.ParentId != categoryIdToCheck)
-                {
-                    throw new CategoryNotFoundException(data.SubCategoryId);
-                }
+                
+                var subCategory = await _categoryRepository.FindOneAsync(
+                    c => c.Id == data.SubCategoryId && c.ParentId == categoryIdToCheck    
+                ) ?? throw new CategoryNotFoundException(data.SubCategoryId);
 
                 subCategoryToUpdate = new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug);
             }
