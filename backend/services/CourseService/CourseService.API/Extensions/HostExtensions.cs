@@ -9,6 +9,7 @@ using CourseService.Infrastructure;
 using CourseService.API.Utils.ExceptionHandlers;
 using CourseService.API.Utils.AuthorizationHandlers;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Json.Serialization;
 
 namespace CourseService.API.Extensions
 {
@@ -24,6 +25,10 @@ namespace CourseService.API.Extensions
 
                         return new BadRequestObjectResult(problems);
                     };
+                })
+                .AddJsonOptions(o =>
+                {
+                    o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
             builder.AddSwagger();

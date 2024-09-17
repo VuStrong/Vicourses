@@ -39,9 +39,13 @@ namespace CourseService.Application.Services
 
             var results = await _courseRepository.FindManyAsync(
                 skip, limit, 
+                sort: paramsDto?.Sort,
                 searchKeyword: paramsDto?.SearchKeyword,
                 categoryId: paramsDto?.CategoryId,
-                subCategoryId: paramsDto?.SubCategoryId);
+                subCategoryId: paramsDto?.SubCategoryId,
+                isPaid: paramsDto?.Free != null ? !paramsDto.Free : null,
+                level: paramsDto?.Level,
+                minimumRating: paramsDto?.MinimumRating);
 
             return _mapper.Map<PagedResult<CourseDto>>(results);
         }
@@ -150,7 +154,7 @@ namespace CourseService.Application.Services
             } : null;
 
             course.UpdateInfoIgnoreNull(data.Title, data.Description, data.Tags, data.Requirements, data.TargetStudents,
-                data.LearnedContents, data.Price, data.Language, thumbnail, previewVideo, categoryToUpdate, subCategoryToUpdate);
+                data.LearnedContents, data.Price, data.Language, thumbnail, previewVideo, categoryToUpdate, subCategoryToUpdate, data.Level);
 
             await _courseRepository.UpdateAsync(course);
 

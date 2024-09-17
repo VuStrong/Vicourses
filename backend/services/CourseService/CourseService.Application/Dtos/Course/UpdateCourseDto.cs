@@ -1,4 +1,6 @@
-﻿namespace CourseService.Application.Dtos.Course
+﻿using CourseService.Domain.Enums;
+
+namespace CourseService.Application.Dtos.Course
 {
     public class UpdateCourseDto
     {
@@ -12,6 +14,7 @@
         public List<string>? LearnedContents { get; set; }
         public decimal? Price { get; set; }
         public string? Language {  get; set; }
+        public CourseLevel? Level { get; set; }
         public ImageFileDto? Thumbnail { get; set; }
         public VideoFileDto? PreviewVideo { get; set; }
     }

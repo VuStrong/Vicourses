@@ -55,7 +55,8 @@ namespace CourseService.Domain.Models
 
         public void UpdateInfoIgnoreNull(string? title = null, string? description = null, List<string>? tags = null, List<string>? requirements = null,
             List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? language = null,
-            ImageFile? thumbnail = null, VideoFile? previewVideo = null, CategoryInCourse? category = null, CategoryInCourse? subCategory = null)
+            ImageFile? thumbnail = null, VideoFile? previewVideo = null, CategoryInCourse? category = null, CategoryInCourse? subCategory = null,
+            CourseLevel? level = null)
         {
             if (title != null)
             {
@@ -90,6 +91,8 @@ namespace CourseService.Domain.Models
             if (category != null) Category = category;
 
             if (subCategory != null) SubCategory = subCategory;
+
+            if (level != null) Level = level ?? CourseLevel.All;
 
             UpdatedAt = DateTime.Now;
         }

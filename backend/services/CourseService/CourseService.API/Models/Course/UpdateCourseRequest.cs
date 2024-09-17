@@ -1,5 +1,6 @@
 ﻿using CourseService.Application.Dtos;
 using CourseService.Application.Dtos.Course;
+using CourseService.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CourseService.API.Models.Course
@@ -23,6 +24,9 @@ namespace CourseService.API.Models.Course
         [Range(0, 100)]
         public decimal? Price { get; set; }
         public string? Language { get; set; }
+
+        [EnumDataType(typeof(CourseLevel))]
+        public CourseLevel? Level { get; set; }
 
         public ThumbnailRequest? Thumbnail { get; set; }
         public PreviewVideoRequest? PreviewVideo { get; set; }
@@ -51,6 +55,7 @@ namespace CourseService.API.Models.Course
                 LearnedContents = LearnedContents,
                 Price = Price,
                 Language = Language,
+                Level = Level,
                 Thumbnail = thumbnail,
                 PreviewVideo = previewVideo
             };
