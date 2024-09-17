@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CourseService.API.Controllers
 {
-    [Route("api/v1/courses/categories")]
+    [Route("api/cs/v1/categories")]
     [Tags("Category")]
     [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]

@@ -9,7 +9,8 @@ namespace CourseService.Infrastructure.Repositories
     {
         public CourseRepository(IMongoCollection<Course> collection) : base(collection) {}
 
-        public async Task<PagedResult<Course>> FindManyAsync(int skip, int limit, string? searchKeyword = null)
+        public async Task<PagedResult<Course>> FindManyAsync(int skip, int limit, string? searchKeyword = null, string? categoryId = null,
+            string? subCategoryId = null)
         {
             var builder = Builders<Course>.Filter;
             var filter = builder.Empty;
@@ -18,6 +19,18 @@ namespace CourseService.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(searchKeyword))
             {
                 filter &= builder.Text(searchKeyword);
+                haveQueryParams = true;
+            }
+
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                filter &= builder.Eq(c => c.Category.Id, categoryId);
+                haveQueryParams = true;
+            }
+
+            if (!string.IsNullOrEmpty(subCategoryId))
+            {
+                filter &= builder.Eq(c => c.SubCategory.Id, subCategoryId);
                 haveQueryParams = true;
             }
 

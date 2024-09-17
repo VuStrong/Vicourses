@@ -4,7 +4,7 @@
     },
     "Routes": [
         {
-            "DownstreamPathTemplate": "/api/{version}/auth/{everything}",
+            "DownstreamPathTemplate": "/api/as/{version}/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -12,8 +12,20 @@
                     "Port": 3000
                 }
             ],
-            "UpstreamPathTemplate": "/api/{version}/auth/{everything}",
+            "UpstreamPathTemplate": "/api/as/{version}/{everything}",
             "UpstreamHttpMethod": [ "POST" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/cs/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "course-service",
+                    "Port": 3000
+                }
+            ],
+            "UpstreamPathTemplate": "/api/cs/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "DELETE" ]
         }
     ]
 }

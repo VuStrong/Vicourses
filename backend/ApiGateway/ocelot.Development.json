@@ -1,10 +1,10 @@
 {
     "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5075"
+        "BaseUrl": "http://localhost:5139"
     },
     "Routes": [
         {
-            "DownstreamPathTemplate": "/api/{version}/auth/{everything}",
+            "DownstreamPathTemplate": "/api/as/{version}/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -12,8 +12,20 @@
                     "Port": 3000
                 }
             ],
-            "UpstreamPathTemplate": "/api/{version}/auth/{everything}",
+            "UpstreamPathTemplate": "/api/as/{version}/{everything}",
             "UpstreamHttpMethod": [ "POST" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/cs/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5182
+                }
+            ],
+            "UpstreamPathTemplate": "/api/cs/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "DELETE" ]
         }
     ]
 }

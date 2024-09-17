@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace CourseService.API.Controllers
 {
-    [Route("api/v1/courses")]
+    [Route("api/cs/v1/courses")]
     [Tags("Course")]
     [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]

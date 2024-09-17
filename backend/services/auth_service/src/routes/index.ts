@@ -27,6 +27,6 @@ router.use(
     swaggerUi.setup(undefined, options)
 );
 
-router.use("/api/v1/auth", authRoute);
+router.use("/api/as/v1/auth", authRoute);
 
 export default router;

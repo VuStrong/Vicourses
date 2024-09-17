@@ -5,9 +5,13 @@
         "title": "Vicourses Auth API",
         "description": "Vicourses API documentation for authentication"
     },
-    "basePath": "/api/v1",
+    "servers": [
+        {
+            "url": "/api/as/v1"
+        }
+    ],
     "paths": {
-        "/api/v1/auth/login": {
+        "/auth/login": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Login with email and password",
@@ -58,7 +62,7 @@
                 }
             }
         },
-        "/api/v1/auth/google-login": {
+        "/auth/google-login": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Login with google",
@@ -106,7 +110,7 @@
                 }
             }
         },
-        "/api/v1/auth/register": {
+        "/auth/register": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Register new user",
@@ -154,7 +158,7 @@
                 }
             }
         },
-        "/api/v1/auth/refresh-token": {
+        "/auth/refresh-token": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Refresh new access token",
@@ -204,7 +208,7 @@
                 }
             }
         },
-        "/api/v1/auth/revoke-refresh-token": {
+        "/auth/revoke-refresh-token": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Revoke existing refresh token",
@@ -234,7 +238,7 @@
                 }
             }
         },
-        "/api/v1/auth/confirm-email": {
+        "/auth/confirm-email": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Confirm user's email",
@@ -266,7 +270,7 @@
                 }
             }
         },
-        "/api/v1/auth/confirm-email-link": {
+        "/auth/confirm-email-link": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Resend confirm email link",
@@ -295,7 +299,7 @@
                 }
             }
         },
-        "/api/v1/auth/reset-password": {
+        "/auth/reset-password": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Reset user's password",
@@ -330,7 +334,7 @@
                 }
             }
         },
-        "/api/v1/auth/reset-password-link": {
+        "/auth/reset-password-link": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Send reset password link",

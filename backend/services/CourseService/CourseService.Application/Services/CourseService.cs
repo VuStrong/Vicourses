@@ -37,7 +37,11 @@ namespace CourseService.Application.Services
             int skip = (paramsDto == null || paramsDto.Skip < 0) ? 0 : paramsDto.Skip;
             int limit = (paramsDto == null || paramsDto.Limit <= 0) ? 10 : paramsDto.Limit;
 
-            var results = await _courseRepository.FindManyAsync(skip, limit, searchKeyword: paramsDto?.SearchKeyword);
+            var results = await _courseRepository.FindManyAsync(
+                skip, limit, 
+                searchKeyword: paramsDto?.SearchKeyword,
+                categoryId: paramsDto?.CategoryId,
+                subCategoryId: paramsDto?.SubCategoryId);
 
             return _mapper.Map<PagedResult<CourseDto>>(results);
         }
