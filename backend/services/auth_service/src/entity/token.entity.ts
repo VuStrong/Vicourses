@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryColumn } from "typeorm";
 
 export enum TokenType {
     REFRESH_TOKEN = "refresh_token",
@@ -12,6 +12,7 @@ export default class Token {
     token: string
 
     @PrimaryColumn()
+    @Index()
     userId: string
 
     @Column({
