@@ -2,6 +2,7 @@
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Services;
+using CourseService.Domain.Enums;
 using CourseService.Shared.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,11 +29,41 @@ namespace CourseService.API.Controllers
         /// Get courses
         /// </summary>
         [HttpGet]
+        [Authorize]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(PagedResult<CourseDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCourses(GetCoursesRequest request)
         {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "";
+            if (role != Roles.Admin)
+            {
+                request.Status = CourseStatus.Published;
+            }
+
             var results = await _courseService.GetCoursesAsync(request.ToGetCoursesDto());
 
+            return Ok(results);
+        }
+
+        /// <summary>
+        /// Get instructor's created courses
+        /// </summary>
+        [HttpGet("instructor-courses")]
+        [Authorize]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(PagedResult<CourseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetInstructorCourses(GetCoursesByInstructorRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            if (userId != request.InstructorId)
+            {
+                request.Status = CourseStatus.Published;
+            }
+
+            var results = await _courseService.GetCoursesByUserIdAsync(request.InstructorId, request.Skip, request.Limit,
+                request.Keyword, request.Status);
+            
             return Ok(results);
         }
 

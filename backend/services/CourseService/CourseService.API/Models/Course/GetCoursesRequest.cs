@@ -5,19 +5,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CourseService.API.Models.Course
 {
-    public class GetCoursesRequest
+    public class GetCoursesRequest : PagingRequest
     {
-        /// <summary>
-        /// Skip the specified number of courses
-        /// </summary>
-        public int Skip { get; set; }
-
-        /// <summary>
-        /// Limit the number of courses returned
-        /// </summary>
-        [Range(Int32.MinValue, 100, ErrorMessage = "Limit cannot greater than 100")]
-        public int Limit { get; set; }
-
         /// <summary>
         /// Sort courses
         /// </summary>
@@ -57,6 +46,12 @@ namespace CourseService.API.Models.Course
         [Range(0, 5)]
         public decimal? Rating { get; set; }
 
+        /// <summary>
+        /// Filter courses by status (only Admin can use this param, default is 'Published')
+        /// </summary>
+        [EnumDataType(typeof(CourseStatus))]
+        public CourseStatus? Status { get; set; }
+
         public GetCoursesParamsDto ToGetCoursesDto()
         {
             return new GetCoursesParamsDto
@@ -69,7 +64,8 @@ namespace CourseService.API.Models.Course
                 SubCategoryId = SubCategoryId,
                 Free = Free,
                 Level = Level,
-                MinimumRating = Rating
+                MinimumRating = Rating,
+                Status = Status ?? CourseStatus.Published,
             };
         }
     }

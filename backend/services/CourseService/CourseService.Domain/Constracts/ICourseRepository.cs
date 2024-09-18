@@ -8,8 +8,11 @@ namespace CourseService.Domain.Constracts
     {
         Task<PagedResult<Course>> FindManyAsync(int skip, int limit, CourseSort? sort = null, string? searchKeyword = null, 
             string? categoryId = null, string? subCategoryId = null, bool? isPaid = null, CourseLevel? level = null, 
-            decimal? minimumRating = null);
+            decimal? minimumRating = null, CourseStatus status = CourseStatus.Published);
 
-        Task IncreaseStudentCount(string courseId, int count);
+        Task<PagedResult<Course>> FindManyByUserIdAsync(string userId, int skip, int limit, string? searchKeyword = null,
+            CourseStatus? status = null);
+
+        Task IncreaseStudentCountAsync(string courseId, int count);
     }
 }

@@ -2,6 +2,7 @@
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
 using CourseService.Domain.Constracts;
+using CourseService.Domain.Enums;
 using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 using Microsoft.Extensions.Logging;
@@ -45,7 +46,19 @@ namespace CourseService.Application.Services
                 subCategoryId: paramsDto?.SubCategoryId,
                 isPaid: paramsDto?.Free != null ? !paramsDto.Free : null,
                 level: paramsDto?.Level,
-                minimumRating: paramsDto?.MinimumRating);
+                minimumRating: paramsDto?.MinimumRating,
+                status: paramsDto?.Status ?? CourseStatus.Published);
+
+            return _mapper.Map<PagedResult<CourseDto>>(results);
+        }
+
+        public async Task<PagedResult<CourseDto>> GetCoursesByUserIdAsync(string userId, int skip, int limit, string? searchKeyword = null,
+            CourseStatus? status = null)
+        {
+            skip = skip < 0 ? 0 : skip;
+            limit = limit <= 0 ? 10 : limit;
+
+            var results = await _courseRepository.FindManyByUserIdAsync(userId, skip, limit, searchKeyword, status);
 
             return _mapper.Map<PagedResult<CourseDto>>(results);
         }
@@ -198,7 +211,7 @@ namespace CourseService.Application.Services
 
             await _enrollmentRepository.CreateAsync(enrollment);
 
-            await _courseRepository.IncreaseStudentCount(courseId, 1);
+            await _courseRepository.IncreaseStudentCountAsync(courseId, 1);
 
             _logger.LogInformation($"[Course Service] User {userId} enrolled course {courseId}");
         }

@@ -13,5 +13,6 @@ namespace CourseService.Application.Dtos.Course
         public bool? Free { get; set; }
         public CourseLevel? Level { get; set; }
         public decimal? MinimumRating { get; set; }
+        public CourseStatus Status { get; set; } = CourseStatus.Published;
     }
 }
