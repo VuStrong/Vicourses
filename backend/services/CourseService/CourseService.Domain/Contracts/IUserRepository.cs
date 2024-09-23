@@ -1,6 +1,6 @@
 ﻿using CourseService.Domain.Models;
 
-namespace CourseService.Domain.Constracts
+namespace CourseService.Domain.Contracts
 {
     public interface IUserRepository : IRepository<User>
     {

@@ -1,9 +1,11 @@
 ﻿namespace CourseService.Application.Dtos
 {
-    public record VideoFileDto
+    public class VideoFileDto
     {
-        public string FileId { get; set; } = null!;
-        public string Url { get; set; } = null!;
-        public string FileName { get; set; } = null!;
+        public string FileId { get; set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;
+        public string? StreamFileUrl { get; set; }
+        public int Length { get; set; }
     }
 }

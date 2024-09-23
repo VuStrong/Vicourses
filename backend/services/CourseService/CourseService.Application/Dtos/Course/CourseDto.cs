@@ -6,12 +6,12 @@ namespace CourseService.Application.Dtos.Course
 
     public class CourseDto
     {
-        public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
-        public string TitleCleaned { get; set; } = null!;
+        public string Id { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string TitleCleaned { get; set; } = string.Empty;
         public string[] LearnedContents { get; set; } = [];
-        public string Level { get; set; } = null!;
-        public string Status { get; set; } = null!;
+        public string Level { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
         public bool IsPaid { get; set; }
         public decimal Price { get; set; }
         public decimal Rating { get; set; }

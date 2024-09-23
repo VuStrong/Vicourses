@@ -33,10 +33,14 @@ namespace CourseService.API.Models.Course
 
         public UpdateCourseDto ToUpdateCourseDto()
         {
-            ImageFileDto? thumbnail = Thumbnail != null ?
-                new ImageFileDto(Thumbnail.FileId, Thumbnail.Url) : null;
-            VideoFileDto? previewVideo = PreviewVideo != null ?
-                new VideoFileDto
+            UpdateImageFileDto? thumbnail = Thumbnail != null ?
+                new UpdateImageFileDto
+                {
+                    FileId = Thumbnail.FileId,
+                    Url = Thumbnail.Url,
+                } : null;
+            UpdateVideoFileDto? previewVideo = PreviewVideo != null ?
+                new UpdateVideoFileDto
                 {
                     FileId = PreviewVideo.FileId,
                     Url = PreviewVideo.Url,

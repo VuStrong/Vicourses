@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace CourseService.API.Utils.AuthorizationHandlers
+namespace CourseService.API.Utils.Authorization
 {
     public class GetCourseRequirement : IAuthorizationRequirement
     {

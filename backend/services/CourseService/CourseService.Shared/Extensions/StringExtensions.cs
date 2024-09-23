@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Text;
+using NanoidDotNet;
 
 namespace CourseService.Shared.Extensions
 {
@@ -21,16 +21,12 @@ namespace CourseService.Shared.Extensions
 
         public static string GenerateNumericIdString(int length)
         {
-            int rangeStart = (int)Math.Pow(10, length - 1);
-            int rangeEnd = (int)Math.Pow(10, length) - 1;
+            return Nanoid.Generate(Nanoid.Alphabets.Digits, length);
+        }
 
-            byte[] randomBytes = new byte[4]; // 4 bytes = 32-bit int
-            RandomNumberGenerator.Fill(randomBytes);
-            int randomValue = BitConverter.ToInt32(randomBytes, 0) & int.MaxValue;
-
-            var result = rangeStart + (randomValue % (rangeEnd - rangeStart + 1));
-
-            return result.ToString();
+        public static string GenerateIdString(int length)
+        {
+            return Nanoid.Generate(Nanoid.Alphabets.LettersAndDigits, length);
         }
 
         private static string RemoveAccents(this string value)

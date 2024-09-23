@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CourseService.Application.Dtos;
+using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 
 namespace CourseService.Application.MapperProfiles
@@ -8,6 +10,8 @@ namespace CourseService.Application.MapperProfiles
         public CommonProfile()
         {
             CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
+
+            CreateMap<VideoFile, VideoFileDto>();
         }
     }
 }

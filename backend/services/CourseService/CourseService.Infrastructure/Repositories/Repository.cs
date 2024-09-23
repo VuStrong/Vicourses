@@ -1,4 +1,4 @@
-﻿using CourseService.Domain.Constracts;
+﻿using CourseService.Domain.Contracts;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 

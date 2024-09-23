@@ -38,6 +38,7 @@ namespace CourseService.Application
 
             services.AddScoped<ICourseService, Services.CourseService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICourseCurriculumService, CourseCurriculumService>();
         }
 
         public static void AddEventBus(this IServiceCollection services, string uri)

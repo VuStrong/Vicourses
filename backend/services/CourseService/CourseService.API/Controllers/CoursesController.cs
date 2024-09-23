@@ -17,11 +17,16 @@ namespace CourseService.API.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;
+        private readonly ICourseCurriculumService _courseCurriculumService;
         private readonly IAuthorizationService _authorizationService;
 
-        public CoursesController(ICourseService courseService, IAuthorizationService authorizationService)
+        public CoursesController(
+            ICourseService courseService,
+            ICourseCurriculumService courseCurriculumService,
+            IAuthorizationService authorizationService)
         {
             _courseService = courseService;
+            _courseCurriculumService = courseCurriculumService;
             _authorizationService = authorizationService;
         }
 
@@ -152,6 +157,28 @@ namespace CourseService.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
             await _courseService.DeleteCourseAsync(id, userId);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Update curriculum of a course
+        /// </summary>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">Course not found</response>
+        [HttpPatch("{id}/curriculum")]
+        [Authorize]
+        public async Task<IActionResult> UpdateCurriculum(string id, UpdateCurriculumRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            await _courseCurriculumService.UpdateCurriculumAsync(
+                id,
+                request.ToListOfCurriculumItem(),
+                userId
+            );
 
             return Ok();
         }

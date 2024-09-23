@@ -2,7 +2,7 @@
 using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 
-namespace CourseService.Domain.Constracts
+namespace CourseService.Domain.Contracts
 {
     public interface ICourseRepository : IRepository<Course>
     {

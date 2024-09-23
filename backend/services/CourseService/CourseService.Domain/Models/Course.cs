@@ -1,4 +1,4 @@
-﻿using CourseService.Domain.Constracts;
+﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Shared.Extensions;
 
@@ -10,9 +10,9 @@ namespace CourseService.Domain.Models
 
     public class Course : IBaseEntity
     {
-        public string Id { get; protected set; } = null!;
-        public string Title { get; set; } = null!;
-        public string TitleCleaned { get; set; } = null!;
+        public string Id { get; protected set; }
+        public string Title { get; set; }
+        public string TitleCleaned { get; set; }
         public string? Description { get; set; }
         public List<string> Tags { get; set; } = [];
         public List<string> Requirements { get; set; } = [];
@@ -30,24 +30,27 @@ namespace CourseService.Domain.Models
         public CourseStatus Status { get; set; } = CourseStatus.Unpublished;
         public ImageFile? Thumbnail { get; set; }
         public VideoFile? PreviewVideo { get; set; }
-        public CategoryInCourse Category { get; set; } = null!;
-        public CategoryInCourse SubCategory { get; set; } = null!;
-        public UserInCourse User { get; set; } = null!;
+        public CategoryInCourse Category { get; set; }
+        public CategoryInCourse SubCategory { get; set; }
+        public UserInCourse User { get; set; }
 
-        private Course() {}
-
-        public static Course Create(string title, string? description, CategoryInCourse category, 
-            CategoryInCourse subCategory, UserInCourse user)
+        private Course(string id, string title, string titleCleaned, CategoryInCourse category, CategoryInCourse subCategory, UserInCourse user)
         {
-            return new Course()
+            Id = id;
+            Title = title;
+            TitleCleaned = titleCleaned;
+            Category = category;
+            SubCategory = subCategory;
+            User = user;
+        }
+
+        public static Course Create(string title, string? description, CategoryInCourse category, CategoryInCourse subCategory, UserInCourse user)
+        {
+            var id = StringExtensions.GenerateIdString(12);
+
+            return new Course(id, title, title.ToSlug(), category, subCategory, user)
             {
-                Id = StringExtensions.GenerateNumericIdString(8),
-                Title = title,
-                TitleCleaned = title.ToSlug(),
                 Description = description,
-                Category = category,
-                SubCategory = subCategory,
-                User = user,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };

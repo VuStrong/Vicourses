@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
-using CourseService.Domain.Constracts;
+using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Models;
 using CourseService.Shared.Paging;

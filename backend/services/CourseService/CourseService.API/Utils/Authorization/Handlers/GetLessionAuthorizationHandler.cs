@@ -1,34 +1,36 @@
-﻿using CourseService.Application.Dtos.Course;
+﻿using CourseService.Application.Dtos.Lession;
 using CourseService.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace CourseService.API.Utils.AuthorizationHandlers
+namespace CourseService.API.Utils.Authorization.Handlers
 {
-    public class GetCourseAuthorizationHandler : AuthorizationHandler<GetCourseRequirement, CourseDetailDto>
+    public class GetLessionAuthorizationHandler : AuthorizationHandler<GetLessionRequirement, LessionDto>
     {
         private readonly ICourseService _courseService;
 
-        public GetCourseAuthorizationHandler(ICourseService courseService)
+        public GetLessionAuthorizationHandler(ICourseService courseService)
         {
             _courseService = courseService;
         }
 
         protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
-            GetCourseRequirement requirement,
-            CourseDetailDto course)
+            GetLessionRequirement requirement,
+            LessionDto lession)
         {
             var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
             var userRole = context.User.FindFirst(ClaimTypes.Role)?.Value ?? "";
 
-            if (userRole == Roles.Admin || course.Status == "Published")
+            if (userRole == Roles.Admin)
             {
                 context.Succeed(requirement);
                 return;
             }
 
-            if (course.User.Id == userId)
+            var course = await _courseService.GetCourseDetailByIdAsync(lession.CourseId);
+
+            if (userId == course.User.Id)
             {
                 context.Succeed(requirement);
                 return;

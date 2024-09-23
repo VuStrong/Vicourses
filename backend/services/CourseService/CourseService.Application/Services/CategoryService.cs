@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos.Category;
 using CourseService.Application.Exceptions;
-using CourseService.Domain.Constracts;
+using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
 using Microsoft.Extensions.Logging;
 

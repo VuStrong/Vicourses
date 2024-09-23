@@ -7,9 +7,10 @@ using CourseService.Application.Dtos;
 using CourseService.Application;
 using CourseService.Infrastructure;
 using CourseService.API.Utils.ExceptionHandlers;
-using CourseService.API.Utils.AuthorizationHandlers;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.Json.Serialization;
+using CourseService.API.Utils.Authorization.Handlers;
+using CourseService.API.Utils.Authorization;
 
 namespace CourseService.API.Extensions
 {
@@ -46,9 +47,17 @@ namespace CourseService.API.Extensions
             {
                 opt.AddPolicy("GetCoursePolicy", policy => 
                     policy.Requirements.Add(new GetCourseRequirement()));
+
+                opt.AddPolicy("GetSectionPolicy", policy =>
+                    policy.Requirements.Add(new GetSectionRequirement()));
+
+                opt.AddPolicy("GetLessionPolicy", policy =>
+                    policy.Requirements.Add(new GetLessionRequirement()));
             });
 
             builder.Services.AddScoped<IAuthorizationHandler, GetCourseAuthorizationHandler>();
+            builder.Services.AddScoped<IAuthorizationHandler, GetSectionAuthorizationHandler>();
+            builder.Services.AddScoped<IAuthorizationHandler, GetLessionAuthorizationHandler>();
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
