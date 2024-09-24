@@ -10,7 +10,8 @@ namespace CourseService.Domain.Contracts
         Task<Lession?> GetLessionByIdAsync(string id);
         Task CreateLessionAsync(Lession lession);
 
-        Task UpdateCurriculumAsync(List<CurriculumItem> items);
+        Task<List<SectionWithLessions>> GetCourseCurriculumAsync(string courseId);
+        Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items);
     }
 
     public class CurriculumItem

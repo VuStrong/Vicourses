@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CourseService.Application.Dtos.Course;
 using CourseService.Application.Dtos.Lession;
 using CourseService.Application.Dtos.Section;
 using CourseService.Application.Exceptions;
@@ -86,7 +87,7 @@ namespace CourseService.Application.Services
             }
 
             var section = await _courseCurriculumManager.GetSectionByIdAsync(data.SectionId);
-            if (section == null)
+            if (section == null || section.CourseId != course.Id)
             {
                 throw new SectionNotFoundException(data.SectionId);
             }
@@ -96,6 +97,23 @@ namespace CourseService.Application.Services
             await _courseCurriculumManager.CreateLessionAsync(lession);
 
             return _mapper.Map<LessionDto>(lession);
+        }
+
+        public async Task<CoursePublicCurriculumDto> GetPublicCurriculumAsync(string courseId)
+        {
+            if (!(await _courseRepository.ExistsAsync(courseId)))
+            {
+                throw new CourseNotFoundException(courseId);
+            }
+
+            var result = await _courseCurriculumManager.GetCourseCurriculumAsync(courseId);
+
+            var publicSections = _mapper.Map<List<SectionInPublicCurriculumDto>>(result);
+
+            return new CoursePublicCurriculumDto
+            {
+                Sections = publicSections,
+            };
         }
 
         public async Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items, string courseOwnerId)
@@ -111,7 +129,7 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            await _courseCurriculumManager.UpdateCurriculumAsync(items);
+            await _courseCurriculumManager.UpdateCurriculumAsync(courseId, items);
         }
     }
 }

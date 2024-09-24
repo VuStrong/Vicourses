@@ -42,61 +42,124 @@ namespace CourseService.Infrastructure.Implementations
             await _lessionCollection.InsertOneAsync(lession);
         }
 
-        public async Task UpdateCurriculumAsync(List<CurriculumItem> items)
+        public async Task<List<SectionWithLessions>> GetCourseCurriculumAsync(string courseId)
         {
-            List<string> sectionIds = [];
-            List<string> lessionIds = [];
+            var pipeline = new[] {
+                new BsonDocument("$match",
+                    new BsonDocument
+                    {
+                        { nameof(Section.CourseId), courseId }
+                    }
+                ),
+                new BsonDocument("$lookup",
+                    new BsonDocument
+                    {
+                        { "from", "lessions" },
+                        { 
+                            "let", 
+                            new BsonDocument
+                            {
+                                { "id", "$_id" }
+                            } 
+                        },
+                        {
+                            "pipeline",
+                            new BsonArray
+                            {
+                                new BsonDocument(
+                                    "$match",
+                                    new BsonDocument
+                                    (
+                                        "$expr",
+                                        new BsonDocument(
+                                            "$eq",
+                                            new BsonArray{ "$$id", $"${nameof(Lession.SectionId)}" }
+                                        )
+                                    )
+                                ),
+                                new BsonDocument(
+                                    "$sort",
+                                    new BsonDocument{ { $"{nameof(Lession.Order)}", 1 } }
+                                )
+                            }
+                        },
+                        { "as", nameof(SectionWithLessions.Lessions) }
+                    }
+                ),
+                new BsonDocument("$sort",
+                    new BsonDocument{ { $"{nameof(Section.Order)}", 1 } }
+                )
+            };
 
-            foreach (var item in items)
+            var result = await _sectionCollection
+                .Aggregate<SectionWithLessions>(pipeline)
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items)
+        {
+            (var sectionWrites, var lessionWrites) = BuildSectionAndLessionWriteOps(courseId, items);
+            var bulkOptions = new BulkWriteOptions { IsOrdered = false };
+
+            if (sectionWrites.Count > 0) 
+                await _sectionCollection.BulkWriteAsync(sectionWrites, bulkOptions);
+            if (lessionWrites.Count > 0)
+                await _lessionCollection.BulkWriteAsync(lessionWrites, bulkOptions);
+        }
+
+        private (List<WriteModel<Section>>, List<WriteModel<Lession>>) BuildSectionAndLessionWriteOps(string courseId, List<CurriculumItem> items)
+        {
+            var sectionWrites = new List<WriteModel<Section>>();
+            var sectionFilter = Builders<Section>.Filter;
+            var sectionUpdate = Builders<Section>.Update;
+
+            var lessionWrites = new List<WriteModel<Lession>>();
+            var lessionFilter = Builders<Lession>.Filter;
+            var lessionUpdate = Builders<Lession>.Update;
+
+            var lastSectionId = string.Empty;
+            var sectionCount = 0;
+            int length = items.Count;
+
+            for (int index = 0; index < length; index++)
             {
+                var item = items[index];
+
                 if (item.Type == CurriculumItemType.Section)
                 {
-                    sectionIds.Add(item.Id);
+                    sectionCount++;
+
+                    sectionWrites.Add(new UpdateOneModel<Section>(
+                        sectionFilter.Eq(s => s.Id, item.Id) & sectionFilter.Eq(s => s.CourseId, courseId),
+                        sectionUpdate.Set(s => s.Order, sectionCount)
+                    ));
+
+                    lastSectionId = item.Id;
                 }
                 else
                 {
-                    lessionIds.Add(item.Id);
+                    UpdateDefinition<Lession>? update = null;
+
+                    if (lastSectionId != string.Empty)
+                    {
+                        update = lessionUpdate.Set(l => l.Order, index - (sectionCount - 1))
+                            .Set(l => l.SectionId, lastSectionId);
+                    }
+                    else
+                    {
+                        update = lessionUpdate.Set(l => l.Order, index - (sectionCount - 1));
+                    }
+
+                    lessionWrites.Add(new UpdateOneModel<Lession>(
+                        lessionFilter.Eq(l => l.Id, item.Id) & lessionFilter.Eq(l => l.CourseId, courseId),
+                        update
+                    ));
                 }
             }
 
-            await PerformUpdateSections(sectionIds);
-
-
-        }
-
-        private async Task PerformUpdateSections(List<string> sectionIds)
-        {
-            var sectionFilter = Builders<Section>.Filter.In(s => s.Id, sectionIds);
-            var bsonArrayOfIds = new BsonArray(sectionIds);
-
-            var updateDefinition = Builders<Section>.Update.Pipeline(new BsonDocument[]
-            {
-                new BsonDocument
-                {
-                    {
-                        "$set",
-                        new BsonDocument
-                        {
-                            {
-                                "Order",
-                                new BsonDocument
-                                {
-                                    {
-                                        "$indexOfArray",
-                                        new BsonArray
-                                        {
-                                            bsonArrayOfIds,
-                                            "$_id"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            await _sectionCollection.UpdateManyAsync(sectionFilter, updateDefinition);
+            return (sectionWrites, lessionWrites);
         }
     }
 }

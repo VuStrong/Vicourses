@@ -11,6 +11,9 @@ namespace CourseService.Application.MapperProfiles
             CreateMap<CategoryInCourse, CategoryInCourseDto>();
             CreateMap<UserInCourse, UserInCourseDto>();
 
+            CreateMap<Lession, LessionInPublicCurriculumDto>();
+            CreateMap<SectionWithLessions, SectionInPublicCurriculumDto>();
+
             CreateMap<Course, CourseDto>()
                 .ForMember(
                     dest => dest.ThumbnailUrl, 

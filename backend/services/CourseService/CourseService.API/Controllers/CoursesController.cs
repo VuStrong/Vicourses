@@ -162,6 +162,19 @@ namespace CourseService.API.Controllers
         }
 
         /// <summary>
+        /// Get public curriculum of a course
+        /// </summary>
+        /// <response code="404">Course not found</response>
+        [HttpGet("{id}/public-curriculum")]
+        [ProducesResponseType(typeof(CoursePublicCurriculumDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPublicCurriculum(string id)
+        {
+            var result = await _courseCurriculumService.GetPublicCurriculumAsync(id);
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Update curriculum of a course
         /// </summary>
         /// <response code="200"></response>

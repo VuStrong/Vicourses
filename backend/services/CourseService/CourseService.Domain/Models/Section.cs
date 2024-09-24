@@ -9,13 +9,11 @@ namespace CourseService.Domain.Models
         public string CourseId { get; protected set; }
         public string Title { get; set; }
         public string? Description { get; set; }
-        public int LessonCount { get; set; }
-        public int Duration { get; set; }
         public int Order {  get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        private Section(string id, string title, string courseId)
+        protected Section(string id, string title, string courseId)
         {
             Id = id;
             Title = title;
