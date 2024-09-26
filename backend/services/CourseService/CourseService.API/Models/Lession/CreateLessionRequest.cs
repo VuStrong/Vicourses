@@ -1,4 +1,4 @@
-﻿using CourseService.Application.Dtos.Lession;
+﻿using CourseService.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CourseService.API.Models.Lession
@@ -15,12 +15,11 @@ namespace CourseService.API.Models.Lession
         [Required]
         public string SectionId { get; set; } = null!;
 
+        [Required]
+        [EnumDataType(typeof(LessionType))]
+        public LessionType Type { get; set; }
+
         [StringLength(200, ErrorMessage = "{0} length must not greater than {1}.")]
         public string? Description { get; set; }
-
-        public CreateLessionDto ToCreateLessionDto()
-        {
-            return new CreateLessionDto(Title, CourseId, SectionId, Description);
-        }
     }
 }

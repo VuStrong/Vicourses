@@ -4,6 +4,7 @@ using CourseService.Application.Exceptions;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 using CourseService.Shared.Paging;
 using Microsoft.Extensions.Logging;
 

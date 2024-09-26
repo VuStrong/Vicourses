@@ -1,4 +1,4 @@
-﻿namespace CourseService.Domain.Models
+﻿namespace CourseService.Domain.Objects
 {
     public class ImageFile
     {

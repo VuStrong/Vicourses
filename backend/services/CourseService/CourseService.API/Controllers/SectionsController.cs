@@ -64,14 +64,57 @@ namespace CourseService.API.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
             var section = await _courseCurriculumService.CreateSectionAsync(
-                new CreateSectionDto(request.Title, request.CourseId, request.Description),
-                userId
+                new CreateSectionDto(request.Title, request.CourseId, userId, request.Description)
             );
 
             return CreatedAtAction(
                 nameof(GetSectionById),
                 new { id = section.Id },
                 section);
+        }
+
+        /// <summary>
+        /// Update a section.
+        /// </summary>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Only owner of the section can update</response>
+        /// <response code="404">Section not found</response>
+        [HttpPatch("{id}")]
+        [Authorize]
+        [ProducesResponseType(typeof(SectionDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateSection(string id, UpdateSectionRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            var section = await _courseCurriculumService.UpdateSectionAsync(
+                id,
+                new UpdateSectionDto
+                {
+                    Title = request.Title,
+                    Description = request.Description,
+                },
+                userId
+            );
+
+            return Ok(section);
+        }
+
+        /// <summary>
+        /// Delete a section.
+        /// </summary>
+        /// <response code="200">Deleted</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Only owner of the section can delete</response>
+        /// <response code="404">Section not found</response>
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteSection(string id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            await _courseCurriculumService.DeleteSectionAsync(id, userId);
+
+            return Ok();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
+using CourseService.Domain.Objects;
 using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models

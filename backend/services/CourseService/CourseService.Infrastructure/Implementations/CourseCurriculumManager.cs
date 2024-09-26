@@ -37,9 +37,33 @@ namespace CourseService.Infrastructure.Implementations
             await _sectionCollection.InsertOneAsync(section);
         }
 
+        public async Task UpdateSectionAsync(Section section)
+        {
+            var filter = Builders<Section>.Filter.Eq(s => s.Id, section.Id);
+
+            await _sectionCollection.ReplaceOneAsync(filter, section);
+        }
+
+        public async Task DeleteSectionAsync(string sectionId)
+        {
+            await _sectionCollection.DeleteOneAsync(Builders<Section>.Filter.Eq(s => s.Id, sectionId));
+        }
+
         public async Task CreateLessionAsync(Lession lession)
         {
             await _lessionCollection.InsertOneAsync(lession);
+        }
+
+        public async Task UpdateLessionAsync(Lession lession)
+        {
+            var filter = Builders<Lession>.Filter.Eq(l => l.Id, lession.Id);
+
+            await _lessionCollection.ReplaceOneAsync(filter, lession);
+        }
+
+        public async Task DeleteLessionAsync(string lessionId)
+        {
+            await _lessionCollection.DeleteOneAsync(Builders<Lession>.Filter.Eq(l => l.Id, lessionId));
         }
 
         public async Task<List<SectionWithLessions>> GetCourseCurriculumAsync(string courseId)
@@ -84,6 +108,13 @@ namespace CourseService.Infrastructure.Implementations
                             }
                         },
                         { "as", nameof(SectionWithLessions.Lessions) }
+                    }
+                ),
+                new BsonDocument("$addFields",
+                    new BsonDocument
+                    {
+                        { $"{nameof(SectionWithLessions.Duration)}", new BsonDocument { { "$sum", "$Lessions.Duration" } } },
+                        { $"{nameof(SectionWithLessions.LessionCount)}", new BsonDocument { { "$size", "$Lessions" } } }
                     }
                 ),
                 new BsonDocument("$sort",

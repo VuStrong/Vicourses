@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos;
-using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 using CourseService.Shared.Paging;
 
 namespace CourseService.Application.MapperProfiles

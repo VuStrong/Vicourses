@@ -6,9 +6,13 @@ namespace CourseService.Domain.Contracts
     {
         Task<Section?> GetSectionByIdAsync(string id);
         Task CreateSectionAsync(Section section);
-        
+        Task UpdateSectionAsync(Section section);
+        Task DeleteSectionAsync(string sectionId);
+
         Task<Lession?> GetLessionByIdAsync(string id);
         Task CreateLessionAsync(Lession lession);
+        Task UpdateLessionAsync(Lession lession);
+        Task DeleteLessionAsync(string lessionId);
 
         Task<List<SectionWithLessions>> GetCourseCurriculumAsync(string courseId);
         Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items);

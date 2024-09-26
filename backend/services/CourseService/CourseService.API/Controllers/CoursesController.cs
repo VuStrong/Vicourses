@@ -166,10 +166,45 @@ namespace CourseService.API.Controllers
         /// </summary>
         /// <response code="404">Course not found</response>
         [HttpGet("{id}/public-curriculum")]
+        [Authorize]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CoursePublicCurriculumDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPublicCurriculum(string id)
         {
+            var course = await _courseService.GetCourseDetailByIdAsync(id);
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, course, "GetCoursePolicy");
+
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             var result = await _courseCurriculumService.GetPublicCurriculumAsync(id);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get instructor curriculum of a course
+        /// </summary>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Course not found</response>
+        [HttpGet("{id}/instructor-curriculum")]
+        [Authorize]
+        [ProducesResponseType(typeof(CourseInstructorCurriculumDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetInstructorCurriculum(string id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value ?? "";
+
+            var course = await _courseService.GetCourseDetailByIdAsync(id);
+
+            if (userId != course.User.Id && userRole != Roles.Admin)
+            {
+                return Forbid();
+            }
+
+            var result = await _courseCurriculumService.GetInstructorCurriculumAsync(id);
 
             return Ok(result);
         }

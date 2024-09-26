@@ -58,19 +58,64 @@ namespace CourseService.API.Controllers
         /// <response code="404">Course or section not found</response>
         [HttpPost]
         [Authorize(Roles = Roles.Instructor)]
+        [ProducesResponseType(typeof(LessionDto), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateLession(CreateLessionRequest request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
             var lession = await _courseCurriculumService.CreateLessionAsync(
-                request.ToCreateLessionDto(),
-                userId
+                new CreateLessionDto(request.Title, request.CourseId, request.SectionId, userId,
+                    request.Type, request.Description)
             );
 
             return CreatedAtAction(
                 nameof(GetLessionById),
                 new { id = lession.Id },
                 lession);
+        }
+
+        /// <summary>
+        /// Update a lession.
+        /// </summary>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Only owner of the lession can update</response>
+        /// <response code="404">Lession not found</response>
+        [HttpPatch("{id}")]
+        [Authorize]
+        [ProducesResponseType(typeof(LessionDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateLession(string id, UpdateLessionRequest request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            var lession = await _courseCurriculumService.UpdateLessionAsync(
+                id,
+                new UpdateLessionDto
+                {
+                    Title = request.Title,
+                    Description = request.Description
+                },
+                userId
+            );
+
+            return Ok(lession);
+        }
+
+        /// <summary>
+        /// Delete a lession.
+        /// </summary>
+        /// <response code="200">Deleted</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Only owner of the lession can delete</response>
+        /// <response code="404">Lession not found</response>
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteLession(string id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            await _courseCurriculumService.DeleteLessionAsync(id, userId);
+
+            return Ok();
         }
     }
 }
