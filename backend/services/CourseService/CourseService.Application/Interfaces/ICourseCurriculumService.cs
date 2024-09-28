@@ -3,7 +3,7 @@ using CourseService.Application.Dtos.Lession;
 using CourseService.Application.Dtos.Section;
 using CourseService.Domain.Contracts;
 
-namespace CourseService.Application.Services
+namespace CourseService.Application.Interfaces
 {
     public interface ICourseCurriculumService
     {

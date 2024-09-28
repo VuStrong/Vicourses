@@ -12,6 +12,7 @@ namespace CourseService.Application.Dtos.Course
         public string[] LearnedContents { get; set; } = [];
         public string Level { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
+        public bool IsApproved { get; set; }
         public bool IsPaid { get; set; }
         public decimal Price { get; set; }
         public decimal Rating { get; set; }

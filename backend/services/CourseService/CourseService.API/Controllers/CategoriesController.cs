@@ -1,7 +1,7 @@
 ﻿using CourseService.API.Models.Category;
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Category;
-using CourseService.Application.Services;
+using CourseService.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

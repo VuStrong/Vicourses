@@ -1,5 +1,5 @@
 ﻿using CourseService.Application.Dtos.Lession;
-using CourseService.Application.Services;
+using CourseService.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -28,15 +28,13 @@ namespace CourseService.API.Utils.Authorization.Handlers
                 return;
             }
 
-            var course = await _courseService.GetCourseDetailByIdAsync(lession.CourseId);
-
-            if (userId == course.User.Id)
+            if (userId == lession.UserId)
             {
                 context.Succeed(requirement);
                 return;
             }
 
-            var enrolled = await _courseService.CheckEnrollment(course.Id, userId);
+            var enrolled = await _courseService.CheckEnrollment(lession.CourseId, userId);
             if (enrolled)
             {
                 context.Succeed(requirement);

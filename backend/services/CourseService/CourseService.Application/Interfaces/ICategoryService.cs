@@ -1,6 +1,6 @@
 ﻿using CourseService.Application.Dtos.Category;
 
-namespace CourseService.Application.Services
+namespace CourseService.Application.Interfaces
 {
     public interface ICategoryService
     {

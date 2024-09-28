@@ -1,5 +1,6 @@
 ﻿using CourseService.Application.IntegrationEventHandlers.User;
 using CourseService.Application.IntegrationEvents.User;
+using CourseService.Application.Interfaces;
 using CourseService.Application.Services;
 using CourseService.EventBus;
 using CourseService.EventBus.Abstracts;
@@ -39,6 +40,7 @@ namespace CourseService.Application
             services.AddScoped<ICourseService, Services.CourseService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICourseCurriculumService, CourseCurriculumService>();
+            services.AddScoped<ILessionQuizService, LessionQuizService>();
         }
 
         public static void AddEventBus(this IServiceCollection services, string uri)

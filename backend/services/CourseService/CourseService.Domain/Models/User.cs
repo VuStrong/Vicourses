@@ -4,9 +4,9 @@ namespace CourseService.Domain.Models
 {
     public class User : IBaseEntity
     {
-        public string Id { get; protected set; }
-        public string Name { get; set; }
-        public string? ThumbnailUrl { get; set; }
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public string? ThumbnailUrl { get; private set; }
 
         private User(string id, string name)
         {
@@ -20,6 +20,12 @@ namespace CourseService.Domain.Models
             {
                 ThumbnailUrl = thumbnailUrl
             };
+        }
+
+        public void UpdateInfoIgnoreNull(string? name = null, string? thumbnailUrl = null)
+        {
+            if (name != null) Name = name;
+            if (thumbnailUrl != null) ThumbnailUrl = thumbnailUrl;
         }
     }
 }

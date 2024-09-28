@@ -21,12 +21,14 @@ namespace CourseService.Infrastructure
             UserMap.Configure();
             CategoryMap.Configure();
             EnrollmentMap.Configure();
+            QuizMap.Configure();
 
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             services.AddScoped<ICourseCurriculumManager, CourseCurriculumManager>();
+            services.AddScoped<IQuizRepository, QuizRepository>();
         }
 
         public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString, string databaseName)
@@ -49,7 +51,8 @@ namespace CourseService.Infrastructure
                 .AddCollection<Lession>(databaseName, "lessions")
                 .AddCollection<Category>(databaseName, "categories")
                 .AddCollection<User>(databaseName, "users")
-                .AddCollection<Enrollment>(databaseName, "enrollments");
+                .AddCollection<Enrollment>(databaseName, "enrollments")
+                .AddCollection<Quiz>(databaseName, "quizzes");
 
             return services;
         }

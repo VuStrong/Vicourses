@@ -7,18 +7,18 @@ namespace CourseService.Domain.Models
 {
     public class Lession : IBaseEntity
     {
-        public string Id { get; protected set; }
-        public string CourseId { get; set; }
-        public string SectionId { get; set; }
-        public string UserId { get; set; }
-        public string Title { get; set; }
-        public string? Description { get; set; }
-        public int Duration { get; set; }
-        public int Order {  get; set; }
-        public LessionType Type { get; set; } = LessionType.Video;
-        public VideoFile? Video { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string Id { get; private set; }
+        public string CourseId { get; private set; }
+        public string SectionId { get; private set; }
+        public string UserId { get; private set; }
+        public string Title { get; private set; }
+        public string? Description { get; private set; }
+        public int Duration { get; private set; }
+        public int Order {  get; private set; }
+        public LessionType Type { get; private set; } = LessionType.Video;
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
+        public VideoFile? Video { get; private set; }
 
         private Lession(string id, string title, string courseId, string sectionId, string userId)
         {
@@ -42,10 +42,12 @@ namespace CourseService.Domain.Models
             };
         }
 
-        public void UpdateInfoIgnoreNull(string? title = null, string? description = null)
+        public void UpdateInfoIgnoreNull(string? title = null, string? description = null, int? duration = null, VideoFile? video = null)
         {
             if (title != null) Title = title;
             if (description != null) Description = description;
+            if (video != null) Video = video;
+            if (duration != null) Duration = duration ?? 0;
 
             UpdatedAt = DateTime.Now;
         }

@@ -1,5 +1,5 @@
 ﻿using CourseService.Application.Dtos.Course;
-using CourseService.Application.Services;
+using CourseService.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 

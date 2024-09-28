@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
+using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Models;
@@ -155,20 +156,16 @@ namespace CourseService.Application.Services
                 subCategoryToUpdate = new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug);
             }
 
-            ImageFile? thumbnail = data.Thumbnail != null ? new ImageFile()
-            {
-                FileId = data.Thumbnail.FileId,
-                Url = data.Thumbnail.Url,
-            } : null;
-            VideoFile? previewVideo = data.PreviewVideo != null ? new VideoFile()
-            {
-                FileId = data.PreviewVideo.FileId,
-                Url = data.PreviewVideo.Url,
-                FileName = data.PreviewVideo.FileName,
-            } : null;
+            ImageFile? thumbnail = data.Thumbnail != null ? 
+                ImageFile.Create(data.Thumbnail.FileId, data.Thumbnail.Url) : null;
+            VideoFile? previewVideo = data.PreviewVideo != null ? 
+                VideoFile.Create(data.PreviewVideo.FileId, data.PreviewVideo.Url, data.PreviewVideo.FileName) : null;
 
             course.UpdateInfoIgnoreNull(data.Title, data.Description, data.Tags, data.Requirements, data.TargetStudents,
                 data.LearnedContents, data.Price, data.Language, thumbnail, previewVideo, categoryToUpdate, subCategoryToUpdate, data.Level);
+
+            if (data.Status != null)
+                course.SetStatus(data.Status ?? CourseStatus.Unpublished);
 
             await _courseRepository.UpdateAsync(course);
 
@@ -199,6 +196,36 @@ namespace CourseService.Application.Services
             await _courseRepository.DeleteOneAsync(courseId);
 
             _logger.LogInformation($"Course {courseId} deleted");
+        }
+
+        public async Task ApproveCourseAsync(string courseId)
+        {
+            var course = await _courseRepository.FindOneAsync(courseId);
+
+            if (course == null )
+            {
+                throw new CourseNotFoundException(courseId);
+            }
+
+            course.Approve();
+
+            await _courseRepository.UpdateAsync(course);
+        }
+
+        public async Task CancelCourseApprovalAsync(string courseId, string reason)
+        {
+            var course = await _courseRepository.FindOneAsync(courseId);
+
+            if (course == null)
+            {
+                throw new CourseNotFoundException(courseId);
+            }
+
+            course.CancelApproval();
+
+            await _courseRepository.UpdateAsync(course);
+
+            // Todo: Send email about cancellation to email service
         }
 
         public async Task Enroll(string courseId, string userId)

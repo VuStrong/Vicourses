@@ -3,6 +3,7 @@ using CourseService.Application.Dtos.Course;
 using CourseService.Application.Dtos.Lession;
 using CourseService.Application.Dtos.Section;
 using CourseService.Application.Exceptions;
+using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
 using Microsoft.Extensions.Logging;

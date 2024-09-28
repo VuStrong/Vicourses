@@ -5,14 +5,14 @@ namespace CourseService.Domain.Models
 {
     public class Category : IBaseEntity
     {
-        public string Id { get; protected set; }
-        public string Name { get; set; }
-        public string Slug { get; set; }
-        public string? ParentId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public string Slug { get; private set; }
+        public string? ParentId { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
 
-        private Category(string id, string name, string slug)
+        protected Category(string id, string name, string slug)
         {
             Id = id;
             Name = name;

@@ -2,7 +2,7 @@
 using CourseService.Domain.Enums;
 using CourseService.Shared.Paging;
 
-namespace CourseService.Application.Services
+namespace CourseService.Application.Interfaces
 {
     public interface ICourseService
     {
@@ -16,6 +16,9 @@ namespace CourseService.Application.Services
         Task<CourseDto> UpdateCourseAsync(string courseId, UpdateCourseDto data, string ownerId);
 
         Task DeleteCourseAsync(string courseId, string ownerId);
+
+        Task ApproveCourseAsync(string courseId);
+        Task CancelCourseApprovalAsync(string courseId, string reason);
 
         Task Enroll(string courseId, string userId);
         Task<bool> CheckEnrollment(string courseId, string userId);

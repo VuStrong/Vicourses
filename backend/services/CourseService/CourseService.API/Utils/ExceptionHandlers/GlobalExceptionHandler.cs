@@ -1,5 +1,6 @@
 ﻿using CourseService.Application.Dtos;
 using CourseService.Application.Exceptions;
+using CourseService.Domain.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace CourseService.API.Utils.ExceptionHandlers
@@ -35,7 +36,7 @@ namespace CourseService.API.Utils.ExceptionHandlers
                 responseDto = new FailedResponseDto(exception.Message, 403);
                 httpContext.Response.StatusCode = 403;
             }
-            else if (exception is InternalServerException)
+            else if (exception is InternalServerException || exception is DomainException)
             {
                 responseDto = new FailedResponseDto(exception.Message, 500);
                 httpContext.Response.StatusCode = 500;

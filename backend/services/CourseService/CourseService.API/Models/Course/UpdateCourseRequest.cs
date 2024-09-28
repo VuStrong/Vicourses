@@ -28,6 +28,9 @@ namespace CourseService.API.Models.Course
         [EnumDataType(typeof(CourseLevel))]
         public CourseLevel? Level { get; set; }
 
+        [EnumDataType(typeof(CourseStatus))]
+        public CourseStatus? Status { get; set; }
+
         public ThumbnailRequest? Thumbnail { get; set; }
         public PreviewVideoRequest? PreviewVideo { get; set; }
 
@@ -60,6 +63,7 @@ namespace CourseService.API.Models.Course
                 Price = Price,
                 Language = Language,
                 Level = Level,
+                Status = Status,
                 Thumbnail = thumbnail,
                 PreviewVideo = previewVideo
             };

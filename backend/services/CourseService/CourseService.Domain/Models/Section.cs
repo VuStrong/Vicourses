@@ -5,14 +5,14 @@ namespace CourseService.Domain.Models
 {
     public class Section : IBaseEntity
     {
-        public string Id { get; protected set; }
-        public string CourseId { get; protected set; }
-        public string UserId { get; protected set; }
-        public string Title { get; set; }
-        public string? Description { get; set; }
-        public int Order {  get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string Id { get; private set; }
+        public string CourseId { get; private set; }
+        public string UserId { get; private set; }
+        public string Title { get; private set; }
+        public string? Description { get; private set; }
+        public int Order { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
 
         protected Section(string id, string title, string courseId, string userId)
         {

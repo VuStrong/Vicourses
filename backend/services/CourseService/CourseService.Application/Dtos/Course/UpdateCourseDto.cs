@@ -15,6 +15,7 @@ namespace CourseService.Application.Dtos.Course
         public decimal? Price { get; set; }
         public string? Language {  get; set; }
         public CourseLevel? Level { get; set; }
+        public CourseStatus? Status { get; set; }
         public UpdateImageFileDto? Thumbnail { get; set; }
         public UpdateVideoFileDto? PreviewVideo { get; set; }
     }

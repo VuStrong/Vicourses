@@ -1,7 +1,7 @@
 ﻿using CourseService.API.Models.Course;
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Course;
-using CourseService.Application.Services;
+using CourseService.Application.Interfaces;
 using CourseService.Domain.Enums;
 using CourseService.Shared.Paging;
 using Microsoft.AspNetCore.Authorization;
@@ -227,6 +227,38 @@ namespace CourseService.API.Controllers
                 request.ToListOfCurriculumItem(),
                 userId
             );
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Approve the course and publish it (ADMIN required)
+        /// </summary>
+        /// <response code="200">Approved</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">Course not found</response>
+        [HttpPost("approve/{id}")]
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<IActionResult> ApproveCourse(string id)
+        {
+            await _courseService.ApproveCourseAsync(id);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Cancel approval of the course (ADMIN required)
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">Course not found</response>
+        [HttpPost("cancel-approval/{id}")]
+        [Authorize(Roles = Roles.Admin)]
+        public async Task<IActionResult> CancelApprovalCourse(string id, [FromQuery] string reason)
+        {
+            await _courseService.CancelCourseApprovalAsync(id, reason);
 
             return Ok();
         }
