@@ -1,10 +1,11 @@
-﻿using CourseService.Domain.Contracts;
+﻿using CourseService.Domain.Exceptions;
 using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models
 {
-    public class Quiz : IBaseEntity
+    public class Quiz : Entity, IBaseEntity
     {
+        private const int MaxAnswersInQuiz = 5;
         private List<Answer> _answers = [];
 
         public string Id { get; private set; }
@@ -25,32 +26,74 @@ namespace CourseService.Domain.Models
             UserId = userId;
         }
 
-        public static Quiz Create(string title, int number, string lessionId, string userId, bool IsMultiChoice = false)
+        internal static Quiz Create(string title, int number, string lessionId, string userId, List<Answer> answers)
         {
+            title = title.Trim();
+            DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
+            DomainValidationException.ThrowIfNegative(number, nameof(number));
+
             var id = StringExtensions.GenerateIdString(14);
-            return new Quiz(id, number, title, lessionId, userId)
+            
+            var quiz = new Quiz(id, number, title, lessionId, userId);
+
+            quiz.SetAnswers(answers);
+
+            return quiz;
+        }
+
+        public void UpdateInfoIgnoreNull(string? title = null, List<Answer>? answers = null)
+        {
+            if (title != null)
             {
-                IsMultiChoice = IsMultiChoice
-            };
+                title = title.Trim();
+                DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
+
+                Title = title;
+            }
+
+            if (answers != null)
+            {
+                SetAnswers(answers);
+            }
         }
 
-        public void UpdateInfo(string title, bool isMultiChoice)
-        {
-            Title = title;
-            IsMultiChoice = isMultiChoice;
-        }
-
-        public void AddAnswer(Answer answer)
-        {
-            int number = _answers.Count > 0 ? _answers.Max(x => x.Number) + 1 : 1;
-            answer.Number = number;
-
-            _answers.Add(answer);
-        }
-
-        public void ClearAnswers()
+        private void ClearAnswers()
         {
             _answers.Clear();
+        }
+
+        private void SetAnswers(List<Answer> answers)
+        {
+            int count = answers.Count;
+            if (count < 2 || count > MaxAnswersInQuiz)
+            {
+                throw new DomainValidationException($"A quiz must have 2 to {MaxAnswersInQuiz} answers");
+            }
+
+            int correctAnswerCount = answers.Count(a => a.IsCorrect);
+            if (correctAnswerCount == 0)
+            {
+                throw new DomainValidationException("Quiz must have at least one correct answer");
+            }
+            else if (correctAnswerCount == 1)
+            {
+                IsMultiChoice = false;
+            }
+            else
+            {
+                IsMultiChoice = true;
+            }
+
+            ClearAnswers();
+
+            for (int index = 0; index < count; index++)
+            {
+                var answer = answers[index];
+
+                answer.Number = index + 1;
+
+                _answers.Add(answer);
+            }
         }
     }
 
@@ -70,6 +113,8 @@ namespace CourseService.Domain.Models
 
         public static Answer Create(string title, bool isCorrect, string? explanation = null)
         {
+            title = title.Trim();
+
             return new Answer(0, title, isCorrect)
             {
                 Explanation = explanation

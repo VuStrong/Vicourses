@@ -1,8 +1,6 @@
-﻿using CourseService.Domain.Contracts;
-
-namespace CourseService.Domain.Models
+﻿namespace CourseService.Domain.Models
 {
-    public class Enrollment : IBaseEntity
+    public class Enrollment : Entity, IBaseEntity
     {
         public string Id { get; private set; }
         public string CourseId { get; private set; }
@@ -16,7 +14,7 @@ namespace CourseService.Domain.Models
             UserId = userId;
         }
 
-        public static Enrollment Create(string courseId, string userId)
+        internal static Enrollment Create(string courseId, string userId)
         {
             var id = Guid.NewGuid().ToString();
 

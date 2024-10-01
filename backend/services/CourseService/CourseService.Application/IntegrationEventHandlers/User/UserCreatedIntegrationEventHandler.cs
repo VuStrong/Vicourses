@@ -22,7 +22,7 @@ namespace CourseService.Application.IntegrationEventHandlers.User
         {
             _logger.LogInformation("CourseService handle UserCreated event {Id}", @event.Id);
 
-            var user = Domain.Models.User.Create(@event.Id, @event.Name, null);
+            var user = Domain.Models.User.Create(@event.Id, @event.Name, @event.Email, null);
 
             await _userRepository.CreateAsync(user);
         }

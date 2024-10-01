@@ -1,4 +1,4 @@
-﻿namespace CourseService.Domain.Contracts
+﻿namespace CourseService.Domain
 {
     public interface IBaseEntity
     {

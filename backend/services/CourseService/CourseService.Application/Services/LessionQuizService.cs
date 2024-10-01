@@ -3,26 +3,27 @@ using CourseService.Application.Dtos.Quiz;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
-using CourseService.Domain.Enums;
 using CourseService.Domain.Models;
+using CourseService.Domain.Services;
 
 namespace CourseService.Application.Services
 {
     public class LessionQuizService : ILessionQuizService
     {
-        private const int MaxQuizzesInLession = 10;
-
-        private readonly ICourseCurriculumManager _courseCurriculumManager;
+        private readonly ICourseCurriculumRepository _courseCurriculumRepository;
         private readonly IQuizRepository _quizRepository;
+        private readonly IQuizDomainService _quizDomainService;
         private readonly IMapper _mapper;
 
         public LessionQuizService(
-            ICourseCurriculumManager courseCurriculumManager,
+            ICourseCurriculumRepository courseCurriculumRepository,
             IQuizRepository quizRepository,
+            IQuizDomainService quizDomainService,
             IMapper mapper)
         {
-            _courseCurriculumManager = courseCurriculumManager;
+            _courseCurriculumRepository = courseCurriculumRepository;
             _quizRepository = quizRepository;
+            _quizDomainService = quizDomainService;
             _mapper = mapper;
         }
 
@@ -37,25 +38,13 @@ namespace CourseService.Application.Services
         {
             var lession = await GetAndValidateLessionAsync(data.LessionId, data.UserId);
 
-            if (lession.Type != LessionType.Quiz)
-            {
-                throw new ForbiddenException("Cannot add quiz to a Non-Quiz lession");
-            }
-
-            var quizCount = await _quizRepository.CountByLessionIdAsync(lession.Id);
-            if (quizCount >= MaxQuizzesInLession)
-            {
-                throw new BadRequestException($"A lession can only have a maximum of {MaxQuizzesInLession} quizzes");
-            }
-
-            var quiz = Quiz.Create(data.Title, Convert.ToInt32(quizCount + 1), lession.Id, data.UserId, data.IsMultiChoice);
-
+            var answers = new List<Answer>();
             foreach (var answerDto in data.Answers)
             {
-                var answer = Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation);
-
-                quiz.AddAnswer(answer);
+                answers.Add(Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation));
             }
+
+            var quiz = await _quizDomainService.CreateQuizForLessionAsync(lession, data.Title, data.UserId, answers);
 
             await _quizRepository.CreateAsync(quiz);
 
@@ -76,17 +65,14 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            quiz.UpdateInfo(data.Title, data.IsMultiChoice);
-
-            quiz.ClearAnswers();
-
+            var answers = new List<Answer>();
             foreach (var answerDto in data.Answers)
             {
-                var answer = Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation);
-
-                quiz.AddAnswer(answer);
+                answers.Add(Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation));
             }
 
+            quiz.UpdateInfoIgnoreNull(data.Title, answers);
+            
             await _quizRepository.UpdateAsync(quiz);
 
             return _mapper.Map<QuizDto>(quiz);
@@ -118,7 +104,7 @@ namespace CourseService.Application.Services
 
         private async Task<Lession> GetAndValidateLessionAsync(string lessionId, string ownerId)
         {
-            var lession = await _courseCurriculumManager.GetLessionByIdAsync(lessionId);
+            var lession = await _courseCurriculumRepository.GetLessionByIdAsync(lessionId);
 
             if (lession == null)
             {

@@ -13,25 +13,25 @@ namespace CourseService.Application.Services
     public class CourseCurriculumService : ICourseCurriculumService
     {
         private readonly ICourseRepository _courseRepository;
-        private readonly ICourseCurriculumManager _courseCurriculumManager;
+        private readonly ICourseCurriculumRepository _courseCurriculumRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseCurriculumService> _logger;
 
         public CourseCurriculumService(
             ICourseRepository courseRepository,
-            ICourseCurriculumManager courseCurriculumManager,
+            ICourseCurriculumRepository courseCurriculumRepository,
             IMapper mapper,
             ILogger<CourseCurriculumService> logger)
         {
             _courseRepository = courseRepository;
-            _courseCurriculumManager = courseCurriculumManager;
+            _courseCurriculumRepository = courseCurriculumRepository;
             _mapper = mapper;
             _logger = logger;
         }
 
         public async Task<SectionDto> GetSectionByIdAsync(string id)
         {
-            var section = await _courseCurriculumManager.GetSectionByIdAsync(id);
+            var section = await _courseCurriculumRepository.GetSectionByIdAsync(id);
 
             if (section == null)
             {
@@ -43,7 +43,7 @@ namespace CourseService.Application.Services
 
         public async Task<LessionDto> GetLessionByIdAsync(string id)
         {
-            var lession = await _courseCurriculumManager.GetLessionByIdAsync(id);
+            var lession = await _courseCurriculumRepository.GetLessionByIdAsync(id);
 
             if (lession == null)
             {
@@ -68,14 +68,14 @@ namespace CourseService.Application.Services
 
             var section = Section.Create(data.Title, data.CourseId, data.UserId, data.Description);
 
-            await _courseCurriculumManager.CreateSectionAsync(section);
+            await _courseCurriculumRepository.CreateSectionAsync(section);
         
             return _mapper.Map<SectionDto>(section);
         }
 
         public async Task<SectionDto> UpdateSectionAsync(string sectionId, UpdateSectionDto data, string ownerId)
         {
-            var section = await _courseCurriculumManager.GetSectionByIdAsync(sectionId);
+            var section = await _courseCurriculumRepository.GetSectionByIdAsync(sectionId);
 
             if (section == null)
             {
@@ -89,14 +89,14 @@ namespace CourseService.Application.Services
 
             section.UpdateInfoIgnoreNull(data.Title, data.Description);
 
-            await _courseCurriculumManager.UpdateSectionAsync(section);
+            await _courseCurriculumRepository.UpdateSectionAsync(section);
 
             return _mapper.Map<SectionDto>(section);
         }
 
         public async Task DeleteSectionAsync(string sectionId, string ownerId)
         {
-            var section = await _courseCurriculumManager.GetSectionByIdAsync(sectionId);
+            var section = await _courseCurriculumRepository.GetSectionByIdAsync(sectionId);
 
             if (section == null)
             {
@@ -108,7 +108,7 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resource");
             }
 
-            await _courseCurriculumManager.DeleteSectionAsync(sectionId);
+            await _courseCurriculumRepository.DeleteSectionAsync(sectionId);
         }
 
         public async Task<LessionDto> CreateLessionAsync(CreateLessionDto data)
@@ -124,22 +124,22 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            var section = await _courseCurriculumManager.GetSectionByIdAsync(data.SectionId);
+            var section = await _courseCurriculumRepository.GetSectionByIdAsync(data.SectionId);
             if (section == null || section.CourseId != course.Id)
             {
                 throw new SectionNotFoundException(data.SectionId);
             }
 
-            var lession = Lession.Create(data.Title, data.CourseId, data.SectionId, data.UserId, data.Type, data.Description);
+            var lession = Lession.Create(data.Title, course, section, data.UserId, data.Type, data.Description);
 
-            await _courseCurriculumManager.CreateLessionAsync(lession);
+            await _courseCurriculumRepository.CreateLessionAsync(lession);
 
             return _mapper.Map<LessionDto>(lession);
         }
 
         public async Task<LessionDto> UpdateLessionAsync(string lessionId, UpdateLessionDto data, string ownerId)
         {
-            var lession = await _courseCurriculumManager.GetLessionByIdAsync(lessionId);
+            var lession = await _courseCurriculumRepository.GetLessionByIdAsync(lessionId);
 
             if (lession == null)
             {
@@ -153,14 +153,14 @@ namespace CourseService.Application.Services
 
             lession.UpdateInfoIgnoreNull(data.Title, data.Description);
 
-            await _courseCurriculumManager.UpdateLessionAsync(lession);
+            await _courseCurriculumRepository.UpdateLessionAsync(lession);
 
             return _mapper.Map<LessionDto>(lession);
         }
 
         public async Task DeleteLessionAsync(string lessionId, string ownerId)
         {
-            var lession = await _courseCurriculumManager.GetLessionByIdAsync(lessionId);
+            var lession = await _courseCurriculumRepository.GetLessionByIdAsync(lessionId);
 
             if (lession == null)
             {
@@ -172,12 +172,12 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            await _courseCurriculumManager.DeleteLessionAsync(lessionId);
+            await _courseCurriculumRepository.DeleteLessionAsync(lessionId);
         }
 
         public async Task<CoursePublicCurriculumDto> GetPublicCurriculumAsync(string courseId)
         {
-            var result = await _courseCurriculumManager.GetCourseCurriculumAsync(courseId);
+            var result = await _courseCurriculumRepository.GetCourseCurriculumAsync(courseId);
 
             var publicSections = _mapper.Map<List<SectionInPublicCurriculumDto>>(result);
 
@@ -189,7 +189,7 @@ namespace CourseService.Application.Services
 
         public async Task<CourseInstructorCurriculumDto> GetInstructorCurriculumAsync(string courseId)
         {
-            var result = await _courseCurriculumManager.GetCourseCurriculumAsync(courseId);
+            var result = await _courseCurriculumRepository.GetCourseCurriculumAsync(courseId);
 
             var sections = _mapper.Map<List<SectionInInstructorCurriculumDto>>(result);
 
@@ -212,7 +212,7 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            await _courseCurriculumManager.UpdateCurriculumAsync(courseId, items);
+            await _courseCurriculumRepository.UpdateCurriculumAsync(courseId, items);
         }
     }
 }

@@ -4,6 +4,7 @@ using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
+using CourseService.Domain.Events;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Paging;
@@ -19,13 +20,16 @@ namespace CourseService.Application.Services
         private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseService> _logger;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
+
         public CourseService(
             ICourseRepository courseRepository,
             IUserRepository userRepository,
             ICategoryRepository categoryRepository,
             IEnrollmentRepository enrollmentRepository,
             IMapper mapper,
-            ILogger<CourseService> logger)
+            ILogger<CourseService> logger,
+            IDomainEventDispatcher domainEventDispatcher)
         {
             _courseRepository = courseRepository;
             _userRepository = userRepository;
@@ -33,6 +37,7 @@ namespace CourseService.Application.Services
             _enrollmentRepository = enrollmentRepository;
             _mapper = mapper;
             _logger = logger;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task<PagedResult<CourseDto>> GetCoursesAsync(GetCoursesParamsDto? paramsDto = null)
@@ -101,12 +106,7 @@ namespace CourseService.Application.Services
                 throw new UserNotFoundException(data.UserId);
             }
 
-            var course = Course.Create(
-                data.Title,
-                data.Description,
-                new CategoryInCourse(category.Id, category.Name, category.Slug),
-                new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug),
-                new UserInCourse(user.Id, user.Name, user.ThumbnailUrl));
+            var course = Course.Create(data.Title, data.Description, category, subCategory, user);
 
             await _courseRepository.CreateAsync(course);
 
@@ -129,31 +129,22 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException($"Forbidden resourse");
             }
 
-            if (data.CategoryId != null && data.SubCategoryId == null)
-            {
-                throw new BadRequestException("SubCategoryId is required when CategoryId is set");
-            }
-
-            CategoryInCourse? categoryToUpdate = null;
+            Category? categoryToUpdate = null;
             if (data.CategoryId != null && data.CategoryId != course.Category.Id)
             {
-                var category = await _categoryRepository.FindOneAsync(
+                categoryToUpdate = await _categoryRepository.FindOneAsync(
                     c => c.Id == data.CategoryId && c.ParentId == null
                 ) ?? throw new CategoryNotFoundException(data.CategoryId);
-                
-                categoryToUpdate = new CategoryInCourse(category.Id, category.Name, category.Slug);
             }
 
-            CategoryInCourse? subCategoryToUpdate = null;
+            Category? subCategoryToUpdate = null;
             if (data.SubCategoryId != null && (data.SubCategoryId != course.SubCategory.Id || categoryToUpdate != null))
             {
                 var categoryIdToCheck = categoryToUpdate?.Id ?? course.Category.Id;
-                
-                var subCategory = await _categoryRepository.FindOneAsync(
-                    c => c.Id == data.SubCategoryId && c.ParentId == categoryIdToCheck    
-                ) ?? throw new CategoryNotFoundException(data.SubCategoryId);
 
-                subCategoryToUpdate = new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug);
+                subCategoryToUpdate = await _categoryRepository.FindOneAsync(
+                    c => c.Id == data.SubCategoryId && c.ParentId == categoryIdToCheck
+                ) ?? throw new CategoryNotFoundException(data.SubCategoryId);
             }
 
             ImageFile? thumbnail = data.Thumbnail != null ? 
@@ -168,6 +159,8 @@ namespace CourseService.Application.Services
                 course.SetStatus(data.Status ?? CourseStatus.Unpublished);
 
             await _courseRepository.UpdateAsync(course);
+
+            _ = _domainEventDispatcher.DispatchFrom(course);
 
             return _mapper.Map<CourseDto>(course);
         }
@@ -210,6 +203,8 @@ namespace CourseService.Application.Services
             course.Approve();
 
             await _courseRepository.UpdateAsync(course);
+
+            _ = _domainEventDispatcher.DispatchFrom(course);
         }
 
         public async Task CancelCourseApprovalAsync(string courseId, string reason)
@@ -225,21 +220,22 @@ namespace CourseService.Application.Services
 
             await _courseRepository.UpdateAsync(course);
 
-            // Todo: Send email about cancellation to email service
+            _ = _domainEventDispatcher.DispatchFrom(course);
         }
 
         public async Task Enroll(string courseId, string userId)
         {
-            if (!(await _courseRepository.ExistsAsync(courseId)))
+            var course = await _courseRepository.FindOneAsync(courseId);
+            if (course == null)
             {
                 throw new CourseNotFoundException(courseId);
             }
 
-            var enrollment = Enrollment.Create(courseId, userId);
+            var enrollment = course.EnrollStudent(userId);
 
             await _enrollmentRepository.CreateAsync(enrollment);
 
-            await _courseRepository.IncreaseStudentCountAsync(courseId, 1);
+            await _courseRepository.UpdateStudentCountAsync(course);
 
             _logger.LogInformation($"[Course Service] User {userId} enrolled course {courseId}");
         }

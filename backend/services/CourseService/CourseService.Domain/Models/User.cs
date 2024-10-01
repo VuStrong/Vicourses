@@ -1,22 +1,22 @@
-﻿using CourseService.Domain.Contracts;
-
-namespace CourseService.Domain.Models
+﻿namespace CourseService.Domain.Models
 {
-    public class User : IBaseEntity
+    public class User : Entity, IBaseEntity
     {
         public string Id { get; private set; }
         public string Name { get; private set; }
+        public string Email { get; private set; }
         public string? ThumbnailUrl { get; private set; }
 
-        private User(string id, string name)
+        private User(string id, string name, string email)
         {
             Id = id;
             Name = name;
+            Email = email;
         }
 
-        public static User Create(string id, string name, string? thumbnailUrl)
+        public static User Create(string id, string name, string email, string? thumbnailUrl)
         {
-            return new User(id, name)
+            return new User(id, name, email)
             {
                 ThumbnailUrl = thumbnailUrl
             };

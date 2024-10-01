@@ -1,8 +1,9 @@
 ﻿using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 
 namespace CourseService.Domain.Contracts
 {
-    public interface ICourseCurriculumManager
+    public interface ICourseCurriculumRepository
     {
         Task<Section?> GetSectionByIdAsync(string id);
         Task CreateSectionAsync(Section section);

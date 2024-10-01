@@ -9,8 +9,6 @@ namespace CourseService.API.Models.Quiz
         [StringLength(100, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 3)]
         public string Title { get; set; } = null!;
 
-        public bool IsMultiChoice { get; set; }
-
         [Required]
         [Length(2, 5, ErrorMessage = "{0} length must be between {1} and {2}")]
         public List<CreateUpdateQuizAnswerRequest> Answers { get; set; } = [];
@@ -28,7 +26,7 @@ namespace CourseService.API.Models.Quiz
                 ));
             }
 
-            return new CreateLessionQuizDto(Title, lessionId, userId, IsMultiChoice)
+            return new CreateLessionQuizDto(Title, lessionId, userId)
             {
                 Answers = answersDto
             };

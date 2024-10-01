@@ -1,5 +1,6 @@
 ﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

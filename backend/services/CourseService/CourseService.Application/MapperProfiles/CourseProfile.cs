@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos.Course;
+using CourseService.Application.IntegrationEvents.Course;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 
 namespace CourseService.Application.MapperProfiles
 {
@@ -22,6 +24,16 @@ namespace CourseService.Application.MapperProfiles
                     opt => opt.MapFrom(src => src.Thumbnail != null ? src.Thumbnail.Url : null));
 
             CreateMap<Course, CourseDetailDto>()
+                .ForMember(
+                    dest => dest.ThumbnailUrl,
+                    opt => opt.MapFrom(src => src.Thumbnail != null ? src.Thumbnail.Url : null));
+
+            CreateMap<Course, CoursePublishedIntegrationEvent>()
+                .ForMember(
+                    dest => dest.ThumbnailUrl,
+                    opt => opt.MapFrom(src => src.Thumbnail != null ? src.Thumbnail.Url : null));
+
+            CreateMap<Course, CourseInfoUpdatedIntegrationEvent>()
                 .ForMember(
                     dest => dest.ThumbnailUrl,
                     opt => opt.MapFrom(src => src.Thumbnail != null ? src.Thumbnail.Url : null));

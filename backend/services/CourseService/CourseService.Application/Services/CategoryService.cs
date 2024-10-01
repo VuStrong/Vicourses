@@ -4,6 +4,7 @@ using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
+using CourseService.Domain.Services;
 using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.Services
@@ -12,35 +13,34 @@ namespace CourseService.Application.Services
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly ICourseRepository _courseRepository;
+        private readonly ICategoryDomainService _categoryDomainService;
         private readonly IMapper _mapper;
         private readonly ILogger<CategoryService> _logger;
 
         public CategoryService(
             ICategoryRepository categoryRepository,
             ICourseRepository courseRepository,
+            ICategoryDomainService categoryDomainService,
             IMapper mapper,
             ILogger<CategoryService> logger)
         {
             _categoryRepository = categoryRepository;
             _courseRepository = courseRepository;
+            _categoryDomainService = categoryDomainService;
             _mapper = mapper;
             _logger = logger;
         }
 
         public async Task<CategoryDto> CreateCategoryAsync(CreateCategoryDto data)
         {
-            if (data.ParentId != null && 
-                !(await _categoryRepository.ExistsAsync(c => c.Id == data.ParentId && c.ParentId == null)))
+            Category? parent = null;
+            if (data.ParentId != null)
             {
-                throw new CategoryNotFoundException(data.ParentId);
+                parent = await _categoryRepository.FindOneAsync(c => c.Id == data.ParentId && c.ParentId == null) ??
+                    throw new CategoryNotFoundException(data.ParentId);
             }
 
-            var category = Category.Create(data.Name, data.ParentId);
-
-            if (await _categoryRepository.ExistsAsync(c => c.Slug == category.Slug))
-            {
-                throw new BadRequestException($"Category {category.Name} already exists");
-            }
+            var category = await _categoryDomainService.CreateAsync(data.Name, parent);
 
             await _categoryRepository.CreateAsync(category);
 
@@ -106,12 +106,7 @@ namespace CourseService.Application.Services
                 throw new CategoryNotFoundException(categoryId);
             }
 
-            if (await ExistsCategoryInAnyCourses(categoryId))
-            {
-                throw new ForbiddenException($"Cannot update category {categoryId} because it already in use by courses");
-            }
-
-            category.UpdateInfo(data.Name ?? category.Name);
+            await _categoryDomainService.UpdateAsync(category, data.Name ?? category.Name);
 
             await _categoryRepository.UpdateAsync(category);
 

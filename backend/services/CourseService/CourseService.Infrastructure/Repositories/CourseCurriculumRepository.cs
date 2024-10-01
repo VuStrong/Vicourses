@@ -1,16 +1,17 @@
 ﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace CourseService.Infrastructure.Implementations
+namespace CourseService.Infrastructure.Repositories
 {
-    public class CourseCurriculumManager : ICourseCurriculumManager
+    public class CourseCurriculumRepository : ICourseCurriculumRepository
     {
         private readonly IMongoCollection<Section> _sectionCollection;
         private readonly IMongoCollection<Lession> _lessionCollection;
 
-        public CourseCurriculumManager(
+        public CourseCurriculumRepository(
             IMongoCollection<Section> sectionCollection,
             IMongoCollection<Lession> lessionCollection)
         {
@@ -79,12 +80,12 @@ namespace CourseService.Infrastructure.Implementations
                     new BsonDocument
                     {
                         { "from", "lessions" },
-                        { 
-                            "let", 
+                        {
+                            "let",
                             new BsonDocument
                             {
                                 { "id", "$_id" }
-                            } 
+                            }
                         },
                         {
                             "pipeline",
@@ -134,7 +135,7 @@ namespace CourseService.Infrastructure.Implementations
             (var sectionWrites, var lessionWrites) = BuildSectionAndLessionWriteOps(courseId, items);
             var bulkOptions = new BulkWriteOptions { IsOrdered = false };
 
-            if (sectionWrites.Count > 0) 
+            if (sectionWrites.Count > 0)
                 await _sectionCollection.BulkWriteAsync(sectionWrites, bulkOptions);
             if (lessionWrites.Count > 0)
                 await _lessionCollection.BulkWriteAsync(lessionWrites, bulkOptions);

@@ -1,9 +1,9 @@
-﻿using CourseService.Domain.Contracts;
+﻿using CourseService.Domain.Exceptions;
 using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models
 {
-    public class Category : IBaseEntity
+    public class Category : Entity, IBaseEntity
     {
         public string Id { get; private set; }
         public string Name { get; private set; }
@@ -12,27 +12,38 @@ namespace CourseService.Domain.Models
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
 
-        protected Category(string id, string name, string slug)
+        private Category(string id, string name, string slug)
         {
             Id = id;
             Name = name;
             Slug = slug;
         }
 
-        public static Category Create(string name, string? parentId)
+        internal static Category Create(string name, Category? parent)
         {
+            name = name.Trim();
+            DomainValidationException.ThrowIfStringOutOfLength(name, 2, 40, nameof(name));
+
+            if (parent != null && parent.ParentId != null)
+            {
+                throw new DomainException("Parent category must be root category");
+            }
+
             var id = StringExtensions.GenerateNumericIdString(6);
 
             return new Category(id, name, name.ToSlug())
             {
-                ParentId = parentId,
+                ParentId = parent?.Id,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
         }
 
-        public void UpdateInfo(string name)
+        internal void UpdateInfo(string name)
         {
+            name = name.Trim();
+            DomainValidationException.ThrowIfStringOutOfLength(name, 2, 40, nameof(name));
+
             if (name != Name)
             {
                 Name = name;

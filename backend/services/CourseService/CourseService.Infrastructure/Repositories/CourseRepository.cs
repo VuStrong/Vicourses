@@ -84,10 +84,10 @@ namespace CourseService.Infrastructure.Repositories
             return new PagedResult<Course>(courses, skip, limit, total);
         }
 
-        public async Task IncreaseStudentCountAsync(string courseId, int count)
+        public async Task UpdateStudentCountAsync(Course course)
         {
-            var filter = Builders<Course>.Filter.Eq("_id", courseId);
-            var update = Builders<Course>.Update.Inc(c => c.StudentCount, count);
+            var filter = Builders<Course>.Filter.Eq("_id", course.Id);
+            var update = Builders<Course>.Update.Set(c => c.StudentCount, course.StudentCount);
 
             await _collection.UpdateOneAsync(filter, update);
         }

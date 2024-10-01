@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos.Category;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 
 namespace CourseService.Application.MapperProfiles
 {

@@ -1,8 +1,9 @@
 ﻿using CourseService.Domain.Contracts;
+using CourseService.Domain.Events;
 using CourseService.Domain.Models;
 using CourseService.Infrastructure.ClassMaps;
 using CourseService.Infrastructure.CollectionSeeders;
-using CourseService.Infrastructure.Implementations;
+using CourseService.Infrastructure.DomainEvents;
 using CourseService.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,8 +28,15 @@ namespace CourseService.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-            services.AddScoped<ICourseCurriculumManager, CourseCurriculumManager>();
+            services.AddScoped<ICourseCurriculumRepository, CourseCurriculumRepository>();
             services.AddScoped<IQuizRepository, QuizRepository>();
+
+            services.AddSingleton<IDomainEventDispatcher, DomainEventDispatcher>(s =>
+            {
+                var scopeFactory = s.GetRequiredService<IServiceScopeFactory>();
+
+                return new DomainEventDispatcher(scopeFactory);
+            });
         }
 
         public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString, string databaseName)

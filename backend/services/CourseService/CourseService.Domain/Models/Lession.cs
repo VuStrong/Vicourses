@@ -1,11 +1,11 @@
-﻿using CourseService.Domain.Contracts;
-using CourseService.Domain.Enums;
+﻿using CourseService.Domain.Enums;
+using CourseService.Domain.Exceptions;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models
 {
-    public class Lession : IBaseEntity
+    public class Lession : Entity, IBaseEntity
     {
         public string Id { get; private set; }
         public string CourseId { get; private set; }
@@ -29,11 +29,19 @@ namespace CourseService.Domain.Models
             UserId = userId;
         }
 
-        public static Lession Create(string title, string courseId, string sectionId, string userId, LessionType type, string? description)
+        public static Lession Create(string title, Course course, Section section, string userId, LessionType type, string? description)
         {
+            title = title.Trim();
+            DomainValidationException.ThrowIfStringOutOfLength(title, 3, 80, nameof(title));
+
+            if (section.CourseId != course.Id)
+            {
+                throw new DomainValidationException($"Section {section.Id} must be asset of the course {course.Id}");
+            }
+
             var id = StringExtensions.GenerateIdString(14);
 
-            return new Lession(id, title, courseId, sectionId, userId)
+            return new Lession(id, title, course.Id, section.Id, userId)
             {
                 Description = description,
                 Type = type,
@@ -44,10 +52,23 @@ namespace CourseService.Domain.Models
 
         public void UpdateInfoIgnoreNull(string? title = null, string? description = null, int? duration = null, VideoFile? video = null)
         {
-            if (title != null) Title = title;
+            if (title != null)
+            {
+                title = title.Trim();
+                DomainValidationException.ThrowIfStringOutOfLength(title, 3, 80, nameof(title));
+
+                Title = title;
+            }
+
             if (description != null) Description = description;
+            
             if (video != null) Video = video;
-            if (duration != null) Duration = duration ?? 0;
+
+            if (duration != null)
+            {
+                DomainValidationException.ThrowIfNegative(duration ?? 0, nameof(duration));
+                Duration = duration ?? 0;
+            }
 
             UpdatedAt = DateTime.Now;
         }

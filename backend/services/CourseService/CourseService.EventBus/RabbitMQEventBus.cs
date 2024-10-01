@@ -19,6 +19,8 @@ namespace CourseService.EventBus
         private readonly IModel _channel = null!;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
+        public string ServiceName { get; set; } = Guid.NewGuid().ToString();
+
         public RabbitMQEventBus(
             string connectionString, 
             IServiceScopeFactory serviceScopeFactory,
@@ -32,6 +34,7 @@ namespace CourseService.EventBus
             var factory = new ConnectionFactory()
             {
                 Uri = new Uri(connectionString),
+                DispatchConsumersAsync = true,
             };
 
             try
@@ -93,13 +96,13 @@ namespace CourseService.EventBus
 
             _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout, durable: true);
             var queueName = _channel.QueueDeclare(
-                queue: $"courses_{exchangeName}", 
+                queue: $"{ServiceName}_{exchangeName}", 
                 durable: true,
                 autoDelete: false,
                 exclusive: false).QueueName;
             _channel.QueueBind(queue: queueName, exchange: exchangeName, routingKey: "");
 
-            var consumer = new EventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += Consumer_Received;
 
             _channel.BasicConsume(
@@ -108,48 +111,48 @@ namespace CourseService.EventBus
                 consumer: consumer);
         }
 
-        private void Consumer_Received(object? sender, BasicDeliverEventArgs e)
+        private async Task Consumer_Received(object? sender, BasicDeliverEventArgs e)
         {
             var message = Encoding.UTF8.GetString(e.Body.ToArray());
 
-            ProcessEvent(e.Exchange, message);
+            try
+            {
+                await ProcessEvent(e.Exchange, message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[{ServiceName}] Error when process event {e.Exchange} : {ex.Message}");
+            }
         }
 
         private async Task ProcessEvent(string exchangeName, string message)
         {
             if (!_events.ContainsKey(exchangeName) || !_handlers.ContainsKey(exchangeName)) return;
 
-            try
-            {
-                using var scope = _serviceScopeFactory.CreateScope();
-                
-                var handlerTypes = _handlers[exchangeName];
-                var eventType = _events[exchangeName];
+            using var scope = _serviceScopeFactory.CreateScope();
 
-                var @event = JsonSerializer.Deserialize(
-                    message,
-                    eventType,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true,
-                    });
+            var handlerTypes = _handlers[exchangeName];
+            var eventType = _events[exchangeName];
 
-                foreach (var handlerType in handlerTypes)
+            var @event = JsonSerializer.Deserialize(
+                message,
+                eventType,
+                new JsonSerializerOptions
                 {
-                    var handler = scope.ServiceProvider.GetService(handlerType);
+                    PropertyNameCaseInsensitive = true,
+                });
 
-                    if (handler == null) continue;
-
-                    var method = handlerType.GetMethod("Handle", BindingFlags.Instance | BindingFlags.Public);
-
-                    var task = method!.Invoke(handler, new object[] { @event! }) as Task;
-
-                    await task!;
-                }
-            }
-            catch (Exception ex)
+            foreach (var handlerType in handlerTypes)
             {
-                _logger.LogError("Error when process event from RabbitMQ: {msg}", ex.Message);
+                var handler = scope.ServiceProvider.GetService(handlerType);
+
+                if (handler == null) continue;
+
+                var method = handlerType.GetMethod("Handle", BindingFlags.Instance | BindingFlags.Public);
+
+                var task = method!.Invoke(handler, new object[] { @event! }) as Task;
+
+                await task!;
             }
         }
 

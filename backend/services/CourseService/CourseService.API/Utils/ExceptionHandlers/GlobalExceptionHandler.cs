@@ -26,7 +26,7 @@ namespace CourseService.API.Utils.ExceptionHandlers
                 responseDto = new FailedResponseDto(exception.Message, 404);
                 httpContext.Response.StatusCode = 404;
             }
-            else if (exception is BadRequestException)
+            else if (exception is BadRequestException || exception is DomainValidationException)
             {
                 responseDto = new FailedResponseDto(exception.Message, 400);
                 httpContext.Response.StatusCode = 400;

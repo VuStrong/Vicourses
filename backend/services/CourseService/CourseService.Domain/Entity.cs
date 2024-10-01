@@ -1,0 +1,26 @@
+﻿using CourseService.Domain.Events;
+
+namespace CourseService.Domain
+{
+    public abstract class Entity
+    {
+        private List<DomainEvent> _domainEvents = [];
+        public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+        public void AddDomainEvent(DomainEvent domainEvent)
+        {
+            _domainEvents.Add(domainEvent);
+        }
+
+        public void AddUniqueDomainEvent(DomainEvent domainEvent)
+        {
+            _domainEvents.RemoveAll(e => e.GetType() == domainEvent.GetType());
+            _domainEvents.Add(domainEvent);
+        }
+
+        public void ClearDomainEvents()
+        {
+            _domainEvents.Clear();
+        }
+    }
+}

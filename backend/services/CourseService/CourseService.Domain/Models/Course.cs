@@ -1,5 +1,5 @@
-﻿using CourseService.Domain.Contracts;
-using CourseService.Domain.Enums;
+﻿using CourseService.Domain.Enums;
+using CourseService.Domain.Events.Course;
 using CourseService.Domain.Exceptions;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Extensions;
@@ -10,16 +10,16 @@ namespace CourseService.Domain.Models
 
     public record CategoryInCourse(string Id, string Name, string Slug);
 
-    public class Course : IBaseEntity
+    public class Course : Entity, IBaseEntity
     {
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string TitleCleaned { get; private set; }
         public string? Description { get; private set; }
-        public List<string> Tags { get; private set; } = [];
-        public List<string> Requirements { get; private set; } = [];
-        public List<string> TargetStudents { get; private set; } = [];
-        public List<string> LearnedContents { get; private set; } = [];
+        public IReadOnlyList<string> Tags { get; private set; } = [];
+        public IReadOnlyList<string> Requirements { get; private set; } = [];
+        public IReadOnlyList<string> TargetStudents { get; private set; } = [];
+        public IReadOnlyList<string> LearnedContents { get; private set; } = [];
         public CourseLevel Level { get; private set; } = CourseLevel.All;
         public bool IsPaid { get; private set; }
         public decimal Price { get; private set; }
@@ -47,11 +47,27 @@ namespace CourseService.Domain.Models
             User = user;
         }
 
-        public static Course Create(string title, string? description, CategoryInCourse category, CategoryInCourse subCategory, UserInCourse user)
+        public static Course Create(string title, string? description, Category category, Category subCategory, User user)
         {
-            var id = StringExtensions.GenerateIdString(12);
+            title = title.Trim();
+            DomainValidationException.ThrowIfStringOutOfLength(title, 5, 60, nameof(title));
 
-            return new Course(id, title, title.ToSlug(), category, subCategory, user)
+            if (category.ParentId != null)
+            {
+                throw new DomainException("Main category must be root category");
+            }
+
+            if (subCategory.ParentId != category.Id)
+            {
+                throw new DomainException("SubCategory must be child of main category");
+            }
+
+            var id = StringExtensions.GenerateIdString(12);
+            var categoryInCourse = new CategoryInCourse(category.Id, category.Name, category.Slug);
+            var subCategoryInCourse = new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug);
+            var userInCourse = new UserInCourse(user.Id, user.Name, user.ThumbnailUrl);
+
+            return new Course(id, title, title.ToSlug(), categoryInCourse, subCategoryInCourse, userInCourse)
             {
                 Description = description,
                 CreatedAt = DateTime.Now,
@@ -61,11 +77,14 @@ namespace CourseService.Domain.Models
 
         public void UpdateInfoIgnoreNull(string? title = null, string? description = null, List<string>? tags = null, List<string>? requirements = null,
             List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? language = null,
-            ImageFile? thumbnail = null, VideoFile? previewVideo = null, CategoryInCourse? category = null, CategoryInCourse? subCategory = null,
+            ImageFile? thumbnail = null, VideoFile? previewVideo = null, Category? category = null, Category? subCategory = null,
             CourseLevel? level = null)
         {
             if (title != null)
             {
+                title = title.Trim();
+                DomainValidationException.ThrowIfStringOutOfLength(title, 5, 60, nameof(title));
+
                 Title = title;
                 TitleCleaned = title.ToSlug();
             }
@@ -82,7 +101,7 @@ namespace CourseService.Domain.Models
 
             if (price != null)
             {
-                ArgumentOutOfRangeException.ThrowIfNegative(price ?? 0);
+                DomainValidationException.ThrowIfNegative(price ?? 0);
 
                 Price = price ?? 0;
                 IsPaid = price != 0;
@@ -94,13 +113,33 @@ namespace CourseService.Domain.Models
 
             if (previewVideo != null) PreviewVideo = previewVideo;
 
-            if (category != null) Category = category;
+            if (category != null && subCategory == null)
+            {
+                throw new DomainValidationException("SubCategory is required when main Category is set");
+            }
+            else if (category != null && category.ParentId != null)
+            {
+                throw new DomainException("Main category must be root category");
+            }
+            else if (subCategory != null && subCategory.ParentId != (category?.Id ?? Category.Id))
+            {
+                throw new DomainException("SubCategory must be child of main category");
+            }
 
-            if (subCategory != null) SubCategory = subCategory;
+            if (category != null)
+            {
+                Category = new CategoryInCourse(category.Id, category.Name, category.Slug);
+            }
+            if (subCategory != null)
+            {
+                SubCategory = new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug);
+            }
 
             if (level != null) Level = level ?? CourseLevel.All;
 
             UpdatedAt = DateTime.Now;
+
+            AddUniqueDomainEvent(new CourseInfoUpdatedDomainEvent(this));
         }
 
         public void Approve()
@@ -114,12 +153,16 @@ namespace CourseService.Domain.Models
 
             IsApproved = true;
             Status = CourseStatus.Published;
+
+            AddUniqueDomainEvent(new CoursePublishedDomainEvent(this));
         }
 
         public void CancelApproval()
         {
             IsApproved = false;
             Status = CourseStatus.Unpublished;
+
+            AddUniqueDomainEvent(new CourseUnpublishedDomainEvent(this));
         }
 
         public void SetStatus(CourseStatus status)
@@ -134,6 +177,29 @@ namespace CourseService.Domain.Models
             }
 
             Status = status;
+
+            if (Status == CourseStatus.Published)
+            {
+                AddUniqueDomainEvent(new CoursePublishedDomainEvent(this));
+            }
+            else if (Status == CourseStatus.Unpublished)
+            {
+                AddUniqueDomainEvent(new CourseUnpublishedDomainEvent(this));
+            }
+        }
+
+        public Enrollment EnrollStudent(string studentId)
+        {
+            if (Status != CourseStatus.Published)
+            {
+                throw new DomainException("Cannot enroll student to Unpublished course");
+            }
+
+            var enrollment = Enrollment.Create(Id, studentId);
+
+            StudentCount++;
+
+            return enrollment;
         }
     }
 }

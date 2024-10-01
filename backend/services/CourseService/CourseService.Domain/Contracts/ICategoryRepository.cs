@@ -1,4 +1,5 @@
 ﻿using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 
 namespace CourseService.Domain.Contracts
 {

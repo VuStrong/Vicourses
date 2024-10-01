@@ -5,15 +5,13 @@
         public string Title { get; set; }
         public string LessionId { get; set; }
         public string UserId { get; set; }
-        public bool IsMultiChoice { get; set; }
         public List<CreateUpdateLessionQuizAnswerDto> Answers { get; set; } = [];
 
-        public CreateLessionQuizDto(string title, string lessionId, string userId, bool isMultiChoice = false)
+        public CreateLessionQuizDto(string title, string lessionId, string userId)
         {
             Title = title;
             LessionId = lessionId;
             UserId = userId;
-            IsMultiChoice = isMultiChoice;
         }
     }
 

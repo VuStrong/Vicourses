@@ -44,5 +44,10 @@ namespace CourseService.Infrastructure.Repositories
             if (writes.Count > 0) 
                 await _collection.BulkWriteAsync(writes, new BulkWriteOptions { IsOrdered = false });
         }
+
+        public async Task DeleteByLessionIdAsync(string lessionId)
+        {
+            await _collection.DeleteManyAsync(Builders<Quiz>.Filter.Eq(q => q.LessionId, lessionId));
+        }
     }
 }

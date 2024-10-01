@@ -7,5 +7,6 @@ namespace CourseService.Domain.Contracts
         Task<long> CountByLessionIdAsync(string lessionId);
         Task<List<Quiz>> FindByLessionIdAsync(string lessionId);
         Task ChangeOrderAsync(string lessionId, List<string> quizIds);
+        Task DeleteByLessionIdAsync(string lessionId);
     }
 }
