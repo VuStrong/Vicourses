@@ -19,54 +19,6 @@ namespace CourseService.Infrastructure.Repositories
             _lessionCollection = lessionCollection;
         }
 
-        public async Task<Section?> GetSectionByIdAsync(string id)
-        {
-            var filter = Builders<Section>.Filter.Eq(s => s.Id, id);
-
-            return await _sectionCollection.Find(filter).FirstOrDefaultAsync();
-        }
-
-        public async Task<Lession?> GetLessionByIdAsync(string id)
-        {
-            var filter = Builders<Lession>.Filter.Eq(l => l.Id, id);
-
-            return await _lessionCollection.Find(filter).FirstOrDefaultAsync();
-        }
-
-        public async Task CreateSectionAsync(Section section)
-        {
-            await _sectionCollection.InsertOneAsync(section);
-        }
-
-        public async Task UpdateSectionAsync(Section section)
-        {
-            var filter = Builders<Section>.Filter.Eq(s => s.Id, section.Id);
-
-            await _sectionCollection.ReplaceOneAsync(filter, section);
-        }
-
-        public async Task DeleteSectionAsync(string sectionId)
-        {
-            await _sectionCollection.DeleteOneAsync(Builders<Section>.Filter.Eq(s => s.Id, sectionId));
-        }
-
-        public async Task CreateLessionAsync(Lession lession)
-        {
-            await _lessionCollection.InsertOneAsync(lession);
-        }
-
-        public async Task UpdateLessionAsync(Lession lession)
-        {
-            var filter = Builders<Lession>.Filter.Eq(l => l.Id, lession.Id);
-
-            await _lessionCollection.ReplaceOneAsync(filter, lession);
-        }
-
-        public async Task DeleteLessionAsync(string lessionId)
-        {
-            await _lessionCollection.DeleteOneAsync(Builders<Lession>.Filter.Eq(l => l.Id, lessionId));
-        }
-
         public async Task<List<SectionWithLessions>> GetCourseCurriculumAsync(string courseId)
         {
             var pipeline = new[] {

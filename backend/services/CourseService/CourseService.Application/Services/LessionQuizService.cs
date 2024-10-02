@@ -10,18 +10,18 @@ namespace CourseService.Application.Services
 {
     public class LessionQuizService : ILessionQuizService
     {
-        private readonly ICourseCurriculumRepository _courseCurriculumRepository;
+        private readonly ILessionRepository _lessionRepository;
         private readonly IQuizRepository _quizRepository;
         private readonly IQuizDomainService _quizDomainService;
         private readonly IMapper _mapper;
 
         public LessionQuizService(
-            ICourseCurriculumRepository courseCurriculumRepository,
+            ILessionRepository lessionRepository,
             IQuizRepository quizRepository,
             IQuizDomainService quizDomainService,
             IMapper mapper)
         {
-            _courseCurriculumRepository = courseCurriculumRepository;
+            _lessionRepository = lessionRepository;
             _quizRepository = quizRepository;
             _quizDomainService = quizDomainService;
             _mapper = mapper;
@@ -104,7 +104,7 @@ namespace CourseService.Application.Services
 
         private async Task<Lession> GetAndValidateLessionAsync(string lessionId, string ownerId)
         {
-            var lession = await _courseCurriculumRepository.GetLessionByIdAsync(lessionId);
+            var lession = await _lessionRepository.FindOneAsync(lessionId);
 
             if (lession == null)
             {

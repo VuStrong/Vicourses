@@ -30,6 +30,8 @@ namespace CourseService.Infrastructure
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             services.AddScoped<ICourseCurriculumRepository, CourseCurriculumRepository>();
             services.AddScoped<IQuizRepository, QuizRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>();
+            services.AddScoped<ILessionRepository, LessionRepository>();
 
             services.AddSingleton<IDomainEventDispatcher, DomainEventDispatcher>(s =>
             {

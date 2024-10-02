@@ -12,6 +12,8 @@ namespace CourseService.Domain.Models
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
 
+        public bool IsRoot { get => ParentId == null; }
+
         private Category(string id, string name, string slug)
         {
             Id = id;
@@ -51,6 +53,11 @@ namespace CourseService.Domain.Models
             }
 
             UpdatedAt = DateTime.Now;
+        }
+
+        public bool IsChildOf(Category other)
+        {
+            return ParentId == other.Id;
         }
     }
 }

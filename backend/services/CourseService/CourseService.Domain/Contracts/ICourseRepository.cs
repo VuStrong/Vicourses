@@ -14,5 +14,7 @@ namespace CourseService.Domain.Contracts
             CourseStatus? status = null);
 
         Task UpdateStudentCountAsync(Course course);
+
+        Task UpdateUserInCoursesAsync(UserInCourse user);
     }
 }

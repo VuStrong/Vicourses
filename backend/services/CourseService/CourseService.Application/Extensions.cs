@@ -1,5 +1,6 @@
 ﻿using CourseService.Application.DomainEventHandlers.Course;
 using CourseService.Application.DomainEventHandlers.Lession;
+using CourseService.Application.DomainEventHandlers.Section;
 using CourseService.Application.IntegrationEventHandlers.User;
 using CourseService.Application.IntegrationEvents.User;
 using CourseService.Application.Interfaces;
@@ -7,6 +8,7 @@ using CourseService.Application.Services;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
 using CourseService.Domain.Events.Lession;
+using CourseService.Domain.Events.Section;
 using CourseService.Domain.Services;
 using CourseService.Domain.Services.Implementations;
 using CourseService.EventBus;
@@ -60,6 +62,8 @@ namespace CourseService.Application
             services.AddScoped<IDomainEventHandler<CourseUnpublishedDomainEvent>, CourseUnpublishedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<CourseInfoUpdatedDomainEvent>, CourseInfoUpdatedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<LessionDeletedDomainEvent>, LessionDeletedDomainEventHandler>();
+            services.AddScoped<IDomainEventHandler<SectionDeletedDomainEvent>, SectionDeletedDomainEventHandler>();
+            services.AddScoped<IDomainEventHandler<CourseDeletedDomainEvent>, CourseDeletedDomainEventHandler>();
         }
 
         public static void AddEventBus(this IServiceCollection services, string uri)

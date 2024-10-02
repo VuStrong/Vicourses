@@ -92,6 +92,14 @@ namespace CourseService.Infrastructure.Repositories
             await _collection.UpdateOneAsync(filter, update);
         }
 
+        public async Task UpdateUserInCoursesAsync(UserInCourse user)
+        {
+            var filter = Builders<Course>.Filter.Eq(c => c.User.Id, user.Id);
+            var update = Builders<Course>.Update.Set(c => c.User, user);
+
+            await _collection.UpdateManyAsync(filter, update);
+        }
+
         private IFindFluent<Course, Course> Sort(IFindFluent<Course, Course> fluent, CourseSort sort)
         {
             switch (sort)

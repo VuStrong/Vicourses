@@ -20,7 +20,7 @@ namespace CourseService.Application.IntegrationEventHandlers.User
 
         public async Task Handle(UserCreatedIntegrationEvent @event)
         {
-            _logger.LogInformation("CourseService handle UserCreated event {Id}", @event.Id);
+            _logger.LogInformation($"CourseService handle {@event.ExchangeName} event: {@event.Id}");
 
             var user = Domain.Models.User.Create(@event.Id, @event.Name, @event.Email, null);
 

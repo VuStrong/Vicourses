@@ -52,12 +52,12 @@ namespace CourseService.Domain.Models
             title = title.Trim();
             DomainValidationException.ThrowIfStringOutOfLength(title, 5, 60, nameof(title));
 
-            if (category.ParentId != null)
+            if (!category.IsRoot)
             {
                 throw new DomainException("Main category must be root category");
             }
 
-            if (subCategory.ParentId != category.Id)
+            if (!subCategory.IsChildOf(category))
             {
                 throw new DomainException("SubCategory must be child of main category");
             }
@@ -117,7 +117,7 @@ namespace CourseService.Domain.Models
             {
                 throw new DomainValidationException("SubCategory is required when main Category is set");
             }
-            else if (category != null && category.ParentId != null)
+            else if (category != null && !category.IsRoot)
             {
                 throw new DomainException("Main category must be root category");
             }

@@ -216,7 +216,7 @@ namespace CourseService.API.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="403">Forbidden</response>
         /// <response code="404">Course not found</response>
-        [HttpPatch("{id}/curriculum")]
+        [HttpPut("{id}/curriculum")]
         [Authorize]
         public async Task<IActionResult> UpdateCurriculum(string id, UpdateCurriculumRequest request)
         {

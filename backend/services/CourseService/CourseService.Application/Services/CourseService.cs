@@ -5,6 +5,7 @@ using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Events;
+using CourseService.Domain.Events.Course;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Paging;
@@ -179,6 +180,11 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException($"Forbidden resourse");
             }
 
+            if (course.Status == CourseStatus.Published)
+            {
+                throw new ForbiddenException($"The course {courseId} cannot be deleted because it already published");
+            }
+
             if (course.StudentCount > 0)
             {
                 throw new ForbiddenException(
@@ -189,6 +195,8 @@ namespace CourseService.Application.Services
             await _courseRepository.DeleteOneAsync(courseId);
 
             _logger.LogInformation($"Course {courseId} deleted");
+
+            _ = _domainEventDispatcher.Dispatch(new CourseDeletedDomainEvent(course));
         }
 
         public async Task ApproveCourseAsync(string courseId)

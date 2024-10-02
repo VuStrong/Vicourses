@@ -8,5 +8,6 @@ namespace CourseService.Domain.Contracts
         Task<List<Quiz>> FindByLessionIdAsync(string lessionId);
         Task ChangeOrderAsync(string lessionId, List<string> quizIds);
         Task DeleteByLessionIdAsync(string lessionId);
+        Task DeleteByLessionIdsAsync(IEnumerable<string> lessionIds);
     }
 }

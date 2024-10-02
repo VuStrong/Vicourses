@@ -49,5 +49,11 @@ namespace CourseService.Infrastructure.Repositories
         {
             await _collection.DeleteManyAsync(Builders<Quiz>.Filter.Eq(q => q.LessionId, lessionId));
         }
+
+        public async Task DeleteByLessionIdsAsync(IEnumerable<string> lessionIds)
+        {
+            var filter = Builders<Quiz>.Filter.In(q => q.LessionId, lessionIds);
+            await _collection.DeleteManyAsync(filter);
+        }
     }
 }
