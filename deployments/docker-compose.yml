@@ -3,6 +3,9 @@ services:
   ###
   api-gateway:
     image: vustrong/vicourses-apigateway
+    volumes:
+      - ./services/api_gateway/appsettings.Production.json:/app/appsettings.Production.json
+      - ./services/api_gateway/ocelot.Production.json:/app/ocelot.Production.json
     networks:
       - vicourses-network
     ports:
@@ -48,21 +51,22 @@ services:
       retries: 10
 
   ###
-  # mongodb:
-  #   image: mongo:${MONGODB_VERSION}
-  #   restart: always
-  #   env_file:
-  #     - db/mongodb/.env
-  #   ports:
-  #     - "${MONGODB_PORT}:27017"
-  #   volumes:
-  #     - mongodb_data:/data/db
-  #   networks:
-  #     - vicourses-network
-  #   healthcheck:
-  #     test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-  #     timeout: 10s
-  #     retries: 10
+  mongodb:
+    image: mongo:${MONGODB_VERSION}
+    restart: always
+    env_file:
+      - db/mongodb/.env
+    ports:
+      - "${MONGODB_PORT}:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./db/mongodb/scripts:/docker-entrypoint-initdb.d
+    networks:
+      - vicourses-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      timeout: 10s
+      retries: 10
 
   ###
   elasticsearch-setup:
@@ -234,6 +238,23 @@ services:
     restart: always
     env_file:
       - services/email_service/.env
+
+  ###
+  course-service:
+    image: vustrong/vicourses-courseservice
+    env_file:
+      - services/course_service/.env
+    volumes:
+      - ./services/auth_service/public.key:/app/public.key
+      - services_logs_data:/app/logs
+    networks:
+      - vicourses-network
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: always
 
 networks:
   vicourses-network:
