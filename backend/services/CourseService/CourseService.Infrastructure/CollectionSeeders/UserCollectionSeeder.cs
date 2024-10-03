@@ -5,9 +5,9 @@ namespace CourseService.Infrastructure.CollectionSeeders
 {
     public class UserCollectionSeeder : MongoCollectionSeeder<User>
     {
-        public override async Task SeedAsync(IMongoCollection<User> collection)
+        public override Task SeedAsync(IMongoCollection<User> collection)
         {
-            
+            return Task.CompletedTask;
         }
     }
 }

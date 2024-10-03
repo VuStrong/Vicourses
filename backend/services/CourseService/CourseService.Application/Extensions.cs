@@ -83,9 +83,12 @@ namespace CourseService.Application
 
         public static void ConfigureEventBus(this IHost app)
         {
-            var eventBus = app.Services.GetRequiredService<IEventBus>();
-
-            eventBus.Subscribe<UserCreatedIntegrationEvent, UserCreatedIntegrationEventHandler>();
+            _ = Task.Factory.StartNew(() =>
+            {
+                var eventBus = app.Services.GetRequiredService<IEventBus>();
+                
+                eventBus.Subscribe<UserCreatedIntegrationEvent, UserCreatedIntegrationEventHandler>();
+            });
         }
     }
 }

@@ -27,6 +27,6 @@ app.UseExceptionHandler(opt => { });
 
 app.ConfigureEventBus();
 
-app.SeedDatabase().Wait();
+_ = app.SeedDatabase();
 
 app.Run();
