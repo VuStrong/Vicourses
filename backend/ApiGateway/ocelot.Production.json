@@ -21,7 +21,7 @@
             "DownstreamHostAndPorts": [
                 {
                     "Host": "course-service",
-                    "Port": 3000
+                    "Port": 8080
                 }
             ],
             "UpstreamPathTemplate": "/api/cs/{version}/{everything}",
