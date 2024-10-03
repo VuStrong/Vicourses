@@ -83,7 +83,7 @@ namespace CourseService.Application
 
         public static void ConfigureEventBus(this IHost app)
         {
-            _ = Task.Factory.StartNew(() =>
+            _ = Task.Run(() =>
             {
                 var eventBus = app.Services.GetRequiredService<IEventBus>();
                 
