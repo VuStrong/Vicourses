@@ -28,7 +28,7 @@ namespace CourseService.Domain.Models
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public int StudentCount { get; private set; }
-        public string? Language { get; private set; }
+        public Locale? Locale { get; private set; }
         public bool IsApproved { get; private set; }
         public CourseStatus Status { get; private set; } = CourseStatus.Unpublished;
         public ImageFile? Thumbnail { get; private set; }
@@ -76,7 +76,7 @@ namespace CourseService.Domain.Models
         }
 
         public void UpdateInfoIgnoreNull(string? title = null, string? description = null, List<string>? tags = null, List<string>? requirements = null,
-            List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? language = null,
+            List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? locale = null,
             ImageFile? thumbnail = null, VideoFile? previewVideo = null, Category? category = null, Category? subCategory = null,
             CourseLevel? level = null)
         {
@@ -107,7 +107,7 @@ namespace CourseService.Domain.Models
                 IsPaid = price != 0;
             }
 
-            if (language != null) Language = language;
+            if (locale != null) Locale = new Locale(locale);
             
             if (thumbnail != null) Thumbnail = thumbnail;
 
@@ -157,7 +157,7 @@ namespace CourseService.Domain.Models
             AddUniqueDomainEvent(new CoursePublishedDomainEvent(this));
         }
 
-        public void CancelApproval()
+        public void CancelApproval(List<string>? reasons = null)
         {
             IsApproved = false;
             Status = CourseStatus.Unpublished;

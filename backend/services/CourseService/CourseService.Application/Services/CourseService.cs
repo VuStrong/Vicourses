@@ -154,7 +154,7 @@ namespace CourseService.Application.Services
                 VideoFile.Create(data.PreviewVideo.FileId, data.PreviewVideo.Url, data.PreviewVideo.FileName) : null;
 
             course.UpdateInfoIgnoreNull(data.Title, data.Description, data.Tags, data.Requirements, data.TargetStudents,
-                data.LearnedContents, data.Price, data.Language, thumbnail, previewVideo, categoryToUpdate, subCategoryToUpdate, data.Level);
+                data.LearnedContents, data.Price, data.Locale, thumbnail, previewVideo, categoryToUpdate, subCategoryToUpdate, data.Level);
 
             if (data.Status != null)
                 course.SetStatus(data.Status ?? CourseStatus.Unpublished);
@@ -215,7 +215,7 @@ namespace CourseService.Application.Services
             _ = _domainEventDispatcher.DispatchFrom(course);
         }
 
-        public async Task CancelCourseApprovalAsync(string courseId, string reason)
+        public async Task CancelCourseApprovalAsync(string courseId, List<string> reasons)
         {
             var course = await _courseRepository.FindOneAsync(courseId);
 
@@ -224,7 +224,7 @@ namespace CourseService.Application.Services
                 throw new CourseNotFoundException(courseId);
             }
 
-            course.CancelApproval();
+            course.CancelApproval(reasons);
 
             await _courseRepository.UpdateAsync(course);
 

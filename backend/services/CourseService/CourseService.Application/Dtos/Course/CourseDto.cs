@@ -20,7 +20,7 @@ namespace CourseService.Application.Dtos.Course
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int StudentCount { get; set; }
-        public string? Language { get; set; }
+        public LocaleDto? Locale { get; set; }
         public string? ThumbnailUrl { get; set; }
         public UserInCourseDto User { get; set; } = null!;
         public CategoryInCourseDto Category { get; set; } = null!;

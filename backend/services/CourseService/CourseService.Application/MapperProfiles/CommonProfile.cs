@@ -12,6 +12,8 @@ namespace CourseService.Application.MapperProfiles
             CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
 
             CreateMap<VideoFile, VideoFileDto>();
+
+            CreateMap<Locale, LocaleDto>();
         }
     }
 }

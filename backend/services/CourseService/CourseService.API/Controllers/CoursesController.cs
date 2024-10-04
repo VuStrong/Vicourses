@@ -256,9 +256,9 @@ namespace CourseService.API.Controllers
         /// <response code="404">Course not found</response>
         [HttpPost("cancel-approval/{id}")]
         [Authorize(Roles = Roles.Admin)]
-        public async Task<IActionResult> CancelApprovalCourse(string id, [FromQuery] string reason)
+        public async Task<IActionResult> CancelApprovalCourse(string id, CancelCourseApprovalRequest request)
         {
-            await _courseService.CancelCourseApprovalAsync(id, reason);
+            await _courseService.CancelCourseApprovalAsync(id, request.Reasons);
 
             return Ok();
         }

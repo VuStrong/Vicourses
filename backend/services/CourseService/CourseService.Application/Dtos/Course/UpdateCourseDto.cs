@@ -13,7 +13,7 @@ namespace CourseService.Application.Dtos.Course
         public List<string>? TargetStudents { get; set; }
         public List<string>? LearnedContents { get; set; }
         public decimal? Price { get; set; }
-        public string? Language {  get; set; }
+        public string? Locale { get; set; }
         public CourseLevel? Level { get; set; }
         public CourseStatus? Status { get; set; }
         public UpdateImageFileDto? Thumbnail { get; set; }

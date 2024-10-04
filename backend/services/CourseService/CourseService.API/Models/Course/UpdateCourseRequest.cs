@@ -30,7 +30,7 @@ namespace CourseService.API.Models.Course
 
         [Range(0, 100)]
         public decimal? Price { get; set; }
-        public string? Language { get; set; }
+        public string? Locale { get; set; }
 
         [EnumDataType(typeof(CourseLevel))]
         public CourseLevel? Level { get; set; }
@@ -68,7 +68,7 @@ namespace CourseService.API.Models.Course
                 TargetStudents = TargetStudents,
                 LearnedContents = LearnedContents,
                 Price = Price,
-                Language = Language,
+                Locale = Locale,
                 Level = Level,
                 Status = Status,
                 Thumbnail = thumbnail,

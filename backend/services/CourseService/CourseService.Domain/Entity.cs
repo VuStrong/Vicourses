@@ -9,17 +9,20 @@ namespace CourseService.Domain
 
         protected void AddDomainEvent(DomainEvent domainEvent)
         {
+            _domainEvents ??= [];
             _domainEvents.Add(domainEvent);
         }
 
         protected void AddUniqueDomainEvent(DomainEvent domainEvent)
         {
+            _domainEvents ??= [];
             _domainEvents.RemoveAll(e => e.GetType() == domainEvent.GetType());
             _domainEvents.Add(domainEvent);
         }
 
         public void ClearDomainEvents()
         {
+            _domainEvents ??= [];
             _domainEvents.Clear();
         }
     }
