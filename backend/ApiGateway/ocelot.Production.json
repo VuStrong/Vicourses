@@ -26,6 +26,18 @@
             ],
             "UpstreamPathTemplate": "/api/cs/{version}/{everything}",
             "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "DELETE" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/sts/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "storage-service",
+                    "Port": 3000
+                }
+            ],
+            "UpstreamPathTemplate": "/api/sts/{version}/{everything}",
+            "UpstreamHttpMethod": [ "POST" ] 
         }
     ]
 }

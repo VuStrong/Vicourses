@@ -14,6 +14,16 @@ builder.Services.AddOcelot();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("cors-policy", policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,9 +34,12 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger-auth.json", "Auth API - v1");
     c.SwaggerEndpoint("/swagger/v1/swagger-course.json", "Course API - v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger-storage.json", "Storage API - v1");
 });
 
 app.UseHttpsRedirection();
+
+app.UseCors("cors-policy");
 
 app.UseOcelot().Wait();
 

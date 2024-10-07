@@ -28,6 +28,18 @@ namespace ApiGateway.Extensions
                 });
             });
 
+            // Storage Service
+            app.Map("/swagger/v1/swagger-storage.json", b =>
+            {
+                b.Run(async x =>
+                {
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Storage"]}/swagger/v1/swagger.json");
+                    var body = await response.Content.ReadAsStringAsync();
+                    await x.Response.WriteAsync(body);
+                });
+            });
+
             return app;
         }
     }
