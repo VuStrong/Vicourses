@@ -1,0 +1,215 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "v1",
+        "title": "Vicourses Storage API",
+        "description": "Vicourses API documentation for storage service"
+    },
+    "servers": [
+        {
+            "url": "/api/sts/v1"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "paths": {
+        "/upload-image": {
+            "post": {
+                "summary": "Upload an image",
+                "consumes": ["multipart/form-data"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["image"],
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "fileId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "fileId": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {},
+                    "401": {}
+                }
+            }
+        },
+        "/initialize-multipart-upload": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["fileId", "partCount"],
+                                "properties": {
+                                    "fileId": {
+                                        "type": "string"
+                                    },
+                                    "partCount": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "uploadId": {
+                                            "type": "string"
+                                        },
+                                        "parts": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string"
+                                                    },
+                                                    "partNumber": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {},
+                    "401": {}
+                }
+            }
+        },
+        "/complete-multipart-upload": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["fileId", "uploadId"],
+                                "properties": {
+                                    "fileId": {
+                                        "type": "string"
+                                    },
+                                    "uploadId": {
+                                        "type": "string"
+                                    },
+                                    "parts": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "PartNumber": {
+                                                    "type": "integer"
+                                                },
+                                                "ETag": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {},
+                    "400": {},
+                    "401": {}
+                }
+            }
+        },
+        "/abort-multipart-upload": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["fileId", "uploadId"],
+                                "properties": {
+                                    "fileId": {
+                                        "type": "string"
+                                    },
+                                    "uploadId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {},
+                    "400": {},
+                    "401": {}
+                }
+            }
+        }
+    }
+}
