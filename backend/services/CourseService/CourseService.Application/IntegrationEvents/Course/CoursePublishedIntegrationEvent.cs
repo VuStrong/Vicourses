@@ -1,15 +1,10 @@
 ﻿using CourseService.Application.Dtos.Course;
-using CourseService.EventBus.Events;
+using CourseService.EventBus;
 
 namespace CourseService.Application.IntegrationEvents.Course
 {
     public class CoursePublishedIntegrationEvent : IntegrationEvent
     {
-        public override string ExchangeName
-        {
-            get { return "course.published"; }
-        }
-
         public string Id { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string TitleCleaned { get; set; } = string.Empty;

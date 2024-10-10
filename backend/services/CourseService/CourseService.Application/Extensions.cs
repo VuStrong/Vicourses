@@ -2,6 +2,8 @@
 using CourseService.Application.DomainEventHandlers.Lession;
 using CourseService.Application.DomainEventHandlers.Section;
 using CourseService.Application.IntegrationEventHandlers.User;
+using CourseService.Application.IntegrationEvents.Course;
+using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Application.IntegrationEvents.User;
 using CourseService.Application.Interfaces;
 using CourseService.Application.Services;
@@ -11,11 +13,9 @@ using CourseService.Domain.Events.Lession;
 using CourseService.Domain.Events.Section;
 using CourseService.Domain.Services;
 using CourseService.Domain.Services.Implementations;
-using CourseService.EventBus;
-using CourseService.EventBus.Abstracts;
+using CourseService.EventBus.RabbitMQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Formatting.Compact;
 
@@ -68,27 +68,42 @@ namespace CourseService.Application
 
         public static void AddEventBus(this IServiceCollection services, string uri)
         {
-            services.AddSingleton<IEventBus, RabbitMQEventBus>(s =>
+            services.AddRabbitMQEventBus(c =>
             {
-                var scopeFactory = s.GetRequiredService<IServiceScopeFactory>();
-                var logger = s.GetRequiredService<Microsoft.Extensions.Logging.ILogger<RabbitMQEventBus>>();
-                return new RabbitMQEventBus(uri, scopeFactory, logger)
+                c.UriString = uri;
+
+                c.ConfigurePublish<CourseInfoUpdatedIntegrationEvent>(opt =>
                 {
-                    ServiceName = "course_service"
-                };
-            });
+                    opt.ExchangeOptions.ExchangeName = "course.info.updated";
+                });
+                c.ConfigurePublish<CoursePublishedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "course.published";
+                });
+                c.ConfigurePublish<CourseUnpublishedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "course.unpublished";
+                });
 
-            services.AddScoped<UserCreatedIntegrationEventHandler>();
-        }
+                c.ConfigurePublish<DeleteFilesIntegrationEvent>(opt =>
+                {
+                    opt.ExcludeExchange = true;
+                    opt.RoutingKey = "delete_files";
+                });
 
-        public static void ConfigureEventBus(this IHost app)
-        {
-            _ = Task.Run(() =>
-            {
-                var eventBus = app.Services.GetRequiredService<IEventBus>();
-                
-                eventBus.Subscribe<UserCreatedIntegrationEvent, UserCreatedIntegrationEventHandler>();
-            });
+                c.ConfigureConsume<UserCreatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.created";
+                    opt.QueueOptions.QueueName = "course_service_user.created";
+                });
+                c.ConfigureConsume<UserInfoUpdatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.info.updated";
+                    opt.QueueOptions.QueueName = "course_service_user.info.updated";
+                });
+            })
+            .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>();
         }
     }
 }

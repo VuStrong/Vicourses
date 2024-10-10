@@ -9,6 +9,7 @@ using CourseService.Domain.Events;
 using CourseService.Domain.Events.Lession;
 using CourseService.Domain.Events.Section;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.Services
@@ -165,7 +166,13 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            lession.UpdateInfoIgnoreNull(data.Title, data.Description);
+            VideoFile? videoFile = data.Video != null ? VideoFile.Create(
+                data.Video.FileId,
+                data.Video.Url,
+                data.Video.FileName
+            ) : null;
+            
+            lession.UpdateInfoIgnoreNull(data.Title, data.Description, video: videoFile);
 
             await _lessionRepository.UpdateAsync(lession);
 

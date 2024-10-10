@@ -1,7 +1,7 @@
 ﻿using CourseService.Application.IntegrationEvents.Course;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
-using CourseService.EventBus.Abstracts;
+using CourseService.EventBus;
 
 namespace CourseService.Application.DomainEventHandlers.Course
 {

@@ -94,11 +94,7 @@ namespace CourseService.API.Controllers
 
             var lession = await _courseCurriculumService.UpdateLessionAsync(
                 id,
-                new UpdateLessionDto
-                {
-                    Title = request.Title,
-                    Description = request.Description
-                },
+                request.ToUpdateLessionDto(),
                 userId
             );
 

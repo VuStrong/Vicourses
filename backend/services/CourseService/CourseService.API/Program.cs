@@ -1,5 +1,4 @@
 using CourseService.API.Extensions;
-using CourseService.Application;
 using CourseService.Infrastructure;
 
 DotNetEnv.Env.Load();
@@ -24,8 +23,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseExceptionHandler(opt => { });
-
-app.ConfigureEventBus();
 
 _ = app.SeedDatabase();
 

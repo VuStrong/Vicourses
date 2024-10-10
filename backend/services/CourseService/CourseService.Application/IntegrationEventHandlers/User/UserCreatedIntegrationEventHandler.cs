@@ -1,6 +1,6 @@
 ﻿using CourseService.Application.IntegrationEvents.User;
 using CourseService.Domain.Contracts;
-using CourseService.EventBus.Abstracts;
+using CourseService.EventBus;
 using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.IntegrationEventHandlers.User
@@ -20,7 +20,7 @@ namespace CourseService.Application.IntegrationEventHandlers.User
 
         public async Task Handle(UserCreatedIntegrationEvent @event)
         {
-            _logger.LogInformation($"CourseService handle {@event.ExchangeName} event: {@event.Id}");
+            _logger.LogInformation($"CourseService handle {@event.GetType().Name}: {@event.Id}");
 
             var user = Domain.Models.User.Create(@event.Id, @event.Name, @event.Email, null);
 

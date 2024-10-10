@@ -2,7 +2,7 @@
 using CourseService.Application.IntegrationEvents.User;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
-using CourseService.EventBus.Abstracts;
+using CourseService.EventBus;
 using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.IntegrationEventHandlers.User
@@ -25,7 +25,7 @@ namespace CourseService.Application.IntegrationEventHandlers.User
 
         public async Task Handle(UserInfoUpdatedIntegrationEvent @event)
         {
-            _logger.LogInformation($"CourseService handle {@event.ExchangeName} event: {@event.Id}");
+            _logger.LogInformation($"CourseService handle {@event.GetType().Name}: {@event.Id}");
 
             var user = await _userRepository.FindOneAsync(@event.Id);
 
