@@ -7,6 +7,8 @@ import {
     CompleteMultipartUploadCommand,
     CompletedPart,
     AbortMultipartUploadCommand,
+    NoSuchUpload,
+    DeleteObjectsCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
@@ -23,7 +25,8 @@ const S3 = new S3Client({
     },
 });
 
-type UploadOptions = {
+type UploadSingleFileParams = {
+    file: Express.Multer.File;
     fileId?: string;
 };
 
@@ -32,8 +35,9 @@ type UploadResponse = {
     fileId: string;
 };
 
-type initializeMultipartUploadResponse = {
+type InitializeMultipartUploadResponse = {
     uploadId?: string;
+    fileId: string;
     parts: {
         url: string;
         partNumber: number;
@@ -41,12 +45,13 @@ type initializeMultipartUploadResponse = {
 };
 
 export async function uploadSingleFile(
-    file: Express.Multer.File,
-    options?: UploadOptions
+    params: UploadSingleFileParams
 ): Promise<UploadResponse> {
-    let { fileId } = options ?? {};
+    let { file, fileId } = params;
     const ext = path.extname(file.originalname);
-    fileId = fileId || `${randomUUID()}${ext}`;
+
+    fileId = fileId?.trim();
+    if (!fileId) fileId = `${randomUUID()}${ext}`;
 
     const cmd = new PutObjectCommand({
         Bucket: Config.S3_BUCKET_NAME,
@@ -72,13 +77,27 @@ export async function deleteSingleFile(fileId: string): Promise<void> {
     await S3.send(cmd);
 }
 
+export async function deleteMultipleFiles(fileIds: string[]): Promise<void> {
+    if (fileIds.length === 0) return;
+
+    const cmd = new DeleteObjectsCommand({
+        Bucket: Config.S3_BUCKET_NAME,
+        Delete: {
+            Objects: fileIds.map((id) => ({ Key: id })),
+        },
+    });
+
+    await S3.send(cmd);
+}
+
 export async function initializeMultipartUpload(
     fileId?: string,
     partCount: number = 1
-): Promise<initializeMultipartUploadResponse> {
+): Promise<InitializeMultipartUploadResponse> {
     if (partCount <= 0 || partCount >= 1000)
-        throw new AppError("partCount must be between 1 and 1000", 400);
+        throw new AppError("partCount must be between 1 and 999", 400);
 
+    fileId = fileId?.trim();
     if (!fileId) fileId = `${randomUUID()}`;
 
     const cmd = new CreateMultipartUploadCommand({
@@ -108,6 +127,7 @@ export async function initializeMultipartUpload(
 
     return {
         uploadId: UploadId,
+        fileId,
         parts: signedUrls.map((url, index) => ({
             url,
             partNumber: index + 1,
@@ -119,7 +139,9 @@ export async function completeMultipartUpload(
     uploadId: string,
     fileId: string,
     parts: CompletedPart[]
-) {
+): Promise<UploadResponse> {
+    if (parts.length === 0) throw new AppError("parts must not empty", 400);
+
     const cmd = new CompleteMultipartUploadCommand({
         Bucket: Config.S3_BUCKET_NAME,
         Key: fileId,
@@ -129,7 +151,20 @@ export async function completeMultipartUpload(
         },
     });
 
-    await S3.send(cmd);
+    try {
+        await S3.send(cmd);
+    } catch (error) {
+        if (error instanceof NoSuchUpload) {
+            throw new AppError(error.message, 404);
+        }
+
+        throw error;
+    }
+
+    return {
+        fileId,
+        url: `${Config.S3_DOMAIN}/${fileId}`,
+    };
 }
 
 export async function abortMultipartUpload(uploadId: string, fileId: string) {
@@ -139,5 +174,13 @@ export async function abortMultipartUpload(uploadId: string, fileId: string) {
         UploadId: uploadId,
     });
 
-    await S3.send(cmd);
+    try {
+        await S3.send(cmd);
+    } catch (error) {
+        if (error instanceof NoSuchUpload) {
+            throw new AppError(error.message, 404);
+        }
+
+        throw error;
+    }
 }

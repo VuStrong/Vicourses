@@ -12,6 +12,8 @@ const Config = {
     S3_ACCESS_KEY_SECRET: process.env.S3_ACCESS_KEY_SECRET,
     S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
     S3_DOMAIN: process.env.S3_DOMAIN,
+
+    RABBITMQ_URL: process.env.RABBITMQ_URL,
 };
 
 export default Config;
