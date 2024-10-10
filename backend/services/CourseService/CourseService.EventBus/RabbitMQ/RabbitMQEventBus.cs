@@ -177,7 +177,7 @@ namespace CourseService.EventBus.RabbitMQ
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Error when process event {e.Exchange} : {ex.Message}");
+                    _logger.LogError($"Error when process event {_eventType.Name}: {ex.Message}");
                 }
             }
 
