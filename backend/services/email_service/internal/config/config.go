@@ -1,7 +1,6 @@
-package lib
+package config
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 
@@ -15,24 +14,26 @@ type Config struct {
 		User     string
 		Password string
 	}
-	RabbitMQ_URL string
+	RabbitMQUri string
+	AppName     string
+	AppLogoUrl  string
+	WebUrl      string
 }
 
-var Conf *Config
+func LoadConfig() (*Config, error) {
+	config := Config{}
 
-func LoadConfig() {
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Error loading .env file")
+		return nil, err
 	}
 
-	Conf = new(Config)
 	port, err := strconv.Atoi(os.Getenv("SMTP_PORT"))
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	Conf.Smtp = struct {
+	config.Smtp = struct {
 		Host     string
 		Port     int
 		User     string
@@ -43,5 +44,10 @@ func LoadConfig() {
 		User:     os.Getenv("SMTP_USER"),
 		Password: os.Getenv("SMTP_PASS"),
 	}
-	Conf.RabbitMQ_URL = os.Getenv("RABBITMQ_URL")
+	config.RabbitMQUri = os.Getenv("RABBITMQ_URI")
+	config.AppName = os.Getenv("APP_NAME")
+	config.AppLogoUrl = os.Getenv("APP_LOGO_URL")
+	config.WebUrl = os.Getenv("WEB_URL")
+
+	return &config, nil
 }
