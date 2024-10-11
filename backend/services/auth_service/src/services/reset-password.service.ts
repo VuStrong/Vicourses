@@ -52,11 +52,8 @@ export async function sendResetPasswordLink(email: string) {
     const link = `${webUrl}?token=${token}&userId=${user.id}`;
 
     rabbitmq.sendToQueue(rabbitmq.Queue.SEND_EMAIL, {
-        user: {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-        },
+        to: user.email,
+        userName: user.name,
         link,
         emailType: "reset_password"
     });

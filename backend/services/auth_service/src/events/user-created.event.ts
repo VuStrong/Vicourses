@@ -11,11 +11,8 @@ export default async function onUserCreated(user: User) {
         const link = `${webUrl}?token=${confirmEmailToken}&userId=${user.id}`;
     
         rabbitmq.sendToQueue(rabbitmq.Queue.SEND_EMAIL, {
-            user: {
-                id: user.id,
-                email: user.email,
-                name: user.name,
-            },
+            to: user.email,
+            userName: user.name,
             link,
             emailType: "confirm_email"
         });
