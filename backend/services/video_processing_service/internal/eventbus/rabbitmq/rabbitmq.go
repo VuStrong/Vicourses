@@ -19,11 +19,18 @@ type RabbitMQQueueOptions struct {
 	Name       string
 }
 
+type RabbitMQConfig struct {
+	Uri string
+}
+
+const (
+	Fanout = "fanout"
+	Direct = "direct"
+	Topic  = "topic"
+	Header = "header"
+)
+
 func NewRabbitMQ(cfg *config.Config) (*amqp.Connection, error) {
 	connection, err := amqp.Dial(cfg.RabbitMQUri)
-	if err != nil {
-		return nil, err
-	}
-
-	return connection, nil
+	return connection, err
 }

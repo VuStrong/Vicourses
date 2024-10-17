@@ -2,25 +2,49 @@ package eventhandlers
 
 import (
 	"encoding/json"
-	"fmt"
 
+	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/config"
+	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/eventbus"
 	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/events"
+	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/file"
+	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/logger"
+	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/videoprocessor"
 )
 
 type RequestLessionVideoProcessingEventHandler struct {
+	Logger         logger.Logger
+	EventPublisher eventbus.EventPublisher
+	Cfg            *config.Config
 }
 
-func (handler *RequestLessionVideoProcessingEventHandler) Handle(event []byte) error {
-	var e events.RequestLessionVideoProcessingEvent
-	err := json.Unmarshal(event, &e)
+func NewRequestLessionVideoProcessingEventHandler(
+	l logger.Logger,
+	eventPublisher eventbus.EventPublisher,
+	cfg *config.Config,
+) *RequestLessionVideoProcessingEventHandler {
+	return &RequestLessionVideoProcessingEventHandler{
+		Logger:         l,
+		EventPublisher: eventPublisher,
+		Cfg:            cfg,
+	}
+}
+
+func (handler *RequestLessionVideoProcessingEventHandler) Handle(eventByte []byte) error {
+	var event events.RequestLessionVideoProcessingEvent
+
+	err := json.Unmarshal(eventByte, &event)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("Handle RequestLessionVideoProcessingEventHandler: ")
-	fmt.Println("LessionId: " + e.LessionId)
-	fmt.Println("VideoUrl: " + e.VideoUrl)
-	fmt.Println("=================")
+	handler.Logger.Info("Handle RequestLessionVideoProcessingEvent")
+
+	_ = videoprocessor.NewHlsEncoder(handler.Cfg.VideoEncodeHeights, 10)
+
+	_, err = file.NewFileDownloader(handler.Cfg)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

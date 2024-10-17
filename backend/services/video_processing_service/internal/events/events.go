@@ -19,3 +19,13 @@ type CoursePreviewVideoProcessingCompletedEvent struct {
 type CoursePreviewVideoProcessingFailedEvent struct {
 	CourseId string
 }
+
+type LessionVideoProcessingCompletedEvent struct {
+	LessionId string
+	StreamUrl string
+	Duration  int
+}
+
+type LessionVideoProcessingFailedEvent struct {
+	LessionId string
+}

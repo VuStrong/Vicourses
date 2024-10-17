@@ -35,7 +35,7 @@ func (publisher *RabbitMQEventPublisher) Publish(event interface{}) error {
 		return err
 	}
 
-	eventName := reflect.TypeOf(event).Name()
+	eventName := reflect.TypeOf(event).Elem().Name()
 	options, isExists := publisher.PublishOptions[eventName]
 
 	if !isExists {
@@ -43,10 +43,11 @@ func (publisher *RabbitMQEventPublisher) Publish(event interface{}) error {
 	}
 
 	channel, err := publisher.Connection.Channel()
-
 	if err != nil {
 		return err
 	}
+
+	defer channel.Close()
 
 	exchangeOptions := options.ExchangeOptions
 
@@ -86,7 +87,10 @@ func (publisher *RabbitMQEventPublisher) ConfigurePublish(
 	config func(*RabbitMQPublishEventOptions),
 ) {
 	options := RabbitMQPublishEventOptions{
-		ExchangeOptions: RabbitMQExchangeOptions{},
+		ExchangeOptions: RabbitMQExchangeOptions{
+			Type:    Fanout,
+			Durable: true,
+		},
 	}
 
 	config(&options)

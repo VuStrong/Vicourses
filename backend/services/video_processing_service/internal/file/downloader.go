@@ -2,9 +2,9 @@ package file
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/config"
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -12,14 +12,19 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/google/uuid"
 )
 
-type S3FileDownloader struct {
-	S3Client  *s3.Client
-	AppConfig *config.Config
+type FileDownloader interface {
+	DownloadFile(fileId string) (string, error)
 }
 
-func NewS3FileDownloader(cfg *config.Config) (*S3FileDownloader, error) {
+type s3FileDownloader struct {
+	s3Client  *s3.Client
+	appConfig *config.Config
+}
+
+func NewFileDownloader(cfg *config.Config) (*s3FileDownloader, error) {
 	s3Cfg := cfg.S3
 
 	awsCfg, err := awsConfig.LoadDefaultConfig(context.TODO(),
@@ -34,20 +39,20 @@ func NewS3FileDownloader(cfg *config.Config) (*S3FileDownloader, error) {
 		o.BaseEndpoint = aws.String(s3Cfg.Endpoint)
 	})
 
-	return &S3FileDownloader{S3Client: s3Client, AppConfig: cfg}, nil
+	return &s3FileDownloader{s3Client: s3Client, appConfig: cfg}, nil
 }
 
-func (s3FileDownloader *S3FileDownloader) DownloadFile(fileId string) (string, error) {
+// Download the file and save to temp/ directory
+func (s3FileDownloader *s3FileDownloader) DownloadFile(fileId string) (string, error) {
 	var partMiBs int64 = 10
-	folder := "temp"
-	path := fmt.Sprintf("%s/%s", folder, fileId)
-	s3Cfg := s3FileDownloader.AppConfig.S3
+	s3Cfg := s3FileDownloader.appConfig.S3
 
-	if _, err := os.Stat(folder); errors.Is(err, os.ErrNotExist) {
-		err := os.Mkdir(folder, os.ModePerm)
-		if err != nil {
-			return "", err
-		}
+	ext := filepath.Ext(fileId)
+	path := fmt.Sprintf("temp/%s%s", uuid.New().String(), ext)
+
+	err := os.MkdirAll("temp", os.ModePerm)
+	if err != nil {
+		return "", err
 	}
 
 	file, err := os.Create(path)
@@ -55,9 +60,7 @@ func (s3FileDownloader *S3FileDownloader) DownloadFile(fileId string) (string, e
 		return "", err
 	}
 
-	defer file.Close()
-
-	downloader := manager.NewDownloader(s3FileDownloader.S3Client, func(d *manager.Downloader) {
+	downloader := manager.NewDownloader(s3FileDownloader.s3Client, func(d *manager.Downloader) {
 		d.PartSize = partMiBs * 1024 * 1024
 	})
 
@@ -67,8 +70,10 @@ func (s3FileDownloader *S3FileDownloader) DownloadFile(fileId string) (string, e
 	}
 
 	_, err = downloader.Download(context.TODO(), file, input)
+
+	file.Close()
+
 	if err != nil {
-		file.Close()
 		os.Remove(path)
 		return "", err
 	}

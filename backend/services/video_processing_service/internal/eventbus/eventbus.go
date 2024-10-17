@@ -1,7 +1,7 @@
 package eventbus
 
 type EventHandler interface {
-	Handle(event []byte) error
+	Handle(eventByte []byte) error
 }
 
 type EventPublisher interface {

@@ -1,10 +1,10 @@
 package rabbitmq
 
 import (
-	"fmt"
 	"reflect"
 
 	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/eventbus"
+	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/logger"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -12,6 +12,7 @@ type RabbitMQEventConsumer struct {
 	Connection     *amqp.Connection
 	ConsumeOptions map[string]RabbitMQConsumeEventOptions
 	EventHandlers  map[string]eventbus.EventHandler
+	Logger         logger.Logger
 }
 
 type RabbitMQConsumeEventOptions struct {
@@ -22,16 +23,17 @@ type RabbitMQConsumeEventOptions struct {
 	AutoAck         bool
 }
 
-func NewRabbitMQEventConsumer(connection *amqp.Connection) *RabbitMQEventConsumer {
+func NewRabbitMQEventConsumer(connection *amqp.Connection, l logger.Logger) *RabbitMQEventConsumer {
 	return &RabbitMQEventConsumer{
 		Connection:     connection,
+		Logger:         l,
 		ConsumeOptions: map[string]RabbitMQConsumeEventOptions{},
 		EventHandlers:  map[string]eventbus.EventHandler{},
 	}
 }
 
 func (consumer *RabbitMQEventConsumer) Consume() error {
-	if consumer.Connection == nil || consumer.Connection.IsClosed() || consumer.ConsumeOptions == nil {
+	if consumer.Connection == nil || consumer.Connection.IsClosed() {
 		return nil
 	}
 
@@ -39,6 +41,10 @@ func (consumer *RabbitMQEventConsumer) Consume() error {
 	if err != nil {
 		return err
 	}
+
+	defer channel.Close()
+
+	var forever chan struct{}
 
 	for eventName, options := range consumer.ConsumeOptions {
 		exchangeOptions := options.ExchangeOptions
@@ -104,13 +110,17 @@ func (consumer *RabbitMQEventConsumer) Consume() error {
 				err := handler.Handle(msg.Body)
 
 				if err != nil {
-					fmt.Printf("Error consume event %s: %s\n", eventName, err.Error())
+					consumer.Logger.Errorf("Error consume event %s: %s\n", eventName, err.Error())
 				} else if !options.AutoAck {
 					channel.Ack(msg.DeliveryTag, false)
 				}
 			}
 		}()
 	}
+
+	consumer.Logger.Info("Start consuming events from RabbitMQ")
+
+	<-forever
 
 	return nil
 }
@@ -121,8 +131,14 @@ func (consumer *RabbitMQEventConsumer) ConfigureConsume(
 	config func(*RabbitMQConsumeEventOptions),
 ) {
 	options := RabbitMQConsumeEventOptions{
-		ExchangeOptions: RabbitMQExchangeOptions{},
-		QueueOptions:    RabbitMQQueueOptions{},
+		ExchangeOptions: RabbitMQExchangeOptions{
+			Type:    Fanout,
+			Durable: true,
+		},
+		QueueOptions: RabbitMQQueueOptions{
+			Durable: true,
+		},
+		AutoAck: true,
 	}
 
 	config(&options)

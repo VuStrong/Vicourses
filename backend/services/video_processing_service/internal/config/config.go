@@ -11,6 +11,7 @@ import (
 type Config struct {
 	RabbitMQUri        string
 	S3                 S3
+	Logger             Logger
 	VideoEncodeHeights []int
 }
 
@@ -21,6 +22,11 @@ type S3 struct {
 	AccessKeySecret string
 	Bucket          string
 	Domain          string
+}
+
+type Logger struct {
+	Encoding string
+	Level    string
 }
 
 func LoadConfig() (*Config, error) {
@@ -39,6 +45,11 @@ func LoadConfig() (*Config, error) {
 		AccessKeySecret: os.Getenv("S3_ACCESS_KEY_SECRET"),
 		Bucket:          os.Getenv("S3_BUCKET_NAME"),
 		Domain:          os.Getenv("S3_DOMAIN"),
+	}
+
+	config.Logger = Logger{
+		Level:    os.Getenv("LOGGER_LEVEL"),
+		Encoding: os.Getenv("LOGGER_ENCODING"),
 	}
 
 	config.VideoEncodeHeights = []int{}
