@@ -23,10 +23,7 @@ type Config struct {
 func LoadConfig() (*Config, error) {
 	config := Config{}
 
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
-	}
+	godotenv.Load()
 
 	port, err := strconv.Atoi(os.Getenv("SMTP_PORT"))
 	if err != nil {
