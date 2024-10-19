@@ -12,21 +12,21 @@ namespace CourseService.Domain.Models
         public string Title { get; private set; }
         public int Number { get; private set; }
         public bool IsMultiChoice { get; private set; }
-        public string LessionId { get; private set; }
+        public string LessonId { get; private set; }
         public string UserId { get; private set; }
 
         public IReadOnlyList<Answer> Answers => _answers.AsReadOnly();
 
-        private Quiz(string id, int number, string title, string lessionId, string userId)
+        private Quiz(string id, int number, string title, string lessonId, string userId)
         {
             Id = id;
             Number = number;
             Title = title;
-            LessionId = lessionId;
+            LessonId = lessonId;
             UserId = userId;
         }
 
-        internal static Quiz Create(string title, int number, string lessionId, string userId, List<Answer> answers)
+        internal static Quiz Create(string title, int number, string lessonId, string userId, List<Answer> answers)
         {
             title = title.Trim();
             DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
@@ -34,7 +34,7 @@ namespace CourseService.Domain.Models
 
             var id = StringExtensions.GenerateIdString(14);
             
-            var quiz = new Quiz(id, number, title, lessionId, userId);
+            var quiz = new Quiz(id, number, title, lessonId, userId);
 
             quiz.SetAnswers(answers);
 

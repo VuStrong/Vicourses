@@ -13,10 +13,10 @@ namespace CourseService.Application.MapperProfiles
             CreateMap<CategoryInCourse, CategoryInCourseDto>();
             CreateMap<UserInCourse, UserInCourseDto>();
 
-            CreateMap<Lession, LessionInPublicCurriculumDto>();
-            CreateMap<Lession, LessionInInstructorCurriculumDto>();
-            CreateMap<SectionWithLessions, SectionInPublicCurriculumDto>();
-            CreateMap<SectionWithLessions, SectionInInstructorCurriculumDto>();
+            CreateMap<Lesson, LessonInPublicCurriculumDto>();
+            CreateMap<Lesson, LessonInInstructorCurriculumDto>();
+            CreateMap<SectionWithLessons, SectionInPublicCurriculumDto>();
+            CreateMap<SectionWithLessons, SectionInInstructorCurriculumDto>();
 
             CreateMap<Course, CourseDto>()
                 .ForMember(

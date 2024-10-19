@@ -8,7 +8,6 @@ using CourseService.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Events;
 
 namespace CourseService.Infrastructure
 {
@@ -18,7 +17,7 @@ namespace CourseService.Infrastructure
         {
             CourseMap.Configure();
             SectionMap.Configure();
-            LessionMap.Configure();
+            LessonMap.Configure();
             UserMap.Configure();
             CategoryMap.Configure();
             EnrollmentMap.Configure();
@@ -31,7 +30,7 @@ namespace CourseService.Infrastructure
             services.AddScoped<ICourseCurriculumRepository, CourseCurriculumRepository>();
             services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddScoped<ISectionRepository, SectionRepository>();
-            services.AddScoped<ILessionRepository, LessionRepository>();
+            services.AddScoped<ILessonRepository, LessonRepository>();
 
             services.AddSingleton<IDomainEventDispatcher, DomainEventDispatcher>(s =>
             {
@@ -58,7 +57,7 @@ namespace CourseService.Infrastructure
 
             services.AddCollection<Course>(databaseName, "courses")
                 .AddCollection<Section>(databaseName, "sections")
-                .AddCollection<Lession>(databaseName, "lessions")
+                .AddCollection<Lesson>(databaseName, "lessons")
                 .AddCollection<Category>(databaseName, "categories")
                 .AddCollection<User>(databaseName, "users")
                 .AddCollection<Enrollment>(databaseName, "enrollments")

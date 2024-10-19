@@ -1,5 +1,5 @@
 ﻿using CourseService.Application.DomainEventHandlers.Course;
-using CourseService.Application.DomainEventHandlers.Lession;
+using CourseService.Application.DomainEventHandlers.Lesson;
 using CourseService.Application.DomainEventHandlers.Section;
 using CourseService.Application.IntegrationEventHandlers.User;
 using CourseService.Application.IntegrationEvents.Course;
@@ -9,7 +9,7 @@ using CourseService.Application.Interfaces;
 using CourseService.Application.Services;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
-using CourseService.Domain.Events.Lession;
+using CourseService.Domain.Events.Lesson;
 using CourseService.Domain.Events.Section;
 using CourseService.Domain.Services;
 using CourseService.Domain.Services.Implementations;
@@ -51,7 +51,7 @@ namespace CourseService.Application
             services.AddScoped<ICourseService, Services.CourseService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICourseCurriculumService, CourseCurriculumService>();
-            services.AddScoped<ILessionQuizService, LessionQuizService>();
+            services.AddScoped<ILessonQuizService, LessonQuizService>();
 
             // Domain services
             services.AddScoped<IQuizDomainService, QuizDomainService>();
@@ -61,7 +61,7 @@ namespace CourseService.Application
             services.AddScoped<IDomainEventHandler<CoursePublishedDomainEvent>, CoursePublishedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<CourseUnpublishedDomainEvent>, CourseUnpublishedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<CourseInfoUpdatedDomainEvent>, CourseInfoUpdatedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<LessionDeletedDomainEvent>, LessionDeletedDomainEventHandler>();
+            services.AddScoped<IDomainEventHandler<LessonDeletedDomainEvent>, LessonDeletedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<SectionDeletedDomainEvent>, SectionDeletedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<CourseDeletedDomainEvent>, CourseDeletedDomainEventHandler>();
         }

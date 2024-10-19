@@ -1,6 +1,6 @@
 ﻿namespace CourseService.Domain.Enums
 {
-    public enum LessionType
+    public enum LessonType
     {
         Video,
         Quiz

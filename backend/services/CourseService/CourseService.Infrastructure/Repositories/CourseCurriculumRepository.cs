@@ -9,17 +9,17 @@ namespace CourseService.Infrastructure.Repositories
     public class CourseCurriculumRepository : ICourseCurriculumRepository
     {
         private readonly IMongoCollection<Section> _sectionCollection;
-        private readonly IMongoCollection<Lession> _lessionCollection;
+        private readonly IMongoCollection<Lesson> _lessonCollection;
 
         public CourseCurriculumRepository(
             IMongoCollection<Section> sectionCollection,
-            IMongoCollection<Lession> lessionCollection)
+            IMongoCollection<Lesson> lessonCollection)
         {
             _sectionCollection = sectionCollection;
-            _lessionCollection = lessionCollection;
+            _lessonCollection = lessonCollection;
         }
 
-        public async Task<List<SectionWithLessions>> GetCourseCurriculumAsync(string courseId)
+        public async Task<List<SectionWithLessons>> GetCourseCurriculumAsync(string courseId)
         {
             var pipeline = new[] {
                 new BsonDocument("$match",
@@ -31,7 +31,7 @@ namespace CourseService.Infrastructure.Repositories
                 new BsonDocument("$lookup",
                     new BsonDocument
                     {
-                        { "from", "lessions" },
+                        { "from", "lessons" },
                         {
                             "let",
                             new BsonDocument
@@ -50,24 +50,24 @@ namespace CourseService.Infrastructure.Repositories
                                         "$expr",
                                         new BsonDocument(
                                             "$eq",
-                                            new BsonArray{ "$$id", $"${nameof(Lession.SectionId)}" }
+                                            new BsonArray{ "$$id", $"${nameof(Lesson.SectionId)}" }
                                         )
                                     )
                                 ),
                                 new BsonDocument(
                                     "$sort",
-                                    new BsonDocument{ { $"{nameof(Lession.Order)}", 1 } }
+                                    new BsonDocument{ { $"{nameof(Lesson.Order)}", 1 } }
                                 )
                             }
                         },
-                        { "as", nameof(SectionWithLessions.Lessions) }
+                        { "as", nameof(SectionWithLessons.Lessons) }
                     }
                 ),
                 new BsonDocument("$addFields",
                     new BsonDocument
                     {
-                        { $"{nameof(SectionWithLessions.Duration)}", new BsonDocument { { "$sum", "$Lessions.Duration" } } },
-                        { $"{nameof(SectionWithLessions.LessionCount)}", new BsonDocument { { "$size", "$Lessions" } } }
+                        { $"{nameof(SectionWithLessons.Duration)}", new BsonDocument { { "$sum", "$Lessons.Duration" } } },
+                        { $"{nameof(SectionWithLessons.LessonCount)}", new BsonDocument { { "$size", "$Lessons" } } }
                     }
                 ),
                 new BsonDocument("$sort",
@@ -76,7 +76,7 @@ namespace CourseService.Infrastructure.Repositories
             };
 
             var result = await _sectionCollection
-                .Aggregate<SectionWithLessions>(pipeline)
+                .Aggregate<SectionWithLessons>(pipeline)
                 .ToListAsync();
 
             return result;
@@ -84,24 +84,24 @@ namespace CourseService.Infrastructure.Repositories
 
         public async Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items)
         {
-            (var sectionWrites, var lessionWrites) = BuildSectionAndLessionWriteOps(courseId, items);
+            (var sectionWrites, var lessonWrites) = BuildSectionAndLessonWriteOps(courseId, items);
             var bulkOptions = new BulkWriteOptions { IsOrdered = false };
 
             if (sectionWrites.Count > 0)
                 await _sectionCollection.BulkWriteAsync(sectionWrites, bulkOptions);
-            if (lessionWrites.Count > 0)
-                await _lessionCollection.BulkWriteAsync(lessionWrites, bulkOptions);
+            if (lessonWrites.Count > 0)
+                await _lessonCollection.BulkWriteAsync(lessonWrites, bulkOptions);
         }
 
-        private (List<WriteModel<Section>>, List<WriteModel<Lession>>) BuildSectionAndLessionWriteOps(string courseId, List<CurriculumItem> items)
+        private (List<WriteModel<Section>>, List<WriteModel<Lesson>>) BuildSectionAndLessonWriteOps(string courseId, List<CurriculumItem> items)
         {
             var sectionWrites = new List<WriteModel<Section>>();
             var sectionFilter = Builders<Section>.Filter;
             var sectionUpdate = Builders<Section>.Update;
 
-            var lessionWrites = new List<WriteModel<Lession>>();
-            var lessionFilter = Builders<Lession>.Filter;
-            var lessionUpdate = Builders<Lession>.Update;
+            var lessonWrites = new List<WriteModel<Lesson>>();
+            var lessonFilter = Builders<Lesson>.Filter;
+            var lessonUpdate = Builders<Lesson>.Update;
 
             var lastSectionId = string.Empty;
             var sectionCount = 0;
@@ -124,26 +124,26 @@ namespace CourseService.Infrastructure.Repositories
                 }
                 else
                 {
-                    UpdateDefinition<Lession>? update = null;
+                    UpdateDefinition<Lesson>? update = null;
 
                     if (lastSectionId != string.Empty)
                     {
-                        update = lessionUpdate.Set(l => l.Order, index - (sectionCount - 1))
+                        update = lessonUpdate.Set(l => l.Order, index - (sectionCount - 1))
                             .Set(l => l.SectionId, lastSectionId);
                     }
                     else
                     {
-                        update = lessionUpdate.Set(l => l.Order, index - (sectionCount - 1));
+                        update = lessonUpdate.Set(l => l.Order, index - (sectionCount - 1));
                     }
 
-                    lessionWrites.Add(new UpdateOneModel<Lession>(
-                        lessionFilter.Eq(l => l.Id, item.Id) & lessionFilter.Eq(l => l.CourseId, courseId),
+                    lessonWrites.Add(new UpdateOneModel<Lesson>(
+                        lessonFilter.Eq(l => l.Id, item.Id) & lessonFilter.Eq(l => l.CourseId, courseId),
                         update
                     ));
                 }
             }
 
-            return (sectionWrites, lessionWrites);
+            return (sectionWrites, lessonWrites);
         }
     }
 }

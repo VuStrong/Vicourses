@@ -1,6 +1,6 @@
-﻿namespace CourseService.Application.Dtos.Lession
+﻿namespace CourseService.Application.Dtos.Lesson
 {
-    public class LessionDto
+    public class LessonDto
     {
         public string Id { get; set; } = string.Empty;
         public string CourseId { get; set; } = string.Empty;

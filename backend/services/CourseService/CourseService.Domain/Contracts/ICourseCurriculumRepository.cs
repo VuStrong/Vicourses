@@ -4,7 +4,7 @@ namespace CourseService.Domain.Contracts
 {
     public interface ICourseCurriculumRepository
     {
-        Task<List<SectionWithLessions>> GetCourseCurriculumAsync(string courseId);
+        Task<List<SectionWithLessons>> GetCourseCurriculumAsync(string courseId);
         Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items);
     }
 
@@ -17,6 +17,6 @@ namespace CourseService.Domain.Contracts
     public enum CurriculumItemType
     {
         Section,
-        Lession,
+        Lesson,
     }
 }

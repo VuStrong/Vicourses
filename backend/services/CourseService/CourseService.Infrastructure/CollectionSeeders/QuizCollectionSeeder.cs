@@ -10,7 +10,7 @@ namespace CourseService.Infrastructure.CollectionSeeders
             var indexBuilder = Builders<Quiz>.IndexKeys;
 
             var indexes = new List<CreateIndexModel<Quiz>> {
-                new (indexBuilder.Ascending(c => c.LessionId))
+                new (indexBuilder.Ascending(c => c.LessonId))
             };
 
             await collection.Indexes.CreateManyAsync(indexes);

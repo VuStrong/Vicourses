@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization.Serializers;
 
 namespace CourseService.Infrastructure.ClassMaps
 {
-    public class LessionMap
+    public class LessonMap
     {
         public static void Configure()
         {
@@ -20,12 +20,12 @@ namespace CourseService.Infrastructure.ClassMaps
                 map.SetIgnoreExtraElements(true);
             });
 
-            BsonClassMap.RegisterClassMap<Lession>(map =>
+            BsonClassMap.RegisterClassMap<Lesson>(map =>
             {
                 map.AutoMap();
                 map.MapIdMember(c => c.Id);
                 map.MapMember(c => c.Type)
-                    .SetSerializer(new EnumSerializer<LessionType>(BsonType.String));
+                    .SetSerializer(new EnumSerializer<LessonType>(BsonType.String));
 
                 map.SetIgnoreExtraElements(true);
             });

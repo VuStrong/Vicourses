@@ -1,27 +1,27 @@
 ﻿namespace CourseService.Application.Dtos.Quiz
 {
-    public class CreateLessionQuizDto
+    public class CreateLessonQuizDto
     {
         public string Title { get; set; }
-        public string LessionId { get; set; }
+        public string LessonId { get; set; }
         public string UserId { get; set; }
-        public List<CreateUpdateLessionQuizAnswerDto> Answers { get; set; } = [];
+        public List<CreateUpdateLessonQuizAnswerDto> Answers { get; set; } = [];
 
-        public CreateLessionQuizDto(string title, string lessionId, string userId)
+        public CreateLessonQuizDto(string title, string lessonId, string userId)
         {
             Title = title;
-            LessionId = lessionId;
+            LessonId = lessonId;
             UserId = userId;
         }
     }
 
-    public class CreateUpdateLessionQuizAnswerDto
+    public class CreateUpdateLessonQuizAnswerDto
     {
         public string Title { get; set; }
         public bool IsCorrect { get; set; }
         public string? Explanation { get; set; }
 
-        public CreateUpdateLessionQuizAnswerDto(string title, bool isCorrect, string? explanation)
+        public CreateUpdateLessonQuizAnswerDto(string title, bool isCorrect, string? explanation)
         {
             Title = title;
             IsCorrect = isCorrect;

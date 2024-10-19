@@ -7,7 +7,7 @@ namespace CourseService.Domain.Services.Implementations
 {
     public class QuizDomainService : IQuizDomainService
     {
-        private const int MaxQuizzesInLession = 10;
+        private const int MaxQuizzesInLesson = 10;
         private readonly IQuizRepository _quizRepository;
 
         public QuizDomainService(IQuizRepository quizRepository)
@@ -15,20 +15,20 @@ namespace CourseService.Domain.Services.Implementations
             _quizRepository = quizRepository;
         }
 
-        public async Task<Quiz> CreateQuizForLessionAsync(Lession lession, string title, string userId, List<Answer> answers)
+        public async Task<Quiz> CreateQuizForLessonAsync(Lesson lesson, string title, string userId, List<Answer> answers)
         {
-            if (lession.Type != LessionType.Quiz)
+            if (lesson.Type != LessonType.Quiz)
             {
-                throw new DomainException("Cannot add quiz to a Non-Quiz lession");
+                throw new DomainException("Cannot add quiz to a Non-Quiz lesson");
             }
 
-            var quizCount = await _quizRepository.CountByLessionIdAsync(lession.Id);
-            if (quizCount >= MaxQuizzesInLession)
+            var quizCount = await _quizRepository.CountByLessonIdAsync(lesson.Id);
+            if (quizCount >= MaxQuizzesInLesson)
             {
-                throw new DomainException($"A lession can only have a maximum of {MaxQuizzesInLession} quizzes");
+                throw new DomainException($"A lesson can only have a maximum of {MaxQuizzesInLesson} quizzes");
             }
 
-            var quiz = Quiz.Create(title, Convert.ToInt32(quizCount + 1), lession.Id, userId, answers);
+            var quiz = Quiz.Create(title, Convert.ToInt32(quizCount + 1), lesson.Id, userId, answers);
 
             return quiz;
         }

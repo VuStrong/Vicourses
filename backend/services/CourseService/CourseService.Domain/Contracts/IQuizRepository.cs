@@ -4,10 +4,10 @@ namespace CourseService.Domain.Contracts
 {
     public interface IQuizRepository : IRepository<Quiz>
     {
-        Task<long> CountByLessionIdAsync(string lessionId);
-        Task<List<Quiz>> FindByLessionIdAsync(string lessionId);
-        Task ChangeOrderAsync(string lessionId, List<string> quizIds);
-        Task DeleteByLessionIdAsync(string lessionId);
-        Task DeleteByLessionIdsAsync(IEnumerable<string> lessionIds);
+        Task<long> CountByLessonIdAsync(string lessonId);
+        Task<List<Quiz>> FindByLessonIdAsync(string lessonId);
+        Task ChangeOrderAsync(string lessonId, List<string> quizIds);
+        Task DeleteByLessonIdAsync(string lessonId);
+        Task DeleteByLessonIdsAsync(IEnumerable<string> lessonIds);
     }
 }

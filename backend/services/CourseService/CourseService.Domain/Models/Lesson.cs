@@ -5,7 +5,7 @@ using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models
 {
-    public class Lession : Entity, IBaseEntity
+    public class Lesson : Entity, IBaseEntity
     {
         public string Id { get; private set; }
         public string CourseId { get; private set; }
@@ -15,12 +15,12 @@ namespace CourseService.Domain.Models
         public string? Description { get; private set; }
         public int Duration { get; private set; }
         public int Order {  get; private set; }
-        public LessionType Type { get; private set; } = LessionType.Video;
+        public LessonType Type { get; private set; } = LessonType.Video;
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public VideoFile? Video { get; private set; }
 
-        private Lession(string id, string title, string courseId, string sectionId, string userId)
+        private Lesson(string id, string title, string courseId, string sectionId, string userId)
         {
             Id = id;
             Title = title;
@@ -29,7 +29,7 @@ namespace CourseService.Domain.Models
             UserId = userId;
         }
 
-        public static Lession Create(string title, Course course, Section section, string userId, LessionType type, string? description)
+        public static Lesson Create(string title, Course course, Section section, string userId, LessonType type, string? description)
         {
             title = title.Trim();
             DomainValidationException.ThrowIfStringOutOfLength(title, 3, 80, nameof(title));
@@ -41,7 +41,7 @@ namespace CourseService.Domain.Models
 
             var id = StringExtensions.GenerateIdString(14);
 
-            return new Lession(id, title, course.Id, section.Id, userId)
+            return new Lesson(id, title, course.Id, section.Id, userId)
             {
                 Description = description,
                 Type = type,

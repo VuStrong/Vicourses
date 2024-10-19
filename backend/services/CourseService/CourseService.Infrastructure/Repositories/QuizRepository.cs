@@ -9,21 +9,21 @@ namespace CourseService.Infrastructure.Repositories
     {
         public QuizRepository(IMongoCollection<Quiz> collection) : base(collection) { }
 
-        public async Task<long> CountByLessionIdAsync(string lessionId)
+        public async Task<long> CountByLessonIdAsync(string lessonId)
         {
-            var filter = Builders<Quiz>.Filter.Eq(q => q.LessionId, lessionId);
+            var filter = Builders<Quiz>.Filter.Eq(q => q.LessonId, lessonId);
 
             return await _collection.CountDocumentsAsync(filter);
         }
 
-        public async Task<List<Quiz>> FindByLessionIdAsync(string lessionId)
+        public async Task<List<Quiz>> FindByLessonIdAsync(string lessonId)
         {
-            var filter = Builders<Quiz>.Filter.Eq(q => q.LessionId, lessionId);
+            var filter = Builders<Quiz>.Filter.Eq(q => q.LessonId, lessonId);
 
             return await _collection.Find(filter).SortBy(q => q.Number).ToListAsync();
         }
 
-        public async Task ChangeOrderAsync(string lessionId, List<string> quizIds)
+        public async Task ChangeOrderAsync(string lessonId, List<string> quizIds)
         {
             var filterBuilder = Builders<Quiz>.Filter;
             var updateBuilder = Builders<Quiz>.Update;
@@ -36,7 +36,7 @@ namespace CourseService.Infrastructure.Repositories
                 var quizId = quizIds[index];
 
                 writes.Add(new UpdateOneModel<Quiz>(
-                    filterBuilder.Eq(q => q.Id, quizId) & filterBuilder.Eq(q => q.LessionId, lessionId),
+                    filterBuilder.Eq(q => q.Id, quizId) & filterBuilder.Eq(q => q.LessonId, lessonId),
                     updateBuilder.Set(q => q.Number, index + 1)
                 ));
             }
@@ -45,14 +45,14 @@ namespace CourseService.Infrastructure.Repositories
                 await _collection.BulkWriteAsync(writes, new BulkWriteOptions { IsOrdered = false });
         }
 
-        public async Task DeleteByLessionIdAsync(string lessionId)
+        public async Task DeleteByLessonIdAsync(string lessonId)
         {
-            await _collection.DeleteManyAsync(Builders<Quiz>.Filter.Eq(q => q.LessionId, lessionId));
+            await _collection.DeleteManyAsync(Builders<Quiz>.Filter.Eq(q => q.LessonId, lessonId));
         }
 
-        public async Task DeleteByLessionIdsAsync(IEnumerable<string> lessionIds)
+        public async Task DeleteByLessonIdsAsync(IEnumerable<string> lessonIds)
         {
-            var filter = Builders<Quiz>.Filter.In(q => q.LessionId, lessionIds);
+            var filter = Builders<Quiz>.Filter.In(q => q.LessonId, lessonIds);
             await _collection.DeleteManyAsync(filter);
         }
     }

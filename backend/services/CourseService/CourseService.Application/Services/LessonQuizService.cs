@@ -8,35 +8,35 @@ using CourseService.Domain.Services;
 
 namespace CourseService.Application.Services
 {
-    public class LessionQuizService : ILessionQuizService
+    public class LessonQuizService : ILessonQuizService
     {
-        private readonly ILessionRepository _lessionRepository;
+        private readonly ILessonRepository _lessonRepository;
         private readonly IQuizRepository _quizRepository;
         private readonly IQuizDomainService _quizDomainService;
         private readonly IMapper _mapper;
 
-        public LessionQuizService(
-            ILessionRepository lessionRepository,
+        public LessonQuizService(
+            ILessonRepository lessonRepository,
             IQuizRepository quizRepository,
             IQuizDomainService quizDomainService,
             IMapper mapper)
         {
-            _lessionRepository = lessionRepository;
+            _lessonRepository = lessonRepository;
             _quizRepository = quizRepository;
             _quizDomainService = quizDomainService;
             _mapper = mapper;
         }
 
-        public async Task<List<QuizDto>> GetQuizzesByLessionIdAsync(string lessionId)
+        public async Task<List<QuizDto>> GetQuizzesByLessonIdAsync(string lessonId)
         {
-            var quizzes = await _quizRepository.FindByLessionIdAsync(lessionId);
+            var quizzes = await _quizRepository.FindByLessonIdAsync(lessonId);
 
             return _mapper.Map<List<QuizDto>>(quizzes);
         }
 
-        public async Task<QuizDto> CreateLessionQuizAsync(CreateLessionQuizDto data)
+        public async Task<QuizDto> CreateLessonQuizAsync(CreateLessonQuizDto data)
         {
-            var lession = await GetAndValidateLessionAsync(data.LessionId, data.UserId);
+            var lesson = await GetAndValidateLessonAsync(data.LessonId, data.UserId);
 
             var answers = new List<Answer>();
             foreach (var answerDto in data.Answers)
@@ -44,14 +44,14 @@ namespace CourseService.Application.Services
                 answers.Add(Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation));
             }
 
-            var quiz = await _quizDomainService.CreateQuizForLessionAsync(lession, data.Title, data.UserId, answers);
+            var quiz = await _quizDomainService.CreateQuizForLessonAsync(lesson, data.Title, data.UserId, answers);
 
             await _quizRepository.CreateAsync(quiz);
 
             return _mapper.Map<QuizDto>(quiz);
         }
 
-        public async Task<QuizDto> UpdateLessionQuizAsync(string quizId, UpdateLessionQuizDto data, string ownerId)
+        public async Task<QuizDto> UpdateLessonQuizAsync(string quizId, UpdateLessonQuizDto data, string ownerId)
         {
             var quiz = await _quizRepository.FindOneAsync(quizId);
 
@@ -78,7 +78,7 @@ namespace CourseService.Application.Services
             return _mapper.Map<QuizDto>(quiz);
         }
 
-        public async Task DeleteLessionQuizAsync(string quizId, string ownerId)
+        public async Task DeleteLessonQuizAsync(string quizId, string ownerId)
         {
             var quiz = await _quizRepository.FindOneAsync(quizId);
 
@@ -95,28 +95,28 @@ namespace CourseService.Application.Services
             await _quizRepository.DeleteOneAsync(quizId);
         }
 
-        public async Task ChangeOrderOfQuizzesAsync(string lessionId, List<string> quizIds, string ownerId)
+        public async Task ChangeOrderOfQuizzesAsync(string lessonId, List<string> quizIds, string ownerId)
         {
-            await GetAndValidateLessionAsync(lessionId, ownerId);
+            await GetAndValidateLessonAsync(lessonId, ownerId);
 
-            await _quizRepository.ChangeOrderAsync(lessionId, quizIds);
+            await _quizRepository.ChangeOrderAsync(lessonId, quizIds);
         }
 
-        private async Task<Lession> GetAndValidateLessionAsync(string lessionId, string ownerId)
+        private async Task<Lesson> GetAndValidateLessonAsync(string lessonId, string ownerId)
         {
-            var lession = await _lessionRepository.FindOneAsync(lessionId);
+            var lesson = await _lessonRepository.FindOneAsync(lessonId);
 
-            if (lession == null)
+            if (lesson == null)
             {
-                throw new LessionNotFoundException(lessionId);
+                throw new LessonNotFoundException(lessonId);
             }
 
-            if (lession.UserId != ownerId)
+            if (lesson.UserId != ownerId)
             {
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            return lession;
+            return lesson;
         }
     }
 }

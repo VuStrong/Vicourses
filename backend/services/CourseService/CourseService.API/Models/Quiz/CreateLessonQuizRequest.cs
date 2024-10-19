@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CourseService.API.Models.Quiz
 {
-    public class UpdateLessionQuizRequest
+    public class CreateLessonQuizRequest
     {
         [Required]
         [StringLength(100, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 3)]
@@ -13,23 +13,35 @@ namespace CourseService.API.Models.Quiz
         [Length(2, 5, ErrorMessage = "{0} length must be between {1} and {2}")]
         public List<CreateUpdateQuizAnswerRequest> Answers { get; set; } = [];
 
-        public UpdateLessionQuizDto ToUpdateLessionQuizDto()
+        public CreateLessonQuizDto ToCreateLessonQuizDto(string lessonId, string userId)
         {
-            List<CreateUpdateLessionQuizAnswerDto> answersDto = [];
+            List<CreateUpdateLessonQuizAnswerDto> answersDto = [];
 
             foreach (var answers in Answers)
             {
-                answersDto.Add(new CreateUpdateLessionQuizAnswerDto(
+                answersDto.Add(new CreateUpdateLessonQuizAnswerDto(
                     answers.Title,
                     answers.IsCorrect,
                     answers.Explanation
                 ));
             }
 
-            return new UpdateLessionQuizDto(Title)
+            return new CreateLessonQuizDto(Title, lessonId, userId)
             {
                 Answers = answersDto
             };
         }
+    }
+
+    public class CreateUpdateQuizAnswerRequest
+    {
+        [Required]
+        [StringLength(200, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 1)]
+        public string Title { get; set; } = null!;
+
+        public bool IsCorrect { get; set; }
+
+        [StringLength(200, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 5)]
+        public string? Explanation { get; set; }
     }
 }

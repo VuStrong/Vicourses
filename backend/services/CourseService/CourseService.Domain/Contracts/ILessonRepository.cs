@@ -2,10 +2,10 @@
 
 namespace CourseService.Domain.Contracts
 {
-    public interface ILessionRepository : IRepository<Lession>
+    public interface ILessonRepository : IRepository<Lesson>
     {
-        Task<List<Lession>> FindBySectionIdAsync(string sectionId);
-        Task<List<Lession>> FindByCourseIdAsync(string courseId);
+        Task<List<Lesson>> FindBySectionIdAsync(string sectionId);
+        Task<List<Lesson>> FindByCourseIdAsync(string courseId);
 
         Task DeleteBySectionIdAsync(string sectionId);
         Task DeleteByCourseIdAsync(string courseId);

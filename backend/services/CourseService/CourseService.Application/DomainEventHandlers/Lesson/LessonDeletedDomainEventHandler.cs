@@ -1,31 +1,31 @@
 ﻿using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Events;
-using CourseService.Domain.Events.Lession;
+using CourseService.Domain.Events.Lesson;
 using CourseService.EventBus;
 
-namespace CourseService.Application.DomainEventHandlers.Lession
+namespace CourseService.Application.DomainEventHandlers.Lesson
 {
-    public class LessionDeletedDomainEventHandler : IDomainEventHandler<LessionDeletedDomainEvent>
+    public class LessonDeletedDomainEventHandler : IDomainEventHandler<LessonDeletedDomainEvent>
     {
         private readonly IQuizRepository _quizRepository;
         private readonly IEventBus _eventBus;
 
-        public LessionDeletedDomainEventHandler(IQuizRepository quizRepository, IEventBus eventBus)
+        public LessonDeletedDomainEventHandler(IQuizRepository quizRepository, IEventBus eventBus)
         {
             _quizRepository = quizRepository;
             _eventBus = eventBus;
         }
 
-        public async Task Handle(LessionDeletedDomainEvent @event)
+        public async Task Handle(LessonDeletedDomainEvent @event)
         {
-            if (@event.Lession.Type == Domain.Enums.LessionType.Quiz)
+            if (@event.Lesson.Type == Domain.Enums.LessonType.Quiz)
             {
-                await _quizRepository.DeleteByLessionIdAsync(@event.Lession.Id);
+                await _quizRepository.DeleteByLessonIdAsync(@event.Lesson.Id);
             }
             else
             {
-                var videoFileId = @event.Lession.Video?.FileId;
+                var videoFileId = @event.Lesson.Video?.FileId;
 
                 if (videoFileId != null)
                 {

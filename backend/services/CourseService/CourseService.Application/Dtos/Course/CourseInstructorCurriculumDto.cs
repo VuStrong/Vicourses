@@ -13,11 +13,11 @@
         public string? Description { get; set; }
         public int Order { get; set; }
         public int Duration { get; set; }
-        public int LessionCount { get; set; }
-        public List<LessionInInstructorCurriculumDto> Lessions { get; set; } = [];
+        public int LessonCount { get; set; }
+        public List<LessonInInstructorCurriculumDto> Lessons { get; set; } = [];
     }
 
-    public class LessionInInstructorCurriculumDto
+    public class LessonInInstructorCurriculumDto
     {
         public string Id { get; protected set; } = string.Empty;
         public string CourseId { get; set; } = string.Empty;

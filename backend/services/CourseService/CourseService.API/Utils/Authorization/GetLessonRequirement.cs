@@ -2,7 +2,7 @@
 
 namespace CourseService.API.Utils.Authorization
 {
-    public class GetLessionRequirement : IAuthorizationRequirement
+    public class GetLessonRequirement : IAuthorizationRequirement
     {
     }
 }

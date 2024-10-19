@@ -51,13 +51,13 @@ namespace CourseService.API.Extensions
                 opt.AddPolicy("GetSectionPolicy", policy =>
                     policy.Requirements.Add(new GetSectionRequirement()));
 
-                opt.AddPolicy("GetLessionPolicy", policy =>
-                    policy.Requirements.Add(new GetLessionRequirement()));
+                opt.AddPolicy("GetLessonPolicy", policy =>
+                    policy.Requirements.Add(new GetLessonRequirement()));
             });
 
             builder.Services.AddScoped<IAuthorizationHandler, GetCourseAuthorizationHandler>();
             builder.Services.AddScoped<IAuthorizationHandler, GetSectionAuthorizationHandler>();
-            builder.Services.AddScoped<IAuthorizationHandler, GetLessionAuthorizationHandler>();
+            builder.Services.AddScoped<IAuthorizationHandler, GetLessonAuthorizationHandler>();
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 

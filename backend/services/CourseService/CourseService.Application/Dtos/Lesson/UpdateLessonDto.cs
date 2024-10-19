@@ -1,6 +1,6 @@
-﻿namespace CourseService.Application.Dtos.Lession
+﻿namespace CourseService.Application.Dtos.Lesson
 {
-    public class UpdateLessionDto
+    public class UpdateLessonDto
     {
         public string? Title { get; set; }
         public string? Description { get; set; }

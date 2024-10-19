@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CourseService.Application.Dtos;
-using CourseService.Application.Dtos.Lession;
+using CourseService.Application.Dtos.Lesson;
 
-namespace CourseService.API.Models.Lession
+namespace CourseService.API.Models.Lesson
 {
-    public class UpdateLessionRequest
+    public class UpdateLessonRequest
     {
         [StringLength(80, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 3)]
         public string? Title { get; set; }
@@ -12,11 +12,11 @@ namespace CourseService.API.Models.Lession
         [StringLength(200, ErrorMessage = "{0} length must not greater than {1}.")]
         public string? Description { get; set; }
 
-        public UpdateLessionVideoRequest? Video { get; set; }
+        public UpdateLessonVideoRequest? Video { get; set; }
 
-        public UpdateLessionDto ToUpdateLessionDto()
+        public UpdateLessonDto ToUpdateLessonDto()
         {
-            return new UpdateLessionDto
+            return new UpdateLessonDto
             {
                 Title = Title,
                 Description = Description,
@@ -30,7 +30,7 @@ namespace CourseService.API.Models.Lession
         }
     }
 
-    public record UpdateLessionVideoRequest
+    public record UpdateLessonVideoRequest
     {
         [Required(ErrorMessage = "The video.fileId field is required")]
         public string FileId { get; set; } = null!;
