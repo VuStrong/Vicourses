@@ -44,6 +44,16 @@ func configureRabbitMQPublisher(rabbitmqConnection *amqp.Connection) *rabbitmq.R
 	publisher.ConfigurePublish(events.CoursePreviewVideoProcessingCompletedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
 		o.ExchangeOptions.Name = "course-preview-video-processing.completed"
 	})
+	publisher.ConfigurePublish(events.CoursePreviewVideoProcessingFailedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
+		o.ExchangeOptions.Name = "course-preview-video-processing.failed"
+	})
+
+	publisher.ConfigurePublish(events.LessonVideoProcessingCompletedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
+		o.ExchangeOptions.Name = "lesson-video-processing.completed"
+	})
+	publisher.ConfigurePublish(events.LessonVideoProcessingFailedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
+		o.ExchangeOptions.Name = "lesson-video-processing.failed"
+	})
 
 	return publisher
 }
@@ -66,12 +76,12 @@ func configureRabbitMQConsumer(
 		},
 	)
 	consumer.ConfigureConsume(
-		events.RequestLessionVideoProcessingEvent{},
-		eventhandlers.NewRequestLessionVideoProcessingEventHandler(l, publisher, cfg),
+		events.RequestLessonVideoProcessingEvent{},
+		eventhandlers.NewRequestLessonVideoProcessingEventHandler(l, publisher, cfg),
 		func(o *rabbitmq.RabbitMQConsumeEventOptions) {
 			o.ExcludeExchange = true
 
-			o.QueueOptions.Name = "process_lession_video"
+			o.QueueOptions.Name = "process_lesson_video"
 		},
 	)
 

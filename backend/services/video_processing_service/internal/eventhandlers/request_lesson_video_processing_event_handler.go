@@ -12,53 +12,53 @@ import (
 	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/videoprocessor"
 )
 
-type RequestCoursePreviewVideoProcessingEventHandler struct {
+type RequestLessonVideoProcessingEventHandler struct {
 	Logger         logger.Logger
 	EventPublisher eventbus.EventPublisher
 	Cfg            *config.Config
 }
 
-func NewRequestCoursePreviewVideoProcessingEventHandler(
+func NewRequestLessonVideoProcessingEventHandler(
 	l logger.Logger,
 	eventPublisher eventbus.EventPublisher,
 	cfg *config.Config,
-) *RequestCoursePreviewVideoProcessingEventHandler {
-	return &RequestCoursePreviewVideoProcessingEventHandler{
+) *RequestLessonVideoProcessingEventHandler {
+	return &RequestLessonVideoProcessingEventHandler{
 		Logger:         l,
 		EventPublisher: eventPublisher,
 		Cfg:            cfg,
 	}
 }
 
-func (handler *RequestCoursePreviewVideoProcessingEventHandler) Handle(eventByte []byte) error {
-	var event events.RequestCoursePreviewVideoProcessingEvent
+func (handler *RequestLessonVideoProcessingEventHandler) Handle(eventByte []byte) error {
+	var event events.RequestLessonVideoProcessingEvent
 
 	err := json.Unmarshal(eventByte, &event)
 	if err != nil {
 		return err
 	}
 
-	handler.Logger.Info("Handle RequestCoursePreviewVideoProcessingEvent")
+	handler.Logger.Info("Handle RequestLessonVideoProcessingEvent")
 
 	completedEvent, err := handler.doProcess(event)
 	if err != nil {
-		failedEvent := &events.CoursePreviewVideoProcessingFailedEvent{CourseId: event.CourseId}
+		failedEvent := &events.LessonVideoProcessingFailedEvent{LessonId: event.LessonId}
 
 		handler.EventPublisher.Publish(failedEvent)
 
 		return err
 	}
 
-	handler.Logger.Info("Completed preview video processing for course " + event.CourseId)
+	handler.Logger.Info("Completed video processing for lesson " + event.LessonId)
 
 	handler.EventPublisher.Publish(completedEvent)
 
 	return nil
 }
 
-func (handler *RequestCoursePreviewVideoProcessingEventHandler) doProcess(
-	event events.RequestCoursePreviewVideoProcessingEvent,
-) (*events.CoursePreviewVideoProcessingCompletedEvent, error) {
+func (handler *RequestLessonVideoProcessingEventHandler) doProcess(
+	event events.RequestLessonVideoProcessingEvent,
+) (*events.LessonVideoProcessingCompletedEvent, error) {
 	downloader, err := cloudstorage.NewDownloader(handler.Cfg)
 	if err != nil {
 		return nil, err
@@ -95,8 +95,8 @@ func (handler *RequestCoursePreviewVideoProcessingEventHandler) doProcess(
 		return nil, err
 	}
 
-	completedEvent := &events.CoursePreviewVideoProcessingCompletedEvent{
-		CourseId:  event.CourseId,
+	completedEvent := &events.LessonVideoProcessingCompletedEvent{
+		LessonId:  event.LessonId,
 		StreamUrl: remotePath + "/" + encodeResult.MasterFileName,
 		Duration:  duration,
 	}

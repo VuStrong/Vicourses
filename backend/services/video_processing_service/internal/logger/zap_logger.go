@@ -60,7 +60,7 @@ func (l *appLogger) InitLogger() {
 
 	w := zapcore.AddSync(&lumberjack.Logger{
 		Filename:   "logs/video-processing-service.log",
-		MaxSize:    100, // MB
+		MaxSize:    10, // MB
 		MaxBackups: 2,
 		MaxAge:     2, // days
 	})

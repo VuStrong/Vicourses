@@ -13,6 +13,7 @@ type Config struct {
 	S3                 S3
 	Logger             Logger
 	VideoEncodeHeights []int
+	RcloneRemote       string
 }
 
 type S3 struct {
@@ -25,17 +26,13 @@ type S3 struct {
 }
 
 type Logger struct {
-	Encoding string
-	Level    string
+	Level string
 }
 
 func LoadConfig() (*Config, error) {
 	config := Config{}
 
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
-	}
+	godotenv.Load()
 
 	config.RabbitMQUri = os.Getenv("RABBITMQ_URI")
 	config.S3 = S3{
@@ -48,11 +45,12 @@ func LoadConfig() (*Config, error) {
 	}
 
 	config.Logger = Logger{
-		Level:    os.Getenv("LOGGER_LEVEL"),
-		Encoding: os.Getenv("LOGGER_ENCODING"),
+		Level: os.Getenv("LOGGER_LEVEL"),
 	}
 
 	config.VideoEncodeHeights = []int{}
+
+	config.RcloneRemote = os.Getenv("RCLONE_REMOTE")
 
 	heightsStr := os.Getenv("VIDEO_ENCODE_HEIGHTS")
 	heightArr := strings.Split(heightsStr, ",")

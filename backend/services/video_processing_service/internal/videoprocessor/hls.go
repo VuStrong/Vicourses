@@ -1,7 +1,6 @@
 package videoprocessor
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"os"
@@ -29,6 +28,12 @@ type HlsEncoder struct {
 	SegmentTime int
 }
 
+type HlsEncodeResult struct {
+	Id             string
+	Path           string
+	MasterFileName string
+}
+
 func NewHlsEncoder(heights []int, segmentTime int) *HlsEncoder {
 	if len(heights) == 0 {
 		heights = append(heights, 360)
@@ -43,28 +48,28 @@ func NewHlsEncoder(heights []int, segmentTime int) *HlsEncoder {
 	}
 }
 
-func (encoder *HlsEncoder) Encode(videoPath string) (string, error) {
-	if _, err := os.Stat("temp/hls"); errors.Is(err, os.ErrNotExist) {
-		err := os.Mkdir("temp/hls", os.ModePerm)
-		if err != nil {
-			return "", err
-		}
+// Convert video into HLS streaming segments and save to temp/hls directory
+func (encoder *HlsEncoder) Encode(videoPath string) (*HlsEncodeResult, error) {
+	err := os.MkdirAll("temp/hls", os.ModePerm)
+	if err != nil {
+		return nil, err
 	}
 
 	width, height, err := GetResolution(videoPath)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	bitrate, err := GetBitrate(videoPath)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	isHasAudio, err := CheckVideoHasAudio(videoPath)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	dir := "temp/hls/" + uuid.New().String()
+	id := uuid.New().String()
+	dir := "temp/hls/" + id
 
 	cmdArgs := encoder.buildArgs(videoPath, width, height, isHasAudio, bitrate, dir)
 
@@ -72,10 +77,15 @@ func (encoder *HlsEncoder) Encode(videoPath string) (string, error) {
 
 	err = cmd.Run()
 	if err != nil {
-		return "", err
+		os.RemoveAll(dir)
+		return nil, err
 	}
 
-	return dir, nil
+	return &HlsEncodeResult{
+		Id:             id,
+		Path:           dir,
+		MasterFileName: "master.m3u8",
+	}, nil
 }
 
 func calculateBitrate(bitrate int, height int) int {

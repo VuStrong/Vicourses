@@ -1,4 +1,4 @@
-package file
+package cloudstorage
 
 import (
 	"context"
@@ -15,16 +15,16 @@ import (
 	"github.com/google/uuid"
 )
 
-type FileDownloader interface {
+type Downloader interface {
 	DownloadFile(fileId string) (string, error)
 }
 
-type s3FileDownloader struct {
+type s3Downloader struct {
 	s3Client  *s3.Client
 	appConfig *config.Config
 }
 
-func NewFileDownloader(cfg *config.Config) (*s3FileDownloader, error) {
+func NewDownloader(cfg *config.Config) (*s3Downloader, error) {
 	s3Cfg := cfg.S3
 
 	awsCfg, err := awsConfig.LoadDefaultConfig(context.TODO(),
@@ -39,13 +39,13 @@ func NewFileDownloader(cfg *config.Config) (*s3FileDownloader, error) {
 		o.BaseEndpoint = aws.String(s3Cfg.Endpoint)
 	})
 
-	return &s3FileDownloader{s3Client: s3Client, appConfig: cfg}, nil
+	return &s3Downloader{s3Client: s3Client, appConfig: cfg}, nil
 }
 
 // Download the file and save to temp/ directory
-func (s3FileDownloader *s3FileDownloader) DownloadFile(fileId string) (string, error) {
+func (s3Downloader *s3Downloader) DownloadFile(fileId string) (string, error) {
 	var partMiBs int64 = 10
-	s3Cfg := s3FileDownloader.appConfig.S3
+	s3Cfg := s3Downloader.appConfig.S3
 
 	ext := filepath.Ext(fileId)
 	path := fmt.Sprintf("temp/%s%s", uuid.New().String(), ext)
@@ -60,7 +60,7 @@ func (s3FileDownloader *s3FileDownloader) DownloadFile(fileId string) (string, e
 		return "", err
 	}
 
-	downloader := manager.NewDownloader(s3FileDownloader.s3Client, func(d *manager.Downloader) {
+	downloader := manager.NewDownloader(s3Downloader.s3Client, func(d *manager.Downloader) {
 		d.PartSize = partMiBs * 1024 * 1024
 	})
 

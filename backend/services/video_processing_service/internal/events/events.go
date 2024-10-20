@@ -5,9 +5,9 @@ type RequestCoursePreviewVideoProcessingEvent struct {
 	VideoUrl string
 }
 
-type RequestLessionVideoProcessingEvent struct {
-	LessionId string
-	VideoUrl  string
+type RequestLessonVideoProcessingEvent struct {
+	LessonId string
+	VideoUrl string
 }
 
 type CoursePreviewVideoProcessingCompletedEvent struct {
@@ -20,12 +20,12 @@ type CoursePreviewVideoProcessingFailedEvent struct {
 	CourseId string
 }
 
-type LessionVideoProcessingCompletedEvent struct {
-	LessionId string
+type LessonVideoProcessingCompletedEvent struct {
+	LessonId  string
 	StreamUrl string
 	Duration  int
 }
 
-type LessionVideoProcessingFailedEvent struct {
-	LessionId string
+type LessonVideoProcessingFailedEvent struct {
+	LessonId string
 }
