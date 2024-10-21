@@ -1,31 +1,20 @@
 package events
 
-type RequestCoursePreviewVideoProcessingEvent struct {
-	CourseId string
-	VideoUrl string
+type RequestVideoProcessingEvent struct {
+	FileId   string
+	Url      string
+	Entity   string
+	EntityId string
 }
 
-type RequestLessonVideoProcessingEvent struct {
-	LessonId string
-	VideoUrl string
+type VideoProcessingCompletedEvent struct {
+	StreamFileUrl string
+	Duration      int
+	Entity        string
+	EntityId      string
 }
 
-type CoursePreviewVideoProcessingCompletedEvent struct {
-	CourseId  string
-	StreamUrl string
-	Duration  int
-}
-
-type CoursePreviewVideoProcessingFailedEvent struct {
-	CourseId string
-}
-
-type LessonVideoProcessingCompletedEvent struct {
-	LessonId  string
-	StreamUrl string
-	Duration  int
-}
-
-type LessonVideoProcessingFailedEvent struct {
-	LessonId string
+type VideoProcessingFailedEvent struct {
+	Entity   string
+	EntityId string
 }

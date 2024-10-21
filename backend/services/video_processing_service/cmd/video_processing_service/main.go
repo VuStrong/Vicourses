@@ -41,18 +41,11 @@ func main() {
 func configureRabbitMQPublisher(rabbitmqConnection *amqp.Connection) *rabbitmq.RabbitMQEventPublisher {
 	publisher := rabbitmq.NewRabbitMQEventPublisher(rabbitmqConnection)
 
-	publisher.ConfigurePublish(events.CoursePreviewVideoProcessingCompletedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
-		o.ExchangeOptions.Name = "course-preview-video-processing.completed"
+	publisher.ConfigurePublish(events.VideoProcessingCompletedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
+		o.ExchangeOptions.Name = "video-processing.completed"
 	})
-	publisher.ConfigurePublish(events.CoursePreviewVideoProcessingFailedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
-		o.ExchangeOptions.Name = "course-preview-video-processing.failed"
-	})
-
-	publisher.ConfigurePublish(events.LessonVideoProcessingCompletedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
-		o.ExchangeOptions.Name = "lesson-video-processing.completed"
-	})
-	publisher.ConfigurePublish(events.LessonVideoProcessingFailedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
-		o.ExchangeOptions.Name = "lesson-video-processing.failed"
+	publisher.ConfigurePublish(events.VideoProcessingFailedEvent{}, func(o *rabbitmq.RabbitMQPublishEventOptions) {
+		o.ExchangeOptions.Name = "video-processing.failed"
 	})
 
 	return publisher
@@ -67,21 +60,12 @@ func configureRabbitMQConsumer(
 	consumer := rabbitmq.NewRabbitMQEventConsumer(rabbitmqConnection, l)
 
 	consumer.ConfigureConsume(
-		events.RequestCoursePreviewVideoProcessingEvent{},
-		eventhandlers.NewRequestCoursePreviewVideoProcessingEventHandler(l, publisher, cfg),
+		events.RequestVideoProcessingEvent{},
+		eventhandlers.NewRequestVideoProcessingEventHandler(l, publisher, cfg),
 		func(o *rabbitmq.RabbitMQConsumeEventOptions) {
 			o.ExcludeExchange = true
 
-			o.QueueOptions.Name = "process_course_preview_video"
-		},
-	)
-	consumer.ConfigureConsume(
-		events.RequestLessonVideoProcessingEvent{},
-		eventhandlers.NewRequestLessonVideoProcessingEventHandler(l, publisher, cfg),
-		func(o *rabbitmq.RabbitMQConsumeEventOptions) {
-			o.ExcludeExchange = true
-
-			o.QueueOptions.Name = "process_lesson_video"
+			o.QueueOptions.Name = "process_video"
 		},
 	)
 
