@@ -70,6 +70,7 @@ router.post(
     authenticate,
     [
         body("fileId", "fileId is invalid").optional().isString(),
+        body("fileName", "fileName is invalid").optional().isString(),
         body(
             "partCount",
             "partCount must be an integer, between 1 and 999"

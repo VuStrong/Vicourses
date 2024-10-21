@@ -55,10 +55,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "url": {
-                                            "type": "string"
-                                        },
-                                        "fileId": {
+                                        "token": {
                                             "type": "string"
                                         }
                                     }
@@ -92,6 +89,9 @@
                                     },
                                     "partCount": {
                                         "type": "integer"
+                                    },
+                                    "fileName": {
+                                        "type": "string"
                                     }
                                 }
                             }
@@ -182,10 +182,7 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "url": {
-                                            "type": "string"
-                                        },
-                                        "fileId": {
+                                        "token": {
                                             "type": "string"
                                         }
                                     }

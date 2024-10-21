@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { verify } from "../utils/jwt";
+import jwt from "jsonwebtoken";
+import fs from "fs";
 
 export default function authenticate(req: Request, res: Response, next: NextFunction) {
     const token = getTokenFromHeader(req);
@@ -12,7 +13,9 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
     }
 
     try {
-        verify(token);
+        const payload = verifyJwt(token);
+
+        req.user = payload as any;
     } catch (error) {
         return res.status(401).send({
             message: "Unauthorized!",
@@ -26,4 +29,14 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
 function getTokenFromHeader(req: Request): string | undefined {
     const [type, token] = req.headers.authorization?.split(" ") ?? [];
     return type === "Bearer" ? token : undefined;
+}
+
+function verifyJwt(token: string) {
+    if (!fs.existsSync("public.key")) {
+        throw new Error("Public key is missing!");
+    }
+
+    var publicKey = fs.readFileSync('public.key');
+
+    return jwt.verify(token, publicKey);
 }

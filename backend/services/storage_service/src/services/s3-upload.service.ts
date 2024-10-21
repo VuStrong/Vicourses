@@ -9,6 +9,8 @@ import {
     AbortMultipartUploadCommand,
     NoSuchUpload,
     DeleteObjectsCommand,
+    HeadObjectCommand,
+    NotFound,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
@@ -30,9 +32,16 @@ type UploadSingleFileParams = {
     fileId?: string;
 };
 
+type InitializeMultipartUploadParams = {
+    fileId?: string,
+    partCount?: number;
+    fileName?: string;
+};
+
 type UploadResponse = {
     url: string;
     fileId: string;
+    originalFileName?: string;
 };
 
 type InitializeMultipartUploadResponse = {
@@ -53,11 +62,18 @@ export async function uploadSingleFile(
     fileId = fileId?.trim();
     if (!fileId) fileId = `${randomUUID()}${ext}`;
 
+    if (await checkFileExists(fileId)) {
+        throw new AppError("fileId already exists", 403);
+    }
+
     const cmd = new PutObjectCommand({
         Bucket: Config.S3_BUCKET_NAME,
         Key: fileId,
         Body: file.buffer,
         ContentType: file.mimetype,
+        Metadata: {
+            'original-name': file.originalname
+        }
     });
 
     await S3.send(cmd);
@@ -65,7 +81,46 @@ export async function uploadSingleFile(
     return {
         url: `${Config.S3_DOMAIN}/${fileId}`,
         fileId,
+        originalFileName: file.originalname,
     };
+}
+
+export async function checkFileExists(fileId: string): Promise<boolean> {
+    const cmd = new HeadObjectCommand({
+        Bucket: Config.S3_BUCKET_NAME,
+        Key: fileId,
+    });
+
+    try {
+        await S3.send(cmd);
+    } catch (error) {
+        if (error instanceof NotFound) {
+            return false;
+        }
+
+        throw error;
+    }
+
+    return true;
+}
+
+export async function getFileMetadata(fileId: string): Promise<Record<string, string> | undefined> {
+    const cmd = new HeadObjectCommand({
+        Bucket: Config.S3_BUCKET_NAME,
+        Key: fileId,
+    });
+
+    try {
+        const result = await S3.send(cmd);
+
+        return result.Metadata;
+    } catch (error) {
+        if (error instanceof NotFound) {
+            throw new AppError("File not found", 404);
+        }
+
+        throw error;
+    }
 }
 
 export async function deleteSingleFile(fileId: string): Promise<void> {
@@ -90,20 +145,28 @@ export async function deleteMultipleFiles(fileIds: string[]): Promise<void> {
     await S3.send(cmd);
 }
 
-export async function initializeMultipartUpload(
-    fileId?: string,
-    partCount: number = 1
-): Promise<InitializeMultipartUploadResponse> {
+export async function initializeMultipartUpload(params: InitializeMultipartUploadParams): Promise<InitializeMultipartUploadResponse> {
+    let fileId = params.fileId;
+    const partCount = params.partCount || 1;
+    const fileName = params.fileName;
+
     if (partCount <= 0 || partCount >= 1000)
         throw new AppError("partCount must be between 1 and 999", 400);
 
     fileId = fileId?.trim();
     if (!fileId) fileId = `${randomUUID()}`;
 
+    if (await checkFileExists(fileId)) {
+        throw new AppError("fileId already exists", 403);
+    }
+
     const cmd = new CreateMultipartUploadCommand({
         Bucket: Config.S3_BUCKET_NAME,
         Key: fileId,
         ACL: "public-read",
+        Metadata: {
+            'original-name': fileName || ""
+        }
     });
     const { UploadId } = await S3.send(cmd);
 
@@ -153,6 +216,14 @@ export async function completeMultipartUpload(
 
     try {
         await S3.send(cmd);
+
+        const metadata = await getFileMetadata(fileId);
+
+        return {
+            fileId,
+            url: `${Config.S3_DOMAIN}/${fileId}`,
+            originalFileName: metadata?.["original-name"]
+        };
     } catch (error) {
         if (error instanceof NoSuchUpload) {
             throw new AppError(error.message, 404);
@@ -160,11 +231,6 @@ export async function completeMultipartUpload(
 
         throw error;
     }
-
-    return {
-        fileId,
-        url: `${Config.S3_DOMAIN}/${fileId}`,
-    };
 }
 
 export async function abortMultipartUpload(uploadId: string, fileId: string) {

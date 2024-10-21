@@ -14,6 +14,8 @@ const Config = {
     S3_DOMAIN: process.env.S3_DOMAIN,
 
     RABBITMQ_URL: process.env.RABBITMQ_URL,
+
+    FILE_UPLOAD_SECRET: process.env.FILE_UPLOAD_SECRET,
 };
 
 export default Config;
