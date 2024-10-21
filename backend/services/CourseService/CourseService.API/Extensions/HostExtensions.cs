@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Text.Json.Serialization;
 using CourseService.API.Utils.Authorization.Handlers;
 using CourseService.API.Utils.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using CourseService.Application.Utils;
 
 namespace CourseService.API.Extensions
 {
@@ -40,7 +42,16 @@ namespace CourseService.API.Extensions
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = TokenHelper.GetTokenValidationParameters("public.key");
+                var key = SecurityHelper.GetRsaSecurityKeyFromFile("public.key");
+
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    RequireExpirationTime = false,
+                    RequireSignedTokens = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    IssuerSigningKey = key,
+                };
             });
 
             builder.Services.AddAuthorization(opt =>
@@ -63,6 +74,10 @@ namespace CourseService.API.Extensions
 
             builder.Services.AddApplicationServices();
             builder.Services.AddEventBus(builder.Configuration["RABBITMQ_URI"] ?? "");
+            builder.Services.AddScoped<FileUploadValidator>(s =>
+            {
+                return new FileUploadValidator(builder.Configuration["FILE_UPLOAD_SECRET"] ?? "");
+            });
 
             builder.Services.AddDbContext(
                 builder.Configuration["DATABASE_URL"] ?? "",

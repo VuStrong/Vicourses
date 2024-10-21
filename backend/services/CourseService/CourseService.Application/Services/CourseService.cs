@@ -2,6 +2,7 @@
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
+using CourseService.Application.Utils;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Events;
@@ -22,6 +23,7 @@ namespace CourseService.Application.Services
         private readonly IMapper _mapper;
         private readonly ILogger<CourseService> _logger;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly FileUploadValidator _fileUploadValidator;
 
         public CourseService(
             ICourseRepository courseRepository,
@@ -30,7 +32,8 @@ namespace CourseService.Application.Services
             IEnrollmentRepository enrollmentRepository,
             IMapper mapper,
             ILogger<CourseService> logger,
-            IDomainEventDispatcher domainEventDispatcher)
+            IDomainEventDispatcher domainEventDispatcher,
+            FileUploadValidator fileUploadValidator)
         {
             _courseRepository = courseRepository;
             _userRepository = userRepository;
@@ -39,6 +42,7 @@ namespace CourseService.Application.Services
             _mapper = mapper;
             _logger = logger;
             _domainEventDispatcher = domainEventDispatcher;
+            _fileUploadValidator = fileUploadValidator;
         }
 
         public async Task<PagedResult<CourseDto>> GetCoursesAsync(GetCoursesParamsDto? paramsDto = null)
@@ -148,16 +152,33 @@ namespace CourseService.Application.Services
                 ) ?? throw new CategoryNotFoundException(data.SubCategoryId);
             }
 
-            ImageFile? thumbnail = data.Thumbnail != null ? 
-                ImageFile.Create(data.Thumbnail.FileId, data.Thumbnail.Url) : null;
-            VideoFile? previewVideo = data.PreviewVideo != null ? 
-                VideoFile.Create(data.PreviewVideo.FileId, data.PreviewVideo.Url, data.PreviewVideo.FileName) : null;
+            ImageFile? thumbnail = null;
+            if (data.ThumbnailToken != null)
+            {
+                var uploadFileDto = _fileUploadValidator.ValidateFileUploadToken(data.ThumbnailToken, ownerId);
+
+                thumbnail = ImageFile.Create(uploadFileDto.FileId, uploadFileDto.Url);
+            }
+
+            VideoFile? previewVideo = null;
+            if (data.PreviewVideoToken != null)
+            {
+                var uploadFileDto = _fileUploadValidator.ValidateFileUploadToken(data.PreviewVideoToken, ownerId);
+
+                previewVideo = VideoFile.Create(uploadFileDto.FileId, uploadFileDto.Url, uploadFileDto.OriginalFileName);
+            }
 
             course.UpdateInfoIgnoreNull(data.Title, data.Description, data.Tags, data.Requirements, data.TargetStudents,
-                data.LearnedContents, data.Price, data.Locale, thumbnail, previewVideo, categoryToUpdate, subCategoryToUpdate, data.Level);
+                data.LearnedContents, data.Price, data.Locale, categoryToUpdate, subCategoryToUpdate, data.Level);
 
             if (data.Status != null)
-                course.SetStatus(data.Status ?? CourseStatus.Unpublished);
+                course.SetStatus(data.Status.Value);
+            
+            if (thumbnail != null)
+                course.UpdateThumbnail(thumbnail);
+
+            if (previewVideo != null)
+                course.UpdatePreviewVideo(previewVideo);
 
             await _courseRepository.UpdateAsync(course);
 

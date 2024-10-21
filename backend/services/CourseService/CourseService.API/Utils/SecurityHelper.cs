@@ -5,11 +5,11 @@ using Org.BouncyCastle.Crypto.Parameters;
 
 namespace CourseService.API.Utils
 {
-    public static class TokenHelper
+    public static class SecurityHelper
     {
-        public static TokenValidationParameters GetTokenValidationParameters(string path)
+        public static RsaSecurityKey GetRsaSecurityKeyFromFile(string filePath)
         {
-            var key = File.ReadAllText(path);
+            var key = File.ReadAllText(filePath);
 
             if (key.IsNullOrEmpty())
             {
@@ -33,16 +33,7 @@ namespace CourseService.API.Utils
 
             rsa.ImportParameters(rsaParameters);
 
-            var validationParameters = new TokenValidationParameters()
-            {
-                RequireExpirationTime = false,
-                RequireSignedTokens = true,
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                IssuerSigningKey = new RsaSecurityKey(rsa),
-            };
-
-            return validationParameters;
+            return new RsaSecurityKey(rsa);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace CourseService.Infrastructure.Repositories
                 new BsonDocument("$addFields",
                     new BsonDocument
                     {
-                        { $"{nameof(SectionWithLessons.Duration)}", new BsonDocument { { "$sum", "$Lessons.Duration" } } },
+                        { $"{nameof(SectionWithLessons.Duration)}", new BsonDocument { { "$sum", "$Lessons.Video.Duration" } } },
                         { $"{nameof(SectionWithLessons.LessonCount)}", new BsonDocument { { "$size", "$Lessons" } } }
                     }
                 ),

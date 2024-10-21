@@ -4,6 +4,6 @@
     {
         public string? Title { get; set; }
         public string? Description { get; set; }
-        public UpdateVideoFileDto? Video { get; set; }
+        public string? VideoToken { get; set; }
     }
 }

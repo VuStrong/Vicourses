@@ -16,7 +16,7 @@ namespace CourseService.Application.Dtos.Course
         public string? Locale { get; set; }
         public CourseLevel? Level { get; set; }
         public CourseStatus? Status { get; set; }
-        public UpdateImageFileDto? Thumbnail { get; set; }
-        public UpdateVideoFileDto? PreviewVideo { get; set; }
+        public string? ThumbnailToken { get; set; }
+        public string? PreviewVideoToken { get; set; }
     }
 }

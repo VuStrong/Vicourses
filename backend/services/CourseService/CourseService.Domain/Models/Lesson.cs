@@ -1,4 +1,5 @@
 ﻿using CourseService.Domain.Enums;
+using CourseService.Domain.Events.Lesson;
 using CourseService.Domain.Exceptions;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Extensions;
@@ -13,7 +14,6 @@ namespace CourseService.Domain.Models
         public string UserId { get; private set; }
         public string Title { get; private set; }
         public string? Description { get; private set; }
-        public int Duration { get; private set; }
         public int Order {  get; private set; }
         public LessonType Type { get; private set; } = LessonType.Video;
         public DateTime CreatedAt { get; private set; }
@@ -50,7 +50,7 @@ namespace CourseService.Domain.Models
             };
         }
 
-        public void UpdateInfoIgnoreNull(string? title = null, string? description = null, int? duration = null, VideoFile? video = null)
+        public void UpdateInfoIgnoreNull(string? title = null, string? description = null)
         {
             if (title != null)
             {
@@ -61,16 +61,59 @@ namespace CourseService.Domain.Models
             }
 
             if (description != null) Description = description;
-            
-            if (video != null) Video = video;
-
-            if (duration != null)
-            {
-                DomainValidationException.ThrowIfNegative(duration ?? 0, nameof(duration));
-                Duration = duration ?? 0;
-            }
 
             UpdatedAt = DateTime.Now;
+        }
+
+        public void UpdateVideo(VideoFile video)
+        {
+            if (Type != LessonType.Video)
+            {
+                throw new DomainException("Cannot update video of non-video lesson");
+            }
+
+            if (Video != null && Video.FileId == video.FileId) return;
+
+            var oldVideo = Video;
+            Video = video;
+
+            UpdatedAt = DateTime.Now;
+            
+            AddUniqueDomainEvent(new LessonVideoUpdatedDomainEvent(this, oldVideo));
+        }
+
+        public void SetVideoStatusCompleted(string streamFileUrl, int duration)
+        {
+            if (Video == null)
+            {
+                throw new DomainException("Cannot set video status because video is not set");
+            }
+
+            DomainValidationException.ThrowIfNegative(duration, nameof(duration));
+
+            Video = VideoFile.Create(
+                Video.FileId,
+                Video.Url,
+                Video.OriginalFileName,
+                streamFileUrl,
+                duration,
+                VideoStatus.Processed
+            );
+        }
+
+        public void SetVideoStatusFailed()
+        {
+            if (Video == null)
+            {
+                throw new DomainException("Cannot set video status because video is not set");
+            }
+
+            Video = VideoFile.Create(
+                Video.FileId,
+                Video.Url,
+                Video.OriginalFileName,
+                status: VideoStatus.ProcessingFailed
+            );
         }
     }
 }

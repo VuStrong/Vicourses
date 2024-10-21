@@ -2,9 +2,11 @@
 using CourseService.Application.DomainEventHandlers.Lesson;
 using CourseService.Application.DomainEventHandlers.Section;
 using CourseService.Application.IntegrationEventHandlers.User;
+using CourseService.Application.IntegrationEventHandlers.VideoProcessing;
 using CourseService.Application.IntegrationEvents.Course;
 using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Application.IntegrationEvents.User;
+using CourseService.Application.IntegrationEvents.VideoProcessing;
 using CourseService.Application.Interfaces;
 using CourseService.Application.Services;
 using CourseService.Domain.Events;
@@ -61,9 +63,14 @@ namespace CourseService.Application
             services.AddScoped<IDomainEventHandler<CoursePublishedDomainEvent>, CoursePublishedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<CourseUnpublishedDomainEvent>, CourseUnpublishedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<CourseInfoUpdatedDomainEvent>, CourseInfoUpdatedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<LessonDeletedDomainEvent>, LessonDeletedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<SectionDeletedDomainEvent>, SectionDeletedDomainEventHandler>();
             services.AddScoped<IDomainEventHandler<CourseDeletedDomainEvent>, CourseDeletedDomainEventHandler>();
+            services.AddScoped<IDomainEventHandler<CoursePreviewVideoUpdatedDomainEvent>, CoursePreviewVideoUpdatedDomainEventHandler>();
+            services.AddScoped<IDomainEventHandler<CourseThumbnailUpdatedDomainEvent>, CourseThumbnailUpdatedDomainEventHandler>();
+
+            services.AddScoped<IDomainEventHandler<LessonDeletedDomainEvent>, LessonDeletedDomainEventHandler>();
+            services.AddScoped<IDomainEventHandler<LessonVideoUpdatedDomainEvent>, LessonVideoUpdatedDomainEventHandler>();
+
+            services.AddScoped<IDomainEventHandler<SectionDeletedDomainEvent>, SectionDeletedDomainEventHandler>();
         }
 
         public static void AddEventBus(this IServiceCollection services, string uri)
@@ -72,6 +79,7 @@ namespace CourseService.Application
             {
                 c.UriString = uri;
 
+                // Events in course service (this)
                 c.ConfigurePublish<CourseInfoUpdatedIntegrationEvent>(opt =>
                 {
                     opt.ExchangeOptions.ExchangeName = "course.info.updated";
@@ -85,12 +93,14 @@ namespace CourseService.Application
                     opt.ExchangeOptions.ExchangeName = "course.unpublished";
                 });
 
+                // Events in storage service
                 c.ConfigurePublish<DeleteFilesIntegrationEvent>(opt =>
                 {
                     opt.ExcludeExchange = true;
                     opt.RoutingKey = "delete_files";
                 });
 
+                // Events in user service
                 c.ConfigureConsume<UserCreatedIntegrationEvent>(opt =>
                 {
                     opt.ExchangeOptions.ExchangeName = "user.created";
@@ -101,9 +111,28 @@ namespace CourseService.Application
                     opt.ExchangeOptions.ExchangeName = "user.info.updated";
                     opt.QueueOptions.QueueName = "course_service_user.info.updated";
                 });
+
+                // Events in video processing service
+                c.ConfigurePublish<RequestVideoProcessingIntegrationEvent>(opt =>
+                {
+                    opt.ExcludeExchange = true;
+                    opt.RoutingKey = "process_video";
+                });
+                c.ConfigureConsume<VideoProcessingCompletedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "video-processing.completed";
+                    opt.QueueOptions.QueueName = "course_service_video-processing.completed";
+                });
+                c.ConfigureConsume<VideoProcessingFailedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "video-processing.failed";
+                    opt.QueueOptions.QueueName = "course_service_video-processing.failed";
+                });
             })
             .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
-            .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>();
+            .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<VideoProcessingCompletedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<VideoProcessingFailedIntegrationEventHandler>();
         }
     }
 }

@@ -6,7 +6,7 @@
         public string Url { get; set; } = string.Empty;
         public string OriginalFileName { get; set; } = string.Empty;
         public string? StreamFileUrl { get; set; }
-        public int Length { get; set; }
+        public int Duration { get; set; }
         public string Status { get; set; } = string.Empty;
     }
 }

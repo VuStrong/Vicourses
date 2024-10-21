@@ -6,6 +6,14 @@ namespace CourseService.Domain.Exceptions
     {
         public DomainValidationException(string message) : base(message) { }
 
+        public static void ThrowIfStringNullOrEmpty(string? value, string? fieldName = null)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new DomainValidationException($"Field {fieldName} cannot be empty string or white space");
+            }
+        }
+
         public static void ThrowIfStringOutOfLength(string value, int minLength, int maxLength, string? fieldName = null)
         {
             if (string.IsNullOrEmpty(value))

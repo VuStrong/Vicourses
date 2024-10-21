@@ -77,8 +77,7 @@ namespace CourseService.Domain.Models
 
         public void UpdateInfoIgnoreNull(string? title = null, string? description = null, List<string>? tags = null, List<string>? requirements = null,
             List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? locale = null,
-            ImageFile? thumbnail = null, VideoFile? previewVideo = null, Category? category = null, Category? subCategory = null,
-            CourseLevel? level = null)
+            Category? category = null, Category? subCategory = null, CourseLevel? level = null)
         {
             if (title != null)
             {
@@ -109,10 +108,6 @@ namespace CourseService.Domain.Models
 
             if (locale != null) Locale = new Locale(locale);
             
-            if (thumbnail != null) Thumbnail = thumbnail;
-
-            if (previewVideo != null) PreviewVideo = previewVideo;
-
             if (category != null && subCategory == null)
             {
                 throw new DomainValidationException("SubCategory is required when main Category is set");
@@ -200,6 +195,64 @@ namespace CourseService.Domain.Models
             StudentCount++;
 
             return enrollment;
+        }
+
+        public void UpdateThumbnail(ImageFile image)
+        {
+            if (Thumbnail != null && Thumbnail.FileId == image.FileId) return;
+
+            var oldThumb = Thumbnail;
+            Thumbnail = image;
+
+            UpdatedAt = DateTime.Now;
+
+            AddUniqueDomainEvent(new CourseThumbnailUpdatedDomainEvent(this, oldThumb));
+        }
+
+        public void UpdatePreviewVideo(VideoFile video)
+        {
+            if (PreviewVideo != null && PreviewVideo.FileId == video.FileId) return;
+
+            var oldVideo = PreviewVideo;
+            PreviewVideo = video;
+
+            UpdatedAt = DateTime.Now;
+            
+            AddUniqueDomainEvent(new CoursePreviewVideoUpdatedDomainEvent(this, oldVideo));
+        }
+
+        public void SetPreviewVideoStatusCompleted(string streamFileUrl, int duration)
+        {
+            if (PreviewVideo == null)
+            {
+                throw new DomainException("Cannot set video status because video is not set");
+            }
+
+            DomainValidationException.ThrowIfNegative(duration, nameof(duration));
+
+            PreviewVideo = VideoFile.Create(
+                PreviewVideo.FileId,
+                PreviewVideo.Url,
+                PreviewVideo.OriginalFileName,
+                streamFileUrl,
+                duration,
+                VideoStatus.Processed
+            );
+        }
+
+        public void SetPreviewVideoStatusFailed()
+        {
+            if (PreviewVideo == null)
+            {
+                throw new DomainException("Cannot set video status because video is not set");
+            }
+
+            PreviewVideo = VideoFile.Create(
+                PreviewVideo.FileId,
+                PreviewVideo.Url,
+                PreviewVideo.OriginalFileName,
+                status: VideoStatus.ProcessingFailed
+            );
         }
     }
 }

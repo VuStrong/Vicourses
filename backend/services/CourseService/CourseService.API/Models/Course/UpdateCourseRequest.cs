@@ -38,25 +38,11 @@ namespace CourseService.API.Models.Course
         [EnumDataType(typeof(CourseStatus))]
         public CourseStatus? Status { get; set; }
 
-        public ThumbnailRequest? Thumbnail { get; set; }
-        public PreviewVideoRequest? PreviewVideo { get; set; }
+        public string? ThumbnailToken { get; set; }
+        public string? PreviewVideoToken { get; set; }
 
         public UpdateCourseDto ToUpdateCourseDto()
         {
-            UpdateImageFileDto? thumbnail = Thumbnail != null ?
-                new UpdateImageFileDto
-                {
-                    FileId = Thumbnail.FileId,
-                    Url = Thumbnail.Url,
-                } : null;
-            UpdateVideoFileDto? previewVideo = PreviewVideo != null ?
-                new UpdateVideoFileDto
-                {
-                    FileId = PreviewVideo.FileId,
-                    Url = PreviewVideo.Url,
-                    FileName = PreviewVideo.FileName,
-                } : null;
-
             return new UpdateCourseDto
             {
                 Title = Title,
@@ -71,30 +57,9 @@ namespace CourseService.API.Models.Course
                 Locale = Locale,
                 Level = Level,
                 Status = Status,
-                Thumbnail = thumbnail,
-                PreviewVideo = previewVideo
+                ThumbnailToken = ThumbnailToken,
+                PreviewVideoToken = PreviewVideoToken,
             };
         }
-    }
-
-    public record ThumbnailRequest
-    {
-        [Required(ErrorMessage = "The thumbnail.fileId field is required")]
-        public string FileId { get; set; } = null!;
-
-        [Required(ErrorMessage = "The thumbnail.url field is required")]
-        public string Url { get; set; } = null!;
-    }
-
-    public record PreviewVideoRequest
-    {
-        [Required(ErrorMessage = "The thumbnail.fileId field is required")]
-        public string FileId { get; set; } = null!;
-
-        [Required(ErrorMessage = "The thumbnail.url field is required")]
-        public string Url { get; set; } = null!;
-
-        [Required(ErrorMessage = "The thumbnail.fileName field is required")]
-        public string FileName { get; set; } = null!;
     }
 }
