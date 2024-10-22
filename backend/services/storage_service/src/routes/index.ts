@@ -52,6 +52,19 @@ router.use(
     swaggerUi.setup(undefined, swaggerUIOptions)
 );
 
+router.get('/hc', async (_, res, __) => {
+    const healthcheck = {
+        uptime: process.uptime(),
+        status: 'Healthy',
+        timestamp: Date.now()
+    };
+    try {
+        res.send(healthcheck);
+    } catch (error) {
+        res.status(503).send();
+    }
+});
+
 router.post(
     "/api/sts/v1/upload-image",
     authenticate,

@@ -13,8 +13,13 @@ namespace CourseService.Infrastructure
 {
     public static class Extensions
     {
-        public static void AddInfrastructureServices(this IServiceCollection services)
+        public static void AddInfrastructureServices(this IServiceCollection services, Action<InfrastructureConfiguration>? config = null)
         {
+            var configuration = new InfrastructureConfiguration();
+            config?.Invoke(configuration);
+
+            services.AddDbContext(configuration.DbConnectionString, configuration.DbName);
+
             CourseMap.Configure();
             SectionMap.Configure();
             LessonMap.Configure();
@@ -40,7 +45,7 @@ namespace CourseService.Infrastructure
             });
         }
 
-        public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString, string databaseName)
+        private static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString, string databaseName)
         {
             // var mongoClientSettings = MongoClientSettings.FromConnectionString(connectionString);
             // mongoClientSettings.ClusterConfigurator = cb =>
@@ -82,5 +87,11 @@ namespace CourseService.Infrastructure
         {
             await app.SeedMongoCollections();
         }
+    }
+
+    public class InfrastructureConfiguration
+    {
+        public string DbConnectionString { get; set; } = string.Empty;
+        public string DbName { get; set; } = string.Empty;
     }
 }

@@ -9,6 +9,7 @@ using CourseService.Application.IntegrationEvents.User;
 using CourseService.Application.IntegrationEvents.VideoProcessing;
 using CourseService.Application.Interfaces;
 using CourseService.Application.Services;
+using CourseService.Application.Utils;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
 using CourseService.Domain.Events.Lesson;
@@ -25,9 +26,12 @@ namespace CourseService.Application
 {
     public static class Extensions
     {
-        public static void AddApplicationServices(this IServiceCollection services)
+        public static void AddApplicationServices(this IServiceCollection services, Action<ApplicationConfiguration>? config = null)
         {
-            var configuration = new ConfigurationBuilder()
+            var appConfiguration = new ApplicationConfiguration();
+            config?.Invoke(appConfiguration);
+
+            var loggerConfiguration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
@@ -37,7 +41,7 @@ namespace CourseService.Application
 
             // Logger
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
+                .ReadFrom.Configuration(loggerConfiguration)
                 .WriteTo.Console()
                 .WriteTo.File(
                     new CompactJsonFormatter(),
@@ -71,9 +75,16 @@ namespace CourseService.Application
             services.AddScoped<IDomainEventHandler<LessonVideoUpdatedDomainEvent>, LessonVideoUpdatedDomainEventHandler>();
 
             services.AddScoped<IDomainEventHandler<SectionDeletedDomainEvent>, SectionDeletedDomainEventHandler>();
+
+            services.AddEventBus(appConfiguration.RabbitMQUri);
+
+            services.AddScoped<FileUploadValidator>(s =>
+            {
+                return new FileUploadValidator(appConfiguration.FileUploadSecret);
+            });
         }
 
-        public static void AddEventBus(this IServiceCollection services, string uri)
+        private static void AddEventBus(this IServiceCollection services, string uri)
         {
             services.AddRabbitMQEventBus(c =>
             {
@@ -134,5 +145,12 @@ namespace CourseService.Application
             .AddIntegrationEventHandler<VideoProcessingCompletedIntegrationEventHandler>()
             .AddIntegrationEventHandler<VideoProcessingFailedIntegrationEventHandler>();
         }
+    }
+
+    public class ApplicationConfiguration
+    {
+        public string RabbitMQUri { get; set; } = string.Empty;
+
+        public string FileUploadSecret { get; set; } = string.Empty;
     }
 }

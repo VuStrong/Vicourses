@@ -24,6 +24,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +42,10 @@ app.UseSwaggerUI(c =>
 app.UseHttpsRedirection();
 
 app.UseCors("cors-policy");
+
+app.UseHealthChecksUI(options => {
+    options.UIPath = "/hc-ui";
+});
 
 app.UseOcelot().Wait();
 

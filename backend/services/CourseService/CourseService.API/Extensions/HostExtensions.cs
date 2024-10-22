@@ -4,21 +4,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using CourseService.API.Utils;
 using Microsoft.AspNetCore.Mvc;
 using CourseService.Application.Dtos;
-using CourseService.Application;
-using CourseService.Infrastructure;
 using CourseService.API.Utils.ExceptionHandlers;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.Json.Serialization;
 using CourseService.API.Utils.Authorization.Handlers;
 using CourseService.API.Utils.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using CourseService.Application.Utils;
 
 namespace CourseService.API.Extensions
 {
     public static class HostExtensions
     {
-        public static void AddServices(this WebApplicationBuilder builder)
+        public static void AddApiServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddControllers()
                 .ConfigureApiBehaviorOptions(o => {
@@ -72,17 +69,7 @@ namespace CourseService.API.Extensions
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-            builder.Services.AddApplicationServices();
-            builder.Services.AddEventBus(builder.Configuration["RABBITMQ_URI"] ?? "");
-            builder.Services.AddScoped<FileUploadValidator>(s =>
-            {
-                return new FileUploadValidator(builder.Configuration["FILE_UPLOAD_SECRET"] ?? "");
-            });
-
-            builder.Services.AddDbContext(
-                builder.Configuration["DATABASE_URL"] ?? "",
-                builder.Configuration["DATABASE_NAME"] ?? "");
-            builder.Services.AddInfrastructureServices();
+            builder.Services.AddHealthChecks();
         }
 
         public static void AddSwagger(this WebApplicationBuilder builder)

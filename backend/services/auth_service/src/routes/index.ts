@@ -27,6 +27,19 @@ router.use(
     swaggerUi.setup(undefined, options)
 );
 
+router.get('/hc', async (_, res, __) => {
+    const healthcheck = {
+        uptime: process.uptime(),
+        status: 'Healthy',
+        timestamp: Date.now()
+    };
+    try {
+        res.send(healthcheck);
+    } catch (error) {
+        res.status(503).send();
+    }
+});
+
 router.use("/api/as/v1/auth", authRoute);
 
 export default router;
