@@ -1,0 +1,42 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: api-gateway
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "backend/ApiGateway/**"
+      - ".github/workflows/api-gateway.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "backend/ApiGateway/**"
+      - ".github/workflows/api-gateway.yml"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      working-directory: backend/ApiGateway
+      run: dotnet restore
+    - name: Build
+      working-directory: backend/ApiGateway
+      run: dotnet build --no-restore
+
+    - name: Build images
+      working-directory: backend/ApiGateway
+      run: docker build -t vustrong/vicourses-apigateway .
+    - name: Push images
+      run: |-
+        docker login -u vustrong -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push vustrong/vicourses-apigateway
