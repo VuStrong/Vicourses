@@ -28,6 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: './backend/services/auth_service/package-lock.json'
     - name: Build
       working-directory: backend/services/auth_service
       run: |
