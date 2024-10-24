@@ -1,0 +1,37 @@
+name: email-service
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/email_service/**"
+      - ".github/workflows/email-service.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/email_service/**"
+      - ".github/workflows/email-service.yml"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+
+    - name: Build
+      working-directory: backend/services/email_service
+      run: go build cmd/email_service/main.go
+
+    - name: Build images
+      working-directory: backend/services/email_service
+      run: docker build -t vustrong/vicourses-emailservice .
+    - name: Push images
+      run: |-
+        docker login -u vustrong -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push vustrong/vicourses-emailservice
