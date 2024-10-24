@@ -1,0 +1,37 @@
+name: video-processing-service
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/video_processing_service/**"
+      - ".github/workflows/video-processing-service.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/video_processing_service/**"
+      - ".github/workflows/video-processing-service.yml"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+
+    - name: Build
+      working-directory: backend/services/video_processing_service
+      run: go build cmd/video_processing_service/main.go
+
+    - name: Build images
+      working-directory: backend/services/video_processing_service
+      run: docker build -t vustrong/vicourses-videoprocessingservice .
+    - name: Push images
+      run: |-
+        docker login -u vustrong -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push vustrong/vicourses-videoprocessingservice
