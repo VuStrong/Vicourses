@@ -30,9 +30,11 @@ jobs:
       working-directory: backend/ApiGateway
       run: dotnet restore
     - name: Build
+      working-directory: backend/ApiGateway
       run: dotnet build --no-restore
 
     - name: Build images
+      working-directory: backend/ApiGateway
       run: docker build -t vustrong/vicourses-apigateway .
     - name: Push images
       run: |-
