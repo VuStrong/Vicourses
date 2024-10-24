@@ -1,0 +1,41 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: course-service
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/CourseService/**"
+      - ".github/workflows/course-service.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/CourseService/**"
+      - ".github/workflows/course-service.yml"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      working-directory: backend/services/CourseService
+      run: dotnet restore "./CourseService.API/CourseService.API.csproj"
+    - name: Build
+      working-directory: backend/services/CourseService/CourseService.API
+      run: dotnet build "CourseService.API.csproj" --no-restore
+    - name: Build images
+      working-directory: backend/services/CourseService
+      run: docker build -f CourseService.API/Dockerfile -t vustrong/vicourses-courseservice .
+    - name: Push images
+      run: |-
+        docker login -u vustrong -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push vustrong/vicourses-courseservice
