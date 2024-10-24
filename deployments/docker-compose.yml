@@ -268,3 +268,4 @@ volumes:
   kibana_data:
   filebeat_data:
   services_logs_data:
+  
