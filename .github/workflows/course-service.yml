@@ -6,8 +6,14 @@ name: course-service
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - "backend/services/CourseService/**"
+      - ".github/workflows/course-service.yml"
   pull_request:
     branches: [ "main" ]
+    paths:
+      - "backend/services/CourseService/**"
+      - ".github/workflows/course-service.yml"
 
 jobs:
   build:
