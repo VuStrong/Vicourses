@@ -1,0 +1,17 @@
+name: docker-compose-deployments
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "deployments/**"
+      - ".github/workflows/docker-compose-deployments.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "deployments/**"
+      - ".github/workflows/docker-compose-deployments.yml"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required" '
