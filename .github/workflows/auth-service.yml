@@ -1,0 +1,43 @@
+name: auth-service
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/auth_service/**"
+      - ".github/workflows/auth-service.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/auth_service/**"
+      - ".github/workflows/auth-service.yml"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Build
+      working-directory: backend/services/auth_service
+      run: |
+        npm ci
+        npm run build --if-present
+
+    - name: Build images
+      working-directory: backend/services/auth_service
+      run: docker build -t vustrong/vicourses-authservice .
+    - name: Push images
+      run: |-
+        docker login -u vustrong -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push vustrong/vicourses-authservice
