@@ -13,7 +13,9 @@ namespace CourseService.Infrastructure.CollectionSeeders
                 new (indexBuilder.Text(c => c.Title)),
                 new (indexBuilder.Ascending(c => c.Category.Id)),
                 new (indexBuilder.Ascending(c => c.SubCategory.Id)),
-                new (indexBuilder.Ascending(c => c.User.Id))
+                new (indexBuilder.Ascending(c => c.User.Id)),
+                new (indexBuilder.Ascending(c => c.Status)),
+                new (indexBuilder.Ascending(c => c.Tags)),
             };
 
             await collection.Indexes.CreateManyAsync(indexes);

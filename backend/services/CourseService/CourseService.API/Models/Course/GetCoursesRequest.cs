@@ -52,6 +52,11 @@ namespace CourseService.API.Models.Course
         [EnumDataType(typeof(CourseStatus))]
         public CourseStatus? Status { get; set; }
 
+        /// <summary>
+        /// Filter courses by tag
+        /// </summary>
+        public string? Tag { get; set; }
+
         public GetCoursesParamsDto ToGetCoursesDto()
         {
             return new GetCoursesParamsDto
@@ -66,6 +71,7 @@ namespace CourseService.API.Models.Course
                 Level = Level,
                 MinimumRating = Rating,
                 Status = Status ?? CourseStatus.Published,
+                Tag = Tag,
             };
         }
     }

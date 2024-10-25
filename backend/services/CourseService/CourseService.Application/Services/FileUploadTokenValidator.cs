@@ -4,14 +4,15 @@ using CourseService.Application.Dtos;
 using System.Text;
 using System.Security.Claims;
 using CourseService.Application.Exceptions;
+using CourseService.Application.Interfaces;
 
-namespace CourseService.Application.Utils
+namespace CourseService.Application.Services
 {
-    public class FileUploadValidator
+    public class FileUploadTokenValidator : IFileUploadTokenValidator
     {
         private readonly byte[] _secretKey;
 
-        public FileUploadValidator(string secretKey)
+        public FileUploadTokenValidator(string secretKey)
         {
             _secretKey = Encoding.UTF8.GetBytes(secretKey);
         }
@@ -22,7 +23,8 @@ namespace CourseService.Application.Utils
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
 
-                var parameters = new TokenValidationParameters {
+                var parameters = new TokenValidationParameters
+                {
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = false,
                     ValidateIssuer = false,
@@ -46,7 +48,7 @@ namespace CourseService.Application.Utils
                     FileId = fileId,
                     Url = url,
                     OriginalFileName = originalFileName ?? "",
-                };   
+                };
             }
             catch (Exception)
             {
