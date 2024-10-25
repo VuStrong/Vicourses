@@ -14,5 +14,6 @@ namespace CourseService.Application.Dtos.Course
         public CourseLevel? Level { get; set; }
         public decimal? MinimumRating { get; set; }
         public CourseStatus Status { get; set; } = CourseStatus.Published;
+        public string? Tag { get; set; }
     }
 }

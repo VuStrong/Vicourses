@@ -4,7 +4,6 @@ using CourseService.Application.Dtos.Lesson;
 using CourseService.Application.Dtos.Section;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
-using CourseService.Application.Utils;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Lesson;
@@ -22,7 +21,7 @@ namespace CourseService.Application.Services
         private readonly ILessonRepository _lessonRepository;
         private readonly ICourseCurriculumRepository _courseCurriculumRepository;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
-        private readonly FileUploadValidator _fileUploadValidator;
+        private readonly IFileUploadTokenValidator _fileUploadTokenValidator;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseCurriculumService> _logger;
 
@@ -32,7 +31,7 @@ namespace CourseService.Application.Services
             ILessonRepository lessonRepository,
             ICourseCurriculumRepository courseCurriculumRepository,
             IDomainEventDispatcher domainEventDispatcher,
-            FileUploadValidator fileUploadValidator,
+            IFileUploadTokenValidator fileUploadTokenValidator,
             IMapper mapper,
             ILogger<CourseCurriculumService> logger)
         {
@@ -41,7 +40,7 @@ namespace CourseService.Application.Services
             _lessonRepository = lessonRepository;
             _courseCurriculumRepository = courseCurriculumRepository;
             _domainEventDispatcher = domainEventDispatcher;
-            _fileUploadValidator = fileUploadValidator;
+            _fileUploadTokenValidator = fileUploadTokenValidator;
             _mapper = mapper;
             _logger = logger;
         }
@@ -173,7 +172,7 @@ namespace CourseService.Application.Services
             VideoFile? videoFile = null;
             if (data.VideoToken != null)
             {
-                var uploadFileDto = _fileUploadValidator.ValidateFileUploadToken(data.VideoToken, ownerId);
+                var uploadFileDto = _fileUploadTokenValidator.ValidateFileUploadToken(data.VideoToken, ownerId);
 
                 videoFile = VideoFile.Create(uploadFileDto.FileId, uploadFileDto.Url, uploadFileDto.OriginalFileName);
             }

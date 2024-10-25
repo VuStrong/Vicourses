@@ -2,7 +2,6 @@
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
-using CourseService.Application.Utils;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Events;
@@ -23,7 +22,7 @@ namespace CourseService.Application.Services
         private readonly IMapper _mapper;
         private readonly ILogger<CourseService> _logger;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
-        private readonly FileUploadValidator _fileUploadValidator;
+        private readonly IFileUploadTokenValidator _fileUploadTokenValidator;
 
         public CourseService(
             ICourseRepository courseRepository,
@@ -33,7 +32,7 @@ namespace CourseService.Application.Services
             IMapper mapper,
             ILogger<CourseService> logger,
             IDomainEventDispatcher domainEventDispatcher,
-            FileUploadValidator fileUploadValidator)
+            IFileUploadTokenValidator fileUploadTokenValidator)
         {
             _courseRepository = courseRepository;
             _userRepository = userRepository;
@@ -42,7 +41,7 @@ namespace CourseService.Application.Services
             _mapper = mapper;
             _logger = logger;
             _domainEventDispatcher = domainEventDispatcher;
-            _fileUploadValidator = fileUploadValidator;
+            _fileUploadTokenValidator = fileUploadTokenValidator;
         }
 
         public async Task<PagedResult<CourseDto>> GetCoursesAsync(GetCoursesParamsDto? paramsDto = null)
@@ -59,7 +58,8 @@ namespace CourseService.Application.Services
                 isPaid: paramsDto?.Free != null ? !paramsDto.Free : null,
                 level: paramsDto?.Level,
                 minimumRating: paramsDto?.MinimumRating,
-                status: paramsDto?.Status ?? CourseStatus.Published);
+                status: paramsDto?.Status ?? CourseStatus.Published,
+                tag: paramsDto?.Tag);
 
             return _mapper.Map<PagedResult<CourseDto>>(results);
         }
@@ -155,7 +155,7 @@ namespace CourseService.Application.Services
             ImageFile? thumbnail = null;
             if (data.ThumbnailToken != null)
             {
-                var uploadFileDto = _fileUploadValidator.ValidateFileUploadToken(data.ThumbnailToken, ownerId);
+                var uploadFileDto = _fileUploadTokenValidator.ValidateFileUploadToken(data.ThumbnailToken, ownerId);
 
                 thumbnail = ImageFile.Create(uploadFileDto.FileId, uploadFileDto.Url);
             }
@@ -163,7 +163,7 @@ namespace CourseService.Application.Services
             VideoFile? previewVideo = null;
             if (data.PreviewVideoToken != null)
             {
-                var uploadFileDto = _fileUploadValidator.ValidateFileUploadToken(data.PreviewVideoToken, ownerId);
+                var uploadFileDto = _fileUploadTokenValidator.ValidateFileUploadToken(data.PreviewVideoToken, ownerId);
 
                 previewVideo = VideoFile.Create(uploadFileDto.FileId, uploadFileDto.Url, uploadFileDto.OriginalFileName);
             }

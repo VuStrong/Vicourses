@@ -8,7 +8,7 @@ namespace CourseService.Domain.Contracts
     {
         Task<PagedResult<Course>> FindManyAsync(int skip, int limit, CourseSort? sort = null, string? searchKeyword = null, 
             string? categoryId = null, string? subCategoryId = null, bool? isPaid = null, CourseLevel? level = null, 
-            decimal? minimumRating = null, CourseStatus status = CourseStatus.Published);
+            decimal? minimumRating = null, CourseStatus status = CourseStatus.Published, string? tag = null);
 
         Task<PagedResult<Course>> FindManyByUserIdAsync(string userId, int skip, int limit, string? searchKeyword = null,
             CourseStatus? status = null);

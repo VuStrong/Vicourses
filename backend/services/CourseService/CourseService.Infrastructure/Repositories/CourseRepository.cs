@@ -12,7 +12,7 @@ namespace CourseService.Infrastructure.Repositories
 
         public async Task<PagedResult<Course>> FindManyAsync(int skip, int limit, CourseSort? sort = null, string? searchKeyword = null, 
             string? categoryId = null, string? subCategoryId = null, bool? isPaid = null, CourseLevel? level = null, 
-            decimal? minimumRating = null, CourseStatus status = CourseStatus.Published)
+            decimal? minimumRating = null, CourseStatus status = CourseStatus.Published, string? tag = null)
         {
             var builder = Builders<Course>.Filter;
             var filter = builder.Eq(c => c.Status, status);
@@ -47,11 +47,16 @@ namespace CourseService.Infrastructure.Repositories
                 filter &= builder.Gte(c => c.Rating, minimumRating);
             }
 
+            if (tag != null)
+            {
+                filter &= builder.AnyEq(c => c.Tags, tag);
+            }
+
             var fluent = _collection.Find(filter);
 
             if (sort != null)
             {
-                fluent = Sort(fluent, sort ?? CourseSort.Newest);
+                fluent = Sort(fluent, sort.Value);
             }
 
             var courses = await fluent.Skip(skip).Limit(limit).ToListAsync();

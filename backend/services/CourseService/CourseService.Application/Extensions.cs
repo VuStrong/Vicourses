@@ -9,7 +9,6 @@ using CourseService.Application.IntegrationEvents.User;
 using CourseService.Application.IntegrationEvents.VideoProcessing;
 using CourseService.Application.Interfaces;
 using CourseService.Application.Services;
-using CourseService.Application.Utils;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
 using CourseService.Domain.Events.Lesson;
@@ -78,9 +77,9 @@ namespace CourseService.Application
 
             services.AddEventBus(appConfiguration.RabbitMQUri);
 
-            services.AddScoped<FileUploadValidator>(s =>
+            services.AddScoped<IFileUploadTokenValidator, FileUploadTokenValidator>(s =>
             {
-                return new FileUploadValidator(appConfiguration.FileUploadSecret);
+                return new FileUploadTokenValidator(appConfiguration.FileUploadSecret);
             });
         }
 
