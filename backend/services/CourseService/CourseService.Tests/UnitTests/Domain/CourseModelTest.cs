@@ -27,7 +27,7 @@ namespace CourseService.Tests.UnitTests.Domain
             var course = Course.Create(title, null, _rootCategory, _childCategory, _user);
 
             Assert.NotNull(course);
-            Assert.Equal(title, course.Title);
+            Assert.Equal(title.Trim(), course.Title);
         }
 
         [Fact]
