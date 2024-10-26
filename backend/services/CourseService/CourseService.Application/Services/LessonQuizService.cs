@@ -44,7 +44,7 @@ namespace CourseService.Application.Services
                 answers.Add(Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation));
             }
 
-            var quiz = await _quizDomainService.CreateQuizForLessonAsync(lesson, data.Title, data.UserId, answers);
+            var quiz = await _quizDomainService.CreateQuizForLessonAsync(lesson, data.Title, answers);
 
             await _quizRepository.CreateAsync(quiz);
 

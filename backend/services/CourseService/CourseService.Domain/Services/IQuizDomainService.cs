@@ -4,6 +4,6 @@ namespace CourseService.Domain.Services
 {
     public interface IQuizDomainService
     {
-        Task<Quiz> CreateQuizForLessonAsync(Lesson lesson, string title, string userId, List<Answer> answers);
+        Task<Quiz> CreateQuizForLessonAsync(Lesson lesson, string title, List<Answer> answers);
     }
 }

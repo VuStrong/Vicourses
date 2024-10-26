@@ -26,7 +26,7 @@ namespace CourseService.Domain.Models
             UserId = userId;
         }
 
-        internal static Quiz Create(string title, int number, string lessonId, string userId, List<Answer> answers)
+        internal static Quiz Create(string title, int number, Lesson lesson, List<Answer> answers)
         {
             title = title.Trim();
             DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
@@ -34,7 +34,7 @@ namespace CourseService.Domain.Models
 
             var id = StringExtensions.GenerateIdString(14);
             
-            var quiz = new Quiz(id, number, title, lessonId, userId);
+            var quiz = new Quiz(id, number, title, lesson.Id, lesson.UserId);
 
             quiz.SetAnswers(answers);
 

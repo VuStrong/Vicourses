@@ -32,6 +32,10 @@ jobs:
     - name: Build
       working-directory: backend/services/CourseService/CourseService.API
       run: dotnet build "CourseService.API.csproj" --no-restore
+    - name: Test
+      working-directory: backend/services/CourseService/CourseService.Tests
+      run: dotnet test
+
     - name: Build images
       working-directory: backend/services/CourseService
       run: docker build -f CourseService.API/Dockerfile -t vustrong/vicourses-courseservice .
