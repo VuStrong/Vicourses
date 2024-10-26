@@ -22,14 +22,14 @@ namespace CourseService.Domain.Models
             UserId = userId;
         }
 
-        public static Section Create(string title, string courseId, string userId, string? description)
+        public static Section Create(string title, Course course, string? description)
         {
             title = title.Trim();
             DomainValidationException.ThrowIfStringOutOfLength(title, 3, 80, nameof(title));
 
             var id = StringExtensions.GenerateIdString(14);
             
-            return new Section(id, title, courseId, userId)
+            return new Section(id, title, course.Id, course.User.Id)
             {
                 Description = description,
                 CreatedAt = DateTime.Now,

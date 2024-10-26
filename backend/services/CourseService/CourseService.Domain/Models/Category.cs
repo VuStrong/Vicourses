@@ -14,6 +14,9 @@ namespace CourseService.Domain.Models
 
         public bool IsRoot { get => ParentId == null; }
 
+        #pragma warning disable CS8618
+        private Category() { }
+
         private Category(string id, string name, string slug)
         {
             Id = id;
@@ -26,7 +29,7 @@ namespace CourseService.Domain.Models
             name = name.Trim();
             DomainValidationException.ThrowIfStringOutOfLength(name, 2, 40, nameof(name));
 
-            if (parent != null && parent.ParentId != null)
+            if (parent != null && !parent.IsRoot)
             {
                 throw new DomainException("Parent category must be root category");
             }

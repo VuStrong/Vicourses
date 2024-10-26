@@ -20,6 +20,9 @@ namespace CourseService.Domain.Models
         public DateTime UpdatedAt { get; private set; }
         public VideoFile? Video { get; private set; }
 
+        #pragma warning disable CS8618
+        private Lesson() { }
+
         private Lesson(string id, string title, string courseId, string sectionId, string userId)
         {
             Id = id;
@@ -29,7 +32,7 @@ namespace CourseService.Domain.Models
             UserId = userId;
         }
 
-        public static Lesson Create(string title, Course course, Section section, string userId, LessonType type, string? description)
+        public static Lesson Create(string title, Course course, Section section, LessonType type, string? description)
         {
             title = title.Trim();
             DomainValidationException.ThrowIfStringOutOfLength(title, 3, 80, nameof(title));
@@ -41,7 +44,7 @@ namespace CourseService.Domain.Models
 
             var id = StringExtensions.GenerateIdString(14);
 
-            return new Lesson(id, title, course.Id, section.Id, userId)
+            return new Lesson(id, title, course.Id, section.Id, course.User.Id)
             {
                 Description = description,
                 Type = type,

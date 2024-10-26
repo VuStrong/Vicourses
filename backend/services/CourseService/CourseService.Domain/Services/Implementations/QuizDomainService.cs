@@ -15,7 +15,7 @@ namespace CourseService.Domain.Services.Implementations
             _quizRepository = quizRepository;
         }
 
-        public async Task<Quiz> CreateQuizForLessonAsync(Lesson lesson, string title, string userId, List<Answer> answers)
+        public async Task<Quiz> CreateQuizForLessonAsync(Lesson lesson, string title, List<Answer> answers)
         {
             if (lesson.Type != LessonType.Quiz)
             {
@@ -28,7 +28,7 @@ namespace CourseService.Domain.Services.Implementations
                 throw new DomainException($"A lesson can only have a maximum of {MaxQuizzesInLesson} quizzes");
             }
 
-            var quiz = Quiz.Create(title, Convert.ToInt32(quizCount + 1), lesson.Id, userId, answers);
+            var quiz = Quiz.Create(title, Convert.ToInt32(quizCount + 1), lesson, answers);
 
             return quiz;
         }

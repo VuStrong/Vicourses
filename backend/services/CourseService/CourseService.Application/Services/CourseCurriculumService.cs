@@ -82,7 +82,7 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            var section = Section.Create(data.Title, data.CourseId, data.UserId, data.Description);
+            var section = Section.Create(data.Title, course, data.Description);
 
             await _sectionRepository.CreateAsync(section);
         
@@ -148,7 +148,7 @@ namespace CourseService.Application.Services
                 throw new SectionNotFoundException(data.SectionId);
             }
 
-            var lesson = Lesson.Create(data.Title, course, section, data.UserId, data.Type, data.Description);
+            var lesson = Lesson.Create(data.Title, course, section, data.Type, data.Description);
 
             await _lessonRepository.CreateAsync(lesson);
 
