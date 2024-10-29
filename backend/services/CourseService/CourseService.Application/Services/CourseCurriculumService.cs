@@ -10,7 +10,6 @@ using CourseService.Domain.Events.Lesson;
 using CourseService.Domain.Events.Section;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
-using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.Services
 {
@@ -19,30 +18,30 @@ namespace CourseService.Application.Services
         private readonly ICourseRepository _courseRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ILessonRepository _lessonRepository;
-        private readonly ICourseCurriculumRepository _courseCurriculumRepository;
+        private readonly ICourseCurriculumManager _courseCurriculumManager;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
         private readonly IFileUploadTokenValidator _fileUploadTokenValidator;
         private readonly IMapper _mapper;
-        private readonly ILogger<CourseCurriculumService> _logger;
+        private readonly IDataAggregator _dataAggregator;
 
         public CourseCurriculumService(
             ICourseRepository courseRepository,
             ISectionRepository sectionRepository,
             ILessonRepository lessonRepository,
-            ICourseCurriculumRepository courseCurriculumRepository,
+            ICourseCurriculumManager courseCurriculumManager,
             IDomainEventDispatcher domainEventDispatcher,
             IFileUploadTokenValidator fileUploadTokenValidator,
             IMapper mapper,
-            ILogger<CourseCurriculumService> logger)
+            IDataAggregator dataAggregator)
         {
             _courseRepository = courseRepository;
             _sectionRepository = sectionRepository;
             _lessonRepository = lessonRepository;
-            _courseCurriculumRepository = courseCurriculumRepository;
+            _courseCurriculumManager = courseCurriculumManager;
             _domainEventDispatcher = domainEventDispatcher;
             _fileUploadTokenValidator = fileUploadTokenValidator;
             _mapper = mapper;
-            _logger = logger;
+            _dataAggregator = dataAggregator;
         }
 
         public async Task<SectionDto> GetSectionByIdAsync(string id)
@@ -208,7 +207,7 @@ namespace CourseService.Application.Services
 
         public async Task<CoursePublicCurriculumDto> GetPublicCurriculumAsync(string courseId)
         {
-            var result = await _courseCurriculumRepository.GetCourseCurriculumAsync(courseId);
+            var result = await _dataAggregator.GetSectionsWithLessonsAsync(courseId);
 
             var publicSections = _mapper.Map<List<SectionInPublicCurriculumDto>>(result);
 
@@ -220,7 +219,7 @@ namespace CourseService.Application.Services
 
         public async Task<CourseInstructorCurriculumDto> GetInstructorCurriculumAsync(string courseId)
         {
-            var result = await _courseCurriculumRepository.GetCourseCurriculumAsync(courseId);
+            var result = await _dataAggregator.GetSectionsWithLessonsAsync(courseId);
 
             var sections = _mapper.Map<List<SectionInInstructorCurriculumDto>>(result);
 
@@ -243,7 +242,7 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            await _courseCurriculumRepository.UpdateCurriculumAsync(courseId, items);
+            await _courseCurriculumManager.UpdateCurriculumAsync(courseId, items);
         }
     }
 }

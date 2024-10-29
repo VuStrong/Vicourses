@@ -9,12 +9,14 @@ namespace CourseService.Infrastructure.CollectionSeeders
         {
             var indexBuilder = Builders<Enrollment>.IndexKeys;
 
-            var index = new CreateIndexModel<Enrollment>(
-                indexBuilder.Ascending(c => c.CourseId).Ascending(c => c.UserId),
-                new () { Unique = true }
-            );
+            var indexes = new List<CreateIndexModel<Enrollment>>
+            {
+                new ( indexBuilder.Ascending(c => c.CourseId).Ascending(c => c.UserId),
+                    new () { Unique = true } ),
+                new ( indexBuilder.Ascending(c => c.UserId) )
+            };
 
-            await collection.Indexes.CreateOneAsync(index);
+            await collection.Indexes.CreateManyAsync(indexes);
         }
     }
 }

@@ -5,7 +5,7 @@
         public string Id { get; private set; }
         public string CourseId { get; private set; }
         public string UserId { get; private set; }
-        public DateTime Time { get; private set; }
+        public DateTime EnrolledAt { get; private set; }
 
         private Enrollment(string id, string courseId, string userId)
         {
@@ -20,7 +20,7 @@
 
             return new Enrollment(id, courseId, userId)
             {
-                Time = DateTime.Now,
+                EnrolledAt = DateTime.Today,
             };
         }
     }

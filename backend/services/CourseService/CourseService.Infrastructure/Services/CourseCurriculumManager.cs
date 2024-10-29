@@ -1,85 +1,20 @@
 ﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
-using CourseService.Domain.Objects;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace CourseService.Infrastructure.Repositories
+namespace CourseService.Infrastructure.Services
 {
-    public class CourseCurriculumRepository : ICourseCurriculumRepository
+    public class CourseCurriculumManager : ICourseCurriculumManager
     {
         private readonly IMongoCollection<Section> _sectionCollection;
         private readonly IMongoCollection<Lesson> _lessonCollection;
 
-        public CourseCurriculumRepository(
+        public CourseCurriculumManager(
             IMongoCollection<Section> sectionCollection,
             IMongoCollection<Lesson> lessonCollection)
         {
             _sectionCollection = sectionCollection;
             _lessonCollection = lessonCollection;
-        }
-
-        public async Task<List<SectionWithLessons>> GetCourseCurriculumAsync(string courseId)
-        {
-            var pipeline = new[] {
-                new BsonDocument("$match",
-                    new BsonDocument
-                    {
-                        { nameof(Section.CourseId), courseId }
-                    }
-                ),
-                new BsonDocument("$lookup",
-                    new BsonDocument
-                    {
-                        { "from", "lessons" },
-                        {
-                            "let",
-                            new BsonDocument
-                            {
-                                { "id", "$_id" }
-                            }
-                        },
-                        {
-                            "pipeline",
-                            new BsonArray
-                            {
-                                new BsonDocument(
-                                    "$match",
-                                    new BsonDocument
-                                    (
-                                        "$expr",
-                                        new BsonDocument(
-                                            "$eq",
-                                            new BsonArray{ "$$id", $"${nameof(Lesson.SectionId)}" }
-                                        )
-                                    )
-                                ),
-                                new BsonDocument(
-                                    "$sort",
-                                    new BsonDocument{ { $"{nameof(Lesson.Order)}", 1 } }
-                                )
-                            }
-                        },
-                        { "as", nameof(SectionWithLessons.Lessons) }
-                    }
-                ),
-                new BsonDocument("$addFields",
-                    new BsonDocument
-                    {
-                        { $"{nameof(SectionWithLessons.Duration)}", new BsonDocument { { "$sum", "$Lessons.Video.Duration" } } },
-                        { $"{nameof(SectionWithLessons.LessonCount)}", new BsonDocument { { "$size", "$Lessons" } } }
-                    }
-                ),
-                new BsonDocument("$sort",
-                    new BsonDocument{ { $"{nameof(Section.Order)}", 1 } }
-                )
-            };
-
-            var result = await _sectionCollection
-                .Aggregate<SectionWithLessons>(pipeline)
-                .ToListAsync();
-
-            return result;
         }
 
         public async Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items)

@@ -2,7 +2,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using CourseService.Application.Dtos;
 using System.Text;
-using System.Security.Claims;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 
@@ -33,12 +32,16 @@ namespace CourseService.Application.Services
 
                 var claims = tokenHandler.ValidateToken(token, parameters, out var _);
 
-                var fileId = claims.FindFirstValue("fileId");
-                var url = claims.FindFirstValue("url");
-                var originalFileName = claims.FindFirstValue("originalFileName");
-                var userIdInClaim = claims.FindFirstValue("userId");
+                var fileId = claims.FindFirst("fileId")?.Value;
+                var url = claims.FindFirst("url")?.Value;
+                var originalFileName = claims.FindFirst("originalFileName")?.Value;
+                var userIdInClaim = claims.FindFirst("userId")?.Value;
 
-                if (fileId == null || url == null || userIdInClaim == null || userIdInClaim != userId)
+                if (
+                    string.IsNullOrEmpty(fileId) ||
+                    string.IsNullOrEmpty(url) ||
+                    string.IsNullOrEmpty(userIdInClaim) ||
+                    userIdInClaim != userId)
                 {
                     throw new Exception();
                 }

@@ -1,4 +1,5 @@
 ﻿using CourseService.Application.DomainEventHandlers.Course;
+using CourseService.Application.DomainEventHandlers.Enrollment;
 using CourseService.Application.DomainEventHandlers.Lesson;
 using CourseService.Application.DomainEventHandlers.Section;
 using CourseService.Application.IntegrationEventHandlers.User;
@@ -11,15 +12,13 @@ using CourseService.Application.Interfaces;
 using CourseService.Application.Services;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
+using CourseService.Domain.Events.Enrollment;
 using CourseService.Domain.Events.Lesson;
 using CourseService.Domain.Events.Section;
 using CourseService.Domain.Services;
 using CourseService.Domain.Services.Implementations;
 using CourseService.EventBus.RabbitMQ;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
-using Serilog.Formatting.Compact;
 
 namespace CourseService.Application
 {
@@ -30,50 +29,20 @@ namespace CourseService.Application
             var appConfiguration = new ApplicationConfiguration();
             config?.Invoke(appConfiguration);
 
-            var loggerConfiguration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
-                .Build();
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            // Logger
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(loggerConfiguration)
-                .WriteTo.Console()
-                .WriteTo.File(
-                    new CompactJsonFormatter(),
-                    "logs/course-service.log",
-                    rollingInterval: RollingInterval.Day,
-                    rollOnFileSizeLimit: true,
-                    fileSizeLimitBytes: 2242880,
-                    retainedFileCountLimit: 2)
-                .CreateLogger();
-            services.AddSerilog();
 
             // App services
             services.AddScoped<ICourseService, Services.CourseService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICourseCurriculumService, CourseCurriculumService>();
             services.AddScoped<ILessonQuizService, LessonQuizService>();
+            services.AddScoped<IEnrollService, EnrollService>();
 
             // Domain services
             services.AddScoped<IQuizDomainService, QuizDomainService>();
             services.AddScoped<ICategoryDomainService, CategoryDomainService>();
 
-            // Domain event handlers
-            services.AddScoped<IDomainEventHandler<CoursePublishedDomainEvent>, CoursePublishedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<CourseUnpublishedDomainEvent>, CourseUnpublishedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<CourseInfoUpdatedDomainEvent>, CourseInfoUpdatedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<CourseDeletedDomainEvent>, CourseDeletedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<CoursePreviewVideoUpdatedDomainEvent>, CoursePreviewVideoUpdatedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<CourseThumbnailUpdatedDomainEvent>, CourseThumbnailUpdatedDomainEventHandler>();
-
-            services.AddScoped<IDomainEventHandler<LessonDeletedDomainEvent>, LessonDeletedDomainEventHandler>();
-            services.AddScoped<IDomainEventHandler<LessonVideoUpdatedDomainEvent>, LessonVideoUpdatedDomainEventHandler>();
-
-            services.AddScoped<IDomainEventHandler<SectionDeletedDomainEvent>, SectionDeletedDomainEventHandler>();
+            services.AddDomainEventHandlers();            
 
             services.AddEventBus(appConfiguration.RabbitMQUri);
 
@@ -81,6 +50,30 @@ namespace CourseService.Application
             {
                 return new FileUploadTokenValidator(appConfiguration.FileUploadSecret);
             });
+        }
+
+        private static void AddDomainEventHandler<T, TH>(this IServiceCollection services) 
+            where T : DomainEvent 
+            where TH : class, IDomainEventHandler<T>
+        {
+            services.AddKeyedScoped<IDomainEventHandler, TH>(typeof(T));
+        }
+
+        private static void AddDomainEventHandlers(this IServiceCollection services)
+        {
+            services.AddDomainEventHandler<CoursePublishedDomainEvent, CoursePublishedDomainEventHandler>();
+            services.AddDomainEventHandler<CourseUnpublishedDomainEvent, CourseUnpublishedDomainEventHandler>();
+            services.AddDomainEventHandler<CourseInfoUpdatedDomainEvent, CourseInfoUpdatedDomainEventHandler>();
+            services.AddDomainEventHandler<CourseDeletedDomainEvent, CourseDeletedDomainEventHandler>();
+            services.AddDomainEventHandler<CoursePreviewVideoUpdatedDomainEvent, CoursePreviewVideoUpdatedDomainEventHandler>();
+            services.AddDomainEventHandler<CourseThumbnailUpdatedDomainEvent, CourseThumbnailUpdatedDomainEventHandler>();
+
+            services.AddDomainEventHandler<LessonDeletedDomainEvent, LessonDeletedDomainEventHandler>();
+            services.AddDomainEventHandler<LessonVideoUpdatedDomainEvent, LessonVideoUpdatedDomainEventHandler>();
+
+            services.AddDomainEventHandler<SectionDeletedDomainEvent, SectionDeletedDomainEventHandler>();
+
+            services.AddDomainEventHandler<UserEnrolledDomainEvent, UserEnrolledDomainEventHandler>();
         }
 
         private static void AddEventBus(this IServiceCollection services, string uri)
@@ -101,6 +94,10 @@ namespace CourseService.Application
                 c.ConfigurePublish<CourseUnpublishedIntegrationEvent>(opt =>
                 {
                     opt.ExchangeOptions.ExchangeName = "course.unpublished";
+                });
+                c.ConfigurePublish<UserEnrolledIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.enrolled";
                 });
 
                 // Events in storage service

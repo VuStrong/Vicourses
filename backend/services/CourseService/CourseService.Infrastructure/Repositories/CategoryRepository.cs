@@ -1,6 +1,5 @@
 ﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
-using CourseService.Domain.Objects;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -26,33 +25,6 @@ namespace CourseService.Infrastructure.Repositories
             }
 
             return await _collection.Find(filter).ToListAsync();
-        }
-
-        public async Task<List<CategoryWithSubs>> GetRootCategoriesWithSubCategories()
-        {
-            var pipeline = new[] {
-                new BsonDocument("$match",
-                    new BsonDocument
-                    {
-                        { nameof(Category.ParentId), BsonNull.Value }
-                    }
-                ),
-                new BsonDocument("$lookup",
-                    new BsonDocument
-                    {
-                        { "from", "categories" },
-                        { "localField", "_id" },
-                        { "foreignField", nameof(Category.ParentId) },
-                        { "as", nameof(CategoryWithSubs.SubCategories) }
-                    }
-                )
-            };
-
-            var result = await _collection
-                .Aggregate<CategoryWithSubs>(pipeline)
-                .ToListAsync();
-
-            return result;
         }
     }
 }

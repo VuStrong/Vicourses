@@ -1,5 +1,6 @@
 ﻿using CourseService.Domain.Enums;
 using CourseService.Domain.Events.Course;
+using CourseService.Domain.Events.Enrollment;
 using CourseService.Domain.Exceptions;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Extensions;
@@ -193,6 +194,8 @@ namespace CourseService.Domain.Models
             var enrollment = Enrollment.Create(Id, studentId);
 
             StudentCount++;
+
+            AddDomainEvent(new UserEnrolledDomainEvent(studentId, this));
 
             return enrollment;
         }

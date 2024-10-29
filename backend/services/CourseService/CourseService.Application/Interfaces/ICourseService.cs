@@ -19,8 +19,5 @@ namespace CourseService.Application.Interfaces
 
         Task ApproveCourseAsync(string courseId);
         Task CancelCourseApprovalAsync(string courseId, List<string> reasons);
-
-        Task Enroll(string courseId, string userId);
-        Task<bool> CheckEnrollment(string courseId, string userId);
     }
 }

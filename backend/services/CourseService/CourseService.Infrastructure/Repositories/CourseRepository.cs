@@ -89,6 +89,36 @@ namespace CourseService.Infrastructure.Repositories
             return new PagedResult<Course>(courses, skip, limit, total);
         }
 
+        public async Task<List<Course>> FindByIdsAsync(IEnumerable<string> ids, CourseStatus? status = null, bool sortByIds = true)
+        {
+            var filter = Builders<Course>.Filter.In("_id", ids);
+
+            if (status != null)
+            {
+                filter &= Builders<Course>.Filter.Eq(c => c.Status, status.Value);
+            }
+
+            var items = await _collection.Find(filter).ToListAsync();
+
+            if (sortByIds && items.Count > 1)
+            {
+                var sortedItems = new List<Course>();
+
+                foreach (var id in ids)
+                {
+                    var item = items.FirstOrDefault(i => i.Id == id);
+
+                    if (item == null) continue;
+
+                    sortedItems.Add(item);
+                }
+
+                return sortedItems;
+            }
+
+            return items;
+        }
+
         public async Task UpdateStudentCountAsync(Course course)
         {
             var filter = Builders<Course>.Filter.Eq("_id", course.Id);

@@ -1,7 +1,6 @@
 ﻿using CourseService.Domain;
 using CourseService.Domain.Events;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace CourseService.Infrastructure.DomainEvents
 {
@@ -16,23 +15,17 @@ namespace CourseService.Infrastructure.DomainEvents
 
         public async Task Dispatch(DomainEvent domainEvent)
         {
-            var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(domainEvent.GetType());
-
             using var scope = _serviceScopeFactory.CreateScope();
 
-            var handlers = scope.ServiceProvider.GetServices(handlerType);
+            var handlers = scope.ServiceProvider.GetKeyedServices<IDomainEventHandler>(domainEvent.GetType());
 
             if (!handlers.Any()) return;
 
-            foreach ( var handler in handlers)
+            foreach (var handler in handlers)
             {
-                var method = handlerType.GetMethod("Handle", BindingFlags.Instance | BindingFlags.Public);
-
                 try
                 {
-                    var task = method!.Invoke(handler, new object[] { domainEvent }) as Task;
-
-                    await task!;
+                    await handler.Handle(domainEvent);
                 }
                 catch (Exception ex)
                 {

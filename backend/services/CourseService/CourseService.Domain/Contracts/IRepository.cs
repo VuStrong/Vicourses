@@ -8,6 +8,7 @@ namespace CourseService.Domain.Contracts
         Task<T?> FindOneAsync(Expression<Func<T, bool>> filter);
 
         Task<List<T>> GetAllAsync();
+        Task<List<T>> FindByIdsAsync(IEnumerable<string> ids, bool sortByIds = true);
 
         Task CreateAsync(T entity);
 

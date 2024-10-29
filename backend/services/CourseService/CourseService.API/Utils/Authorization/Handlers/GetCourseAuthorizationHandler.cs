@@ -7,11 +7,11 @@ namespace CourseService.API.Utils.Authorization.Handlers
 {
     public class GetCourseAuthorizationHandler : AuthorizationHandler<GetCourseRequirement, CourseDetailDto>
     {
-        private readonly ICourseService _courseService;
+        private readonly IEnrollService _enrollService;
 
-        public GetCourseAuthorizationHandler(ICourseService courseService)
+        public GetCourseAuthorizationHandler(IEnrollService enrollService)
         {
-            _courseService = courseService;
+            _enrollService = enrollService;
         }
 
         protected override async Task HandleRequirementAsync(
@@ -34,7 +34,7 @@ namespace CourseService.API.Utils.Authorization.Handlers
                 return;
             }
 
-            var enrolled = await _courseService.CheckEnrollment(course.Id, userId);
+            var enrolled = await _enrollService.CheckEnrollmentAsync(course.Id, userId);
             if (enrolled)
             {
                 context.Succeed(requirement);

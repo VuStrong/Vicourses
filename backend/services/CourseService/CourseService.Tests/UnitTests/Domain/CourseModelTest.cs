@@ -1,5 +1,6 @@
 using CourseService.Domain.Enums;
 using CourseService.Domain.Events.Course;
+using CourseService.Domain.Events.Enrollment;
 using CourseService.Domain.Exceptions;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
@@ -76,6 +77,18 @@ namespace CourseService.Tests.UnitTests.Domain
             var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
 
             Assert.Throws<DomainException>(() => course.EnrollStudent("Student1"));
+        }
+
+        [Fact]
+        public void TestEnrollCourseRaiseEvent()
+        {
+            var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
+            course.SetStatus(CourseStatus.WaitingToVerify);
+            course.Approve();
+
+            course.EnrollStudent("Student1");
+
+            Assert.Contains(course.DomainEvents, e => e.GetType() == typeof(UserEnrolledDomainEvent));
         }
 
         [Fact]
