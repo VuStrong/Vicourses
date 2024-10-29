@@ -10,6 +10,8 @@ using System.Text.Json.Serialization;
 using CourseService.API.Utils.Authorization.Handlers;
 using CourseService.API.Utils.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Serilog.Formatting.Compact;
+using Serilog;
 
 namespace CourseService.API.Extensions
 {
@@ -32,6 +34,7 @@ namespace CourseService.API.Extensions
                 });
 
             builder.AddSwagger();
+            builder.AddLogger();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -58,18 +61,45 @@ namespace CourseService.API.Extensions
 
                 opt.AddPolicy("GetSectionPolicy", policy =>
                     policy.Requirements.Add(new GetSectionRequirement()));
-
+                
                 opt.AddPolicy("GetLessonPolicy", policy =>
                     policy.Requirements.Add(new GetLessonRequirement()));
+
+                opt.AddPolicy("GetEnrolledCoursesPolicy", policy =>
+                    policy.Requirements.Add(new GetEnrolledCoursesRequirement()));
             });
 
             builder.Services.AddScoped<IAuthorizationHandler, GetCourseAuthorizationHandler>();
             builder.Services.AddScoped<IAuthorizationHandler, GetSectionAuthorizationHandler>();
             builder.Services.AddScoped<IAuthorizationHandler, GetLessonAuthorizationHandler>();
+            builder.Services.AddScoped<IAuthorizationHandler, GetEnrolledCoursesAuthorizationHandler>();
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
             builder.Services.AddHealthChecks();
+        }
+
+        public static void AddLogger(this WebApplicationBuilder builder)
+        {
+            var loggerConfiguration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(loggerConfiguration)
+                .WriteTo.Console()
+                .WriteTo.File(
+                    new CompactJsonFormatter(),
+                    "logs/course-service.log",
+                    rollingInterval: RollingInterval.Day,
+                    rollOnFileSizeLimit: true,
+                    fileSizeLimitBytes: 2242880,
+                    retainedFileCountLimit: 2)
+                .CreateLogger();
+
+            builder.Services.AddSerilog();
         }
 
         public static void AddSwagger(this WebApplicationBuilder builder)

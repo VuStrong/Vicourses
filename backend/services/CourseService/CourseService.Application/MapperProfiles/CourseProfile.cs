@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos.Course;
+using CourseService.Application.Dtos.Lesson;
+using CourseService.Application.Dtos.Section;
 using CourseService.Application.IntegrationEvents.Course;
 using CourseService.Domain.Models;
-using CourseService.Domain.Objects;
 
 namespace CourseService.Application.MapperProfiles
 {
@@ -13,10 +14,10 @@ namespace CourseService.Application.MapperProfiles
             CreateMap<CategoryInCourse, CategoryInCourseDto>();
             CreateMap<UserInCourse, UserInCourseDto>();
 
-            CreateMap<Lesson, LessonInPublicCurriculumDto>();
-            CreateMap<Lesson, LessonInInstructorCurriculumDto>();
-            CreateMap<SectionWithLessons, SectionInPublicCurriculumDto>();
-            CreateMap<SectionWithLessons, SectionInInstructorCurriculumDto>();
+            CreateMap<LessonDto, LessonInPublicCurriculumDto>();
+            CreateMap<LessonDto, LessonInInstructorCurriculumDto>();
+            CreateMap<SectionWithLessonsDto, SectionInPublicCurriculumDto>();
+            CreateMap<SectionWithLessonsDto, SectionInInstructorCurriculumDto>();
 
             CreateMap<Course, CourseDto>()
                 .ForMember(

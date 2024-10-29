@@ -1,11 +1,15 @@
 ﻿using CourseService.API.Models.Course;
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Course;
+using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
+using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
+using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 
 namespace CourseService.API.Controllers
@@ -18,15 +22,21 @@ namespace CourseService.API.Controllers
     {
         private readonly ICourseService _courseService;
         private readonly ICourseCurriculumService _courseCurriculumService;
+        private readonly IEnrollService _enrollService;
+        private readonly IUserRepository _userRepository;
         private readonly IAuthorizationService _authorizationService;
 
         public CoursesController(
             ICourseService courseService,
             ICourseCurriculumService courseCurriculumService,
+            IEnrollService enrollService,
+            IUserRepository userRepository,
             IAuthorizationService authorizationService)
         {
             _courseService = courseService;
             _courseCurriculumService = courseCurriculumService;
+            _enrollService = enrollService;
+            _userRepository = userRepository;
             _authorizationService = authorizationService;
         }
 
@@ -69,6 +79,31 @@ namespace CourseService.API.Controllers
             var results = await _courseService.GetCoursesByUserIdAsync(request.InstructorId, request.Skip, request.Limit,
                 request.Keyword, request.Status);
             
+            return Ok(results);
+        }
+
+        /// <summary>
+        /// Get user's enrolled courses
+        /// </summary>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">User not found</response>
+        [HttpGet("enrolled-courses")]
+        [Authorize]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(PagedResult<CourseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserEnrolledCourses([FromQuery]GetEnrolledCoursesByUserRequest request)
+        {
+            var userInDb = await _userRepository.FindOneAsync(request.UserId) ?? throw new UserNotFoundException(request.UserId);
+
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, userInDb, "GetEnrolledCoursesPolicy");
+
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
+
+            var results = await _enrollService.GetUserEnrolledCoursesAsync(request.UserId, request.Skip, request.Limit);
+
             return Ok(results);
         }
 

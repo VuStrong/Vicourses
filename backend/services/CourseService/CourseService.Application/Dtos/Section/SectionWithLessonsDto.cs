@@ -1,8 +1,8 @@
-﻿using CourseService.Domain.Models;
+﻿using CourseService.Application.Dtos.Lesson;
 
-namespace CourseService.Domain.Objects
+namespace CourseService.Application.Dtos.Section
 {
-    public class SectionWithLessons
+    public class SectionWithLessonsDto
     {
         public string Id { get; private set; } = string.Empty;
         public string CourseId { get; private set; } = string.Empty;
@@ -12,7 +12,7 @@ namespace CourseService.Domain.Objects
         public int Order { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
-        public List<Lesson> Lessons { get; set; } = [];
+        public List<LessonDto> Lessons { get; set; } = [];
         public int Duration { get; set; }
         public int LessonCount { get; set; }
     }

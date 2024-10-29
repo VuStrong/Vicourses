@@ -36,6 +36,30 @@ namespace CourseService.Infrastructure.Repositories
             return await _collection.Find(_ => true).ToListAsync();
         }
 
+        public async Task<List<T>> FindByIdsAsync(IEnumerable<string> ids, bool sortByIds = true)
+        {
+            var filter = Builders<T>.Filter.In("_id", ids);
+            var items = await _collection.Find(filter).ToListAsync();
+
+            if (sortByIds && items.Count > 1)
+            {
+                var sortedItems = new List<T>();
+
+                foreach (var id in ids)
+                {
+                    var item = items.FirstOrDefault(i => i.Id == id);
+
+                    if (item == null) continue;
+
+                    sortedItems.Add(item);
+                }
+
+                return sortedItems;
+            }
+
+            return items;
+        }
+
         public async Task<bool> ExistsAsync(string id)
         {
             var filter = Builders<T>.Filter.Eq("_id", id);

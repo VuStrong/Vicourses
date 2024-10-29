@@ -27,17 +27,21 @@ namespace CourseService.Application.IntegrationEventHandlers.User
         {
             _logger.LogInformation($"CourseService handle {@event.GetType().Name}: {@event.Id}");
 
-            var user = await _userRepository.FindOneAsync(@event.Id);
-
-            if (user == null) throw new UserNotFoundException(@event.Id);
-
+            var user = await _userRepository.FindOneAsync(@event.Id) ?? throw new UserNotFoundException(@event.Id);
+            
+            bool nameOrThumbnailUpdated = false;
             if (@event.Name != user.Name || @event.ThumbnailUrl != user.ThumbnailUrl)
             {
-                user.UpdateInfoIgnoreNull(@event.Name, @event.ThumbnailUrl);
+                nameOrThumbnailUpdated = true;
+            }
 
+            user.UpdateInfoIgnoreNull(@event.Name, @event.ThumbnailUrl, @event.EnrolledCoursesVisible);
+            
+            await _userRepository.UpdateAsync(user);
+            
+            if (nameOrThumbnailUpdated)
+            {
                 var userInCourse = new UserInCourse(user.Id, user.Name, user.ThumbnailUrl);
-
-                await _userRepository.UpdateAsync(user);
 
                 await _courseRepository.UpdateUserInCoursesAsync(userInCourse);
             }

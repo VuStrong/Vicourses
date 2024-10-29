@@ -14,10 +14,12 @@ namespace CourseService.API.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly IDataAggregator _dataAggregator;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, IDataAggregator dataAggregator)
         {
             _categoryService = categoryService;
+            _dataAggregator = dataAggregator;
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace CourseService.API.Controllers
         [ProducesResponseType(typeof(List<CategoryWithSubsDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNavigationCategories()
         {
-            var results = await _categoryService.GetRootCategoriesWithSubCategories();
+            var results = await _dataAggregator.GetRootCategoriesWithSubCategoriesAsync();
 
             return Ok(results);
         }

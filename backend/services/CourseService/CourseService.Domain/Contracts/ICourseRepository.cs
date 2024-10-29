@@ -13,6 +13,8 @@ namespace CourseService.Domain.Contracts
         Task<PagedResult<Course>> FindManyByUserIdAsync(string userId, int skip, int limit, string? searchKeyword = null,
             CourseStatus? status = null);
 
+        Task<List<Course>> FindByIdsAsync(IEnumerable<string> ids, CourseStatus? status = null, bool sortByIds = true);
+
         Task UpdateStudentCountAsync(Course course);
 
         Task UpdateUserInCoursesAsync(UserInCourse user);

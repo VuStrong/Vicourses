@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CourseService.Application\CourseService.Application.csproj" />
     <ProjectReference Include="..\CourseService.Domain\CourseService.Domain.csproj" />
   </ItemGroup>
 

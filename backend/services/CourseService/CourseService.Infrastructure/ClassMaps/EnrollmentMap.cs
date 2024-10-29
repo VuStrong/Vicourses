@@ -1,5 +1,6 @@
 ﻿using CourseService.Domain.Models;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace CourseService.Infrastructure.ClassMaps
 {
@@ -11,6 +12,8 @@ namespace CourseService.Infrastructure.ClassMaps
             {
                 map.AutoMap();
                 map.MapIdMember(c => c.Id);
+                map.MapMember(c => c.EnrolledAt)
+                    .SetSerializer(new DateTimeSerializer(dateOnly: true));
 
                 map.SetIgnoreExtraElements(true);
             });

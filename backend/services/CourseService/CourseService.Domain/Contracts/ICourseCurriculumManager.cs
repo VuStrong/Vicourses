@@ -1,10 +1,7 @@
-﻿using CourseService.Domain.Objects;
-
-namespace CourseService.Domain.Contracts
+﻿namespace CourseService.Domain.Contracts
 {
-    public interface ICourseCurriculumRepository
+    public interface ICourseCurriculumManager
     {
-        Task<List<SectionWithLessons>> GetCourseCurriculumAsync(string courseId);
         Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items);
     }
 

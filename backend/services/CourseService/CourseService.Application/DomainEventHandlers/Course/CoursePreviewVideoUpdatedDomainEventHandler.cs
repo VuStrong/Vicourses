@@ -1,4 +1,5 @@
 using CourseService.Application.IntegrationEvents.VideoProcessing;
+using CourseService.Domain.Enums;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
 using CourseService.EventBus;
@@ -19,7 +20,7 @@ namespace CourseService.Application.DomainEventHandlers.Course
             var newVideo = @event.Course.PreviewVideo;
             var oldVideo = @event.OldVideo;
 
-            if (newVideo?.Status < Domain.Enums.VideoStatus.Processed && newVideo.FileId != oldVideo?.FileId)
+            if (newVideo?.Status < VideoStatus.Processed && newVideo.FileId != oldVideo?.FileId)
             {
                 _eventBus.Publish(new RequestVideoProcessingIntegrationEvent
                 {

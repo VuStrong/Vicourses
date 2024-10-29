@@ -6,6 +6,7 @@
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string? ThumbnailUrl { get; private set; }
+        public bool EnrolledCoursesVisible { get; private set; } = true;
 
         private User(string id, string name, string email)
         {
@@ -22,10 +23,11 @@
             };
         }
 
-        public void UpdateInfoIgnoreNull(string? name = null, string? thumbnailUrl = null)
+        public void UpdateInfoIgnoreNull(string? name = null, string? thumbnailUrl = null, bool? enrolledCoursesVisible = null)
         {
             if (name != null) Name = name;
             if (thumbnailUrl != null) ThumbnailUrl = thumbnailUrl;
+            if (enrolledCoursesVisible != null) EnrolledCoursesVisible = enrolledCoursesVisible.Value;
         }
     }
 }

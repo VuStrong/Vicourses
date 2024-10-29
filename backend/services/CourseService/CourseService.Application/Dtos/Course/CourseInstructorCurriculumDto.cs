@@ -24,7 +24,6 @@
         public string SectionId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
-        public int Duration { get; set; }
         public int Order { get; set; }
         public string Type { get; set; } = string.Empty;
         public VideoFileDto? Video {  get; set; }

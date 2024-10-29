@@ -18,7 +18,6 @@ namespace CourseService.Application.Services
         private readonly ICourseRepository _courseRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseService> _logger;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
@@ -28,7 +27,6 @@ namespace CourseService.Application.Services
             ICourseRepository courseRepository,
             IUserRepository userRepository,
             ICategoryRepository categoryRepository,
-            IEnrollmentRepository enrollmentRepository,
             IMapper mapper,
             ILogger<CourseService> logger,
             IDomainEventDispatcher domainEventDispatcher,
@@ -37,7 +35,6 @@ namespace CourseService.Application.Services
             _courseRepository = courseRepository;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
-            _enrollmentRepository = enrollmentRepository;
             _mapper = mapper;
             _logger = logger;
             _domainEventDispatcher = domainEventDispatcher;
@@ -250,28 +247,6 @@ namespace CourseService.Application.Services
             await _courseRepository.UpdateAsync(course);
 
             _ = _domainEventDispatcher.DispatchFrom(course);
-        }
-
-        public async Task Enroll(string courseId, string userId)
-        {
-            var course = await _courseRepository.FindOneAsync(courseId);
-            if (course == null)
-            {
-                throw new CourseNotFoundException(courseId);
-            }
-
-            var enrollment = course.EnrollStudent(userId);
-
-            await _enrollmentRepository.CreateAsync(enrollment);
-
-            await _courseRepository.UpdateStudentCountAsync(course);
-
-            _logger.LogInformation($"[Course Service] User {userId} enrolled course {courseId}");
-        }
-
-        public async Task<bool> CheckEnrollment(string courseId, string userId)
-        {
-            return await _enrollmentRepository.ExistsAsync(e => e.CourseId == courseId && e.UserId == userId);
         }
     }
 }

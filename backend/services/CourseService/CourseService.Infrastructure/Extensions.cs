@@ -1,10 +1,12 @@
-﻿using CourseService.Domain.Contracts;
+﻿using CourseService.Application.Interfaces;
+using CourseService.Domain.Contracts;
 using CourseService.Domain.Events;
 using CourseService.Domain.Models;
 using CourseService.Infrastructure.ClassMaps;
 using CourseService.Infrastructure.CollectionSeeders;
 using CourseService.Infrastructure.DomainEvents;
 using CourseService.Infrastructure.Repositories;
+using CourseService.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
@@ -32,10 +34,12 @@ namespace CourseService.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-            services.AddScoped<ICourseCurriculumRepository, CourseCurriculumRepository>();
             services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddScoped<ILessonRepository, LessonRepository>();
+
+            services.AddScoped<ICourseCurriculumManager, CourseCurriculumManager>();
+            services.AddScoped<IDataAggregator, DataAggregator>();
 
             services.AddSingleton<IDomainEventDispatcher, DomainEventDispatcher>(s =>
             {

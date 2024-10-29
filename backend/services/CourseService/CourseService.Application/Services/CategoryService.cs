@@ -90,13 +90,6 @@ namespace CourseService.Application.Services
             return _mapper.Map<CategoryDto>(category);
         }
 
-        public async Task<List<CategoryWithSubsDto>> GetRootCategoriesWithSubCategories()
-        {
-            var results = await _categoryRepository.GetRootCategoriesWithSubCategories();
-
-            return _mapper.Map<List<CategoryWithSubsDto>>(results);
-        }
-
         public async Task<CategoryDto> UpdateCategoryAsync(string categoryId, UpdateCategoryDto data)
         {
             var category = await _categoryRepository.FindOneAsync(categoryId);
