@@ -3,7 +3,7 @@ using CourseService.Application.Dtos.Course;
 using CourseService.Application.IntegrationEvents.Course;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Enrollment;
-using CourseService.EventBus;
+using EventBus;
 
 namespace CourseService.Application.DomainEventHandlers.Enrollment
 {

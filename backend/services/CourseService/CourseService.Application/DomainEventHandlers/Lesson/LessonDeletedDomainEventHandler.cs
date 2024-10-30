@@ -2,7 +2,7 @@
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Lesson;
-using CourseService.EventBus;
+using EventBus;
 
 namespace CourseService.Application.DomainEventHandlers.Lesson
 {

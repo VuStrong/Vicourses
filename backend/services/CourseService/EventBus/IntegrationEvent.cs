@@ -1,4 +1,4 @@
-﻿namespace CourseService.EventBus
+﻿namespace EventBus
 {
     public abstract class IntegrationEvent
     {

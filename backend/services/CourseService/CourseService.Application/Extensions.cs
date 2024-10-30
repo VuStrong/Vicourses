@@ -17,7 +17,7 @@ using CourseService.Domain.Events.Lesson;
 using CourseService.Domain.Events.Section;
 using CourseService.Domain.Services;
 using CourseService.Domain.Services.Implementations;
-using CourseService.EventBus.RabbitMQ;
+using EventBus.RabbitMQ;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CourseService.Application

@@ -1,7 +1,7 @@
 using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
-using CourseService.EventBus;
+using EventBus;
 
 namespace CourseService.Application.DomainEventHandlers.Course
 {

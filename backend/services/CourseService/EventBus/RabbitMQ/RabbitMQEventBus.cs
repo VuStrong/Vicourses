@@ -6,7 +6,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
 
-namespace CourseService.EventBus.RabbitMQ
+namespace EventBus.RabbitMQ
 {
     internal class RabbitMQEventBus : IEventBus, IHostedService, IDisposable
     {

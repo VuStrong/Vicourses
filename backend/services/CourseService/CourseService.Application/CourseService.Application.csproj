@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CourseService.Domain\CourseService.Domain.csproj" />
-    <ProjectReference Include="..\CourseService.EventBus\CourseService.EventBus.csproj" />
+    <ProjectReference Include="..\EventBus\EventBus.csproj" />
   </ItemGroup>
 
 </Project>

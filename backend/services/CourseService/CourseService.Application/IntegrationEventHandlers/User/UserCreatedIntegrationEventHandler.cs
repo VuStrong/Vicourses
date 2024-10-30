@@ -1,6 +1,6 @@
 ﻿using CourseService.Application.IntegrationEvents.User;
 using CourseService.Domain.Contracts;
-using CourseService.EventBus;
+using EventBus;
 using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.IntegrationEventHandlers.User
