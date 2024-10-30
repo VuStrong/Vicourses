@@ -1,4 +1,4 @@
-﻿namespace CourseService.EventBus
+﻿namespace EventBus
 {
     public interface IIntegrationEventHandler<T> : IIntegrationEventHandler where T : IntegrationEvent
     {

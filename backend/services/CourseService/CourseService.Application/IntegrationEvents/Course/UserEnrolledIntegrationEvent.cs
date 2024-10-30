@@ -1,5 +1,5 @@
 using CourseService.Application.Dtos.Course;
-using CourseService.EventBus;
+using EventBus;
 
 namespace CourseService.Application.IntegrationEvents.Course
 {

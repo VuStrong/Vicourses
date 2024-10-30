@@ -1,11 +1,9 @@
-﻿namespace CourseService.EventBus.RabbitMQ
+﻿namespace EventBus.RabbitMQ
 {
-    public class RabbitMQConsumeEventOptions
+    public class RabbitMQPublishEventOptions
     {
         public RabbitMQExchangeOptions ExchangeOptions { get; set; } = new();
-        public RabbitMQQueueOptions QueueOptions { get; set; } = new();
         public string RoutingKey { get; set; } = string.Empty;
         public bool ExcludeExchange { get; set; } = false;
-        public bool AutoAck { get; set; } = true;
     }
 }

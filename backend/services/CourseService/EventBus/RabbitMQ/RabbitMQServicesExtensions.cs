@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 
-namespace CourseService.EventBus.RabbitMQ
+namespace EventBus.RabbitMQ
 {
     public static class RabbitMQServicesExtensions
     {

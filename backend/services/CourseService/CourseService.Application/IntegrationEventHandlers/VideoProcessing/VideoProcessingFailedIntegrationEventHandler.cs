@@ -1,7 +1,7 @@
 using CourseService.Application.Exceptions;
 using CourseService.Application.IntegrationEvents.VideoProcessing;
 using CourseService.Domain.Contracts;
-using CourseService.EventBus;
+using EventBus;
 using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.IntegrationEventHandlers.VideoProcessing

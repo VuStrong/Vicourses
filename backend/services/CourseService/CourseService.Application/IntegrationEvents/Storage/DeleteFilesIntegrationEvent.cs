@@ -1,4 +1,4 @@
-using CourseService.EventBus;
+using EventBus;
 
 namespace CourseService.Application.IntegrationEvents.Storage
 {

@@ -7,7 +7,7 @@ WORKDIR /src
 COPY CourseService.API/*.csproj ./CourseService.API/
 COPY CourseService.Application/*.csproj ./CourseService.Application/
 COPY CourseService.Domain/*.csproj ./CourseService.Domain/
-COPY CourseService.EventBus/*.csproj ./CourseService.EventBus/
+COPY EventBus/*.csproj ./EventBus/
 COPY CourseService.Infrastructure/*.csproj ./CourseService.Infrastructure/
 COPY CourseService.Shared/*.csproj ./CourseService.Shared/
 RUN dotnet restore "./CourseService.API/CourseService.API.csproj"

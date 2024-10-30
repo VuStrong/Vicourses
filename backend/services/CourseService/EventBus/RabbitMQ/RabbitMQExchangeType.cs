@@ -1,4 +1,4 @@
-﻿namespace CourseService.EventBus.RabbitMQ
+﻿namespace EventBus.RabbitMQ
 {
     public static class RabbitMQExchangeType
     {
