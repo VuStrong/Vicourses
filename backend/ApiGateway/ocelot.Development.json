@@ -38,6 +38,18 @@
             ],
             "UpstreamPathTemplate": "/api/sts/{version}/{everything}",
             "UpstreamHttpMethod": [ "POST" ] 
+        },
+        {
+            "DownstreamPathTemplate": "/api/ss/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5054
+                }
+            ],
+            "UpstreamPathTemplate": "/api/ss/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET" ] 
         }
     ]
 }

@@ -40,6 +40,18 @@ namespace ApiGateway.Extensions
                 });
             });
 
+            // Search Service
+            app.Map("/swagger/v1/swagger-search.json", b =>
+            {
+                b.Run(async x =>
+                {
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Search"]}/swagger/v1/swagger.json");
+                    var body = await response.Content.ReadAsStringAsync();
+                    await x.Response.WriteAsync(body);
+                });
+            });
+
             return app;
         }
     }
