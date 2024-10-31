@@ -2,6 +2,9 @@
 {
     public class CoursePublicCurriculumDto
     {
+        public int TotalDuration { get; set; }
+        public int TotalSection { get; set; }
+        public int TotalLesson { get; set; }
         public List<SectionInPublicCurriculumDto> Sections { get; set; } = [];
     }
 
@@ -26,5 +29,6 @@
         public string? Description { get; set; }
         public int Order { get; set; }
         public string Type { get; set; } = string.Empty;
+        public int Duration { get; set; }
     }
 }

@@ -25,7 +25,6 @@ namespace CourseService.Domain.Models
         public bool IsPaid { get; private set; }
         public decimal Price { get; private set; }
         public decimal Rating { get; private set; }
-        public int Duration { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public int StudentCount { get; private set; }
@@ -80,6 +79,8 @@ namespace CourseService.Domain.Models
             List<string>? targetStudents = null, List<string>? learnedContents = null, decimal? price = null, string? locale = null,
             Category? category = null, Category? subCategory = null, CourseLevel? level = null)
         {
+            bool updated = false;
+
             if (title != null)
             {
                 title = title.Trim();
@@ -87,27 +88,55 @@ namespace CourseService.Domain.Models
 
                 Title = title;
                 TitleCleaned = title.ToSlug();
+
+                updated = true;
             }
 
-            if (description != null) Description = description;
+            if (description != null)
+            {
+                Description = description;
+                updated = true;
+            }
 
-            if (tags != null) Tags = tags;
+            if (tags != null)
+            {
+                Tags = tags;
+                updated = true;
+            }
 
-            if (requirements != null) Requirements = requirements;
+            if (requirements != null) 
+            {
+                Requirements = requirements;
+                updated = true;
+            }
 
-            if (targetStudents != null) TargetStudents = targetStudents;
+            if (targetStudents != null)
+            {
+                TargetStudents = targetStudents;
+                updated = true;
+            }
 
-            if (learnedContents != null) LearnedContents = learnedContents;
+            if (learnedContents != null)
+            {
+                LearnedContents = learnedContents;
+                updated = true;
+            }
 
             if (price != null)
             {
-                DomainValidationException.ThrowIfNegative(price ?? 0);
+                DomainValidationException.ThrowIfNegative(price.Value);
 
-                Price = price ?? 0;
+                Price = price.Value;
                 IsPaid = price != 0;
+
+                updated = true;
             }
 
-            if (locale != null) Locale = new Locale(locale);
+            if (locale != null)
+            {
+                Locale = new Locale(locale);
+                updated = true;
+            }
             
             if (category != null && subCategory == null)
             {
@@ -125,22 +154,30 @@ namespace CourseService.Domain.Models
             if (category != null)
             {
                 Category = new CategoryInCourse(category.Id, category.Name, category.Slug);
+                updated = true;
             }
             if (subCategory != null)
             {
                 SubCategory = new CategoryInCourse(subCategory.Id, subCategory.Name, subCategory.Slug);
+                updated = true;
             }
 
-            if (level != null) Level = level ?? CourseLevel.All;
+            if (level != null)
+            {
+                Level = level.Value;
+                updated = true;
+            }
 
-            UpdatedAt = DateTime.Now;
-
-            AddUniqueDomainEvent(new CourseInfoUpdatedDomainEvent(this));
+            if (updated)
+            {
+                UpdatedAt = DateTime.Now;
+                AddUniqueDomainEvent(new CourseInfoUpdatedDomainEvent(this));
+            }
         }
 
         public void Approve()
         {
-            if (Status == CourseStatus.Published) return;
+            if (IsApproved) return;
 
             if (Status != CourseStatus.WaitingToVerify)
             {
@@ -155,6 +192,8 @@ namespace CourseService.Domain.Models
 
         public void CancelApproval(List<string>? reasons = null)
         {
+            if (!IsApproved) return;
+
             IsApproved = false;
             Status = CourseStatus.Unpublished;
 
@@ -163,6 +202,8 @@ namespace CourseService.Domain.Models
 
         public void SetStatus(CourseStatus status)
         {
+            if (status == Status) return;
+
             if (status == CourseStatus.Published && !IsApproved)
             {
                 throw new DomainException("Course must be approved to be published");
@@ -210,6 +251,7 @@ namespace CourseService.Domain.Models
             UpdatedAt = DateTime.Now;
 
             AddUniqueDomainEvent(new CourseThumbnailUpdatedDomainEvent(this, oldThumb));
+            AddUniqueDomainEvent(new CourseInfoUpdatedDomainEvent(this));
         }
 
         public void UpdatePreviewVideo(VideoFile video)
@@ -256,6 +298,17 @@ namespace CourseService.Domain.Models
                 PreviewVideo.OriginalFileName,
                 status: VideoStatus.ProcessingFailed
             );
+        }
+
+        public void SetRating(decimal rating)
+        {
+            if (rating == Rating) return;
+
+            if (rating < 0 || rating > 5) throw new DomainValidationException("rating must be between 0 and 5");
+
+            Rating = rating;
+
+            AddUniqueDomainEvent(new CourseInfoUpdatedDomainEvent(this));
         }
     }
 }
