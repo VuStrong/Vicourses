@@ -211,8 +211,20 @@ namespace CourseService.Application.Services
 
             var publicSections = _mapper.Map<List<SectionInPublicCurriculumDto>>(result);
 
+            int totalDuration = 0, totalSection = 0, totalLesson = 0;
+
+            foreach (var section in publicSections)
+            {
+                totalDuration += section.Duration;
+                totalSection += 1;
+                totalLesson += section.LessonCount;
+            }
+
             return new CoursePublicCurriculumDto
             {
+                TotalDuration = totalDuration,
+                TotalSection = totalSection,
+                TotalLesson = totalLesson,
                 Sections = publicSections,
             };
         }

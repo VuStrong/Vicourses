@@ -14,7 +14,11 @@ namespace CourseService.Application.MapperProfiles
             CreateMap<CategoryInCourse, CategoryInCourseDto>();
             CreateMap<UserInCourse, UserInCourseDto>();
 
-            CreateMap<LessonDto, LessonInPublicCurriculumDto>();
+            CreateMap<LessonDto, LessonInPublicCurriculumDto>()
+                .ForMember(
+                    dest => dest.Duration,
+                    opt => opt.MapFrom(src => src.Video != null ? src.Video.Duration : 0)
+                );
             CreateMap<LessonDto, LessonInInstructorCurriculumDto>();
             CreateMap<SectionWithLessonsDto, SectionInPublicCurriculumDto>();
             CreateMap<SectionWithLessonsDto, SectionInInstructorCurriculumDto>();
