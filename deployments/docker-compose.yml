@@ -256,6 +256,46 @@ services:
         condition: service_healthy
     restart: always
 
+  ###
+  search-service:
+    image: vustrong/vicourses-searchservice
+    env_file:
+      - services/search_service/.env
+    volumes:
+      - services_logs_data:/app/logs
+    networks:
+      - vicourses-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch01:
+        condition: service_healthy
+    restart: always
+
+  ###
+  storage-service:
+    image: vustrong/vicourses-storageservice
+    env_file:
+      - services/storage_service/.env
+    networks:
+      - vicourses-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    restart: always
+
+  ###
+  video-processing-service:
+    image: vustrong/vicourses-videoprocessingservice
+    env_file:
+      - services/video_processing_service/.env
+    networks:
+      - vicourses-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    restart: always
+
 networks:
   vicourses-network:
     driver: bridge

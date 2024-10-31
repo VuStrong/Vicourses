@@ -38,6 +38,18 @@
             ],
             "UpstreamPathTemplate": "/api/sts/{version}/{everything}",
             "UpstreamHttpMethod": [ "POST" ] 
+        },
+        {
+            "DownstreamPathTemplate": "/api/ss/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "search-service",
+                    "Port": 8080
+                }
+            ],
+            "UpstreamPathTemplate": "/api/ss/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET" ] 
         }
     ]
 }
