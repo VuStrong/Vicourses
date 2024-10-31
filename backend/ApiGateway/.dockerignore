@@ -1,6 +1,11 @@
 bin/
 obj/
+.vs
 !*.dll
 
 appsettings.Production.json
 ocelot.Production.json
+
+.gitignore
+
+*.*proj.user
