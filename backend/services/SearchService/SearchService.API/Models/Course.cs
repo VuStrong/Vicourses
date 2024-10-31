@@ -14,7 +14,6 @@
         public bool IsPaid { get; set; }
         public decimal Price { get; set; }
         public decimal Rating { get; set; }
-        public int Duration { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int StudentCount { get; set; }
