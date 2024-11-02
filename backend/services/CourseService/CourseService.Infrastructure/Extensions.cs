@@ -29,6 +29,9 @@ namespace CourseService.Infrastructure
             CategoryMap.Configure();
             EnrollmentMap.Configure();
             QuizMap.Configure();
+            CommentMap.Configure();
+            VideoFileMap.Congifure();
+            AppDtoMap.Configure();
 
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -37,6 +40,7 @@ namespace CourseService.Infrastructure
             services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddScoped<ISectionRepository, SectionRepository>();
             services.AddScoped<ILessonRepository, LessonRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
             services.AddScoped<ICourseCurriculumManager, CourseCurriculumManager>();
             services.AddScoped<IDataAggregator, DataAggregator>();
@@ -70,7 +74,8 @@ namespace CourseService.Infrastructure
                 .AddCollection<Category>(databaseName, "categories")
                 .AddCollection<User>(databaseName, "users")
                 .AddCollection<Enrollment>(databaseName, "enrollments")
-                .AddCollection<Quiz>(databaseName, "quizzes");
+                .AddCollection<Quiz>(databaseName, "quizzes")
+                .AddCollection<Comment>(databaseName, "comments");
 
             return services;
         }

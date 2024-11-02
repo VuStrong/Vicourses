@@ -1,5 +1,4 @@
-﻿using CourseService.Application.Exceptions;
-using CourseService.Application.IntegrationEvents.User;
+﻿using CourseService.Application.IntegrationEvents.User;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Models;
 using EventBus;
@@ -11,15 +10,18 @@ namespace CourseService.Application.IntegrationEventHandlers.User
     {
         private readonly IUserRepository _userRepository;
         private readonly ICourseRepository _courseRepository;
+        private readonly ICommentRepository _commentRepository;
         private readonly ILogger<UserInfoUpdatedIntegrationEventHandler> _logger;
 
         public UserInfoUpdatedIntegrationEventHandler(
             IUserRepository userRepository,
             ICourseRepository courseRepository,
+            ICommentRepository commentRepository,
             ILogger<UserInfoUpdatedIntegrationEventHandler> logger)
         {
             _userRepository = userRepository;
             _courseRepository = courseRepository;
+            _commentRepository = commentRepository;
             _logger = logger;
         }
 
@@ -27,8 +29,27 @@ namespace CourseService.Application.IntegrationEventHandlers.User
         {
             _logger.LogInformation($"CourseService handle {@event.GetType().Name}: {@event.Id}");
 
-            var user = await _userRepository.FindOneAsync(@event.Id) ?? throw new UserNotFoundException(@event.Id);
+            var user = await _userRepository.FindOneAsync(@event.Id);
             
+            if (user != null)
+            {
+                await UpdateUser(user, @event);
+            }
+            else
+            {
+                await AddUser(@event);
+            }
+        }
+
+        private async Task AddUser(UserInfoUpdatedIntegrationEvent @event)
+        {
+            var user = Domain.Models.User.Create(@event.Id, @event.Name, @event.Email, null);
+
+            await _userRepository.CreateAsync(user);
+        }
+
+        private async Task UpdateUser(Domain.Models.User user, UserInfoUpdatedIntegrationEvent @event)
+        {
             bool nameOrThumbnailUpdated = false;
             if (@event.Name != user.Name || @event.ThumbnailUrl != user.ThumbnailUrl)
             {
@@ -44,6 +65,10 @@ namespace CourseService.Application.IntegrationEventHandlers.User
                 var userInCourse = new UserInCourse(user.Id, user.Name, user.ThumbnailUrl);
 
                 await _courseRepository.UpdateUserInCoursesAsync(userInCourse);
+
+                var userInComment = new UserInComment(user.Id, user.Name, user.ThumbnailUrl);
+
+                await _commentRepository.UpdateUserInCommentsAsync(userInComment);
             }
         }
     }
