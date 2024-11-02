@@ -37,6 +37,7 @@ namespace CourseService.Application
             services.AddScoped<ICourseCurriculumService, CourseCurriculumService>();
             services.AddScoped<ILessonQuizService, LessonQuizService>();
             services.AddScoped<IEnrollService, EnrollService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             // Domain services
             services.AddScoped<IQuizDomainService, QuizDomainService>();
