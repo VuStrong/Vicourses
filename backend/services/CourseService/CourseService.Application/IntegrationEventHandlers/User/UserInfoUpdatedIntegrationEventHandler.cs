@@ -43,7 +43,7 @@ namespace CourseService.Application.IntegrationEventHandlers.User
 
         private async Task AddUser(UserInfoUpdatedIntegrationEvent @event)
         {
-            var user = Domain.Models.User.Create(@event.Id, @event.Name, @event.Email, null);
+            var user = Domain.Models.User.Create(@event.Id, @event.Name, @event.Email, @event.ThumbnailUrl);
 
             await _userRepository.CreateAsync(user);
         }
