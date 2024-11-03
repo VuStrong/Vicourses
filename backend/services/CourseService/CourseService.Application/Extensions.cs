@@ -42,6 +42,7 @@ namespace CourseService.Application
             // Domain services
             services.AddScoped<IQuizDomainService, QuizDomainService>();
             services.AddScoped<ICategoryDomainService, CategoryDomainService>();
+            services.AddScoped<ICommentDomainService, CommentDomainService>();
 
             services.AddDomainEventHandlers();            
 
