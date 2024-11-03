@@ -31,7 +31,7 @@ namespace CourseService.API.Utils.ExceptionHandlers
                 responseDto = new FailedResponseDto(exception.Message, 400);
                 httpContext.Response.StatusCode = 400;
             }
-            else if (exception is ForbiddenException)
+            else if (exception is ForbiddenException || exception is UserNotEnrolledCourseException)
             {
                 responseDto = new FailedResponseDto(exception.Message, 403);
                 httpContext.Response.StatusCode = 403;

@@ -31,7 +31,7 @@ namespace CourseService.Domain.Models
             Content = content;
         }
 
-        public static Comment Create(Lesson lesson, User user, string content, Comment? replyTo)
+        internal static Comment Create(Lesson lesson, User user, string content, Comment? replyTo)
         {
             content = content.Trim();
             DomainValidationException.ThrowIfStringNullOrEmpty(content, nameof(content));
@@ -40,12 +40,17 @@ namespace CourseService.Domain.Models
             {
                 if (!replyTo.IsRoot)
                 {
-                    throw new DomainException("ReplyTo is not root comment");
+                    throw new DomainException($"The comment {replyTo.Id} to reply is not root comment");
                 }
 
                 if (replyTo.IsDeleted)
                 {
-                    throw new DomainException("ReplyTo is deleted comment");
+                    throw new DomainException($"The comment {replyTo.Id} to reply is deleted");
+                }
+
+                if (replyTo.LessonId != lesson.Id)
+                {
+                    throw new DomainException($"The comment {replyTo.Id} to reply is not belongs to lesson {lesson.Id}");
                 }
             }
 

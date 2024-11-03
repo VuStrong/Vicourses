@@ -5,6 +5,7 @@ using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Events;
 using CourseService.Domain.Models;
+using CourseService.Domain.Services;
 using CourseService.Shared.Paging;
 
 namespace CourseService.Application.Services
@@ -14,7 +15,7 @@ namespace CourseService.Application.Services
         private readonly ICommentRepository _commentRepository;
         private readonly ILessonRepository _lessonRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IEnrollService _enrollService;
+        private readonly ICommentDomainService _commentDomainService;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
         private readonly IMapper _mapper;
 
@@ -22,14 +23,14 @@ namespace CourseService.Application.Services
             ICommentRepository commentRepository,
             ILessonRepository lessonRepository,
             IUserRepository userRepository,
-            IEnrollService enrollService,
+            ICommentDomainService commentDomainService,
             IDomainEventDispatcher domainEventDispatcher,
             IMapper mapper)
         {
             _commentRepository = commentRepository;
             _lessonRepository = lessonRepository;
             _userRepository = userRepository;
-            _enrollService = enrollService;
+            _commentDomainService = commentDomainService;
             _domainEventDispatcher = domainEventDispatcher;
             _mapper = mapper;
         }
@@ -53,16 +54,6 @@ namespace CourseService.Application.Services
         {
             var lesson = await _lessonRepository.FindOneAsync(data.LessonId) ?? throw new LessonNotFoundException(data.LessonId);
 
-            if (lesson.UserId != data.UserId)
-            {
-                var enrolled = await _enrollService.CheckEnrollmentAsync(lesson.CourseId, data.UserId);
-
-                if (!enrolled)
-                {
-                    throw new ForbiddenException("Forbidden action!");
-                }
-            }
-
             var user = await _userRepository.FindOneAsync(data.UserId) ?? throw new UserNotFoundException(data.UserId);
 
             Comment? replyTo = null;
@@ -71,7 +62,7 @@ namespace CourseService.Application.Services
                 replyTo = await _commentRepository.FindOneAsync(data.ReplyToId) ?? throw new CommentNotFoundException(data.ReplyToId);
             }
 
-            var comment = Comment.Create(lesson, user, data.Content, replyTo);
+            var comment = await _commentDomainService.CreateCommentAsync(lesson, user, data.Content, replyTo);
 
             await _commentRepository.CreateAsync(comment);
 
@@ -83,12 +74,6 @@ namespace CourseService.Application.Services
         public async Task UpvoteCommentAsync(string commentId, string userId)
         {
             var comment = await _commentRepository.FindOneAsync(commentId) ?? throw new CommentNotFoundException(commentId);
-
-            var lesson = await _lessonRepository.FindOneAsync(comment.LessonId) ?? throw new LessonNotFoundException(comment.LessonId);
-            if (lesson.UserId != userId && !await _enrollService.CheckEnrollmentAsync(lesson.CourseId, userId))
-            {
-                throw new ForbiddenException("Forbidden action!");
-            }
 
             comment.Upvote(userId);
 
