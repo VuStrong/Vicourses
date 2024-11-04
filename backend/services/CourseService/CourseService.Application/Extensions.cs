@@ -2,9 +2,11 @@
 using CourseService.Application.DomainEventHandlers.Enrollment;
 using CourseService.Application.DomainEventHandlers.Lesson;
 using CourseService.Application.DomainEventHandlers.Section;
+using CourseService.Application.IntegrationEventHandlers.Rating;
 using CourseService.Application.IntegrationEventHandlers.User;
 using CourseService.Application.IntegrationEventHandlers.VideoProcessing;
 using CourseService.Application.IntegrationEvents.Course;
+using CourseService.Application.IntegrationEvents.Rating;
 using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Application.IntegrationEvents.User;
 using CourseService.Application.IntegrationEvents.VideoProcessing;
@@ -137,11 +139,19 @@ namespace CourseService.Application
                     opt.ExchangeOptions.ExchangeName = "video-processing.failed";
                     opt.QueueOptions.QueueName = "course_service_video-processing.failed";
                 });
+
+                // Events in Rating Service
+                c.ConfigureConsume<CourseRatingUpdatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "course.rating.updated";
+                    opt.QueueOptions.QueueName = "course_service_course.rating.updated";
+                });
             })
             .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<VideoProcessingCompletedIntegrationEventHandler>()
-            .AddIntegrationEventHandler<VideoProcessingFailedIntegrationEventHandler>();
+            .AddIntegrationEventHandler<VideoProcessingFailedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<CourseRatingUpdatedIntegrationEventHandler>();
         }
     }
 

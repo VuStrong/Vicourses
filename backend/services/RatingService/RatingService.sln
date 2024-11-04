@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatingService.API", "RatingService.API\RatingService.API.csproj", "{9AEAB37F-D358-4DEE-BD0F-354F8E52FA02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "EventBus\EventBus.csproj", "{3D1286AF-AB9D-455C-9589-60529B3C058E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AEAB37F-D358-4DEE-BD0F-354F8E52FA02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEAB37F-D358-4DEE-BD0F-354F8E52FA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEAB37F-D358-4DEE-BD0F-354F8E52FA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEAB37F-D358-4DEE-BD0F-354F8E52FA02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D1286AF-AB9D-455C-9589-60529B3C058E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1286AF-AB9D-455C-9589-60529B3C058E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1286AF-AB9D-455C-9589-60529B3C058E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1286AF-AB9D-455C-9589-60529B3C058E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {605B0343-9AE9-4715-9922-FBEB95A62EA2}
+	EndGlobalSection
+EndGlobal
