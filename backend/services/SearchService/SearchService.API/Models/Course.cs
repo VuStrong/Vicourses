@@ -22,7 +22,6 @@
         public UserInCourse User { get; set; } = null!;
         public CategoryInCourse Category { get; set; } = null!;
         public CategoryInCourse SubCategory { get; set; } = null!;
-        public string? Description { get; set; }
         public string[] Tags { get; set; } = [];
     }
 }
