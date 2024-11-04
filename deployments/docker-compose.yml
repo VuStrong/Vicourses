@@ -277,6 +277,8 @@ services:
     image: vustrong/vicourses-storageservice
     env_file:
       - services/storage_service/.env
+    volumes:
+      - ./services/auth_service/public.key:/app/public.key
     networks:
       - vicourses-network
     depends_on:
@@ -292,6 +294,23 @@ services:
     networks:
       - vicourses-network
     depends_on:
+      rabbitmq:
+        condition: service_healthy
+    restart: always
+
+  ###
+  rating-service:
+    image: vustrong/vicourses-ratingservice
+    env_file:
+      - services/rating_service/.env
+    volumes:
+      - ./services/auth_service/public.key:/app/public.key
+      - services_logs_data:/app/logs
+    networks:
+      - vicourses-network
+    depends_on:
+      mysql:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
     restart: always
