@@ -10,8 +10,6 @@ namespace SearchService.API.Application.IntegrationEvents.Course
         public string TitleCleaned { get; set; } = string.Empty;
         public string[] LearnedContents { get; set; } = [];
         public string Level { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
-        public bool IsApproved { get; set; }
         public bool IsPaid { get; set; }
         public decimal Price { get; set; }
         public decimal Rating { get; set; }
@@ -23,7 +21,6 @@ namespace SearchService.API.Application.IntegrationEvents.Course
         public UserInCourse User { get; set; } = null!;
         public CategoryInCourse Category { get; set; } = null!;
         public CategoryInCourse SubCategory { get; set; } = null!;
-        public string? Description { get; set; }
         public string[] Tags { get; set; } = [];
     }
 }
