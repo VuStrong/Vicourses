@@ -1,23 +1,24 @@
 ﻿using CourseService.Domain;
 using CourseService.Domain.Events;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace CourseService.Infrastructure.DomainEvents
 {
     public class DomainEventDispatcher : IDomainEventDispatcher
     {
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<DomainEventDispatcher> _logger;
 
-        public DomainEventDispatcher(IServiceScopeFactory serviceScopeFactory)
+        public DomainEventDispatcher(IServiceProvider serviceProvider, ILogger<DomainEventDispatcher> logger)
         {
-            _serviceScopeFactory = serviceScopeFactory;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public async Task Dispatch(DomainEvent domainEvent)
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-
-            var handlers = scope.ServiceProvider.GetKeyedServices<IDomainEventHandler>(domainEvent.GetType());
+            var handlers = _serviceProvider.GetKeyedServices<IDomainEventHandler>(domainEvent.GetType());
 
             if (!handlers.Any()) return;
 
@@ -29,7 +30,7 @@ namespace CourseService.Infrastructure.DomainEvents
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error while handling domain event {domainEvent.GetType().Name}: {ex.Message}");
+                    _logger.LogError($"Error while handling domain event {domainEvent.GetType().Name}: {ex.Message}");
                 }
             }
         }
