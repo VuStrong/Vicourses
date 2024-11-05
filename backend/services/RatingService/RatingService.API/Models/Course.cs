@@ -4,7 +4,6 @@
     {
         public string Id { get; set; }
         public string InstructorId { get; set; }
-        public User Instructor { get; set; } = null!;
         public CourseStatus Status { get; set; } = CourseStatus.Published;
         public decimal AvgRating { get; set; }
         public int RatingCount { get; set; }
