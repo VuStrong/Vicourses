@@ -9,11 +9,6 @@ namespace RatingService.API.Infrastructure.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Course> builder)
         {
             builder.HasKey(x => x.Id);
-
-            builder.HasOne(x => x.Instructor)
-                .WithMany()
-                .HasForeignKey(x => x.InstructorId)
-                .IsRequired();
         }
     }
 }
