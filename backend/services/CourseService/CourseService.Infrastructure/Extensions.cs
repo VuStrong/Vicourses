@@ -45,12 +45,7 @@ namespace CourseService.Infrastructure
             services.AddScoped<ICourseCurriculumManager, CourseCurriculumManager>();
             services.AddScoped<IDataAggregator, DataAggregator>();
 
-            services.AddSingleton<IDomainEventDispatcher, DomainEventDispatcher>(s =>
-            {
-                var scopeFactory = s.GetRequiredService<IServiceScopeFactory>();
-
-                return new DomainEventDispatcher(scopeFactory);
-            });
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         }
 
         private static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString, string databaseName)
