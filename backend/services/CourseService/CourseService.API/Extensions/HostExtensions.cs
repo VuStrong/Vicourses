@@ -22,7 +22,7 @@ namespace CourseService.API.Extensions
             builder.Services.AddControllers()
                 .ConfigureApiBehaviorOptions(o => {
                     o.InvalidModelStateResponseFactory = context => {
-                        var errors = GetModelStateErrorMessages(context);
+                        var errors = context.GetModelStateErrorMessages();
                         var problems = new ValidationErrorResponseDto(errors);
 
                         return new BadRequestObjectResult(problems);
@@ -120,26 +120,6 @@ namespace CourseService.API.Extensions
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
-        }
-
-        private static List<string> GetModelStateErrorMessages(ActionContext context)
-        {
-            var errors = new List<string>();
-
-            foreach (var keyModelStatePair in context.ModelState)
-            {
-                if (keyModelStatePair.Value.Errors != null)
-                {
-                    foreach (var error in keyModelStatePair.Value.Errors)
-                    {
-                        if (error == null) continue;
-
-                        errors.Add(error.ErrorMessage);
-                    }
-                }
-            }
-
-            return errors;
         }
     }
 }
