@@ -25,7 +25,7 @@ namespace SearchService.API.Extensions
                 {
                     o.InvalidModelStateResponseFactory = context =>
                     {
-                        var errors = GetModelStateErrorMessages(context);
+                        var errors = context.GetModelStateErrorMessages();
                         var problems = new ValidationErrorResponseDto(errors);
 
                         return new BadRequestObjectResult(problems);
@@ -133,26 +133,6 @@ namespace SearchService.API.Extensions
             .AddIntegrationEventHandler<CourseInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CourseUnpublishedIntegrationEventHandler>();
-        }
-
-        private static List<string> GetModelStateErrorMessages(ActionContext context)
-        {
-            var errors = new List<string>();
-
-            foreach (var keyModelStatePair in context.ModelState)
-            {
-                if (keyModelStatePair.Value.Errors != null)
-                {
-                    foreach (var error in keyModelStatePair.Value.Errors)
-                    {
-                        if (error == null) continue;
-
-                        errors.Add(error.ErrorMessage);
-                    }
-                }
-            }
-
-            return errors;
         }
     }
 }

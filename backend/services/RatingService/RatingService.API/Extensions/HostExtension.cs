@@ -33,7 +33,7 @@ namespace RatingService.API.Extensions
                 {
                     o.InvalidModelStateResponseFactory = context =>
                     {
-                        var errors = GetModelStateErrorMessages(context);
+                        var errors = context.GetModelStateErrorMessages();
                         var problems = new ValidationErrorResponse(errors);
 
                         return new BadRequestObjectResult(problems);
@@ -185,26 +185,6 @@ namespace RatingService.API.Extensions
             .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CourseUnpublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>();
-        }
-
-        private static List<string> GetModelStateErrorMessages(ActionContext context)
-        {
-            var errors = new List<string>();
-
-            foreach (var keyModelStatePair in context.ModelState)
-            {
-                if (keyModelStatePair.Value.Errors != null)
-                {
-                    foreach (var error in keyModelStatePair.Value.Errors)
-                    {
-                        if (error == null) continue;
-
-                        errors.Add(error.ErrorMessage);
-                    }
-                }
-            }
-
-            return errors;
         }
     }
 }
