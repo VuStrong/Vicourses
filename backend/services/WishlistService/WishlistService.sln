@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishlistService.API", "WishlistService.API\WishlistService.API.csproj", "{9AC70B96-FBC6-4223-91D4-5F9DEBA30048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "EventBus\EventBus.csproj", "{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AC70B96-FBC6-4223-91D4-5F9DEBA30048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AC70B96-FBC6-4223-91D4-5F9DEBA30048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AC70B96-FBC6-4223-91D4-5F9DEBA30048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AC70B96-FBC6-4223-91D4-5F9DEBA30048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9924560F-FFAA-48CD-A5E5-4101F08E1546}
+	EndGlobalSection
+EndGlobal
