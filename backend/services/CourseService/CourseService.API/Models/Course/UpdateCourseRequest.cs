@@ -1,5 +1,4 @@
-﻿using CourseService.Application.Dtos;
-using CourseService.Application.Dtos.Course;
+﻿using CourseService.Application.Dtos.Course;
 using CourseService.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,7 +27,7 @@ namespace CourseService.API.Models.Course
         [Length(0, 10)]
         public List<string>? LearnedContents { get; set; }
 
-        [Range(0, 100)]
+        /// <example>19.99</example>>
         public decimal? Price { get; set; }
         public string? Locale { get; set; }
 
