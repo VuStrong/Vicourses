@@ -37,6 +37,10 @@ namespace CourseService.Domain.Models
         public CategoryInCourse SubCategory { get; private set; }
         public UserInCourse User { get; private set; }
 
+        public static readonly IReadOnlyList<decimal> AllowedPrices = [
+            0, 19.99m, 22.99m, 24.99m, 27.99m, 29.99m, 39.99m, 49.99m, 59.99m
+        ];
+
         private Course(string id, string title, string titleCleaned, CategoryInCourse category, CategoryInCourse subCategory, UserInCourse user)
         {
             Id = id;
@@ -124,7 +128,10 @@ namespace CourseService.Domain.Models
 
             if (price != null)
             {
-                DomainValidationException.ThrowIfNegative(price.Value);
+                if (!AllowedPrices.Contains(price.Value))
+                {
+                    throw new DomainValidationException($"Invalid price {price.Value}");
+                }
 
                 Price = price.Value;
                 IsPaid = price != 0;
