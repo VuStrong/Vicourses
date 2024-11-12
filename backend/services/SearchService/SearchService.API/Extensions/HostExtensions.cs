@@ -47,7 +47,20 @@ namespace SearchService.API.Extensions
 
             builder.AddEventBus();
 
-            builder.Services.AddHealthChecks();
+            builder.AddHealthChecks();
+        }
+
+        private static void AddHealthChecks(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddHealthChecks()
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "")
+                .AddElasticsearch(setup: (opt) =>
+                {
+                    opt.UseServer(builder.Configuration["ELASTICSEARCH_URI"] ?? "")
+                        .UseBasicAuthentication(builder.Configuration["ELASTICSEARCH_USER"] ?? "", 
+                            builder.Configuration["ELASTICSEARCH_PASS"] ?? "")
+                        .UseCertificateValidationCallback((sender, cert, chain, errors) => true);
+                });
         }
 
         private static void AddSwagger(this WebApplicationBuilder builder)

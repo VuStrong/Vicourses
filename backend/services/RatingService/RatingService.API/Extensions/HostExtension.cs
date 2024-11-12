@@ -72,13 +72,20 @@ namespace RatingService.API.Extensions
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-            builder.Services.AddHealthChecks();
+            builder.AddHealthChecks();
 
             builder.Services.AddScoped<IRatingService, Application.Services.RatingService>();
 
             builder.AddEventBus();
 
             builder.AddDb();
+        }
+
+        private static void AddHealthChecks(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddHealthChecks()
+                .AddMySql(connectionString: builder.Configuration["DB_CONNECTION_STRING"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
         }
 
         private static void AddLogger(this WebApplicationBuilder builder)
