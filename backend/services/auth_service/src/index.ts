@@ -4,15 +4,16 @@ import { dataSource } from "./data/data-source";
 import router from "./routes";
 import * as rabbitmq from "./rabbitmq/client";
 import errorHandler from "./middlewares/error-handler.middleware";
+import logger from "./logger";
 
 // establish database connection
 dataSource
     .initialize()
     .then(() => {
-        console.log("Data Source has been initialized!")
+        logger.info("Data Source has been initialized!");
     })
     .catch((err) => {
-        console.error("Error during Data Source initialization:", err)
+        logger.error("Error during Data Source initialization:", err);
     })
 
 // Connect Rabbitmq
@@ -28,5 +29,5 @@ app.use("/", router);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`[server] [${Config.NODE_ENV}]: Server is running on port ${port}`);
+    logger.info(`[Server] [${Config.NODE_ENV}]: Server is running on port ${port}`);
 });

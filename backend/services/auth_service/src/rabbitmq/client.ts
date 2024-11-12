@@ -1,6 +1,7 @@
 import amqplib, { Channel, Connection } from 'amqplib';
 import User from '../entity/user.entity';
 import Config from '../config';
+import logger from '../logger';
 
 let connection: Connection;
 let channel: Channel;
@@ -22,9 +23,9 @@ export async function connect() {
 
         await channel.assertExchange(Exchange.USER_CREATED, "fanout");
 
-        console.log("Connected to Rabbitmq");
-    } catch (error) {
-        console.log(`Error while connecting to RabbitMQ: ${error}`);
+        logger.info("Connected to Rabbitmq");
+    } catch (error: any) {
+        logger.error(`Error while connecting to RabbitMQ: ${error.code}`);
     }
 }
 

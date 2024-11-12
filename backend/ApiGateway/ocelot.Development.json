@@ -50,6 +50,42 @@
             ],
             "UpstreamPathTemplate": "/api/ss/{version}/{everything}",
             "UpstreamHttpMethod": [ "GET" ] 
+        },
+        {
+            "DownstreamPathTemplate": "/api/rs/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5078
+                }
+            ],
+            "UpstreamPathTemplate": "/api/rs/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "DELETE" ] 
+        },
+        {
+            "DownstreamPathTemplate": "/api/ws/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5281
+                }
+            ],
+            "UpstreamPathTemplate": "/api/ws/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "DELETE" ] 
+        },
+        {
+            "DownstreamPathTemplate": "/api/ds/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5161
+                }
+            ],
+            "UpstreamPathTemplate": "/api/ds/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PATCH" ] 
         }
     ]
 }

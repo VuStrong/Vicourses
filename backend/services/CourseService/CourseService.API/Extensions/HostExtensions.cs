@@ -76,7 +76,14 @@ namespace CourseService.API.Extensions
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-            builder.Services.AddHealthChecks();
+            builder.AddHealthChecks();
+        }
+
+        private static void AddHealthChecks(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddHealthChecks()
+                .AddMongoDb(mongodbConnectionString: builder.Configuration["DATABASE_URL"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
         }
 
         public static void AddLogger(this WebApplicationBuilder builder)

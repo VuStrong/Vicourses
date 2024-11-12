@@ -52,6 +52,42 @@ namespace ApiGateway.Extensions
                 });
             });
 
+            // Discount Service
+            app.Map("/swagger/v1/swagger-discount.json", b =>
+            {
+                b.Run(async x =>
+                {
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Discount"]}/swagger/v1/swagger.json");
+                    var body = await response.Content.ReadAsStringAsync();
+                    await x.Response.WriteAsync(body);
+                });
+            });
+
+            // Wishlist Service
+            app.Map("/swagger/v1/swagger-wishlist.json", b =>
+            {
+                b.Run(async x =>
+                {
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Wishlist"]}/swagger/v1/swagger.json");
+                    var body = await response.Content.ReadAsStringAsync();
+                    await x.Response.WriteAsync(body);
+                });
+            });
+
+            // Rating Service
+            app.Map("/swagger/v1/swagger-rating.json", b =>
+            {
+                b.Run(async x =>
+                {
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Rating"]}/swagger/v1/swagger.json");
+                    var body = await response.Content.ReadAsStringAsync();
+                    await x.Response.WriteAsync(body);
+                });
+            });
+
             return app;
         }
     }

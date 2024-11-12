@@ -7,6 +7,7 @@ import * as uploadController from "../controllers/upload.controller";
 import { AppError } from "../utils/app-error";
 import authenticate from "../middlewares/authentice.middleware";
 import { checkValidationResult } from "../middlewares/validators.middleware";
+import { handleHealthCheck } from "../controllers/healthchecks.controller";
 
 var swaggerUIOptions: SwaggerUiOptions = {
     explorer: true,
@@ -52,18 +53,7 @@ router.use(
     swaggerUi.setup(undefined, swaggerUIOptions)
 );
 
-router.get('/hc', async (_, res, __) => {
-    const healthcheck = {
-        uptime: process.uptime(),
-        status: 'Healthy',
-        timestamp: Date.now()
-    };
-    try {
-        res.send(healthcheck);
-    } catch (error) {
-        res.status(503).send();
-    }
-});
+router.get('/hc', handleHealthCheck);
 
 router.post(
     "/api/sts/v1/upload-image",

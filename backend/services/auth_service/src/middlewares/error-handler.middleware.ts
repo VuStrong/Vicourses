@@ -9,7 +9,7 @@ export default function errorHandler(err: Error, req: Request, res: Response, ne
 		});
     }
 
-	logger.error(err.message);
+	logger.error(`An error has occured: ${err.message}`);
 
 	res.status(500).send({
 		message: "Something went wrong!"

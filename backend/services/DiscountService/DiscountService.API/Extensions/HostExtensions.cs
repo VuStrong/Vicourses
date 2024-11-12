@@ -86,7 +86,8 @@ namespace DiscountService.API.Extensions
         {
             builder.Services.AddHealthChecks()
                 .AddMySql(connectionString: builder.Configuration["DB_CONNECTION_STRING"] ?? "")
-                .AddRedis(builder.Configuration["REDIS_CONNECTION_STRING"] ?? "");
+                .AddRedis(builder.Configuration["REDIS_CONNECTION_STRING"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
         }
 
         private static void AddLogger(this WebApplicationBuilder builder)

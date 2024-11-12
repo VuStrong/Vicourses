@@ -61,7 +61,7 @@ namespace WishlistService.API.Extensions
 
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-            builder.Services.AddHealthChecks();
+            builder.AddHealthChecks();
 
             builder.AddEventBus();
 
@@ -69,6 +69,13 @@ namespace WishlistService.API.Extensions
 
             builder.Services.AddScoped<IWishlistService, Application.Services.WishlistService>();
             builder.Services.AddScoped<ICourseService, CourseService>();
+        }
+
+        private static void AddHealthChecks(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddHealthChecks()
+                .AddMongoDb(mongodbConnectionString: builder.Configuration["DB_CONNECTION_STRING"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
         }
 
         private static void AddLogger(this WebApplicationBuilder builder)
