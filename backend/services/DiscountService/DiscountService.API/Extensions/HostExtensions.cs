@@ -154,7 +154,7 @@ namespace DiscountService.API.Extensions
         {
             var redisConnStr = builder.Configuration["REDIS_CONNECTION_STRING"] ?? "";
 
-            builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnStr));
+            builder.Services.AddSingleton<IConnectionMultiplexer>(s => ConnectionMultiplexer.Connect(redisConnStr));
         }
 
         private static void AddEventBus(this WebApplicationBuilder builder)
