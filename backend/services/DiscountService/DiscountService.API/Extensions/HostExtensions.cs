@@ -85,9 +85,9 @@ namespace DiscountService.API.Extensions
         private static void AddHealthChecks(this WebApplicationBuilder builder)
         {
             builder.Services.AddHealthChecks()
-                .AddMySql(connectionString: builder.Configuration["DB_CONNECTION_STRING"] ?? "")
-                .AddRedis(builder.Configuration["REDIS_CONNECTION_STRING"] ?? "")
-                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
+                .AddMySql(connectionString: builder.Configuration["ConnectionStrings:DiscountDB"] ?? "")
+                .AddRedis(builder.Configuration["ConnectionStrings:Redis"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "");
         }
 
         private static void AddLogger(this WebApplicationBuilder builder)
@@ -135,7 +135,7 @@ namespace DiscountService.API.Extensions
 
         private static void AddDb(this WebApplicationBuilder builder)
         {
-            var connectionString = builder.Configuration["DB_CONNECTION_STRING"] ?? "";
+            var connectionString = builder.Configuration["ConnectionStrings:DiscountDB"] ?? "";
             var isDevelopment = builder.Environment.EnvironmentName == "Development";
 
             builder.Services.AddDbContext<DiscountServiceDbContext>(opt =>
@@ -153,7 +153,7 @@ namespace DiscountService.API.Extensions
 
         private static void AddRedis(this WebApplicationBuilder builder)
         {
-            var redisConnStr = builder.Configuration["REDIS_CONNECTION_STRING"] ?? "";
+            var redisConnStr = builder.Configuration["ConnectionStrings:Redis"] ?? "";
 
             builder.Services.AddSingleton<IConnectionMultiplexer>(s => ConnectionMultiplexer.Connect(redisConnStr));
         }
@@ -162,7 +162,7 @@ namespace DiscountService.API.Extensions
         {
             builder.Services.AddRabbitMQEventBus(c =>
             {
-                c.UriString = builder.Configuration["RABBITMQ_URI"] ?? "";
+                c.UriString = builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "";
 
                 c.ConfigureConsume<CourseInfoUpdatedIntegrationEvent>(opt =>
                 {

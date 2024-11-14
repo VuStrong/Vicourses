@@ -34,7 +34,6 @@ namespace DiscountService.API.Models
         public bool IsActive { get; set; }
 
         public bool IsExpired { get => ExpiryDate <= DateTime.Today; }
-        public bool IsInfinityUse { get => Count < 0; }
 
 #pragma warning disable CS8618
         public Coupon() { }
@@ -60,11 +59,6 @@ namespace DiscountService.API.Models
                 Discount = discount,
                 IsActive = true,
             };
-        }
-
-        public void DecreaseRemain()
-        {
-            if (Remain > 0) Remain--;
         }
     }
 }

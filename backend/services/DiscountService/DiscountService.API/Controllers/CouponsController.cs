@@ -101,7 +101,7 @@ namespace DiscountService.API.Controllers
         /// Check a coupon valid or not
         /// </summary>
         /// <response code="401">Unauthorized</response>
-        [HttpGet("{code}")]
+        [HttpGet("{code}/check")]
         [Authorize]
         [ProducesResponseType(typeof(CouponCheckResultDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Check(string code, [FromQuery] string courseId)

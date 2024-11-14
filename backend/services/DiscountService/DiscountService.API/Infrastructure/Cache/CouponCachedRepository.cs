@@ -47,9 +47,7 @@ namespace DiscountService.API.Infrastructure.Cache
 
         public async Task SetCouponAvailabilityAsync(Coupon coupon)
         {
-            if (coupon.IsInfinityUse) return;
-
-            var key = $"coupon-availability:{coupon.Code}";
+            var key = $"coupon:{coupon.Code}:availability";
             var expiry = coupon.ExpiryDate - DateTime.UtcNow;
 
             await _redis.StringSetAsync(key, coupon.Remain.ToString(), expiry);
@@ -57,7 +55,7 @@ namespace DiscountService.API.Infrastructure.Cache
 
         public async Task<int> DecreaseCouponAvailabilityAsync(string code)
         {
-            var key = $"coupon-availability:{code}";
+            var key = $"coupon:{code}:availability";
 
             var result = await _redis.StringDecrementAsync(key);
 
