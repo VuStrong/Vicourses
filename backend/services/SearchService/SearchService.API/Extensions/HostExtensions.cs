@@ -53,12 +53,12 @@ namespace SearchService.API.Extensions
         private static void AddHealthChecks(this WebApplicationBuilder builder)
         {
             builder.Services.AddHealthChecks()
-                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "")
                 .AddElasticsearch(setup: (opt) =>
                 {
-                    opt.UseServer(builder.Configuration["ELASTICSEARCH_URI"] ?? "")
-                        .UseBasicAuthentication(builder.Configuration["ELASTICSEARCH_USER"] ?? "", 
-                            builder.Configuration["ELASTICSEARCH_PASS"] ?? "")
+                    opt.UseServer(builder.Configuration["Elasticsearch:Url"] ?? "")
+                        .UseBasicAuthentication(builder.Configuration["Elasticsearch:User"] ?? "", 
+                            builder.Configuration["Elasticsearch:Password"] ?? "")
                         .UseCertificateValidationCallback((sender, cert, chain, errors) => true);
                 });
         }
@@ -105,9 +105,9 @@ namespace SearchService.API.Extensions
 
         private static void AddElasticsearch(this WebApplicationBuilder builder)
         {
-            var uri = builder.Configuration["ELASTICSEARCH_URI"] ?? "";
-            var username = builder.Configuration["ELASTICSEARCH_USER"] ?? "";
-            var password = builder.Configuration["ELASTICSEARCH_PASS"] ?? "";
+            var uri = builder.Configuration["Elasticsearch:Url"] ?? "";
+            var username = builder.Configuration["Elasticsearch:User"] ?? "";
+            var password = builder.Configuration["Elasticsearch:Password"] ?? "";
 
             var settings = new ElasticsearchClientSettings(new Uri(uri))
                 .ServerCertificateValidationCallback((sender, cert, chain, errors) => true)
@@ -125,7 +125,7 @@ namespace SearchService.API.Extensions
         {
             builder.Services.AddRabbitMQEventBus(c =>
             {
-                c.UriString = builder.Configuration["RABBITMQ_URI"] ?? "";
+                c.UriString = builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "";
 
                 c.ConfigureConsume<CourseInfoUpdatedIntegrationEvent>(opt =>
                 {

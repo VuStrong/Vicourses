@@ -74,8 +74,8 @@ namespace WishlistService.API.Extensions
         private static void AddHealthChecks(this WebApplicationBuilder builder)
         {
             builder.Services.AddHealthChecks()
-                .AddMongoDb(mongodbConnectionString: builder.Configuration["DB_CONNECTION_STRING"] ?? "")
-                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
+                .AddMongoDb(mongodbConnectionString: builder.Configuration["WishlistDB:Uri"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "");
         }
 
         private static void AddLogger(this WebApplicationBuilder builder)
@@ -125,7 +125,7 @@ namespace WishlistService.API.Extensions
         {
             builder.Services.AddRabbitMQEventBus(c =>
             {
-                c.UriString = builder.Configuration["RABBITMQ_URI"] ?? "";
+                c.UriString = builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "";
 
                 c.ConfigureConsume<CourseInfoUpdatedIntegrationEvent>(opt =>
                 {
@@ -159,8 +159,8 @@ namespace WishlistService.API.Extensions
             CourseMap.Configure();
             WishlistMap.Configure();
 
-            var connectionString = builder.Configuration["DB_CONNECTION_STRING"] ?? "";
-            var dbName = builder.Configuration["DB_NAME"] ?? "";
+            var connectionString = builder.Configuration["WishlistDB:Uri"] ?? "";
+            var dbName = builder.Configuration["WishlistDB:DbName"] ?? "";
 
             builder.Services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
 
