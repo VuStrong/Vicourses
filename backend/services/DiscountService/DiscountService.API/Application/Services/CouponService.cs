@@ -6,7 +6,6 @@ using DiscountService.API.Infrastructure;
 using DiscountService.API.Infrastructure.Cache;
 using DiscountService.API.Models;
 using Microsoft.EntityFrameworkCore;
-using Sprache;
 
 namespace DiscountService.API.Application.Services
 {
@@ -125,7 +124,7 @@ namespace DiscountService.API.Application.Services
             if (coupon == null || coupon.CourseId != data.CourseId)
             {
                 result.IsValid = false;
-                result.Details = "The coupon entered is not valid";
+                result.Details = "Coupon is either invalid or does not apply to this course";
 
                 return result;
             }
@@ -162,7 +161,7 @@ namespace DiscountService.API.Application.Services
 
             if (coupon == null || coupon.CourseId != data.CourseId)
             {
-                throw new ForbiddenException("Coupon is not valid");
+                throw new ForbiddenException("Coupon is either invalid or does not apply to this course");
             }
             if (await _couponCachedRepository.CheckCouponUsedByUserAsync(coupon.Code, data.UserId))
             {
@@ -172,16 +171,16 @@ namespace DiscountService.API.Application.Services
             var remain = await _couponCachedRepository.DecreaseCouponAvailabilityAsync(data.Code);
             if (remain == 0)
             {
-                await _couponCachedRepository.DeleteCouponAsync(coupon!.Code);
+                await _couponCachedRepository.DeleteCouponAsync(coupon.Code);
             }
             else if (remain < 0)
             {
-                throw new NotFoundException("Coupon unavailable");
+                throw new NotFoundException("Coupon is no longer available");
             }
 
-            await _couponCachedRepository.SetCouponUsedByUserAsync(coupon!, data.UserId);
+            await _couponCachedRepository.SetCouponUsedByUserAsync(coupon, data.UserId);
 
-            await _dbContext.Coupons.Where(c => c.Code == coupon!.Code)
+            await _dbContext.Coupons.Where(c => c.Code == coupon.Code)
                 .ExecuteUpdateAsync(s => s.SetProperty(c => c.Remain, c => c.Remain - 1));
         }
     }

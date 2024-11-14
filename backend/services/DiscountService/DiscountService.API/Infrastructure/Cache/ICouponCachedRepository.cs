@@ -6,9 +6,6 @@ namespace DiscountService.API.Infrastructure.Cache
     {
         Task<Coupon?> GetCouponByCodeAsync(string code);
 
-        /// <summary>
-        /// Set the availability of a coupon, if coupon is infinity, do nothing
-        /// </summary>
         Task SetCouponAvailabilityAsync(Coupon coupon);
 
         /// <summary>

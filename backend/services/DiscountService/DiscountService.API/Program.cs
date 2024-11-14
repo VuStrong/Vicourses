@@ -1,8 +1,6 @@
 using DiscountService.API.Extensions;
 using HealthChecks.UI.Client;
 
-DotNetEnv.Env.Load();
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddApiServices();
@@ -31,3 +29,5 @@ app.MapHealthChecks("/hc", new()
 app.UseExceptionHandler(opt => { });
 
 app.Run();
+
+public partial class Program { }

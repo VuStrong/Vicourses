@@ -32,6 +32,9 @@ jobs:
     - name: Build
       working-directory: backend/services/DiscountService/DiscountService.API
       run: dotnet build "DiscountService.API.csproj" --no-restore
+    - name: Test
+      working-directory: backend/services/DiscountService/DiscountService.FunctionalTests
+      run: dotnet test
 
     - name: Build images
       working-directory: backend/services/DiscountService

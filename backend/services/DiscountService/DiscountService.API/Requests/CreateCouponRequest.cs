@@ -12,7 +12,7 @@ namespace DiscountService.API.Requests
         public int Days { get; set; }
 
         [Required]
-        [Range(-1, 1000)]
+        [Range(1, 1000)]
         public int Availability { get; set; }
 
         [Required]

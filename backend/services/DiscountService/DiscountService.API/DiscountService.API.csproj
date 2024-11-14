@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>$(NoWarn);1591</NoWarn>
+	<UserSecretsId>70a4314a-89be-4c18-8e62-c35293132e00</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +15,6 @@
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
-    <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
