@@ -1,9 +1,2 @@
-.env
-
-init.sql
-init.js
-
 private.key
 public.key
-
-filebeat.yml
