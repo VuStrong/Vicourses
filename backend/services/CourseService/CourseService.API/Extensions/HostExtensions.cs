@@ -82,8 +82,8 @@ namespace CourseService.API.Extensions
         private static void AddHealthChecks(this WebApplicationBuilder builder)
         {
             builder.Services.AddHealthChecks()
-                .AddMongoDb(mongodbConnectionString: builder.Configuration["DATABASE_URL"] ?? "")
-                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
+                .AddMongoDb(mongodbConnectionString: builder.Configuration["CourseDB:Uri"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "");
         }
 
         public static void AddLogger(this WebApplicationBuilder builder)

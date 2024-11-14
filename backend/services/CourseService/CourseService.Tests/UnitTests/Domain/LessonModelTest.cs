@@ -16,7 +16,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestCreateLessonWithValidValues()
+        public void Create_ShouldReturnLesson_WhenValid()
         {
             var section = Section.Create("sec1", _course, null);
 
@@ -31,7 +31,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void ShouldThrowIfSectionIsNotBelongToCourse()
+        public void Create_ShouldThrow_WhenSectionIsNotBelongToCourse()
         {
             var section = Section.Create("sec1", _course, null);
             typeof(Section).GetProperty("CourseId")!.SetValue(section, "OtherCourse", null);
@@ -40,18 +40,19 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestUpdateLessonVideo()
+        public void UpdateVideo_ShouldNotRaiseDomainEvent_WhenFileIdIsNotChanged()
         {
             var section = Section.Create("sec1", _course, null);
             var lesson = Lesson.Create("les1", _course, section, LessonType.Video, null);
+            var videoId = "videoId";
 
-            var video = VideoFile.Create("videoId", "url", "videoName");
+            var video = VideoFile.Create(videoId, "url", "videoName");
             lesson.UpdateVideo(video);
 
             Assert.NotNull(lesson.Video);
             Assert.Contains(lesson.DomainEvents, e => e.GetType() == typeof(LessonVideoUpdatedDomainEvent));
 
-            var sameVideo = VideoFile.Create("videoId", "url2", "videoName2");
+            var sameVideo = VideoFile.Create(videoId, "url2", "videoName2");
             lesson.ClearDomainEvents();
             lesson.UpdateVideo(sameVideo);
 
@@ -59,7 +60,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void ShouldThrowIfUpdateVideoOfNonVideoLesson()
+        public void UpdateVideo_ShouldThrow_WhenLessonTypeIsNotVideo()
         {
             var section = Section.Create("sec1", _course, null);
             var lesson = Lesson.Create("les1", _course, section, LessonType.Quiz, null);
