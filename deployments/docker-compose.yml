@@ -3,8 +3,9 @@ services:
   ###
   api-gateway:
     image: vustrong/vicourses-apigateway
+    env_file:
+      - services/api_gateway/.env
     volumes:
-      - ./services/api_gateway/appsettings.Production.json:/app/appsettings.Production.json
       - ./services/api_gateway/ocelot.Production.json:/app/ocelot.Production.json
     networks:
       - vicourses-network
@@ -67,6 +68,17 @@ services:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       timeout: 10s
       retries: 10
+
+  ###
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - vicourses-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
 
   ###
   elasticsearch-setup:
@@ -312,6 +324,42 @@ services:
       mysql:
         condition: service_healthy
       rabbitmq:
+        condition: service_healthy
+    restart: always
+
+  ###
+  wishlist-service:
+    image: vustrong/vicourses-wishlistservice
+    env_file:
+      - services/wishlist_service/.env
+    volumes:
+      - ./services/auth_service/public.key:/app/public.key
+      - services_logs_data:/app/logs
+    networks:
+      - vicourses-network
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: always
+
+  ###
+  discount-service:
+    image: vustrong/vicourses-discountservice
+    env_file:
+      - services/discount_service/.env
+    volumes:
+      - ./services/auth_service/public.key:/app/public.key
+      - services_logs_data:/app/logs
+    networks:
+      - vicourses-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: always
 
