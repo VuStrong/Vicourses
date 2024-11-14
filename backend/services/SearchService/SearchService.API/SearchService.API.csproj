@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <UserSecretsId>f1f15f39-d614-43b5-aad4-c7bc11c63f85</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +14,6 @@
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="8.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" Version="8.15.10" />
     <PackageReference Include="Serilog" Version="4.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />

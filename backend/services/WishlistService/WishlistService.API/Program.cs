@@ -1,8 +1,6 @@
 using HealthChecks.UI.Client;
 using WishlistService.API.Extensions;
 
-DotNetEnv.Env.Load();
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddApiServices();

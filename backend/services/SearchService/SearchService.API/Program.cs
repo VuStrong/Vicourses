@@ -1,8 +1,6 @@
 using HealthChecks.UI.Client;
 using SearchService.API.Extensions;
 
-DotNetEnv.Env.Load();
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddApiServices();

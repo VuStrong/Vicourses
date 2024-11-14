@@ -84,8 +84,8 @@ namespace RatingService.API.Extensions
         private static void AddHealthChecks(this WebApplicationBuilder builder)
         {
             builder.Services.AddHealthChecks()
-                .AddMySql(connectionString: builder.Configuration["DB_CONNECTION_STRING"] ?? "")
-                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["RABBITMQ_URI"] ?? "");
+                .AddMySql(connectionString: builder.Configuration["ConnectionStrings:RatingDB"] ?? "")
+                .AddRabbitMQ(rabbitConnectionString: builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "");
         }
 
         private static void AddLogger(this WebApplicationBuilder builder)
@@ -133,7 +133,7 @@ namespace RatingService.API.Extensions
 
         private static void AddDb(this WebApplicationBuilder builder)
         {
-            var connectionString = builder.Configuration["DB_CONNECTION_STRING"] ?? "";
+            var connectionString = builder.Configuration["ConnectionStrings:RatingDB"] ?? "";
             var isDevelopment = builder.Environment.EnvironmentName == "Development";
 
             builder.Services.AddDbContext<RatingServiceDbContext>(opt =>
@@ -153,7 +153,7 @@ namespace RatingService.API.Extensions
         {
             builder.Services.AddRabbitMQEventBus(c =>
             {
-                c.UriString = builder.Configuration["RABBITMQ_URI"] ?? "";
+                c.UriString = builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "";
 
                 c.ConfigurePublish<CourseRatingUpdatedIntegrationEvent>(opt =>
                 {
