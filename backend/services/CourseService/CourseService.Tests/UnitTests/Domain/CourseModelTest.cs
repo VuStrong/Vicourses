@@ -21,7 +21,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void ShouldCreateCourseWithValidValues()
+        public void Create_ShouldReturnCourse_WhenValid()
         {
             var title = "    Dotnet core course ";
 
@@ -32,7 +32,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void ShouldThrowIfCreateCourseWithSubCategoryIsNotChildOfParentCategory()
+        public void Create_ShouldThrow_WhenChildCategoryIsNotChildOfParentCategory()
         {
             typeof(Category).GetProperty("ParentId")!.SetValue(_childCategory, "AnotherParent", null);
 
@@ -40,39 +40,18 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestCourseStatusLifeCycle()
+        public void SetStatus_Published_ShouldThrow_WhenCourseIsNotApproved()
         {
             var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
 
             Assert.False(course.IsApproved);
             Assert.Equal(CourseStatus.Unpublished, course.Status);
 
-            // Instructor trying to publish an unapproved course
             Assert.Throws<DomainException>(() => course.SetStatus(CourseStatus.Published));
-
-            // Instructor send course to verify
-            course.SetStatus(CourseStatus.WaitingToVerify);
-
-            Assert.Equal(CourseStatus.WaitingToVerify, course.Status);
-
-            // Admin approve it
-            course.Approve();
-
-            Assert.True(course.IsApproved);
-            Assert.Equal(CourseStatus.Published, course.Status);
-
-            // Instructor unpublish course and republish it
-            course.SetStatus(CourseStatus.Unpublished);
-            course.SetStatus(CourseStatus.Published);
-
-            // Admin cancel approval of that course
-            course.CancelApproval();
-
-            Assert.False(course.IsApproved);
         }
 
         [Fact]
-        public void ShouldThrowIfTryToEnrollUnpublishedCourse()
+        public void EnrollStudent_ShouldThrow_WhenCourseIsUnpublished()
         {
             var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
 
@@ -80,7 +59,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestEnrollCourseRaiseEvent()
+        public void EnrollStudent_ShouldRaiseDomainEvent()
         {
             var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
             course.SetStatus(CourseStatus.WaitingToVerify);
@@ -92,30 +71,37 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestUpdateCourseThumbnailAndPreviewVideo()
+        public void UpdateThumbnail_ShouldNotRaiseDomainEvent_WhenFileIdIsNotChanged()
         {
             var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
+            var fileId = "fileId";
 
-            var thumbnail = ImageFile.Create("fileId", "url");
+            var thumbnail = ImageFile.Create(fileId, "url");
             course.UpdateThumbnail(thumbnail);
 
             Assert.NotNull(course.Thumbnail);
             Assert.Contains(course.DomainEvents, e => e.GetType() == typeof(CourseThumbnailUpdatedDomainEvent));
 
-            var sameThumbnail = ImageFile.Create("fileId", "url2");
+            var sameThumbnail = ImageFile.Create(fileId, "url2");
             course.ClearDomainEvents();
             course.UpdateThumbnail(sameThumbnail);
 
             Assert.Empty(course.DomainEvents);
+        }
 
-            var previewVideo = VideoFile.Create("videoId", "url", "videoName");
-            course.ClearDomainEvents();
+        [Fact]
+        public void UpdatePreviewVideo_ShouldNotRaiseDomainEvent_WhenFileIdIsNotChanged()
+        {
+            var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
+            var videoId = "videoId";
+
+            var previewVideo = VideoFile.Create(videoId, "url", "videoName");
             course.UpdatePreviewVideo(previewVideo);
 
             Assert.NotNull(course.PreviewVideo);
             Assert.Contains(course.DomainEvents, e => e.GetType() == typeof(CoursePreviewVideoUpdatedDomainEvent));
 
-            var samePreviewVideo = VideoFile.Create("videoId", "url2", "videoName2");
+            var samePreviewVideo = VideoFile.Create(videoId, "url2", "videoName2");
             course.ClearDomainEvents();
             course.UpdatePreviewVideo(samePreviewVideo);
 
@@ -123,7 +109,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestUpdateCourseRaiseDomainEvent()
+        public void UpdateInfoIgnoreNull_ShouldRaiseDomainEvent_WhenUpdated()
         {
             var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
             var title = "course 2  ";

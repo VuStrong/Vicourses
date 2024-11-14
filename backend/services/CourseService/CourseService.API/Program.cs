@@ -3,22 +3,20 @@ using CourseService.Application;
 using CourseService.Infrastructure;
 using HealthChecks.UI.Client;
 
-DotNetEnv.Env.Load();
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddApiServices();
 
 builder.Services.AddApplicationServices(c =>
 {
-    c.RabbitMQUri = builder.Configuration["RABBITMQ_URI"] ?? "";
-    c.FileUploadSecret = builder.Configuration["FILE_UPLOAD_SECRET"] ?? "";
+    c.RabbitMQUri = builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "";
+    c.FileUploadSecret = builder.Configuration["FileUploadSecret"] ?? "";
 });
 
 builder.Services.AddInfrastructureServices(c =>
 {
-    c.DbConnectionString = builder.Configuration["DATABASE_URL"] ?? "";
-    c.DbName = builder.Configuration["DATABASE_NAME"] ?? "";
+    c.DbConnectionString = builder.Configuration["CourseDB:Uri"] ?? "";
+    c.DbName = builder.Configuration["CourseDB:DbName"] ?? "";
 });
 
 var app = builder.Build();

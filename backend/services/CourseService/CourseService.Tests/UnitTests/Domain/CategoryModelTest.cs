@@ -19,7 +19,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public async Task ShouldThrowIfParentCategoryIsNotRoot()
+        public async Task CreateAsync_ShouldThrow_WhenParentCategoryIsNotRoot()
         {
             _categoryRepository.ExistsAsync().Returns(false);
 
@@ -32,7 +32,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public async Task ShouldThrowIfTryToUpdateInUsedCategory()
+        public async Task UpdateAsync_ShouldThrow_WhenCategoryIsInUsed()
         {
             _categoryRepository.ExistsAsync().Returns(false);
             _courseRepository.ExistsAsync(Arg.Any<Expression<Func<Course, bool>>>()).Returns(Task.FromResult(true));

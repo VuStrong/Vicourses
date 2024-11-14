@@ -12,9 +12,10 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestCreateSectionWithValidValues()
+        public void Create_ShouldReturnSection_WhenValid()
         {
             var title = "  Getting started  ";
+
             var section = Section.Create(title, _course, null);
 
             Assert.NotNull(section);
@@ -24,7 +25,7 @@ namespace CourseService.Tests.UnitTests.Domain
         }
 
         [Fact]
-        public void TestUpdateSection()
+        public void UpdateInfoIgnoreNull_ShouldUpdateValues()
         {
             var title = "  sec1";
             var desc = "This is a desc";
