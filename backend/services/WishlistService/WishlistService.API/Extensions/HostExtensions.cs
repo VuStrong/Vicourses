@@ -17,6 +17,7 @@ using WishlistService.API.Models;
 using WishlistService.API.Utils;
 using WishlistService.API.Utils.ExceptionHandlers;
 using WishlistService.API.Utils.Filters;
+using WishlistService.API.Infrastructure.Repositories;
 
 namespace WishlistService.API.Extensions
 {
@@ -176,6 +177,9 @@ namespace WishlistService.API.Extensions
                 var database = client.GetDatabase(dbName);
                 return database.GetCollection<Wishlist>("wishlists");
             });
+
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
         }
 
         public static async Task SeedDatabase(this IHost app)

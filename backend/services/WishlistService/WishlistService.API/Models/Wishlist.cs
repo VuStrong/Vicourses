@@ -1,10 +1,7 @@
-﻿using WishlistService.API.Application.Exceptions;
-
-namespace WishlistService.API.Models
+﻿namespace WishlistService.API.Models
 {
     public class Wishlist
     {
-        private const int MaxItemsInWishlist = 50;
         private List<Course> _courses = [];
         private List<string> _enrolledCourseIds = [];
 
@@ -22,6 +19,9 @@ namespace WishlistService.API.Models
             Email = email;
         }
 
+        /// <summary>
+        /// Add a course to wishlist, if the course already exists in wishlist then do nothing
+        /// </summary>
         public void AddCourse(Course course)
         {
             if (_courses.Any(c => c.Id == course.Id))
@@ -29,30 +29,13 @@ namespace WishlistService.API.Models
                 return;
             }
 
-            if (course.Status != CourseStatus.Published)
-            {
-                throw new ForbiddenException("Cannot add unpublished course to wishlist");
-            }
-
-            if (Count >= MaxItemsInWishlist)
-            {
-                throw new ForbiddenException($"Exceeded maximum number of courses in wishlist ({MaxItemsInWishlist})");
-            }
-
-            if (course.User.Id == UserId)
-            {
-                throw new ForbiddenException($"Cannot add owned course to wishlist");
-            }
-
-            if (_enrolledCourseIds.Any(id => id == course.Id))
-            {
-                throw new ForbiddenException($"Cannot add enrolled course to wishlist");
-            }
-
             _courses.Insert(0, course);
             Count++;
         }
 
+        /// <summary>
+        /// Remove one course by Id from wishlist
+        /// </summary>
         public void RemoveCourse(string courseId)
         {
             int count = _courses.RemoveAll(c => c.Id == courseId);

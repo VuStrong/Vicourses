@@ -1,24 +1,22 @@
-﻿using MongoDB.Driver;
+﻿using WishlistService.API.Infrastructure.Repositories;
 using WishlistService.API.Models;
 
 namespace WishlistService.API.Application.Services
 {
     public class CourseService : ICourseService
     {
-        private readonly IMongoCollection<Course> _courseCollection;
-        private readonly IMongoCollection<Wishlist> _wishlistCollection;
+        private readonly ICourseRepository _courseRepository;
+        private readonly IWishlistRepository _wishlistRepository;
 
-        public CourseService(IMongoCollection<Course> courseCollection, IMongoCollection<Wishlist> wishlistCollection)
+        public CourseService(ICourseRepository courseRepository, IWishlistRepository wishlistRepository)
         {
-            _courseCollection = courseCollection;
-            _wishlistCollection = wishlistCollection;
+            _courseRepository = courseRepository;
+            _wishlistRepository = wishlistRepository;
         }
 
         public async Task AddOrUpdateCourseAsync(Course course)
         {
-            var courseInDb = await _courseCollection
-                .Find(Builders<Course>.Filter.Eq(c => c.Id, course.Id))
-                .FirstOrDefaultAsync();
+            var courseInDb = await _courseRepository.FindByIdAsync(course.Id);
 
             if (courseInDb != null)
             {
@@ -26,18 +24,15 @@ namespace WishlistService.API.Application.Services
             }
             else
             {
-                await _courseCollection.InsertOneAsync(course);
+                await _courseRepository.InsertCourseAsync(course);
             }
         }
 
         public async Task UnpublishCourseAsync(string courseId)
         {
-            await _courseCollection.UpdateOneAsync(
-                Builders<Course>.Filter.Eq(c => c.Id, courseId),
-                Builders<Course>.Update.Set(c => c.Status, CourseStatus.Unpublished)
-            );
+            await _courseRepository.UpdateStatusAsync(courseId, CourseStatus.Unpublished);
 
-            await RemoveCourseInWishlistsAsync(courseId);
+            await _wishlistRepository.RemoveCourseInWishlistsAsync(courseId);
         }
 
         private async Task UpdateCourseAsync(Course courseInDb, Course targetCourse)
@@ -76,39 +71,18 @@ namespace WishlistService.API.Application.Services
 
             if (infoUpdated)
             {
-                await _courseCollection.ReplaceOneAsync(
-                    Builders<Course>.Filter.Eq(c => c.Id, courseInDb.Id),
-                    courseInDb
-                );
+                await _courseRepository.UpdateCourseAsync(courseInDb);
             }
 
             if (!statusUpdated && infoUpdated && courseInDb.Status == CourseStatus.Published)
             {
-                await UpdateCourseInWishlistsAsync(courseInDb);
+                await _wishlistRepository.UpdateCourseInWishlistsAsync(courseInDb);
             }
 
             if (statusUpdated && courseInDb.Status == CourseStatus.Unpublished)
             {
-                await RemoveCourseInWishlistsAsync(courseInDb.Id);
+                await _wishlistRepository.RemoveCourseInWishlistsAsync(courseInDb.Id);
             }
-        }
-
-        private async Task UpdateCourseInWishlistsAsync(Course course)
-        {
-            var filter = Builders<Wishlist>.Filter.Eq("Courses._id", course.Id);
-            var update = Builders<Wishlist>.Update.Set("Courses.$", course);
-
-            await _wishlistCollection.UpdateManyAsync(filter, update);
-        }
-
-        private async Task RemoveCourseInWishlistsAsync(string courseId)
-        {
-            var filter = Builders<Wishlist>.Filter.Eq("Courses._id", courseId);
-            var update = Builders<Wishlist>.Update
-                .Inc(x => x.Count, -1)
-                .PullFilter("Courses", Builders<Course>.Filter.Eq("_id", courseId));
-
-            await _wishlistCollection.UpdateManyAsync(filter, update);
         }
     }
 }
