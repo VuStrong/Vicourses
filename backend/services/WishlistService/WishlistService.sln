@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishlistService.API", "WishlistService.API\WishlistService.API.csproj", "{9AC70B96-FBC6-4223-91D4-5F9DEBA30048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WishlistService.API", "WishlistService.API\WishlistService.API.csproj", "{9AC70B96-FBC6-4223-91D4-5F9DEBA30048}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "EventBus\EventBus.csproj", "{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "EventBus\EventBus.csproj", "{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishlistService.UnitTests", "WishlistService.UnitTests\WishlistService.UnitTests.csproj", "{1378734C-58DA-4B2C-ACBA-9DD2D36FEEDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA3B48F6-1ABA-47A6-94D6-9D251CA3482B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1378734C-58DA-4B2C-ACBA-9DD2D36FEEDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1378734C-58DA-4B2C-ACBA-9DD2D36FEEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1378734C-58DA-4B2C-ACBA-9DD2D36FEEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1378734C-58DA-4B2C-ACBA-9DD2D36FEEDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
