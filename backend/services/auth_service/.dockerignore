@@ -2,7 +2,10 @@ dist
 node_modules
 logs
 
+.gitignore
+
 .env
+.env.example
 
 private.key
 public.key
