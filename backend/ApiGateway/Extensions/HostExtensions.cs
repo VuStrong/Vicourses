@@ -88,6 +88,18 @@ namespace ApiGateway.Extensions
                 });
             });
 
+            // Statistics Service
+            app.Map("/swagger/v1/swagger-statistics.json", b =>
+            {
+                b.Run(async x =>
+                {
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Statistics"]}/swagger/v1/swagger.json");
+                    var body = await response.Content.ReadAsStringAsync();
+                    await x.Response.WriteAsync(body);
+                });
+            });
+
             return app;
         }
     }

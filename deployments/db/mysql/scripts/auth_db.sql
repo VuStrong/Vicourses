@@ -46,8 +46,18 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `passwordHash` varchar(255) NOT NULL,
   `emailConfirmed` tinyint NOT NULL DEFAULT '0',
-  `locked` tinyint NOT NULL DEFAULT '0',
+  `lockoutEnd` datetime DEFAULT NULL,
   `role` enum('admin','instructor','student') NOT NULL DEFAULT 'student',
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_97672ac88f789774dd47f7c8be` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Seed data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+INSERT INTO `users` VALUES 
+('00543305-2d30-4520-9f5b-f35a58931338','2024-09-13 17:08:10.264855','Admin 1','admin1@gmail.com','$2b$10$AyKJfMGV/aGi74ZndYgY6OFL0LOKRVaKpMEMT1xu01vg5YTd9PvLS',1,NULL,'admin'),
+('5a8a8a8c-4663-41b5-9849-81ae7f6726e9','2024-09-13 17:08:10.264855','Teacher 1','teacher1@gmail.com','$2b$10$uuXG32geJExCqUhzYPrx/evlvPRAVwln1t7YuzZWwW.UY1XNI4yPq',1,NULL,'instructor');
+UNLOCK TABLES;

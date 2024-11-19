@@ -1,0 +1,42 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: statistics-service
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/StatisticsService/**"
+      - ".github/workflows/statistics-service.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/StatisticsService/**"
+      - ".github/workflows/statistics-service.yml"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      working-directory: backend/services/StatisticsService
+      run: dotnet restore "./StatisticsService.API/StatisticsService.API.csproj"
+    - name: Build
+      working-directory: backend/services/StatisticsService/StatisticsService.API
+      run: dotnet build "StatisticsService.API.csproj" --no-restore
+
+    - name: Build images
+      working-directory: backend/services/StatisticsService
+      run: docker build -f StatisticsService.API/Dockerfile -t vustrong/vicourses-statisticsservice .
+    - name: Push images
+      run: |-
+        docker login -u vustrong -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push vustrong/vicourses-statisticsservice

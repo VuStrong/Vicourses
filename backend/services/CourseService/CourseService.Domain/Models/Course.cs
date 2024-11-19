@@ -195,6 +195,7 @@ namespace CourseService.Domain.Models
             Status = CourseStatus.Published;
 
             AddUniqueDomainEvent(new CoursePublishedDomainEvent(this));
+            AddUniqueDomainEvent(new CourseApprovedDomainEvent(this));
         }
 
         public void CancelApproval(List<string>? reasons = null)
@@ -205,6 +206,7 @@ namespace CourseService.Domain.Models
             Status = CourseStatus.Unpublished;
 
             AddUniqueDomainEvent(new CourseUnpublishedDomainEvent(this));
+            AddUniqueDomainEvent(new CourseApprovalCanceledDomainEvent(this, reasons ?? []));
         }
 
         public void SetStatus(CourseStatus status)

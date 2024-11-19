@@ -62,5 +62,9 @@ CREATE INDEX `IX_Ratings_UserId` ON `Ratings` (`UserId`);
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
 VALUES ('20241105152014_InitialCreate', '8.0.2');
 
+INSERT INTO `Users` VALUES 
+('00543305-2d30-4520-9f5b-f35a58931338','Admin 1','admin1@gmail.com',NULL),
+('5a8a8a8c-4663-41b5-9849-81ae7f6726e9','Teacher 1','teacher1@gmail.com',NULL);
+
 COMMIT;
 
