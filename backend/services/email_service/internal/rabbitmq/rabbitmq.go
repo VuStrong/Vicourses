@@ -2,12 +2,11 @@ package rabbitmq
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 
 	"github.com/VuStrong/Vicourses/backend/services/email_service/internal/config"
-	"github.com/VuStrong/Vicourses/backend/services/email_service/internal/emails"
+	"github.com/VuStrong/Vicourses/backend/services/email_service/internal/emailgenerator"
 	"github.com/VuStrong/Vicourses/backend/services/email_service/internal/mailer"
-	"github.com/VuStrong/Vicourses/backend/services/email_service/internal/models"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -63,13 +62,13 @@ func (consumer *RabbitMQConsumer) Consume() error {
 		return err
 	}
 
-	fmt.Println("Start consume...")
+	log.Println("Start consume...")
 
 	for msg := range messages {
 		err := onMessageReceived(msg, consumer.Mailer, consumer.Config)
 
 		if err != nil {
-			fmt.Println("Error when sending email: " + err.Error())
+			log.Println("Error when sending email: " + err.Error())
 		}
 	}
 
@@ -79,58 +78,31 @@ func (consumer *RabbitMQConsumer) Consume() error {
 }
 
 func onMessageReceived(d amqp.Delivery, mailer *mailer.Mailer, cfg *config.Config) error {
-	var msg emails.BaseEmail
-	var err error
-	err = json.Unmarshal(d.Body, &msg)
+	var generator emailgenerator.EmailGenerator
+	err := json.Unmarshal(d.Body, &generator)
 
 	if err != nil {
 		return err
 	}
 
-	var htmlGenerator emails.HtmlGenerator
-	var subject string
+	generator.From = cfg.Smtp.User
+	generator.AppName = cfg.AppName
+	generator.AppLogoUrl = cfg.AppLogoUrl
+	generator.WebUrl = cfg.WebUrl
 
-	switch msg.EmailType {
-	case "confirm_email":
-		var confirmEmail emails.ConfirmEmail
-		err = json.Unmarshal(d.Body, &confirmEmail)
-		confirmEmail.AppName = cfg.AppName
-		confirmEmail.WebUrl = cfg.WebUrl
-		confirmEmail.AppLogoUrl = cfg.AppLogoUrl
-		htmlGenerator = &confirmEmail
-		subject = "Confirm Email"
-	case "reset_password":
-		var resetPassEmail emails.ResetPasswordEmail
-		err = json.Unmarshal(d.Body, &resetPassEmail)
-		resetPassEmail.AppName = cfg.AppName
-		resetPassEmail.WebUrl = cfg.WebUrl
-		resetPassEmail.AppLogoUrl = cfg.AppLogoUrl
-		htmlGenerator = &resetPassEmail
-		subject = "Reset Password"
-	default:
-		return fmt.Errorf("EmailType %s is invalid", msg.EmailType)
-	}
-
+	emailModel, err := generator.Generate()
 	if err != nil {
 		return err
 	}
 
-	html, err := htmlGenerator.GenerateHTML()
+	err = mailer.SendEmail(emailModel)
 	if err != nil {
 		return err
 	}
 
-	emailModel := models.EmailModel{
-		From:        cfg.Smtp.User,
-		To:          msg.To,
-		ContentType: "text/html",
-		Body:        html,
-		Subject:     subject,
-	}
+	log.Println("Email has been sent to the user " + emailModel.To)
 
-	err = mailer.SendEmail(&emailModel)
+	// Todo: Add emailModel to database
 
-	// Add emailModel to database (optinal)
-
-	return err
+	return nil
 }

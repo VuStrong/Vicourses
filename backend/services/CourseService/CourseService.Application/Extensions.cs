@@ -6,6 +6,7 @@ using CourseService.Application.IntegrationEventHandlers.Rating;
 using CourseService.Application.IntegrationEventHandlers.User;
 using CourseService.Application.IntegrationEventHandlers.VideoProcessing;
 using CourseService.Application.IntegrationEvents.Course;
+using CourseService.Application.IntegrationEvents.Email;
 using CourseService.Application.IntegrationEvents.Rating;
 using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Application.IntegrationEvents.User;
@@ -71,6 +72,8 @@ namespace CourseService.Application
             services.AddDomainEventHandler<CourseDeletedDomainEvent, CourseDeletedDomainEventHandler>();
             services.AddDomainEventHandler<CoursePreviewVideoUpdatedDomainEvent, CoursePreviewVideoUpdatedDomainEventHandler>();
             services.AddDomainEventHandler<CourseThumbnailUpdatedDomainEvent, CourseThumbnailUpdatedDomainEventHandler>();
+            services.AddDomainEventHandler<CourseApprovedDomainEvent, CourseApprovedDomainEventHandler>();
+            services.AddDomainEventHandler<CourseApprovalCanceledDomainEvent, CourseApprovalCanceledDomainEventHandler>();
 
             services.AddDomainEventHandler<LessonDeletedDomainEvent, LessonDeletedDomainEventHandler>();
             services.AddDomainEventHandler<LessonVideoUpdatedDomainEvent, LessonVideoUpdatedDomainEventHandler>();
@@ -145,6 +148,13 @@ namespace CourseService.Application
                 {
                     opt.ExchangeOptions.ExchangeName = "course.rating.updated";
                     opt.QueueOptions.QueueName = "course_service_course.rating.updated";
+                });
+
+                // Events in Email Service
+                c.ConfigurePublish<SendEmailIntegrationEvent>(opt =>
+                {
+                    opt.ExcludeExchange = true;
+                    opt.RoutingKey = "send_email";
                 });
             })
             .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
