@@ -7,6 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
+    "migration:run": "npm run build && npx typeorm migration:run -d dist/data/data-source.js",
     "seed": "npx ts-node src/data/seeder.ts"
   },
   "author": "",

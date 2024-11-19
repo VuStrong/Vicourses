@@ -3,6 +3,8 @@ import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
 import authRoute from "./auth.route";
 import swaggerDocV1 from "../../swagger/swagger-v1.json";
 import { handleHealthCheck } from "../controllers/healthchecks.controller";
+import meRoute from "./me.route";
+import usersRoute from "./users.route";
 
 var options: SwaggerUiOptions = {
     explorer: true,
@@ -31,5 +33,9 @@ router.use(
 router.get('/hc', handleHealthCheck);
 
 router.use("/api/as/v1/auth", authRoute);
+
+router.use("/api/as/v1/me", meRoute);
+
+router.use("/api/as/v1/users", usersRoute);
 
 export default router;

@@ -26,8 +26,8 @@ export default class User {
     @Column({ default: false })
     emailConfirmed: boolean
 
-    @Column({ default: false })
-    locked: boolean
+    @Column({ type: "datetime", default: null })
+    lockoutEnd: Date | null
 
     @Column({
         type: "enum",
@@ -36,7 +36,6 @@ export default class User {
     })
     role: Role
 
-
     toJSON() {
         return {
             id: this.id,
@@ -44,6 +43,13 @@ export default class User {
             email: this.email,
             createdAt: this.createdAt,
             role: this.role,
+            emailConfirmed: this.emailConfirmed,
+            lockoutEnd: this.lockoutEnd,
+            locked: this.isLocked(),
         }
+    }
+
+    public isLocked(): boolean {
+        return this.lockoutEnd !== null && this.lockoutEnd > new Date()
     }
 }

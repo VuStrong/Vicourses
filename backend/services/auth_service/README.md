@@ -1,16 +1,18 @@
 
 # Vicourses Auth Service
 
-The Auth Service is responsible for user authentication and provides some features like registration, password management, token management, email confirmation.
+The Auth Service is responsible for user authentication, distributes access tokens and manage user's infos related to authentication.
 
 
 ## Features
 
 - Login with email password or google account.
-- Register user
+- User registration
 - Refresh token
 - Email confirmation
 - Reset, change password
+- Lock user
+- Update user's role
 
 
 ## Technologies
@@ -28,22 +30,28 @@ The Auth Service is responsible for user authentication and provides some featur
 
 2. Set up the environment variables. Rename the `.env.example` file to `.env` and provide the necessary values for your environment.
 
-3. Build the project and run migrations to create database
+3. Create database in your MySQL server (database name is the value of `DB_DATABASE` in `.env` file) 
+
+4. Run migrations to create tables
    ```shell
-   npm run build
-   npx typeorm migration:run -d dist/data/data-source.js
+   npm run migration:run
    ```
-4. Seed data
+5. Seed data
    ```shell
    npm run seed
    ```
-5. Generate RSA Key Pairs (make sure OpenSSL is installed on your machine). The commands below will create 2 files: `private.key` for sign jwt token, keep this file only in this service. `public.key` for verify token, this file can be copied to another services that need to authenticate user.
+6. Generate RSA Key Pairs (make sure OpenSSL is installed on your machine). The commands below will create 2 files: `private.key` for sign jwt token, keep this file only in this service. `public.key` for verify token, this file can be copied to another services that need to authenticate user.
    ```shell
    openssl genrsa -out private.key -traditional 2048
    openssl rsa -pubout -in private.key -out public.key
    ```
-6. Run
+7. Run
    ```shell
    npm run dev
    ```
-Go to http://localhost:3000/swagger to view swagger document, the admin account email and password is `admin1@gmail.com` `111111`
+Go to http://localhost:3000/swagger to view swagger document, the admin account email and password is `admin1@gmail.com` `11111111`
+
+# Communicate with other microservices
+
+- Send messages to `send_email` queue (email confirmation link, password reset link). So you need to keep [email_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/email_service) running to consume that messages and send.
+- After create an user, publish a message including the user information to RabbitMQ `user.created` exchange.

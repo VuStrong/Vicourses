@@ -1,16 +1,55 @@
 import { OAuth2Client, TokenPayload } from "google-auth-library";
-import Config from "../config";
-import User from "../entity/user.entity";
+import * as bcrypt from "bcrypt";
 import { userRepository } from "../data/user.repository";
+import User from "../entity/user.entity";
 import { AppError } from "../utils/app-error";
 import * as jwt from "../utils/jwt";
 import { tokenRepository } from "../data/token.repository";
 import logger from "../logger";
+import Config from "../config";
 import { EventType, event } from "../events";
+import { TokenType } from "../entity/token.entity";
 
 const client = new OAuth2Client(Config.GOOGLE_CLIENT_ID);
 
-export async function googleLogin(idToken: string): Promise<{
+export async function signInWithEmailAndPassword(email: string, password: string): Promise<{
+    accessToken: string,
+    refreshToken: string,
+    user: User,
+}> {
+    const user = await userRepository.findOne({
+        where: { email },
+    });
+
+    if (!user) {
+        throw new AppError("Invalid credentials", 401);
+    }
+
+    const isMatchPassword = await bcrypt.compare(password, user.passwordHash);
+
+    if (!isMatchPassword) {
+        throw new AppError("Invalid credentials", 401);
+    }
+
+    if (user.isLocked()) {
+        throw new AppError("You are locked out!", 403);
+    }
+
+    const accessToken = await jwt.signForUser(user);
+    const refreshToken = await tokenRepository.generateRefreshToken(user.id);
+
+    logger.info("User logged in", {
+        email: user.email
+    });
+
+    return {
+        user,
+        accessToken,
+        refreshToken
+    }
+}
+
+export async function signInWithGoogle(idToken: string): Promise<{
     accessToken: string;
     refreshToken: string;
     user: User;
@@ -39,7 +78,7 @@ export async function googleLogin(idToken: string): Promise<{
     let refreshToken = "";
 
     if (user) {
-        if (user.locked) {
+        if (user.isLocked()) {
             throw new AppError("You are locked out!", 403);
         }
 
@@ -79,4 +118,40 @@ export async function googleLogin(idToken: string): Promise<{
         refreshToken,
         user,
     };
+}
+
+export async function refreshAccessToken(userId: string, refreshToken: string): Promise<string> {
+    const user = await userRepository.findOne({
+        where: { id: userId }
+    });
+
+    if (!user) {
+        throw new AppError("User not found", 404);
+    }
+
+    if (user.isLocked()) {
+        throw new AppError("You are locked out!", 403);
+    }
+
+    const token = await tokenRepository.findOne({
+        where: {
+            token: refreshToken,
+            userId
+        }
+    });
+
+    if (!token || token.type !== TokenType.REFRESH_TOKEN || token.expiryTime < new Date()) {
+        throw new AppError("Invalid token", 401);
+    }
+
+    const accessToken = await jwt.signForUser(user);
+
+    return accessToken;
+}
+
+export async function revokeRefreshToken(userId: string, refreshToken: string) {
+    await tokenRepository.delete({
+        token: refreshToken,
+        userId
+    });
 }

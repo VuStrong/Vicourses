@@ -10,6 +10,14 @@
             "url": "/api/as/v1"
         }
     ],
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
     "paths": {
         "/auth/login": {
             "post": {
@@ -270,10 +278,10 @@
                 }
             }
         },
-        "/auth/confirm-email-link": {
+        "/auth/email-confirmation-link": {
             "post": {
                 "tags": ["Auth"],
-                "summary": "Resend confirm email link",
+                "summary": "Resend email confirmation link to user email",
                 "produces": ["application/json"],
                 "requestBody": {
                     "required": true,
@@ -334,10 +342,10 @@
                 }
             }
         },
-        "/auth/reset-password-link": {
+        "/auth/password-reset-link": {
             "post": {
                 "tags": ["Auth"],
-                "summary": "Send reset password link",
+                "summary": "Send password reset link to user email",
                 "produces": ["application/json"],
                 "requestBody": {
                     "required": true,
@@ -359,6 +367,204 @@
                     },
                     "404": {
                         "description": "Email not found"
+                    }
+                }
+            }
+        },
+        "/me": {
+            "get": {
+                "tags": ["Me"],
+                "summary": "Get authenticated user",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/me/password": {
+            "put": {
+                "tags": ["Me"],
+                "summary": "Change user's password",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "oldPassword": {
+                                        "type": "string"
+                                    },
+                                    "newPassword": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                    },
+                    "403": {
+                        "description": "Password not match"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Get an user",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/users/{id}/lock": {
+            "put": {
+                "tags": ["User"],
+                "summary": "Lock an user",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "days": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/users/{id}/role": {
+            "put": {
+                "tags": ["User"],
+                "summary": "Set role for an user",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "role": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "User not found"
                     }
                 }
             }
@@ -384,6 +590,16 @@
                 },
                 "role": {
                     "type": "string"
+                },
+                "emailConfirmed": {
+                    "type": "boolean"
+                },
+                "lockoutEnd": {
+                    "type": "string",
+                    "example": "2024-04-05T00:00:00.000Z"
+                },
+                "locked": {
+                    "type": "boolean"
                 }
             }
         }
