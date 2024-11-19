@@ -11,7 +11,8 @@ export enum Queue {
 }
 
 export enum Exchange {
-    USER_CREATED = "user.created"
+    USER_CREATED = "user.created",
+    USER_ROLE_UPDATED = "user.role.updated",
 }
 
 export async function connect() {
@@ -22,6 +23,7 @@ export async function connect() {
         await channel.assertQueue(Queue.SEND_EMAIL);
 
         await channel.assertExchange(Exchange.USER_CREATED, "fanout");
+        await channel.assertExchange(Exchange.USER_ROLE_UPDATED, "fanout");
 
         logger.info("Connected to Rabbitmq");
     } catch (error: any) {
@@ -39,4 +41,13 @@ export function publishNewCreatedUser(user: User) {
     if (!channel) return;
 
     channel.publish(Exchange.USER_CREATED, "", Buffer.from(JSON.stringify(user)));
+}
+
+export function publishUserRoleUpdated(user: User) {
+    if (!channel) return;
+    
+    channel.publish(Exchange.USER_ROLE_UPDATED, "", Buffer.from(JSON.stringify({
+        id: user.id,
+        role: user.role,
+    })));
 }

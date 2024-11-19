@@ -17,67 +17,125 @@ export const checkValidationResult = (req: Request, res: Response, next: NextFun
 
 export const validateRegister = () => {
     return [
-        body("name", "name must not empty").not().isEmpty(),
-        body("name", "name must be Alphanumeric").isAlphanumeric("vi-VN", {
-            ignore: " ",
-        }),
-        body("email", "email must not empty").not().isEmpty(),
-        body("email", "Invalid email").isEmail(),
-        body("password", "password must not less than 8 characters").isLength({
-            min: 8,
-        }),
+        body("name")
+            .isString()
+            .withMessage("name must be a string")
+            .isLength({ min: 2, max: 50 })
+            .withMessage("name must be between 2 and 50 characters")
+            .isAlphanumeric("vi-VN", {
+                ignore: " ",
+            })
+            .withMessage("name must be Alphanumeric"),
+        body("email")
+            .isEmail()
+            .withMessage("email is invalid"),
+        body("password")
+            .isString()
+            .withMessage("password must be a string")
+            .isLength({ min: 8, max: 50 })
+            .withMessage("password must be between 8 and 50 characters"),
     ];
 };
 
 export const validateLogin = () => {
     return [
-        body("email", "email must not empty").not().isEmpty(),
-        body("email", "Invalid email").isEmail(),
-        body("password", "password must not empty").not().isEmpty(),
+        body("email")
+            .isEmail()
+            .withMessage("email is invalid"),
+        body("password")
+            .isString()
+            .withMessage("password must be a string")
+            .notEmpty()
+            .withMessage("password must not empty"),
     ];
 };
 
 export const validateRefreshTokenRequest = () => {
     return [
-        body("refreshToken", "refreshToken must not empty").not().isEmpty(),
-        body("userId", "userId must not empty").not().isEmpty(),
+        body("refreshToken")
+            .isString()
+            .withMessage("refreshToken must be a string")
+            .notEmpty()
+            .withMessage("refreshToken must not empty"),
+        body("userId")
+            .isString()
+            .withMessage("userId must be a string")
+            .notEmpty()
+            .withMessage("userId must not empty"),
     ];
 };
 
 export const validateConfirmEmailRequest = () => {
     return [
-        body("token", "token must not empty").not().isEmpty(),
-        body("userId", "userId must not empty").not().isEmpty(),
+        body("token")
+            .isString()
+            .withMessage("token must be a string")
+            .notEmpty()
+            .withMessage("token must not empty"),
+        body("userId")
+            .isString()
+            .withMessage("userId must be a string")
+            .notEmpty()
+            .withMessage("userId must not empty"),
     ];
 };
 
-export const validateResendConfirmEmailRequest = () => {
+export const validateResendEmailConfirmationRequest = () => {
     return [
-        body("email", "email must not empty").not().isEmpty(),
-        body("email", "Invalid email").isEmail(),
+        body("email")
+            .isEmail()
+            .withMessage("email is invalid"),
     ];
 };
 
-export const validateSendResetPasswordLinkRequest = () => {
+export const validateSendPasswordResetLinkRequest = () => {
     return [
-        body("email", "email must not empty").not().isEmpty(),
-        body("email", "Invalid email").isEmail(),
+        body("email")
+            .isEmail()
+            .withMessage("email is invalid"),
     ];
 };
 
 export const validateResetPasswordRequest = () => {
     return [
-        body("token", "token must not empty").not().isEmpty(),
-        body("userId", "userId must not empty").not().isEmpty(),
-        body(
-            "newPassword",
-            "newPassword must not less than 8 characters"
-        ).isLength({ min: 8 }),
+        body("token")
+            .isString()
+            .withMessage("token must be a string")
+            .notEmpty()
+            .withMessage("token must not empty"),
+        body("userId")
+            .isString()
+            .withMessage("userId must be a string")
+            .notEmpty()
+            .withMessage("userId must not empty"),
+        body("newPassword")
+            .isString()
+            .withMessage("newPassword must be a string")
+            .isLength({ min: 8, max: 50 })
+            .withMessage("newPassword must be between 8 and 50 characters"),
     ];
 };
 
 export const validateGoogleLogin = () => {
     return [
-        body("idToken", "idToken must not empty").not().isEmpty(),
+        body("idToken")
+            .isString()
+            .withMessage("idToken must be a string")
+            .notEmpty()
+            .withMessage("idToken must not empty"),
+    ];
+};
+
+export const validateChangePasswordRequest = () => {
+    return [
+        body("oldPassword")
+            .isString()
+            .not().isEmpty()
+            .withMessage('oldPassword must not empty'),
+        body("newPassword")
+            .isString()
+            .withMessage("newPassword must be a string")
+            .isLength({ min: 8, max: 50 })
+            .withMessage("newPassword must be between 8 and 50 characters"),
     ];
 };

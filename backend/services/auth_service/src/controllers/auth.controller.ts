@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import * as authService from "../services";
+import * as signInService from "../services/signin.service";
+import * as userSerivce from "../services/user.service";
 
 export async function handleLogin(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
     
     try {
-        const { user, accessToken, refreshToken } = await authService.login(email, password);
+        const { user, accessToken, refreshToken } = await signInService.signInWithEmailAndPassword(email, password);
         
         res.status(200).send({
             user,
@@ -21,7 +22,7 @@ export async function handleRegister(req: Request, res: Response, next: NextFunc
     const { name, email, password } = req.body;
     
     try {
-        const newUser = await authService.register({
+        const newUser = await userSerivce.createUser({
             name, email, password
         });
     
@@ -37,7 +38,7 @@ export async function handleRefreshToken(req: Request, res: Response, next: Next
     const { refreshToken, userId } = req.body;
 
     try {
-        const newAccessToken = await authService.refreshToken(userId, refreshToken);
+        const newAccessToken = await signInService.refreshAccessToken(userId, refreshToken);
 
         res.status(200).send({
             accessToken: newAccessToken,
@@ -52,7 +53,7 @@ export async function handleRevokeRefreshToken(req: Request, res: Response, next
     const { refreshToken, userId } = req.body;
 
     try {
-        await authService.revokeRefreshToken(userId, refreshToken);
+        await signInService.revokeRefreshToken(userId, refreshToken);
 
         res.status(200).send({
             success: true
@@ -66,7 +67,7 @@ export async function handleConfirmEmail(req: Request, res: Response, next: Next
     const { userId, token } = req.body;
 
     try {
-        await authService.confirmEmail(userId, token);
+        await userSerivce.confirmEmail(userId, token);
         
         return res.send({ success: true });
     } catch (error) {
@@ -74,11 +75,11 @@ export async function handleConfirmEmail(req: Request, res: Response, next: Next
     }
 }
 
-export async function handleSendConfirmEmailLink(req: Request, res: Response, next: NextFunction) {
+export async function handleSendEmailConfirmationLink(req: Request, res: Response, next: NextFunction) {
     const { email } = req.body;
 
     try {
-        await authService.sendConfirmEmailLink(email);
+        await userSerivce.sendEmailConfirmationLink(email);
         
         res.send({ success: true });
     } catch (error) {
@@ -90,7 +91,7 @@ export async function handleResetPassword(req: Request, res: Response, next: Nex
     const { userId, token, newPassword } = req.body;
 
     try {
-        await authService.resetPassword(userId, token, newPassword);
+        await userSerivce.resetPassword(userId, token, newPassword);
         
         return res.send({ success: true });
     } catch (error) {
@@ -98,11 +99,11 @@ export async function handleResetPassword(req: Request, res: Response, next: Nex
     }
 }
 
-export async function handleSendResetPasswordLink(req: Request, res: Response, next: NextFunction) {
+export async function handleSendPasswordResetLink(req: Request, res: Response, next: NextFunction) {
     const { email } = req.body;
 
     try {
-        await authService.sendResetPasswordLink(email);
+        await userSerivce.sendPasswordResetLink(email);
         
         res.send({ success: true });
     } catch (error) {
@@ -114,7 +115,7 @@ export async function handleGoogleLogin(req: Request, res: Response, next: NextF
     const { idToken } = req.body;
 
     try {
-        const { user, accessToken, refreshToken } = await authService.googleLogin(idToken);
+        const { user, accessToken, refreshToken } = await signInService.signInWithGoogle(idToken);
         
         res.status(200).send({
             user,

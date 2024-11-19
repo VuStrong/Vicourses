@@ -5,7 +5,8 @@ import logger from "../logger";
 export default function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
     if (err instanceof AppError) {
 		return res.status(err.statusCode).send({
-			message: err.message
+			message: err.message,
+			code: err.statusCode
 		});
     }
 

@@ -7,9 +7,9 @@ import {
     validateLogin,
     validateRefreshTokenRequest,
     validateRegister,
-    validateResendConfirmEmailRequest,
+    validateResendEmailConfirmationRequest,
     validateResetPasswordRequest,
-    validateSendResetPasswordLinkRequest,
+    validateSendPasswordResetLinkRequest,
 } from "../middlewares/validators.middleware";
 
 const authRoute = Router();
@@ -48,10 +48,10 @@ authRoute.post(
     authController.handleConfirmEmail
 );
 authRoute.post(
-    "/confirm-email-link",
-    validateResendConfirmEmailRequest(),
+    "/email-confirmation-link",
+    validateResendEmailConfirmationRequest(),
     checkValidationResult,
-    authController.handleSendConfirmEmailLink
+    authController.handleSendEmailConfirmationLink
 );
 
 authRoute.post(
@@ -61,10 +61,10 @@ authRoute.post(
     authController.handleResetPassword
 );
 authRoute.post(
-    "/reset-password-link",
-    validateSendResetPasswordLinkRequest(),
+    "/password-reset-link",
+    validateSendPasswordResetLinkRequest(),
     checkValidationResult,
-    authController.handleSendResetPasswordLink
+    authController.handleSendPasswordResetLink
 );
 
 authRoute.post(
