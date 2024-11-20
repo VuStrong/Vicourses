@@ -9,7 +9,12 @@
 *.out
 
 .env
+.env.example
 
 temp/
 
 logs/
+
+.gitignore
+
+README.md

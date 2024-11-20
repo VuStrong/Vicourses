@@ -3,5 +3,10 @@ node_modules
 logs
 
 .env
+.env.example
+
+.gitignore
 
 public.key
+
+README.md
