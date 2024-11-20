@@ -26,10 +26,10 @@ namespace CourseService.Application.DomainEventHandlers.Course
             _eventBus.Publish(new SendEmailIntegrationEvent
             {
                 To = instructor.Email,
-                EmailType = "course_not_approved",
+                Template = "course_not_approved",
                 Payload = new
                 {
-                    userName = instructor.Name,
+                    username = instructor.Name,
                     courseId = @event.Course.Id,
                     courseName = @event.Course.Title,
                     reasons = @event.Reasons,
