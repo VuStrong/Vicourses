@@ -16,17 +16,20 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
       with:
-        go-version: '1.22'
-
+        node-version: '21.x'
+        cache: 'npm'
+        cache-dependency-path: './backend/services/email_service/package-lock.json'
     - name: Build
       working-directory: backend/services/email_service
-      run: go build cmd/email_service/main.go
+      run: |
+        npm ci
+        npm run build --if-present
 
     - name: Build images
       working-directory: backend/services/email_service

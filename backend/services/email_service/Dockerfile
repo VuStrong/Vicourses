@@ -1,11 +1,12 @@
-FROM golang:1.22.1-alpine as builder
+FROM node:lts-alpine
+
 WORKDIR /app
-COPY ./ /app
-RUN go mod download
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -o main cmd/email_service/main.go
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-FROM alpine:latest
-COPY --from=builder /app/main ./
+EXPOSE 3000
 
-CMD ["./main"]
+CMD ["node", "dist/index.js"]

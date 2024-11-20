@@ -190,9 +190,9 @@ export async function sendEmailConfirmationLink(email: string) {
 
         rabbitmq.sendToQueue(rabbitmq.Queue.SEND_EMAIL, {
             to: user.email,
-            emailType: "confirm_email",
+            template: "confirm_email",
             payload: {
-                userName: user.name,
+                username: user.name,
                 link,
             }
         });
@@ -249,9 +249,9 @@ export async function sendPasswordResetLink(email: string) {
 
     rabbitmq.sendToQueue(rabbitmq.Queue.SEND_EMAIL, {
         to: user.email,
-        emailType: "reset_password",
+        template: "reset_password",
         payload: {
-            userName: user.name,
+            username: user.name,
             link,
         }
     });

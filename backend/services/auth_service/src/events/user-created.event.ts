@@ -12,9 +12,9 @@ export default async function onUserCreated(user: User) {
     
         rabbitmq.sendToQueue(rabbitmq.Queue.SEND_EMAIL, {
             to: user.email,
-            emailType: "confirm_email",
+            template: "confirm_email",
             payload: {
-                userName: user.name,
+                username: user.name,
                 link,
             }
         });

@@ -250,6 +250,8 @@ services:
     restart: always
     env_file:
       - services/email_service/.env
+    volumes:
+      - services_logs_data:/app/logs
 
   ###
   course-service:
