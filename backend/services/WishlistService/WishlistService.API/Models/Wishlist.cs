@@ -7,7 +7,7 @@
 
         public string Id { get; private set; }
         public string UserId { get; private set; }
-        public string Email { get; private set; }
+        public string Email { get; set; }
         public int Count { get; private set; }
         public IReadOnlyList<Course> Courses => _courses.AsReadOnly();
         public IReadOnlyList<string> EnrolledCourseIds => _enrolledCourseIds.AsReadOnly();

@@ -46,6 +46,10 @@ namespace WishlistService.API.Application.Services
                 existsWishlist = false;
                 wishlist = new Wishlist(data.UserId, data.Email);
             }
+            else if (wishlist.Email == string.Empty)
+            {
+                wishlist.Email = data.Email;
+            }
 
             var course = await _courseRepository.FindByIdAsync(data.CourseId);
 

@@ -30,6 +30,13 @@ namespace WishlistService.API.Application.IntegrationEventHandlers.Course
 
                 await _wishlistRepository.UpdateWishlistAsync(wishlist);
             }
+            else
+            {
+                wishlist = new Models.Wishlist(@event.UserId, "");
+                wishlist.EnrollCourse(@event.Course.Id);
+                
+                await _wishlistRepository.InsertWishlistAsync(wishlist);
+            }
         }
     }
 }
