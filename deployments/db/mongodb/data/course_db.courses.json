@@ -1,0 +1,151 @@
+[{
+  "_id": "V90Dh8ykUsci",
+  "Title": "React - The Complete Guide 2024 (incl. Next.js, Redux)",
+  "TitleCleaned": "react-the-complete-guide-2024-incl-nextjs-redux",
+  "Description": "This course will teach you React.js in a practice-oriented way, using all the latest patterns and best practices you need. You will learn all the key fundamentals as well as advanced concepts and related topics to turn you into a React.js developer.",
+  "Tags": [
+    "reactjs",
+    "frontend"
+  ],
+  "Requirements": [],
+  "TargetStudents": [],
+  "LearnedContents": [],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "24.99"
+  },
+  "Rating": {
+    "$numberDecimal": "4.0000000000000000000000000000"
+  },
+  "CreatedAt": {
+    "$date": "2024-09-19T16:29:48.686Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-09T07:49:50.115Z"
+  },
+  "StudentCount": 2,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "test2.png",
+    "Url": "https://r2.strongtify.io.vn/test2.png"
+  },
+  "PreviewVideo": {
+    "FileId": "30MinuteVideo720p.mp4",
+    "Url": "https://r2.strongtify.io.vn/30MinuteVideo720p.mp4",
+    "OriginalFileName": "",
+    "StreamFileUrl": "https://r2.strongtify.io.vn/hls/c93e887b-6a20-4949-840c-e81a9ad84b95/master.m3u8",
+    "Duration": 1809,
+    "Status": "Processed"
+  },
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "FtDOrVhpmBQ6",
+  "Title": "NestJS Masterclass - NodeJS Framework Backend Development",
+  "TitleCleaned": "nestjs-masterclass-nodejs-framework-backend-development",
+  "Description": "NestJS Masterclass is a Practical Course!  We work together to build a REST API server-side application for a blog. We learn while we code this application, so all the examples in this course are real-world use cases. While programming this application, we will learn various NestJS features and dive deeper into the internal mechanics of NestJS.",
+  "Tags": [],
+  "Requirements": [],
+  "TargetStudents": [],
+  "LearnedContents": [],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "4.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-09-19T16:31:07.068Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-06T11:33:57.013Z"
+  },
+  "StudentCount": 0,
+  "Locale": null,
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": null,
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "SgOyEZIhNu55",
+  "Title": "Khóa học Figma từ căn bản đến thực chiến",
+  "TitleCleaned": "khoa-hoc-figma-tu-can-ban-en-thuc-chien",
+  "Description": "Khóa học thiết kế giao diện bằng Figma dành cho những bạn có đam mê với ngành nghề UI/UX design. Khóa học tập trung vào những kỹ năng căn bản nhất, đồng thời cung cấp một cái nhìn tổng quát giúp học viên có thể tạo ra sản phẩm cụ thể sau khóa học.",
+  "Tags": [],
+  "Requirements": [],
+  "TargetStudents": [],
+  "LearnedContents": [],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-09-19T16:33:14.417Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-10-04T15:02:09.597Z"
+  },
+  "StudentCount": 0,
+  "Locale": null,
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": null,
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "593034",
+    "Name": "Degisn Tools",
+    "Slug": "degisn-tools"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+}]

@@ -47,3 +47,4 @@ Available templates located in the `templates` directory of the repo.
 - `reset_password`: The email sent to users when they request a password reset.
 - `course_approved`: The email sent to users when one of their courses is approved.
 - `course_not_approved`: The email sent to users when one of their courses is not approved.
+- `payment_completed`: The email sent to users when their payment is completed

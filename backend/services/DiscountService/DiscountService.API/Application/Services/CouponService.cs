@@ -156,7 +156,7 @@ namespace DiscountService.API.Application.Services
             result.Price = decimal.Round(coursePrice.Value, 2, MidpointRounding.AwayFromZero);
             result.Remain = coupon.Remain;
 
-            var discountPrice = coursePrice.Value * ((decimal)coupon.Discount / 100);
+            var discountPrice = coursePrice.Value - coursePrice.Value * ((decimal)coupon.Discount / 100);
             result.DiscountPrice = decimal.Round(discountPrice, 2, MidpointRounding.AwayFromZero);
 
             return result;

@@ -1,0 +1,85 @@
+[{
+  "_id": "54tdkeoWnjLGrN",
+  "CourseId": "V90Dh8ykUsci",
+  "SectionId": "Ulx4aMiEaM6AKC",
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+  "Title": "Welcome to the course!",
+  "Description": null,
+  "Order": 1,
+  "Type": "Video",
+  "Video": null,
+  "CreatedAt": {
+    "$date": "2024-09-24T14:17:03.690Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-26T13:35:07.642Z"
+  }
+},
+{
+  "_id": "Rk1xF3Jge8Ag9s",
+  "CourseId": "V90Dh8ykUsci",
+  "SectionId": "Ulx4aMiEaM6AKC",
+  "Title": "What is React.js? And Why Would You Use It?",
+  "Description": null,
+  "Order": 2,
+  "Type": "Video",
+  "Video": null,
+  "CreatedAt": {
+    "$date": "2024-09-24T14:18:45.482Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-24T14:18:45.482Z"
+  },
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+},
+{
+  "_id": "0T4f4FTi5yF9s8",
+  "CourseId": "V90Dh8ykUsci",
+  "SectionId": "1vDW02SQqqofw6",
+  "Title": "Module Introduction",
+  "Description": null,
+  "Order": 3,
+  "Type": "Video",
+  "Video": null,
+  "CreatedAt": {
+    "$date": "2024-09-24T14:21:06.178Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-24T14:21:06.178Z"
+  },
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+},
+{
+  "_id": "o2QGB5CHpwd6mb",
+  "CourseId": "FtDOrVhpmBQ6",
+  "SectionId": "bwhY1c96wNq1Od",
+  "Title": "NestJS Masterclass Introduction",
+  "Description": null,
+  "Order": 1,
+  "Type": "Video",
+  "Video": null,
+  "CreatedAt": {
+    "$date": "2024-09-24T14:23:45.456Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-24T14:23:45.456Z"
+  },
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+},
+{
+  "_id": "kbkwoDCl1OY6j1",
+  "CourseId": "V90Dh8ykUsci",
+  "SectionId": "Ulx4aMiEaM6AKC",
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+  "Title": "Some questions about ReactJS",
+  "Description": null,
+  "Order": 0,
+  "Type": "Quiz",
+  "CreatedAt": {
+    "$date": "2024-09-28T13:08:21.821Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-28T13:08:21.821Z"
+  },
+  "Video": null
+}]

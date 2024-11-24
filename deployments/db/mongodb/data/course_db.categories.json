@@ -1,0 +1,84 @@
+[{
+  "_id": "421679",
+  "Name": "Development",
+  "Slug": "development",
+  "ParentId": null,
+  "CreatedAt": {
+    "$date": "2024-09-15T13:33:35.381Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:33:35.381Z"
+  }
+},
+{
+  "_id": "688645",
+  "Name": "Design",
+  "Slug": "design",
+  "ParentId": null,
+  "CreatedAt": {
+    "$date": "2024-09-15T13:36:25.262Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:36:25.262Z"
+  }
+},
+{
+  "_id": "698569",
+  "Name": "Web Development",
+  "Slug": "web-development",
+  "ParentId": "421679",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:37:06.021Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:37:06.021Z"
+  }
+},
+{
+  "_id": "824734",
+  "Name": "Mobile Apps Development",
+  "Slug": "mobile-apps-development",
+  "ParentId": "421679",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:38:21.218Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-16T10:56:31.179Z"
+  }
+},
+{
+  "_id": "532474",
+  "Name": "Game Degisn",
+  "Slug": "game-degisn",
+  "ParentId": "688645",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:39:32.309Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:39:32.309Z"
+  }
+},
+{
+  "_id": "589649",
+  "Name": "Graphic Degisn",
+  "Slug": "graphic-degisn",
+  "ParentId": "688645",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:40:06.974Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:40:06.974Z"
+  }
+},
+{
+  "_id": "593034",
+  "Name": "Degisn Tools",
+  "Slug": "degisn-tools",
+  "ParentId": "688645",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:47:51.292Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:47:51.292Z"
+  }
+}]

@@ -1,0 +1,56 @@
+[{
+  "_id": "Ulx4aMiEaM6AKC",
+  "CourseId": "V90Dh8ykUsci",
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+  "Title": "Getting Started",
+  "Description": "sec",
+  "Order": 1,
+  "CreatedAt": {
+    "$date": "2024-09-24T13:49:57.512Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-26T11:57:26.486Z"
+  }
+},
+{
+  "_id": "1vDW02SQqqofw6",
+  "CourseId": "V90Dh8ykUsci",
+  "Title": "Javascript Refresher",
+  "Description": null,
+  "Order": 2,
+  "CreatedAt": {
+    "$date": "2024-09-24T13:50:39.744Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-24T13:50:39.744Z"
+  },
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+},
+{
+  "_id": "5qEp1nMQvJDYwb",
+  "CourseId": "V90Dh8ykUsci",
+  "Title": "React Essentials - Components, JSX, Props, State & More",
+  "Description": null,
+  "Order": 3,
+  "CreatedAt": {
+    "$date": "2024-09-24T13:52:31.690Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-24T13:52:31.690Z"
+  },
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+},
+{
+  "_id": "bwhY1c96wNq1Od",
+  "CourseId": "FtDOrVhpmBQ6",
+  "Title": "Introduction to NestJS",
+  "Description": null,
+  "Order": 1,
+  "CreatedAt": {
+    "$date": "2024-09-24T14:14:23.070Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-24T14:14:23.070Z"
+  },
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+}]

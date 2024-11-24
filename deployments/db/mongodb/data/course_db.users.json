@@ -1,0 +1,14 @@
+[{
+  "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+  "Name": "teacher 1",
+  "ThumbnailUrl": null,
+  "Email": "teacher1@gmail.com",
+  "EnrolledCoursesVisible": true
+},
+{
+  "_id": "00543305-2d30-4520-9f5b-f35a58931338",
+  "Name": "admin 1",
+  "ThumbnailUrl": null,
+  "Email": "admin1@gmail.com",
+  "EnrolledCoursesVisible": true
+}]
