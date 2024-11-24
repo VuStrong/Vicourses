@@ -24,8 +24,7 @@ services:
     networks:
       - vicourses-network
     volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+        - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -62,6 +61,7 @@ services:
     volumes:
       - mongodb_data:/data/db
       - ./db/mongodb/scripts:/docker-entrypoint-initdb.d
+      - ./db/mongodb/data:/tmp
     networks:
       - vicourses-network
     healthcheck:
@@ -408,6 +408,7 @@ networks:
 volumes:
   mysqldb_data:
   mongodb_data:
+  rabbitmq_data:
   elasticsearch_data01:
   elasticsearch_certs:
   kibana_data:

@@ -75,28 +75,36 @@ function validateSendEmailInput(input: SendEmailInput): string {
 
     switch (input.template) {
         case "confirm_email":
-            validationResult = confirmEmailSchema.validate(input.payload);
+            validationResult = confirmEmailSchema.validate(input.payload, {
+                allowUnknown: true,
+            });
             subject = "Confirm your account";
             break;
         case "reset_password":
-            validationResult = resetPasswordEmailSchema.validate(input.payload);
+            validationResult = resetPasswordEmailSchema.validate(
+                input.payload,
+                { allowUnknown: true }
+            );
             subject = "Reset password";
             break;
         case "course_approved":
             validationResult = courseApprovedEmailSchema.validate(
-                input.payload
+                input.payload,
+                { allowUnknown: true }
             );
             subject = "Your course is approved: " + input.payload?.courseName;
             break;
         case "course_not_approved":
             validationResult = courseNotApprovedEmailSchema.validate(
-                input.payload
+                input.payload,
+                { allowUnknown: true }
             );
             subject = "Your course is declined: " + input.payload?.courseName;
             break;
         case "payment_completed":
             validationResult = paymentCompletedEmailSchema.validate(
-                input.payload
+                input.payload,
+                { allowUnknown: true }
             );
             subject = `You're in! Payment comfirmation for "${input.payload?.courseName}"`;
             break;
