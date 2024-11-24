@@ -2,24 +2,24 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Serilog.Formatting.Compact;
 using Serilog;
 using System.Reflection;
-using DiscountService.API.Application.Dtos;
+using EventBus.RabbitMQ;
+using StackExchange.Redis;
 using DiscountService.API.Utils.Filters;
 using DiscountService.API.Utils.ExceptionHandlers;
 using DiscountService.API.Utils;
-using Microsoft.EntityFrameworkCore;
 using DiscountService.API.Infrastructure;
 using DiscountService.API.Application.Services;
-using EventBus.RabbitMQ;
 using DiscountService.API.Application.IntegrationEventHandlers.Course;
 using DiscountService.API.Application.IntegrationEvents.Course;
-using Microsoft.AspNetCore.Authorization;
 using DiscountService.API.Utils.Authorization.Handlers;
 using DiscountService.API.Utils.Authorization;
 using DiscountService.API.Infrastructure.Cache;
-using StackExchange.Redis;
+using DiscountService.API.Application.Dtos;
 
 namespace DiscountService.API.Extensions
 {
@@ -80,6 +80,8 @@ namespace DiscountService.API.Extensions
             builder.Services.AddScoped<ICouponService, CouponService>();
             builder.Services.AddScoped<ICouponCachedRepository, CouponCachedRepository>();
             builder.Services.AddScoped<ICourseCachedRepository, CourseCachedRepository>();
+
+            builder.Services.AddGrpc();
         }
 
         private static void AddHealthChecks(this WebApplicationBuilder builder)

@@ -3,7 +3,7 @@
 
 The Rating Service is responsible for rating courses
 
-- Student can create rating after they enrolled a course. Each student can only rate a course once.
+- Student can create a rating after they enrolled in a course. Each student can only rate a course once.
 - Instructors can respond to their course's ratings.
 ## Technologies
 - .NET Core 8.0
@@ -33,11 +33,6 @@ The Rating Service is responsible for rating courses
 ```
 Launch http://localhost:5078/swagger in your browser to view the Swagger UI.
     
-## Technologies
-- .NET Core 8.0
-- ASP.NET Core Web API
-- MySQL with Entity Framework Core 8.0
-- RabbitMQ
 ## Communicate with other microservices
 - Consume messages from **user.created** and **user.info.updated** exchange to store user infomation in database.
 - Consume messages from **course.published** and **course.unpublished** exchange to store course infomation in database.

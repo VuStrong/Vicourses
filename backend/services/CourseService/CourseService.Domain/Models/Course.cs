@@ -58,12 +58,12 @@ namespace CourseService.Domain.Models
 
             if (!category.IsRoot)
             {
-                throw new DomainException("Main category must be root category");
+                throw new BusinessRuleViolationException("Main category must be root category");
             }
 
             if (!subCategory.IsChildOf(category))
             {
-                throw new DomainException("SubCategory must be child of main category");
+                throw new BusinessRuleViolationException("SubCategory must be child of main category");
             }
 
             var id = StringExtensions.GenerateIdString(12);
@@ -151,11 +151,11 @@ namespace CourseService.Domain.Models
             }
             else if (category != null && !category.IsRoot)
             {
-                throw new DomainException("Main category must be root category");
+                throw new BusinessRuleViolationException("Main category must be root category");
             }
             else if (subCategory != null && subCategory.ParentId != (category?.Id ?? Category.Id))
             {
-                throw new DomainException("SubCategory must be child of main category");
+                throw new BusinessRuleViolationException("SubCategory must be child of main category");
             }
 
             if (category != null)
@@ -188,7 +188,7 @@ namespace CourseService.Domain.Models
 
             if (Status != CourseStatus.WaitingToVerify)
             {
-                throw new DomainException("Cours's status must be WaitingToVerify to be published");
+                throw new BusinessRuleViolationException("Cours's status must be WaitingToVerify to be published");
             }
 
             IsApproved = true;
@@ -215,11 +215,11 @@ namespace CourseService.Domain.Models
 
             if (status == CourseStatus.Published && !IsApproved)
             {
-                throw new DomainException("Course must be approved to be published");
+                throw new BusinessRuleViolationException("Course must be approved to be published");
             }
             else if (status == CourseStatus.WaitingToVerify && IsApproved)
             {
-                throw new DomainException("Cannot set status to WaitingToVerify because course is already approved");
+                throw new BusinessRuleViolationException("Cannot set status to WaitingToVerify because course is already approved");
             }
 
             Status = status;
@@ -238,7 +238,7 @@ namespace CourseService.Domain.Models
         {
             if (Status != CourseStatus.Published)
             {
-                throw new DomainException("Cannot enroll student to Unpublished course");
+                throw new BusinessRuleViolationException("Cannot enroll student to Unpublished course");
             }
 
             var enrollment = Enrollment.Create(Id, studentId);
@@ -279,7 +279,7 @@ namespace CourseService.Domain.Models
         {
             if (PreviewVideo == null)
             {
-                throw new DomainException("Cannot set video status because video is not set");
+                throw new BusinessRuleViolationException("Cannot set video status because video is not set");
             }
 
             DomainValidationException.ThrowIfNegative(duration, nameof(duration));
@@ -298,7 +298,7 @@ namespace CourseService.Domain.Models
         {
             if (PreviewVideo == null)
             {
-                throw new DomainException("Cannot set video status because video is not set");
+                throw new BusinessRuleViolationException("Cannot set video status because video is not set");
             }
 
             PreviewVideo = VideoFile.Create(

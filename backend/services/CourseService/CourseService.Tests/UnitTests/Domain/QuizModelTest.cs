@@ -36,7 +36,7 @@ namespace CourseService.Tests.UnitTests.Domain
                 Answer.Create("ans2", false, null),
             };
 
-            await Assert.ThrowsAsync<DomainException>(() => quizDomainService.CreateQuizForLessonAsync(_lesson, "quiz1", answers));
+            await Assert.ThrowsAsync<BusinessRuleViolationException>(() => quizDomainService.CreateQuizForLessonAsync(_lesson, "quiz1", answers));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace CourseService.Tests.UnitTests.Domain
                 Answer.Create("ans2", false, null),
             };
 
-            await Assert.ThrowsAsync<DomainException>(() => quizDomainService.CreateQuizForLessonAsync(_lesson, "quiz1", answers));
+            await Assert.ThrowsAsync<BusinessRuleViolationException>(() => quizDomainService.CreateQuizForLessonAsync(_lesson, "quiz1", answers));
         }
 
         [Fact]

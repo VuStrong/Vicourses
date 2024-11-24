@@ -1,12 +1,12 @@
 ﻿namespace CourseService.Application.Exceptions
 {
-    public class NotFoundException : Exception
+    public class NotFoundException : AppException
     {
-        public NotFoundException(string message) : base(message)
+        public NotFoundException(string message) : base(message, 404)
         {
         }
 
-        public NotFoundException(string name, object key) : base($"Entity \"{name}\" ({key}) was not found.")
+        public NotFoundException(string name, object key) : base($"Entity \"{name}\" ({key}) was not found.", 404)
         {
         }
     }

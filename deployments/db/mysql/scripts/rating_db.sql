@@ -66,5 +66,10 @@ INSERT INTO `Users` VALUES
 ('00543305-2d30-4520-9f5b-f35a58931338','Admin 1','admin1@gmail.com',NULL),
 ('5a8a8a8c-4663-41b5-9849-81ae7f6726e9','Teacher 1','teacher1@gmail.com',NULL);
 
+INSERT INTO `Courses` VALUES 
+('V90Dh8ykUsci', '5a8a8a8c-4663-41b5-9849-81ae7f6726e9', 0, 0, 0),
+('FtDOrVhpmBQ6', '5a8a8a8c-4663-41b5-9849-81ae7f6726e9', 0, 0, 0),
+('SgOyEZIhNu55', '5a8a8a8c-4663-41b5-9849-81ae7f6726e9', 0, 0, 0);
+
 COMMIT;
 

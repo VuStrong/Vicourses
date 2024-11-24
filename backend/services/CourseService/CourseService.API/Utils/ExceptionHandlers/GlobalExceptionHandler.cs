@@ -21,25 +21,20 @@ namespace CourseService.API.Utils.ExceptionHandlers
         {
             FailedResponseDto? responseDto;
 
-            if (exception is NotFoundException)
+            if (exception is AppException appException)
             {
-                responseDto = new FailedResponseDto(exception.Message, 404);
-                httpContext.Response.StatusCode = 404;
+                responseDto = new FailedResponseDto(appException.Message, appException.StatusCode);
+                httpContext.Response.StatusCode = appException.StatusCode;
             }
-            else if (exception is BadRequestException || exception is DomainValidationException)
+            else if (exception is DomainValidationException)
             {
-                responseDto = new FailedResponseDto(exception.Message, 400);
-                httpContext.Response.StatusCode = 400;
+                responseDto = new FailedResponseDto(exception.Message, StatusCodes.Status400BadRequest);
+                httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
             }
-            else if (exception is ForbiddenException || exception is UserNotEnrolledCourseException)
+            else if (exception is BusinessRuleViolationException)
             {
-                responseDto = new FailedResponseDto(exception.Message, 403);
-                httpContext.Response.StatusCode = 403;
-            }
-            else if (exception is InternalServerException || exception is DomainException)
-            {
-                responseDto = new FailedResponseDto(exception.Message, 500);
-                httpContext.Response.StatusCode = 500;
+                responseDto = new FailedResponseDto(exception.Message, StatusCodes.Status422UnprocessableEntity);
+                httpContext.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
             }
             else
             {

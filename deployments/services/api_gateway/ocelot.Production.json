@@ -98,6 +98,18 @@
             ],
             "UpstreamPathTemplate": "/api/stats/{version}/{everything}",
             "UpstreamHttpMethod": [ "GET" ] 
+        },
+        {
+            "DownstreamPathTemplate": "/api/ps/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "payment-service",
+                    "Port": 8080
+                }
+            ],
+            "UpstreamPathTemplate": "/api/ps/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST" ] 
         }
     ]
 }

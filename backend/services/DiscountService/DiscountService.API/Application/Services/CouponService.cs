@@ -69,14 +69,18 @@ namespace DiscountService.API.Application.Services
             }
             if (course.IsFree)
             {
-                throw new ForbiddenException("Cannot create coupon for a free course");
+                throw new AppException(
+                    $"Cannot create coupon for the course '{course.Id}' because it free",
+                    422);
             }
 
             var existsCoupon = await _dbContext.Coupons.AnyAsync(
                 c => c.CourseId == course.Id && c.ExpiryDate > DateTime.Today);
             if (existsCoupon)
             {
-                throw new ForbiddenException($"The course {course.Id} already have a coupon in use");
+                throw new AppException(
+                    $"The course '{course.Id}' already have a coupon in use",
+                    422);
             }
 
             var code = _couponCodeGenerator.Generate();
@@ -149,8 +153,11 @@ namespace DiscountService.API.Application.Services
 
             result.IsValid = true;
             result.Discount = coupon.Discount;
-            result.DiscountPrice = coursePrice.Value * ((decimal)coupon.Discount / 100);
+            result.Price = decimal.Round(coursePrice.Value, 2, MidpointRounding.AwayFromZero);
             result.Remain = coupon.Remain;
+
+            var discountPrice = coursePrice.Value * ((decimal)coupon.Discount / 100);
+            result.DiscountPrice = decimal.Round(discountPrice, 2, MidpointRounding.AwayFromZero);
 
             return result;
         }
@@ -161,11 +168,15 @@ namespace DiscountService.API.Application.Services
 
             if (coupon == null || coupon.CourseId != data.CourseId)
             {
-                throw new ForbiddenException("Coupon is either invalid or does not apply to this course");
+                throw new AppException(
+                    $"Coupon '{data.Code}' is either invalid or does not apply to this course",
+                    422);
             }
             if (await _couponCachedRepository.CheckCouponUsedByUserAsync(coupon.Code, data.UserId))
             {
-                throw new ForbiddenException("You have already used this coupon");
+                throw new AppException(
+                    $"You have already used the coupon code {coupon.Code}",
+                    422);
             }
 
             var remain = await _couponCachedRepository.DecreaseCouponAvailabilityAsync(data.Code);
@@ -175,7 +186,9 @@ namespace DiscountService.API.Application.Services
             }
             else if (remain < 0)
             {
-                throw new NotFoundException("Coupon is no longer available");
+                throw new AppException(
+                    $"Coupon '{data.Code}' is either invalid or does not apply to this course",
+                    422);
             }
 
             await _couponCachedRepository.SetCouponUsedByUserAsync(coupon, data.UserId);

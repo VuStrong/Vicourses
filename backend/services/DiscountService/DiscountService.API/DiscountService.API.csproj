@@ -15,6 +15,7 @@
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.66.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -30,11 +31,16 @@
   </ItemGroup>
 
   <ItemGroup>
+	<Protobuf Include="Protos\discount.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EventBus\EventBus.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="logs\" />
+    <Folder Include="Protos\" />
   </ItemGroup>
 
 </Project>

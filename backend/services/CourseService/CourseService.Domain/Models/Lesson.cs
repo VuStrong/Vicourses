@@ -39,7 +39,7 @@ namespace CourseService.Domain.Models
 
             if (section.CourseId != course.Id)
             {
-                throw new DomainValidationException($"Section {section.Id} must be asset of the course {course.Id}");
+                throw new BusinessRuleViolationException($"Section {section.Id} must be asset of the course {course.Id}");
             }
 
             var id = StringExtensions.GenerateIdString(14);
@@ -72,7 +72,7 @@ namespace CourseService.Domain.Models
         {
             if (Type != LessonType.Video)
             {
-                throw new DomainException("Cannot update video of non-video lesson");
+                throw new BusinessRuleViolationException("Cannot update video of non-video lesson");
             }
 
             if (Video != null && Video.FileId == video.FileId) return;
@@ -89,7 +89,7 @@ namespace CourseService.Domain.Models
         {
             if (Video == null)
             {
-                throw new DomainException("Cannot set video status because video is not set");
+                throw new BusinessRuleViolationException("Cannot set video status because video is not set");
             }
 
             DomainValidationException.ThrowIfNegative(duration, nameof(duration));
@@ -108,7 +108,7 @@ namespace CourseService.Domain.Models
         {
             if (Video == null)
             {
-                throw new DomainException("Cannot set video status because video is not set");
+                throw new BusinessRuleViolationException("Cannot set video status because video is not set");
             }
 
             Video = VideoFile.Create(

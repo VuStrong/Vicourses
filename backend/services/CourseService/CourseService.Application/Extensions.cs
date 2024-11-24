@@ -2,11 +2,13 @@
 using CourseService.Application.DomainEventHandlers.Enrollment;
 using CourseService.Application.DomainEventHandlers.Lesson;
 using CourseService.Application.DomainEventHandlers.Section;
+using CourseService.Application.IntegrationEventHandlers.Payment;
 using CourseService.Application.IntegrationEventHandlers.Rating;
 using CourseService.Application.IntegrationEventHandlers.User;
 using CourseService.Application.IntegrationEventHandlers.VideoProcessing;
 using CourseService.Application.IntegrationEvents.Course;
 using CourseService.Application.IntegrationEvents.Email;
+using CourseService.Application.IntegrationEvents.Payment;
 using CourseService.Application.IntegrationEvents.Rating;
 using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Application.IntegrationEvents.User;
@@ -156,12 +158,20 @@ namespace CourseService.Application
                     opt.ExcludeExchange = true;
                     opt.RoutingKey = "send_email";
                 });
+
+                // Events in Payment Service
+                c.ConfigureConsume<PaymentCompletedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "payment.completed";
+                    opt.QueueOptions.QueueName = "course_service_payment.completed";
+                });
             })
             .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<VideoProcessingCompletedIntegrationEventHandler>()
             .AddIntegrationEventHandler<VideoProcessingFailedIntegrationEventHandler>()
-            .AddIntegrationEventHandler<CourseRatingUpdatedIntegrationEventHandler>();
+            .AddIntegrationEventHandler<CourseRatingUpdatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<PaymentCompletedIntegrationEventHandler>();
         }
     }
 

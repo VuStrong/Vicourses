@@ -1,4 +1,4 @@
-﻿namespace DiscountService.API.Application.Exceptions
+namespace DiscountService.API.Application.Exceptions
 {
     public class ForbiddenException : AppException
     {

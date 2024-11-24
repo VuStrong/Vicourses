@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StatisticsService.API.Application.IntegrationEventHandlers.Course;
+using StatisticsService.API.Application.IntegrationEventHandlers.Payment;
 using StatisticsService.API.Application.IntegrationEventHandlers.User;
 using StatisticsService.API.Application.IntegrationEvents.Course;
+using StatisticsService.API.Application.IntegrationEvents.Payment;
 using StatisticsService.API.Application.IntegrationEvents.User;
 using StatisticsService.API.Application.Services;
 using StatisticsService.API.Infrastructure;
@@ -156,10 +158,18 @@ namespace StatisticsService.API.Extensions
                 //    opt.ExchangeOptions.ExchangeName = "user.role.updated";
                 //    opt.QueueOptions.QueueName = "statistics_service_user.role.updated";
                 //});
+
+                // Events from payment service
+                c.ConfigureConsume<PaymentCompletedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "payment.completed";
+                    opt.QueueOptions.QueueName = "statistics_service_payment.completed";
+                });
             })
             .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>()
-            .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>();
+            .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<PaymentCompletedIntegrationEventHandler>();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace CourseService.Domain.Services.Implementations
 
                 if (!enrolled)
                 {
-                    throw new UserNotEnrolledCourseException(user.Id, lesson.CourseId);
+                    throw new BusinessRuleViolationException("Cannot create comment because user is not enrolled course");
                 }
             }
 

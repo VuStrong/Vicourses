@@ -6,6 +6,7 @@ import {
     confirmEmailSchema,
     courseApprovedEmailSchema,
     courseNotApprovedEmailSchema,
+    paymentCompletedEmailSchema,
     resetPasswordEmailSchema,
 } from "../schemas/email-schemas";
 import { createSmtpTransport } from "../transports/smtp-transport";
@@ -15,7 +16,8 @@ type EmailTemplate =
     | "confirm_email"
     | "reset_password"
     | "course_approved"
-    | "course_not_approved";
+    | "course_not_approved"
+    | "payment_completed";
 
 const sendEmailSchema = Joi.object({
     to: Joi.string().email().required(),
@@ -91,6 +93,12 @@ function validateSendEmailInput(input: SendEmailInput): string {
                 input.payload
             );
             subject = "Your course is declined: " + input.payload?.courseName;
+            break;
+        case "payment_completed":
+            validationResult = paymentCompletedEmailSchema.validate(
+                input.payload
+            );
+            subject = `You're in! Payment comfirmation for "${input.payload?.courseName}"`;
             break;
         default:
             throw new Error(`Template ${input.template} is not available`);

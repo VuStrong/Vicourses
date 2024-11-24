@@ -21,7 +21,7 @@ namespace CourseService.Domain.Services.Implementations
 
             if (await _categoryRepository.ExistsAsync(c => c.Slug == category.Slug))
             {
-                throw new DomainValidationException($"Category {category.Name} with slug {category.Slug} already exists");
+                throw new BusinessRuleViolationException($"Category {category.Name} with slug {category.Slug} already exists");
             }
 
             return category;
@@ -31,7 +31,7 @@ namespace CourseService.Domain.Services.Implementations
         {
             if (await ExistsCategoryInAnyCourses(category.Id))
             {
-                throw new DomainException($"Cannot update category {category.Id} because it already in use by courses");
+                throw new BusinessRuleViolationException($"Cannot update category {category.Id} because it already in use by courses");
             }
 
             category.UpdateInfo(name);
