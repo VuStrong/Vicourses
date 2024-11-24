@@ -3,12 +3,15 @@
 
 The Discount Service enables the instructors to create coupons for their courses. Allow students to redeem coupons (discount codes) during checkout and get discounts on their purchases.
 
+Exposing Grpc Services for other microservices to check coupon, get course price.
+
 ## Technologies
 - .NET Core 8.0
 - ASP.NET Core Web API
 - MySQL with Entity Framework Core 8.0
 - RabbitMQ
 - Redis
+- Grpc
 
 
 ## Installation
@@ -30,7 +33,7 @@ The Discount Service enables the instructors to create coupons for their courses
 
 5. Run:
 ```shell
-  dotnet run
+  dotnet run --launch-profile https
 ```
 
 Launch http://localhost:5161/swagger in your browser to view the Swagger UI.

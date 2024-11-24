@@ -36,7 +36,7 @@ namespace CourseService.Tests.UnitTests.Domain
             var section = Section.Create("sec1", _course, null);
             typeof(Section).GetProperty("CourseId")!.SetValue(section, "OtherCourse", null);
 
-            Assert.Throws<DomainValidationException>(() => Lesson.Create("les1", _course, section, LessonType.Video, null));
+            Assert.Throws<BusinessRuleViolationException>(() => Lesson.Create("les1", _course, section, LessonType.Video, null));
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace CourseService.Tests.UnitTests.Domain
             var lesson = Lesson.Create("les1", _course, section, LessonType.Quiz, null);
             var video = VideoFile.Create("id", "url", "name");
 
-            Assert.Throws<DomainException>(() => lesson.UpdateVideo(video));
+            Assert.Throws<BusinessRuleViolationException>(() => lesson.UpdateVideo(video));
         }
 
         private Course PrepareCourse()

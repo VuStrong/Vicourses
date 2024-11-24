@@ -1,16 +1,9 @@
 ﻿namespace CourseService.Application.Exceptions
 {
-    public class ForbiddenException : Exception
+    public class ForbiddenException : AppException
     {
-        public ForbiddenException(string message) : base(message)
+        public ForbiddenException(string message) : base(message, 403)
         {
         }
-
-        public ForbiddenException(string message, string details) : base(message)
-        {
-            Details = details;
-        }
-
-        public string? Details { get; }
     }
 }

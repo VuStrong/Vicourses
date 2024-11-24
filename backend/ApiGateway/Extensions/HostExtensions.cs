@@ -100,6 +100,18 @@ namespace ApiGateway.Extensions
                 });
             });
 
+            // Payment Service
+            app.Map("/swagger/v1/swagger-payment.json", b =>
+            {
+                b.Run(async x =>
+                {
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Payment"]}/swagger/v1/swagger.json");
+                    var body = await response.Content.ReadAsStringAsync();
+                    await x.Response.WriteAsync(body);
+                });
+            });
+
             return app;
         }
     }

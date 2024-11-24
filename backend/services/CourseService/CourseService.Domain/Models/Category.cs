@@ -31,7 +31,7 @@ namespace CourseService.Domain.Models
 
             if (parent != null && !parent.IsRoot)
             {
-                throw new DomainException("Parent category must be root category");
+                throw new BusinessRuleViolationException("Parent category must be root category");
             }
 
             var id = StringExtensions.GenerateNumericIdString(6);

@@ -1,7 +1,9 @@
-﻿using DiscountService.API.Application.Dtos.Coupon;
+﻿using DiscountService.API.Application;
+using DiscountService.API.Application.Dtos.Coupon;
 using DiscountService.API.Infrastructure;
 using DiscountService.API.Models;
 using DiscountService.API.Requests;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Net.Http.Headers;
@@ -53,7 +55,7 @@ namespace DiscountService.FunctionalTests.Coupon
         }
 
         [Fact]
-        public async Task Should_ReturnForbidden_WhenCourseIsFree()
+        public async Task Should_Return422_WhenCourseIsFree()
         {
             // Arrange
             const string courseId = "course1";
@@ -79,11 +81,11 @@ namespace DiscountService.FunctionalTests.Coupon
             var response = await _httpClient.PostAsJsonAsync("/api/ds/v1/coupons", request);
 
             // Assert
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
         }
 
         [Fact]
-        public async Task Should_ReturnForbidden_WhenCourseAlreadyHaveAnActiveCoupon()
+        public async Task Should_Return422_WhenCourseAlreadyHaveAnActiveCoupon()
         {
             // Arrange
             const string courseId = "course1";
@@ -115,7 +117,7 @@ namespace DiscountService.FunctionalTests.Coupon
             response = await _httpClient.PostAsJsonAsync("/api/ds/v1/coupons", request);
 
             // Assert
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
         }
 
         [Fact]

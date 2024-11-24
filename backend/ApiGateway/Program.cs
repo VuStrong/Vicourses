@@ -42,6 +42,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger-wishlist.json", "Wishlist API - v1");
     c.SwaggerEndpoint("/swagger/v1/swagger-rating.json", "Rating API - v1");
     c.SwaggerEndpoint("/swagger/v1/swagger-statistics.json", "Statistics API - v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger-payment.json", "Payment API - v1");
 });
 
 app.UseHttpsRedirection();

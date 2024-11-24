@@ -46,5 +46,10 @@ CREATE INDEX `IX_Coupons_CourseId_ExpiryDate` ON `Coupons` (`CourseId`, `ExpiryD
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
 VALUES ('20241110063303_InitialCreate', '8.0.2');
 
+INSERT INTO `Courses` (`Id`, `CreatorId`, `Price`)
+VALUES ('V90Dh8ykUsci', '5a8a8a8c-4663-41b5-9849-81ae7f6726e9', 24.99),
+('FtDOrVhpmBQ6', '5a8a8a8c-4663-41b5-9849-81ae7f6726e9', 4.99),
+('SgOyEZIhNu55', '5a8a8a8c-4663-41b5-9849-81ae7f6726e9', 0);
+
 COMMIT;
 

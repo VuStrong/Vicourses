@@ -40,17 +40,17 @@ namespace CourseService.Domain.Models
             {
                 if (!replyTo.IsRoot)
                 {
-                    throw new DomainException($"The comment {replyTo.Id} to reply is not root comment");
+                    throw new BusinessRuleViolationException($"The comment {replyTo.Id} to reply is not root comment");
                 }
 
                 if (replyTo.IsDeleted)
                 {
-                    throw new DomainException($"The comment {replyTo.Id} to reply is deleted");
+                    throw new BusinessRuleViolationException($"The comment {replyTo.Id} to reply is deleted");
                 }
 
                 if (replyTo.LessonId != lesson.Id)
                 {
-                    throw new DomainException($"The comment {replyTo.Id} to reply is not belongs to lesson {lesson.Id}");
+                    throw new BusinessRuleViolationException($"The comment {replyTo.Id} to reply is not belongs to lesson {lesson.Id}");
                 }
             }
 
@@ -79,7 +79,7 @@ namespace CourseService.Domain.Models
         {
             if (IsDeleted)
             {
-                throw new DomainException("Cannot upvote deleted comment");
+                throw new BusinessRuleViolationException("Cannot upvote deleted comment");
             }
 
             if (_userUpvoteIds.Contains(userId)) return;
@@ -92,7 +92,7 @@ namespace CourseService.Domain.Models
         {
             if (IsDeleted)
             {
-                throw new DomainException("Cannot remove upvote of deleted comment");
+                throw new BusinessRuleViolationException("Cannot remove upvote of deleted comment");
             }
 
             _userUpvoteIds.Remove(userId);

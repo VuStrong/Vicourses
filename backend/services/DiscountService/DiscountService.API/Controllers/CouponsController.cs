@@ -1,5 +1,7 @@
-﻿using DiscountService.API.Application.Dtos;
+﻿using DiscountService.API.Application;
+using DiscountService.API.Application.Dtos;
 using DiscountService.API.Application.Dtos.Coupon;
+using DiscountService.API.Application.Exceptions;
 using DiscountService.API.Application.Services;
 using DiscountService.API.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +29,7 @@ namespace DiscountService.API.Controllers
         /// Get coupons of a course
         /// </summary>
         /// <response code="401">Unauthorized</response>
-        /// <response code="403">Forbidden</response>
+        /// <response code="403">You do not have permission to get coupons of the course</response>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(PagedResult<CouponDto>), StatusCodes.Status200OK)]
@@ -37,7 +39,7 @@ namespace DiscountService.API.Controllers
 
             if (!authorizationResult.Succeeded)
             {
-                return Forbid();
+                throw new ForbiddenException($"You do not have permission to get coupons of the course '{request.CourseId}'");
             }
 
             var paramsDto = new GetCouponsByCourseParamsDto
@@ -56,8 +58,9 @@ namespace DiscountService.API.Controllers
         /// Create a coupon
         /// </summary>
         /// <response code="401">Unauthorized</response>
-        /// <response code="403">Forbidden</response>
+        /// <response code="403">You do not have permission to create coupon for the course</response>
         /// <response code="404">Course not found</response>
+        /// <response code="422">Failed business validation</response>
         [HttpPost]
         [Authorize]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
@@ -83,7 +86,7 @@ namespace DiscountService.API.Controllers
         /// </summary>
         /// <response code="200">Ok</response>
         /// <response code="401">Unauthorized</response>
-        /// <response code="403">Forbidden</response>
+        /// <response code="403">You do not have permission to perform operations on the coupon</response>
         /// <response code="404">Coupon not found</response>
         [HttpPatch("{code}")]
         [Authorize]
@@ -116,28 +119,6 @@ namespace DiscountService.API.Controllers
             });
 
             return Ok(result);
-        }
-
-        /// <summary>
-        /// Consume a coupon
-        /// </summary>
-        /// <response code="200">Ok</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="403">Forbidden</response>
-        [HttpPost("{code}/consume")]
-        [Authorize]
-        public async Task<IActionResult> Consume(string code, [FromQuery] string courseId)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
-
-            await _couponService.ConsumeCouponAsync(new CheckCouponDto
-            {
-                Code = code,
-                CourseId = courseId,
-                UserId = userId
-            });
-
-            return Ok();
         }
     }
 }

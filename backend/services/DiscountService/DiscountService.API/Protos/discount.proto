@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option csharp_namespace = "DiscountService.Grpc";
+
+package discount;
+
+service DiscountProtoService {
+	rpc CheckCoupon (CheckCouponRequest) returns (CheckCouponResponse);
+	rpc ConsumeCoupon (CheckCouponRequest) returns (ConsumeCouponResponse);
+	rpc GetCoursePrice (GetCoursePriceRequest) returns (GetCoursePriceResponse);
+}
+
+message CheckCouponRequest {
+	string code = 1;
+	string courseId = 2;
+	string userId = 3;
+}
+
+message GetCoursePriceRequest {
+	string courseId = 1;
+}
+
+message CheckCouponResponse {
+	string code = 1;
+	string courseId = 2;
+	int32 discount = 3;
+	string price = 4;
+	string discountPrice = 5;
+	int32 remain = 6;
+	bool isValid = 7;
+	string details = 8;
+}
+
+message ConsumeCouponResponse {
+	bool success = 1;
+	string details = 2;
+}
+
+message GetCoursePriceResponse {
+	string price = 1;
+	bool exists = 2;
+}

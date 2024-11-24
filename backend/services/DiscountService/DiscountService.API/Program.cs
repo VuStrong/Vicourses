@@ -1,4 +1,5 @@
 using DiscountService.API.Extensions;
+using DiscountService.API.GrpcServices;
 using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,12 +14,12 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Discount API - v1");
 });
 
-app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGrpcService<DiscountGrpcService>();
 
 app.MapHealthChecks("/hc", new()
 {

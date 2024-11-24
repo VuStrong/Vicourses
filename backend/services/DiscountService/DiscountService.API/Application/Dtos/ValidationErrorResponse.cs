@@ -1,4 +1,4 @@
-﻿namespace DiscountService.API.Application.Dtos
+namespace DiscountService.API.Application.Dtos
 {
     public class ValidationErrorResponse : FailedResponse
     {

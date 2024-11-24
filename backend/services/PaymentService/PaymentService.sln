@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService.API", "PaymentService.API\PaymentService.API.csproj", "{100B5E3C-786B-4363-BFCF-E432E6B6D18E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "EventBus\EventBus.csproj", "{8E6D9139-4283-45B7-BE03-37F8449A4685}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{100B5E3C-786B-4363-BFCF-E432E6B6D18E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100B5E3C-786B-4363-BFCF-E432E6B6D18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100B5E3C-786B-4363-BFCF-E432E6B6D18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100B5E3C-786B-4363-BFCF-E432E6B6D18E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E6D9139-4283-45B7-BE03-37F8449A4685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E6D9139-4283-45B7-BE03-37F8449A4685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E6D9139-4283-45B7-BE03-37F8449A4685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E6D9139-4283-45B7-BE03-37F8449A4685}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AD2A96C-9495-4749-A231-3592836CC250}
+	EndGlobalSection
+EndGlobal

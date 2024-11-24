@@ -28,7 +28,7 @@ namespace CourseService.Tests.UnitTests.Domain
             var parentCate = await categoryDomainService.CreateAsync("parent", null);
             var childCate = await categoryDomainService.CreateAsync("child", parentCate);
 
-            await Assert.ThrowsAsync<DomainException>(() => categoryDomainService.CreateAsync("child2", childCate));
+            await Assert.ThrowsAsync<BusinessRuleViolationException>(() => categoryDomainService.CreateAsync("child2", childCate));
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace CourseService.Tests.UnitTests.Domain
 
             var category = await categoryDomainService.CreateAsync("cate", null);
 
-            await Assert.ThrowsAsync<DomainException>(() => categoryDomainService.UpdateAsync(category, "name"));
+            await Assert.ThrowsAsync<BusinessRuleViolationException>(() => categoryDomainService.UpdateAsync(category, "name"));
         }
     }
 }

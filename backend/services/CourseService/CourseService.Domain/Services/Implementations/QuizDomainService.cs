@@ -19,13 +19,13 @@ namespace CourseService.Domain.Services.Implementations
         {
             if (lesson.Type != LessonType.Quiz)
             {
-                throw new DomainException("Cannot add quiz to a Non-Quiz lesson");
+                throw new BusinessRuleViolationException("Cannot add quiz to a Non-Quiz lesson");
             }
 
             var quizCount = await _quizRepository.CountByLessonIdAsync(lesson.Id);
             if (quizCount >= MaxQuizzesInLesson)
             {
-                throw new DomainException($"A lesson can only have a maximum of {MaxQuizzesInLesson} quizzes");
+                throw new BusinessRuleViolationException($"A lesson can only have a maximum of {MaxQuizzesInLesson} quizzes");
             }
 
             var quiz = Quiz.Create(title, Convert.ToInt32(quizCount + 1), lesson, answers);

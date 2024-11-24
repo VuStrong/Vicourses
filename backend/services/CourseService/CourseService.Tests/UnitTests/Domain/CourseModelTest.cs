@@ -36,7 +36,7 @@ namespace CourseService.Tests.UnitTests.Domain
         {
             typeof(Category).GetProperty("ParentId")!.SetValue(_childCategory, "AnotherParent", null);
 
-            Assert.Throws<DomainException>(() => Course.Create("course", null, _rootCategory, _childCategory, _user));
+            Assert.Throws<BusinessRuleViolationException>(() => Course.Create("course", null, _rootCategory, _childCategory, _user));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace CourseService.Tests.UnitTests.Domain
             Assert.False(course.IsApproved);
             Assert.Equal(CourseStatus.Unpublished, course.Status);
 
-            Assert.Throws<DomainException>(() => course.SetStatus(CourseStatus.Published));
+            Assert.Throws<BusinessRuleViolationException>(() => course.SetStatus(CourseStatus.Published));
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace CourseService.Tests.UnitTests.Domain
         {
             var course = Course.Create("course", null, _rootCategory, _childCategory, _user);
 
-            Assert.Throws<DomainException>(() => course.EnrollStudent("Student1"));
+            Assert.Throws<BusinessRuleViolationException>(() => course.EnrollStudent("Student1"));
         }
 
         [Fact]
