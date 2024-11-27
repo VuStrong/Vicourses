@@ -7,7 +7,7 @@ import * as rabbitmq from "./rabbitmq/client"
 rabbitmq.connect();
 
 const app: Express = express();
-const port = Config.PORT;
+const port = Config.Port;
 
 app.use(express.json());
 
@@ -16,5 +16,5 @@ app.use("/", router);
 app.use(errorHandler);
 
 app.listen(port, () => {
-    console.log(`[server] [${Config.NODE_ENV}]: Server is running on port ${port}`);
+    console.log(`[server] [${Config.Environment}]: Server is running on port ${port}`);
 });

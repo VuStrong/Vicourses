@@ -2,28 +2,47 @@ import amqplib, { Channel, Connection } from 'amqplib';
 import Config from '../config';
 import { deleteMultipleFiles } from '../services/s3-upload.service';
 
-let connection: Connection;
-let channel: Channel;
-
-enum Queue {
-    DELETE_FILES = "delete_files"
-}
+let connection: Connection | null = null;
+let channel: Channel | null = null;
 
 export async function connect() {
     try {
-        connection = await amqplib.connect(Config.RABBITMQ_URL ?? "");
+        connection = await amqplib.connect(Config.RabbitMQ.Url ?? "");
         channel = await connection.createChannel();
 
         console.log("Connected to Rabbitmq");
 
+        connection.on("close", onConnectionClose);
+
         await consumeDeleteFilesEvent();
     } catch (error: any) {
-        console.log(`Error while connecting to RabbitMQ: ${error.message}`);
+        console.error(`Error connecting to RabbitMQ: ${error.code}`);
+
+        if (Config.RabbitMQ.RetryDelay > 0) {
+            setTimeout(connect, Config.RabbitMQ.RetryDelay * 1000);
+        }
     }
 }
 
+function onConnectionClose(error: any) {
+    console.error(`RabbitMQ connection closed, error: ${error.message}`);
+
+    connection?.removeAllListeners();
+    connection = null;
+
+    if (channel) {
+        channel = null;
+    }
+    
+    if (Config.RabbitMQ.RetryDelay > 0) {
+        setTimeout(connect, Config.RabbitMQ.RetryDelay * 1000);
+    } 
+}
+
 async function consumeDeleteFilesEvent() {
-    const q = await channel.assertQueue(Queue.DELETE_FILES);
+    if (!channel) return;
+
+    const q = await channel.assertQueue("delete_files");
     
     await channel.consume(q.queue, async (msg) => {
         if (!msg?.content) return;
@@ -34,8 +53,8 @@ async function consumeDeleteFilesEvent() {
             try {
                 await deleteMultipleFiles(content.fileIds);
             } catch (error: any) {
-                console.log(`Error when process delete files event: ${error.message}`);
-            }            
+                console.error(`Error when process delete files event: ${error.message}`);
+            }
         }
     }, {
         noAck: true,

@@ -1,24 +1,47 @@
-import amqplib, { Connection } from "amqplib";
+import amqplib, { Channel, Connection } from "amqplib";
 import Config from "../config";
 import { sendEmail } from "../services/email.service";
 import logger from "../logger";
 
-let connection: Connection;
+let connection: Connection | null = null;
+let channel: Channel | null = null;
 
 export async function connectAndConsume() {
     try {
-        connection = await amqplib.connect(Config.RABBITMQ_URI ?? "");
+        connection = await amqplib.connect(Config.RabbitMQ.Uri ?? "");
+        channel = await connection.createChannel();
 
         logger.info("Connected to Rabbitmq");
 
+        connection.on("close", onConnectionClose);
+
         await startConsume();
     } catch (error: any) {
-        logger.error(`Error while connecting to RabbitMQ: ${error.code}`);
+        logger.error(`Error connecting to RabbitMQ: ${error.code}`);
+
+        if (Config.RabbitMQ.RetryDelay > 0) {
+            setTimeout(connectAndConsume, Config.RabbitMQ.RetryDelay * 1000);
+        }
     }
 }
 
+function onConnectionClose(error: any) {
+    console.error(`RabbitMQ connection closed, error: ${error.message}`);
+
+    connection?.removeAllListeners();
+    connection = null;
+
+    if (channel) {
+        channel = null;
+    }
+    
+    if (Config.RabbitMQ.RetryDelay > 0) {
+        setTimeout(connectAndConsume, Config.RabbitMQ.RetryDelay * 1000);
+    } 
+}
+
 async function startConsume() {
-    const channel = await connection.createChannel();
+    if (!channel) return;
 
     const queue = await channel.assertQueue("send_email");
 

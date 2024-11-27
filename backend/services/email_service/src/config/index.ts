@@ -3,18 +3,23 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const Config = {
-    PORT: Number(process.env.PORT) || 3000,
+    Port: Number(process.env.PORT) || 3000,
 
-    SMTP_HOST: process.env.SMTP_HOST,
-    SMTP_PORT: Number(process.env.SMTP_PORT) || 587,
-    SMTP_USER: process.env.SMTP_USER,
-    SMTP_PASS: process.env.SMTP_PASS,
+    Smtp: {
+        Host: process.env.SMTP_HOST,
+        Port: Number(process.env.SMTP_PORT) || 587,
+        User: process.env.SMTP_USER,
+        Password: process.env.SMTP_PASS,
+    },
 
-    RABBITMQ_URI: process.env.RABBITMQ_URI,
+    RabbitMQ: {
+        Uri: process.env.RABBITMQ_URI,
+        RetryDelay: Number(process.env.RABBITMQ_RETRY_DELAY) || 0,
+    },
 
-    APP_NAME: process.env.APP_NAME || "Vicourses",
-    APP_LOGO_URL: process.env.APP_LOGO_URL,
-    WEB_URL: process.env.WEB_URL,
+    AppName: process.env.APP_NAME || "Vicourses",
+    AppLogoUrl: process.env.APP_LOGO_URL,
+    WebUrl: process.env.WEB_URL,
 }
 
 export default Config;

@@ -20,10 +20,10 @@ import { AppError } from "../utils/app-error";
 
 const S3 = new S3Client({
     region: "auto",
-    endpoint: `${Config.S3_ENDPOINT}`,
+    endpoint: `${Config.S3.Endpoint}`,
     credentials: {
-        accessKeyId: `${Config.S3_ACCESS_KEY_ID}`,
-        secretAccessKey: `${Config.S3_ACCESS_KEY_SECRET}`,
+        accessKeyId: `${Config.S3.AccessKeyId}`,
+        secretAccessKey: `${Config.S3.AccessKeySecret}`,
     },
 });
 
@@ -67,7 +67,7 @@ export async function uploadSingleFile(
     }
 
     const cmd = new PutObjectCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Key: fileId,
         Body: file.buffer,
         ContentType: file.mimetype,
@@ -79,7 +79,7 @@ export async function uploadSingleFile(
     await S3.send(cmd);
 
     return {
-        url: `${Config.S3_DOMAIN}/${fileId}`,
+        url: `${Config.S3.Domain}/${fileId}`,
         fileId,
         originalFileName: file.originalname,
     };
@@ -87,7 +87,7 @@ export async function uploadSingleFile(
 
 export async function checkFileExists(fileId: string): Promise<boolean> {
     const cmd = new HeadObjectCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Key: fileId,
     });
 
@@ -106,7 +106,7 @@ export async function checkFileExists(fileId: string): Promise<boolean> {
 
 export async function getFileMetadata(fileId: string): Promise<Record<string, string> | undefined> {
     const cmd = new HeadObjectCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Key: fileId,
     });
 
@@ -125,7 +125,7 @@ export async function getFileMetadata(fileId: string): Promise<Record<string, st
 
 export async function deleteSingleFile(fileId: string): Promise<void> {
     const cmd = new DeleteObjectCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Key: fileId,
     });
 
@@ -136,7 +136,7 @@ export async function deleteMultipleFiles(fileIds: string[]): Promise<void> {
     if (fileIds.length === 0) return;
 
     const cmd = new DeleteObjectsCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Delete: {
             Objects: fileIds.map((id) => ({ Key: id })),
         },
@@ -161,7 +161,7 @@ export async function initializeMultipartUpload(params: InitializeMultipartUploa
     }
 
     const cmd = new CreateMultipartUploadCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Key: fileId,
         ACL: "public-read",
         Metadata: {
@@ -176,7 +176,7 @@ export async function initializeMultipartUpload(params: InitializeMultipartUploa
             getSignedUrl(
                 S3,
                 new UploadPartCommand({
-                    Bucket: Config.S3_BUCKET_NAME,
+                    Bucket: Config.S3.BucketName,
                     Key: fileId,
                     UploadId,
                     PartNumber: index + 1,
@@ -206,7 +206,7 @@ export async function completeMultipartUpload(
     if (parts.length === 0) throw new AppError("parts must not empty", 400);
 
     const cmd = new CompleteMultipartUploadCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Key: fileId,
         UploadId: uploadId,
         MultipartUpload: {
@@ -221,7 +221,7 @@ export async function completeMultipartUpload(
 
         return {
             fileId,
-            url: `${Config.S3_DOMAIN}/${fileId}`,
+            url: `${Config.S3.Domain}/${fileId}`,
             originalFileName: metadata?.["original-name"]
         };
     } catch (error) {
@@ -235,7 +235,7 @@ export async function completeMultipartUpload(
 
 export async function abortMultipartUpload(uploadId: string, fileId: string) {
     const cmd = new AbortMultipartUploadCommand({
-        Bucket: Config.S3_BUCKET_NAME,
+        Bucket: Config.S3.BucketName,
         Key: fileId,
         UploadId: uploadId,
     });

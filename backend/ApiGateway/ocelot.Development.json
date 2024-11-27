@@ -4,7 +4,7 @@
     },
     "Routes": [
         {
-            "DownstreamPathTemplate": "/api/as/{version}/{everything}",
+            "DownstreamPathTemplate": "/api/us/{version}/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -12,8 +12,8 @@
                     "Port": 3000
                 }
             ],
-            "UpstreamPathTemplate": "/api/as/{version}/{everything}",
-            "UpstreamHttpMethod": [ "POST" ]
+            "UpstreamPathTemplate": "/api/us/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PATCH" ]
         },
         {
             "DownstreamPathTemplate": "/api/cs/{version}/{everything}",
@@ -98,6 +98,18 @@
             ],
             "UpstreamPathTemplate": "/api/stats/{version}/{everything}",
             "UpstreamHttpMethod": [ "GET" ] 
+        },
+        {
+            "DownstreamPathTemplate": "/api/ps/{version}/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5053
+                }
+            ],
+            "UpstreamPathTemplate": "/api/ps/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST" ] 
         }
     ]
 }

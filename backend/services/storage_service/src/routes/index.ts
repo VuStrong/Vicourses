@@ -1,13 +1,12 @@
 import { Request, Response, Router } from "express";
 import multer from "multer";
-import { body } from "express-validator";
 import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
 import swaggerDocV1 from "../../swagger/swagger-v1.json";
 import * as uploadController from "../controllers/upload.controller";
 import { AppError } from "../utils/app-error";
 import authenticate from "../middlewares/authentice.middleware";
-import { checkValidationResult } from "../middlewares/validators.middleware";
 import { handleHealthCheck } from "../controllers/healthchecks.controller";
+import validateRequest from "../middlewares/validate-request.middleware";
 
 var swaggerUIOptions: SwaggerUiOptions = {
     explorer: true,
@@ -59,59 +58,29 @@ router.post(
     "/api/sts/v1/upload-image",
     authenticate,
     upload,
-    [
-        body("fileId", "fileId is invalid")
-            .optional()
-            .matches(/\.(jpg|jpeg|png)$/i),
-    ],
-    checkValidationResult,
-    uploadController.handleUploadImage
+    validateRequest("/api/sts/v1/upload-image"),
+    uploadController.handleUploadImage,
 );
 
 router.post(
     "/api/sts/v1/initialize-multipart-upload",
     authenticate,
-    [
-        body("fileId", "fileId is invalid").optional().isString(),
-        body("fileName", "fileName is invalid").optional().isString(),
-        body(
-            "partCount",
-            "partCount must be an integer, between 1 and 999"
-        ).isInt({ min: 1, max: 999 }),
-    ],
-    checkValidationResult,
-    uploadController.handleInitializeS3MultipartUpload
+    validateRequest("/api/sts/v1/initialize-multipart-upload"),
+    uploadController.handleInitializeS3MultipartUpload,
 );
 
 router.post(
     "/api/sts/v1/complete-multipart-upload",
     authenticate,
-    [
-        body("fileId", "fileId is missing").not().isEmpty(),
-        body("fileId", "fileId is invalid").isString(),
-        body("uploadId", "uploadId is missing").not().isEmpty(),
-        body("uploadId", "uploadId is invalid").isString(),
-        body("parts", "parts must be an array and not empty").isArray({
-            min: 1,
-        }),
-        body("parts.*.PartNumber", "parts.PartNumber is invalid").isInt(),
-        body("parts.*.ETag", "parts.ETag is invalid").isString(),
-    ],
-    checkValidationResult,
-    uploadController.handleCompleteS3MultipartUpload
+    validateRequest("/api/sts/v1/complete-multipart-upload"),
+    uploadController.handleCompleteS3MultipartUpload,
 );
 
 router.post(
     "/api/sts/v1/abort-multipart-upload",
     authenticate,
-    [
-        body("fileId", "fileId is missing").not().isEmpty(),
-        body("fileId", "fileId is invalid").isString(),
-        body("uploadId", "uploadId is missing").not().isEmpty(),
-        body("uploadId", "uploadId is invalid").isString(),
-    ],
-    checkValidationResult,
-    uploadController.handleAbortS3MultipartUpload
+    validateRequest("/api/sts/v1/abort-multipart-upload"),
+    uploadController.handleAbortS3MultipartUpload,
 );
 
 export default router;

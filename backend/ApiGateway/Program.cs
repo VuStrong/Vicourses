@@ -34,7 +34,7 @@ app.MapServiceSwaggers(builder.Configuration);
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger-auth.json", "Auth API - v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger-user.json", "User API - v1");
     c.SwaggerEndpoint("/swagger/v1/swagger-course.json", "Course API - v1");
     c.SwaggerEndpoint("/swagger/v1/swagger-storage.json", "Storage API - v1");
     c.SwaggerEndpoint("/swagger/v1/swagger-search.json", "Search API - v1");

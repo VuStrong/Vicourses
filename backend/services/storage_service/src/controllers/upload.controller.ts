@@ -18,7 +18,7 @@ export async function handleUploadImage(req: Request, res: Response, next: NextF
         const token = jwt.sign({
             ...result,
             userId: req.user.sub,
-        }, Config.FILE_UPLOAD_SECRET || "", { expiresIn: "10m" });
+        }, Config.FileUploadSecret || "", { expiresIn: "10m" });
         
         res.status(201).send({ token });
     } catch (error) {
@@ -53,7 +53,7 @@ export async function handleCompleteS3MultipartUpload(req: Request, res: Respons
         const token = jwt.sign({
             ...result,
             userId: req.user.sub,
-        }, Config.FILE_UPLOAD_SECRET || "", { expiresIn: "10m" });
+        }, Config.FileUploadSecret || "", { expiresIn: "10m" });
         
         res.status(200).send({ token });
     } catch (error) {

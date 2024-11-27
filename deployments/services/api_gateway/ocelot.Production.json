@@ -4,16 +4,16 @@
     },
     "Routes": [
         {
-            "DownstreamPathTemplate": "/api/as/{version}/{everything}",
+            "DownstreamPathTemplate": "/api/us/{version}/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "auth-service",
+                    "Host": "user-service",
                     "Port": 3000
                 }
             ],
-            "UpstreamPathTemplate": "/api/as/{version}/{everything}",
-            "UpstreamHttpMethod": [ "POST" ]
+            "UpstreamPathTemplate": "/api/us/{version}/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PATCH" ]
         },
         {
             "DownstreamPathTemplate": "/api/cs/{version}/{everything}",

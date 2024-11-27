@@ -6,7 +6,7 @@ import logger from "./logger";
 
 rabbitmq.connectAndConsume();
 
-const port = Config.PORT;
+const port = Config.Port;
 
 const server = createServer(async (req, res) => {
     const reqUrl = req.url;

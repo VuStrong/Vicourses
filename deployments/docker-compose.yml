@@ -222,13 +222,13 @@ services:
      - KIBANA_HOSTS=http://kibana:5601
 
   ###
-  auth-service:
-    image: vustrong/vicourses-authservice
+  user-service:
+    image: vustrong/vicourses-userservice
     env_file:
-      - services/auth_service/.env
+      - services/user_service/.env
     volumes:
-      - ./services/auth_service/private.key:/app/private.key
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/private.key:/app/private.key
+      - ./services/user_service/public.key:/app/public.key
       - services_logs_data:/app/logs
     networks:
       - vicourses-network
@@ -259,7 +259,7 @@ services:
     env_file:
       - services/course_service/.env
     volumes:
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/public.key:/app/public.key
       - services_logs_data:/app/logs
     networks:
       - vicourses-network
@@ -292,7 +292,7 @@ services:
     env_file:
       - services/storage_service/.env
     volumes:
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/public.key:/app/public.key
     networks:
       - vicourses-network
     depends_on:
@@ -318,7 +318,7 @@ services:
     env_file:
       - services/rating_service/.env
     volumes:
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/public.key:/app/public.key
       - services_logs_data:/app/logs
     networks:
       - vicourses-network
@@ -335,7 +335,7 @@ services:
     env_file:
       - services/wishlist_service/.env
     volumes:
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/public.key:/app/public.key
       - services_logs_data:/app/logs
     networks:
       - vicourses-network
@@ -352,7 +352,7 @@ services:
     env_file:
       - services/discount_service/.env
     volumes:
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/public.key:/app/public.key
       - services_logs_data:/app/logs
     networks:
       - vicourses-network
@@ -371,7 +371,7 @@ services:
     env_file:
       - services/statistics_service/.env
     volumes:
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/public.key:/app/public.key
       - services_logs_data:/app/logs
     networks:
       - vicourses-network
@@ -390,7 +390,7 @@ services:
     env_file:
       - services/payment_service/.env
     volumes:
-      - ./services/auth_service/public.key:/app/public.key
+      - ./services/user_service/public.key:/app/public.key
       - services_logs_data:/app/logs
     networks:
       - vicourses-network
