@@ -3,19 +3,24 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const Config = {
-    NODE_ENV: process.env.NODE_ENV || "development",
-    PORT: Number(process.env.PORT) || 3000,
+    Environment: process.env.NODE_ENV || "development",
+    Port: Number(process.env.PORT) || 3000,
 
-    S3_ENDPOINT: process.env.S3_ENDPOINT,
-    S3_ACCOUNT_ID: process.env.S3_ACCOUNT_ID,
-    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
-    S3_ACCESS_KEY_SECRET: process.env.S3_ACCESS_KEY_SECRET,
-    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
-    S3_DOMAIN: process.env.S3_DOMAIN,
+    S3: {
+        Endpoint: process.env.S3_ENDPOINT,
+        AccountId: process.env.S3_ACCOUNT_ID,
+        AccessKeyId: process.env.S3_ACCESS_KEY_ID,
+        AccessKeySecret: process.env.S3_ACCESS_KEY_SECRET,
+        BucketName: process.env.S3_BUCKET_NAME,
+        Domain: process.env.S3_DOMAIN,
+    },
 
-    RABBITMQ_URL: process.env.RABBITMQ_URL,
+    RabbitMQ: {
+        Url: process.env.RABBITMQ_URL,
+        RetryDelay: Number(process.env.RABBITMQ_RETRY_DELAY) || 0,
+    },
 
-    FILE_UPLOAD_SECRET: process.env.FILE_UPLOAD_SECRET,
+    FileUploadSecret: process.env.FILE_UPLOAD_SECRET,
 };
 
 export default Config;

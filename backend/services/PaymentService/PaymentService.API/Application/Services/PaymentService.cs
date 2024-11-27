@@ -64,6 +64,14 @@ namespace PaymentService.API.Application.Services
 
         public async Task<PaymentDto> CreatePaypalPaymentAsync(CreatePaymentDto payload)
         {
+            if (await _dbContext.Payments.AnyAsync(p => 
+                p.UserId == payload.UserId &&
+                p.CourseId == payload.CourseId &&
+                p.Status == PaymentStatus.Completed))
+            {
+                throw new AppException("You already purchased this course", 422);
+            }
+
             decimal listPrice, discount = 0, totalPrice;
 
             // If payload have couponCode, call discount service to check it, otherwise just get the course price.
@@ -105,11 +113,6 @@ namespace PaymentService.API.Application.Services
 
             _dbContext.Payments.Add(payment);
 
-            if (!string.IsNullOrEmpty(payment.CouponCode))
-            {
-                await _discountService.ConsumeCouponAsync(payment.CouponCode, payment.CourseId, payment.UserId);
-            }
-
             await _dbContext.SaveChangesAsync();
 
             foreach (var link in paypalOrder.Links)
@@ -139,6 +142,11 @@ namespace PaymentService.API.Application.Services
                 throw new AppException(
                     $"The paypal payment '{paypalOrderId}' already completed",
                     422);
+            }
+
+            if (!string.IsNullOrEmpty(payment.CouponCode))
+            {
+                await _discountService.ConsumeCouponAsync(payment.CouponCode, payment.CourseId, payment.UserId);
             }
 
             await _paypalService.CaptureOrderAsync(paypalOrderId);

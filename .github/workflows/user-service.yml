@@ -1,0 +1,40 @@
+name: user-service
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/user_service/**"
+      - ".github/workflows/user-service.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "backend/services/user_service/**"
+      - ".github/workflows/user-service.yml"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '21.x'
+        cache: 'npm'
+        cache-dependency-path: './backend/services/user_service/package-lock.json'
+    - name: Build
+      working-directory: backend/services/user_service
+      run: |
+        npm ci
+        npm run build --if-present
+
+    - name: Build images
+      working-directory: backend/services/user_service
+      run: docker build -t vustrong/vicourses-userservice .
+    - name: Push images
+      run: |-
+        docker login -u vustrong -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push vustrong/vicourses-userservice

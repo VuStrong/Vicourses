@@ -4,13 +4,13 @@ namespace ApiGateway.Extensions
     {
         public static IApplicationBuilder MapServiceSwaggers(this WebApplication app, IConfiguration configuration)
         {
-            // Auth Service
-            app.Map("/swagger/v1/swagger-auth.json", b =>
+            // User Service
+            app.Map("/swagger/v1/swagger-user.json", b =>
             {
                 b.Run(async x =>
                 {
                     var httpClient = new HttpClient();
-                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:Auth"]}/swagger/v1/swagger.json");
+                    var response = await httpClient.GetAsync($"{configuration["ServiceUrls:User"]}/swagger/v1/swagger.json");
                     var body = await response.Content.ReadAsStringAsync();
                     await x.Response.WriteAsync(body);
                 });

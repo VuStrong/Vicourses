@@ -63,8 +63,12 @@
                             }
                         }
                     },
-                    "400": {},
-                    "401": {}
+                    "400": {
+                        "description": "Validation failed"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
                 }
             }
         },
@@ -130,8 +134,12 @@
                             }
                         }
                     },
-                    "400": {},
-                    "401": {}
+                    "400": {
+                        "description": "Validation failed"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
                 }
             }
         },
@@ -190,9 +198,15 @@
                             }
                         }
                     },
-                    "400": {},
-                    "401": {},
-                    "404": {}
+                    "400": {
+                        "description": "Validation failed"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Upload does not exists"
+                    }
                 }
             }
         },
@@ -224,9 +238,15 @@
                 },
                 "responses": {
                     "200": {},
-                    "400": {},
-                    "401": {},
-                    "404": {}
+                    "400": {
+                        "description": "Validation failed"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Upload does not exists"
+                    }
                 }
             }
         }

@@ -40,9 +40,9 @@ export async function sendEmail(input: SendEmailInput) {
 
     // Assign some default config
     input.payload ??= {};
-    input.payload.appName = Config.APP_NAME;
-    input.payload.appLogoUrl = Config.APP_LOGO_URL;
-    input.payload.webUrl = Config.WEB_URL;
+    input.payload.appName = Config.AppName;
+    input.payload.appLogoUrl = Config.AppLogoUrl;
+    input.payload.webUrl = Config.WebUrl;
 
     const templatePath = `templates/${input.template}.ejs`;
 
@@ -52,7 +52,7 @@ export async function sendEmail(input: SendEmailInput) {
         const htmlWithStylesInlined = juice(html);
 
         await transport.sendMail({
-            from: Config.SMTP_USER,
+            from: Config.Smtp.User,
             to: input.to,
             html: htmlWithStylesInlined,
             subject,

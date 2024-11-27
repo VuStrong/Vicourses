@@ -3,12 +3,12 @@ import Config from "../config";
 
 export function createSmtpTransport() {
     return nodemailer.createTransport({
-        host: Config.SMTP_HOST,
-        port: Config.SMTP_PORT,
+        host: Config.Smtp.Host,
+        port: Config.Smtp.Port,
         secure: false,
         auth: {
-            user: Config.SMTP_USER,
-            pass: Config.SMTP_PASS,
+            user: Config.Smtp.User,
+            pass: Config.Smtp.Password,
         },
     });
 }
