@@ -1,7 +1,7 @@
 ﻿using CourseService.Application.Dtos.Quiz;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models.Quiz
+namespace CourseService.API.Requests.Quiz
 {
     public class CreateLessonQuizRequest
     {

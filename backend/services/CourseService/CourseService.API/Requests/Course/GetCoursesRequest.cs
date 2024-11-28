@@ -3,7 +3,7 @@ using CourseService.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models.Course
+namespace CourseService.API.Requests.Course
 {
     public class GetCoursesRequest : PagingRequest
     {

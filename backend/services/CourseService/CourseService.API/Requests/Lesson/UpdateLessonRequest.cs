@@ -2,7 +2,7 @@
 using CourseService.Application.Dtos;
 using CourseService.Application.Dtos.Lesson;
 
-namespace CourseService.API.Models.Lesson
+namespace CourseService.API.Requests.Lesson
 {
     public class UpdateLessonRequest
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models.Course
+namespace CourseService.API.Requests.Course
 {
     public class GetEnrolledCoursesByUserRequest : PagingRequest
     {

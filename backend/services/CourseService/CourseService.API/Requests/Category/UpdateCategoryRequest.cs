@@ -1,7 +1,7 @@
 ﻿using CourseService.Application.Dtos.Category;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models.Category
+namespace CourseService.API.Requests.Category
 {
     public class UpdateCategoryRequest
     {

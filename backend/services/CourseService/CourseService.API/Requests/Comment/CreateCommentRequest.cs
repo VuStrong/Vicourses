@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models.Comment
+namespace CourseService.API.Requests.Comment
 {
     public class CreateCommentRequest
     {

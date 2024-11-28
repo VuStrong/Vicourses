@@ -1,4 +1,4 @@
-﻿using CourseService.API.Models.Course;
+﻿using CourseService.API.Requests.Course;
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
@@ -8,7 +8,6 @@ using CourseService.Domain.Enums;
 using CourseService.Shared.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Security.Claims;
 
 namespace CourseService.API.Controllers

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models.Section
+namespace CourseService.API.Requests.Section
 {
     public class UpdateSectionRequest
     {
