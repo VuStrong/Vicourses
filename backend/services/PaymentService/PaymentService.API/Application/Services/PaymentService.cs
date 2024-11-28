@@ -94,6 +94,11 @@ namespace PaymentService.API.Application.Services
                 totalPrice = listPrice;
             }
 
+            if (totalPrice == 0)
+            {
+                throw new AppException("Cannot create payment for a free course", 422);
+            }
+
             var paypalOrder = await _paypalService.CreateOrderAsync(new CreatePaypalOrderDto
             {
                 Intent = "CAPTURE",

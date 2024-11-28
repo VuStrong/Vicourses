@@ -33,9 +33,19 @@ namespace CourseService.Application.Services
             _mapper = mapper;
         }
 
-        public async Task EnrollAsync(string courseId, string userId)
+        public async Task EnrollAsync(string courseId, string userId, bool throwIfCourseIsPaid = false)
         {
+            if (await CheckEnrollmentAsync(courseId, userId))
+            {
+                throw new AppException("You are already enrolled", 422);
+            }
+
             var course = await _courseRepository.FindOneAsync(courseId) ?? throw new CourseNotFoundException(courseId);
+
+            if (throwIfCourseIsPaid && course.IsPaid)
+            {
+                throw new ForbiddenException("This course is paid, you cannot enroll");
+            }
 
             var enrollment = course.EnrollStudent(userId);
 
