@@ -1,4 +1,4 @@
-﻿using CourseService.API.Models.Section;
+﻿using CourseService.API.Requests.Section;
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Section;
 using CourseService.Application.Interfaces;

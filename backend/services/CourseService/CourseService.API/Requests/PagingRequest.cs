@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CourseService.API.Models
+namespace CourseService.API.Requests
 {
     public class PagingRequest
     {

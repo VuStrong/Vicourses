@@ -1,12 +1,11 @@
-﻿using CourseService.API.Models.Comment;
-using CourseService.API.Models.Lesson;
-using CourseService.API.Models.Quiz;
+﻿using CourseService.API.Requests.Comment;
+using CourseService.API.Requests.Lesson;
+using CourseService.API.Requests.Quiz;
 using CourseService.API.Utils;
 using CourseService.Application.Dtos.Comment;
 using CourseService.Application.Dtos.Lesson;
 using CourseService.Application.Dtos.Quiz;
 using CourseService.Application.Interfaces;
-using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -20,7 +20,10 @@ export async function handleUploadImage(req: Request, res: Response, next: NextF
             userId: req.user.sub,
         }, Config.FileUploadSecret || "", { expiresIn: "10m" });
         
-        res.status(201).send({ token });
+        res.status(201).send({ 
+            token,
+            ...result,
+        });
     } catch (error) {
         next(error);
     }
@@ -55,7 +58,10 @@ export async function handleCompleteS3MultipartUpload(req: Request, res: Respons
             userId: req.user.sub,
         }, Config.FileUploadSecret || "", { expiresIn: "10m" });
         
-        res.status(200).send({ token });
+        res.status(200).send({ 
+            token,
+            ...result,
+        });
     } catch (error) {
         next(error);
     }

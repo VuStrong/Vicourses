@@ -1,7 +1,7 @@
 ﻿using CourseService.Application.Dtos.Category;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CourseService.API.Models.Category
+namespace CourseService.API.Requests.Category
 {
     public class GetCategoriesRequest
     {

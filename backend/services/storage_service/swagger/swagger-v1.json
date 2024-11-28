@@ -57,6 +57,15 @@
                                     "properties": {
                                         "token": {
                                             "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "fileId": {
+                                            "type": "string"
+                                        },
+                                        "originalFileName": {
+                                            "type": "string"
                                         }
                                     }
                                 }
@@ -191,6 +200,15 @@
                                     "type": "object",
                                     "properties": {
                                         "token": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "fileId": {
+                                            "type": "string"
+                                        },
+                                        "originalFileName": {
                                             "type": "string"
                                         }
                                     }
