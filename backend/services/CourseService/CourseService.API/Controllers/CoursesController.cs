@@ -272,7 +272,7 @@ namespace CourseService.API.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="403">Forbidden</response>
         /// <response code="404">Course not found</response>
-        [HttpPost("approve/{id}")]
+        [HttpPost("{id}/approve")]
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> ApproveCourse(string id)
         {
@@ -288,11 +288,29 @@ namespace CourseService.API.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="403">Forbidden</response>
         /// <response code="404">Course not found</response>
-        [HttpPost("cancel-approval/{id}")]
+        [HttpPost("{id}/cancel-approval")]
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> CancelApprovalCourse(string id, CancelCourseApprovalRequest request)
         {
             await _courseService.CancelCourseApprovalAsync(id, request.Reasons);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Enroll a student in a free course
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">The course is paid</response>
+        /// <response code="404">Course not found</response>
+        [HttpPost("{id}/enroll-student")]
+        [Authorize]
+        public async Task<IActionResult> EnrollStudent(string id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            await _enrollService.EnrollAsync(id, userId, throwIfCourseIsPaid: true);
 
             return Ok();
         }
