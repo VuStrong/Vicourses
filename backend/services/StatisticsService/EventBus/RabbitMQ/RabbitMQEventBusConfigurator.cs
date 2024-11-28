@@ -3,6 +3,7 @@
     public class RabbitMQEventBusConfigurator
     {
         public string UriString { get; set; } = string.Empty;
+        public int RetryDelay { get; set; } = 0;
 
         internal Dictionary<Type, RabbitMQPublishEventOptions> PublishEventOptions { get; } = [];
         internal Dictionary<Type, RabbitMQConsumeEventOptions> ConsumeEventOptions { get; } = [];

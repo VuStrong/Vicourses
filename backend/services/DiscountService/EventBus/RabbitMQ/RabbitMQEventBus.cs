@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 using System.Text;
 using System.Text.Json;
 
@@ -12,11 +13,21 @@ namespace EventBus.RabbitMQ
     {
         private readonly ILogger<RabbitMQEventBus> _logger;
         private readonly IServiceProvider _serviceProvider;
+        private readonly RabbitMQEventBusConfigurator _rabbitmqConfigurator;
         private IConnection? _connection;
         private IModel? _consumerChannel;
 
         private readonly Dictionary<Type, RabbitMQPublishEventOptions> _publishEventOptions;
         private readonly Dictionary<Type, RabbitMQConsumeEventOptions> _consumeEventOptions;
+
+        private static readonly JsonSerializerOptions _writeJsonOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        private static readonly JsonSerializerOptions _readJsonOptions = new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
         public RabbitMQEventBus(
             IServiceProvider serviceProvider,
@@ -25,6 +36,7 @@ namespace EventBus.RabbitMQ
         {
             _serviceProvider = serviceProvider;
             _logger = logger;
+            _rabbitmqConfigurator = rabbitmqConfigurator;
             _publishEventOptions = rabbitmqConfigurator.PublishEventOptions;
             _consumeEventOptions = rabbitmqConfigurator.ConsumeEventOptions;
         }
@@ -35,12 +47,9 @@ namespace EventBus.RabbitMQ
 
             using var channel = _connection.CreateModel();
 
-            var message = JsonSerializer.Serialize(@event, new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            var message = JsonSerializer.Serialize(@event, _writeJsonOptions);
             var body = Encoding.UTF8.GetBytes(message);
-            
+
             var eventType = typeof(T);
 
             if (!_publishEventOptions.TryGetValue(eventType, out var publishOptions)) return;
@@ -50,8 +59,8 @@ namespace EventBus.RabbitMQ
             if (!publishOptions.ExcludeExchange && !string.IsNullOrEmpty(exchangeOptions.ExchangeName))
             {
                 channel.ExchangeDeclare(
-                    exchange: exchangeOptions.ExchangeName, 
-                    type: exchangeOptions.ExchangeType, 
+                    exchange: exchangeOptions.ExchangeName,
+                    type: exchangeOptions.ExchangeType,
                     durable: exchangeOptions.Durable,
                     autoDelete: exchangeOptions.AutoDelete);
             }
@@ -65,10 +74,10 @@ namespace EventBus.RabbitMQ
 
         private void StartConsume()
         {
+            if (_connection == null || !_connection.IsOpen) return;
+
             try
             {
-                _connection = _serviceProvider.GetRequiredService<IConnection>();
-
                 _consumerChannel = _connection.CreateModel();
 
                 foreach (KeyValuePair<Type, RabbitMQConsumeEventOptions> entry in _consumeEventOptions)
@@ -102,6 +111,7 @@ namespace EventBus.RabbitMQ
                         eventType,
                         _consumerChannel,
                         _serviceProvider,
+                        _readJsonOptions,
                         _logger
                     );
                     eventConsumer.AutoAck = consumeOptions.AutoAck;
@@ -117,15 +127,38 @@ namespace EventBus.RabbitMQ
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error while starting RabbitMQ connection: {msg}", ex.Message);
+                _logger.LogError("Error consuming RabbitMQ messages: {msg}", ex.Message);
             }
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
             {
-                StartConsume();
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    try
+                    {
+                        _connection = _serviceProvider.GetRequiredService<IConnection>();
+
+                        StartConsume();
+
+                        _logger.LogInformation("Connected to RabbitMQ");
+
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError("Error connecting to RabbitMQ: {msg}", ex.Message);
+
+                        if (ex is not BrokerUnreachableException || _rabbitmqConfigurator.RetryDelay <= 0)
+                        {
+                            break;
+                        }
+
+                        await Task.Delay(TimeSpan.FromSeconds(_rabbitmqConfigurator.RetryDelay), cancellationToken);
+                    }
+                }
             });
 
             return Task.CompletedTask;
@@ -140,13 +173,14 @@ namespace EventBus.RabbitMQ
         {
             _consumerChannel?.Dispose();
         }
-      
+
         private class EventConsumer
         {
             private readonly Type _eventType;
             private readonly IModel _channel;
             private readonly IServiceProvider _serviceProvider;
             private readonly ILogger<RabbitMQEventBus> _logger;
+            private readonly JsonSerializerOptions _readJsonOptions;
 
             public bool AutoAck { get; set; } = true;
 
@@ -154,11 +188,13 @@ namespace EventBus.RabbitMQ
                 Type eventType,
                 IModel channel,
                 IServiceProvider serviceProvider,
+                JsonSerializerOptions readJsonOptions,
                 ILogger<RabbitMQEventBus> logger)
             {
                 _eventType = eventType;
                 _channel = channel;
                 _serviceProvider = serviceProvider;
+                _readJsonOptions = readJsonOptions;
                 _logger = logger;
             }
 
@@ -188,10 +224,7 @@ namespace EventBus.RabbitMQ
                 var @event = JsonSerializer.Deserialize(
                     message,
                     _eventType,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true,
-                    }) as IntegrationEvent;
+                    _readJsonOptions) as IntegrationEvent;
 
                 if (@event == null) return;
 
