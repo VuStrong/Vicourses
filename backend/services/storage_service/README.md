@@ -22,7 +22,7 @@ The Storage Service is responsible for uploading and storing files. This service
 
 2. Set up the environment variables. Rename the `.env.example` file to `.env` and provide the necessary values.
 
-3. Make sure the `public.key` file from [auth_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/auth_service#run-this-service) is copied to this directory
+3. Make sure the `public.key` file from [user_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/user_service#run-this-service) is copied to this directory
 
 4. Run
    ```shell

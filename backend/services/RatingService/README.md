@@ -25,7 +25,7 @@ The Rating Service is responsible for rating courses
   dotnet ef database update
 ``` 
 
-4. Make sure the `public.key` file from [auth_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/auth_service#run-this-service) is copied to **RatingService.API** directory
+4. Make sure the `public.key` file from [user_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/user_service#run-this-service) is copied to **RatingService.API** directory
 
 5. Run:
 ```shell

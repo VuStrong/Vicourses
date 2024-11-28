@@ -29,7 +29,7 @@ Exposing Grpc Services for other microservices to check coupon, get course price
   dotnet ef database update
 ``` 
 
-4. Make sure the `public.key` file from [auth_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/auth_service#run-this-service) is copied to **DiscountService.API** directory
+4. Make sure the `public.key` file from [user_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/user_service#run-this-service) is copied to **DiscountService.API** directory
 
 5. Run:
 ```shell
