@@ -19,11 +19,11 @@ Each student can only add a maximum 50 of courses to their wishlist.
   dotnet restore "./WishlistService.API/WishlistService.API.csproj"
 ```
 
-2. Make sure **WishlistDB.Uri** in `appsettings.json` point to a local MongoDB Server.
+2. Navigate to **WishlistService.API** directory and provide connection strings in `appsettings.json`
 
-3. Make sure the `public.key` file from [auth_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/auth_service#run-this-service) is copied to **WishlistService.API** directory
+3. Make sure the `public.key` file from [user_service](https://github.com/VuStrong/Vicourses/tree/main/backend/services/user_service#run-this-service) is copied to **WishlistService.API** directory
 
-4. Navigate to **WishlistService.API** directory and run:
+4. Run:
 ```shell
   dotnet run
 ```
