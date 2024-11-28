@@ -51,7 +51,7 @@ namespace CourseService.Application
 
             services.AddDomainEventHandlers();            
 
-            services.AddEventBus(appConfiguration.RabbitMQUri);
+            services.AddEventBus(appConfiguration);
 
             services.AddScoped<IFileUploadTokenValidator, FileUploadTokenValidator>(s =>
             {
@@ -85,11 +85,12 @@ namespace CourseService.Application
             services.AddDomainEventHandler<UserEnrolledDomainEvent, UserEnrolledDomainEventHandler>();
         }
 
-        private static void AddEventBus(this IServiceCollection services, string uri)
+        private static void AddEventBus(this IServiceCollection services, ApplicationConfiguration configuration)
         {
             services.AddRabbitMQEventBus(c =>
             {
-                c.UriString = uri;
+                c.UriString = configuration.RabbitMQUri;
+                c.RetryDelay = configuration.RabbitMQRetryDelay;
 
                 // Events in course service (this)
                 c.ConfigurePublish<CourseInfoUpdatedIntegrationEvent>(opt =>
@@ -178,6 +179,7 @@ namespace CourseService.Application
     public class ApplicationConfiguration
     {
         public string RabbitMQUri { get; set; } = string.Empty;
+        public int RabbitMQRetryDelay { get; set; } = 0;
 
         public string FileUploadSecret { get; set; } = string.Empty;
     }

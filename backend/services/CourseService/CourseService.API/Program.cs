@@ -10,6 +10,7 @@ builder.AddApiServices();
 builder.Services.AddApplicationServices(c =>
 {
     c.RabbitMQUri = builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "";
+    c.RabbitMQRetryDelay = int.Parse(builder.Configuration["RabbitMqRetryDelay"] ?? "0");
     c.FileUploadSecret = builder.Configuration["FileUploadSecret"] ?? "";
 });
 
