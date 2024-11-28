@@ -126,6 +126,7 @@ namespace SearchService.API.Extensions
             builder.Services.AddRabbitMQEventBus(c =>
             {
                 c.UriString = builder.Configuration["ConnectionStrings:RabbitMQ"] ?? "";
+                c.RetryDelay = int.Parse(builder.Configuration["RabbitMqRetryDelay"] ?? "0");
 
                 c.ConfigureConsume<CourseInfoUpdatedIntegrationEvent>(opt =>
                 {
