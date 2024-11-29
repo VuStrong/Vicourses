@@ -23,6 +23,18 @@
   }
 },
 {
+  "_id": "528645",
+  "Name": "Marketing",
+  "Slug": "marketing",
+  "ParentId": null,
+  "CreatedAt": {
+    "$date": "2024-09-15T13:36:25.262Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:36:25.262Z"
+  }
+},
+{
   "_id": "698569",
   "Name": "Web Development",
   "Slug": "web-development",
@@ -38,6 +50,30 @@
   "_id": "824734",
   "Name": "Mobile Apps Development",
   "Slug": "mobile-apps-development",
+  "ParentId": "421679",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:38:21.218Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-16T10:56:31.179Z"
+  }
+},
+{
+  "_id": "824722",
+  "Name": "Data Science",
+  "Slug": "data-science",
+  "ParentId": "421679",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:38:21.218Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-16T10:56:31.179Z"
+  }
+},
+{
+  "_id": "452682",
+  "Name": "Game Development",
+  "Slug": "game-development",
   "ParentId": "421679",
   "CreatedAt": {
     "$date": "2024-09-15T13:38:21.218Z"
@@ -75,6 +111,30 @@
   "Name": "Degisn Tools",
   "Slug": "degisn-tools",
   "ParentId": "688645",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:47:51.292Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:47:51.292Z"
+  }
+},
+{
+  "_id": "518245",
+  "Name": "Digital Marketing",
+  "Slug": "digital-marketing",
+  "ParentId": "528645",
+  "CreatedAt": {
+    "$date": "2024-09-15T13:47:51.292Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-09-15T13:47:51.292Z"
+  }
+},
+{
+  "_id": "338245",
+  "Name": "SEO",
+  "Slug": "seo",
+  "ParentId": "528645",
   "CreatedAt": {
     "$date": "2024-09-15T13:47:51.292Z"
   },
