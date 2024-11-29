@@ -5,11 +5,23 @@
   "Description": "This course will teach you React.js in a practice-oriented way, using all the latest patterns and best practices you need. You will learn all the key fundamentals as well as advanced concepts and related topics to turn you into a React.js developer.",
   "Tags": [
     "reactjs",
-    "frontend"
+    "frontend",
+    "nextjs",
+    "redux"
   ],
-  "Requirements": [],
-  "TargetStudents": [],
-  "LearnedContents": [],
+  "Requirements": [
+    "JavaScript + HTML + CSS fundamentals are absolutely required",
+    "ES6+ JavaScript knowledge is beneficial but not a must-have"
+  ],
+  "TargetStudents": [
+    "Students who want to learn how to build reactive and fast web apps",
+    "Anyone who's interested in learning an extremely popular technology used by leading tech companies like Netflix"
+  ],
+  "LearnedContents": [
+    "Learn React from the ground up and finish the course as an advanced React developer",
+    "Build multiple high-quality demo apps, including a fullstack app built with NextJS",
+    "Build fullstack React apps with NextJS 14+"
+  ],
   "Level": "Basic",
   "IsPaid": true,
   "Price": {
@@ -22,9 +34,9 @@
     "$date": "2024-09-19T16:29:48.686Z"
   },
   "UpdatedAt": {
-    "$date": "2024-11-09T07:49:50.115Z"
+    "$date": "2024-11-28T12:14:15.556Z"
   },
-  "StudentCount": 2,
+  "StudentCount": 3,
   "Locale": {
     "Name": "vi",
     "EnglishTitle": "Vietnamese"
@@ -33,7 +45,7 @@
   "Status": "Published",
   "Thumbnail": {
     "FileId": "test2.png",
-    "Url": "https://r2.strongtify.io.vn/test2.png"
+    "Url": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg"
   },
   "PreviewVideo": {
     "FileId": "30MinuteVideo720p.mp4",
@@ -64,14 +76,23 @@
   "Title": "NestJS Masterclass - NodeJS Framework Backend Development",
   "TitleCleaned": "nestjs-masterclass-nodejs-framework-backend-development",
   "Description": "NestJS Masterclass is a Practical Course!  We work together to build a REST API server-side application for a blog. We learn while we code this application, so all the examples in this course are real-world use cases. While programming this application, we will learn various NestJS features and dive deeper into the internal mechanics of NestJS.",
-  "Tags": [],
-  "Requirements": [],
-  "TargetStudents": [],
-  "LearnedContents": [],
+  "Tags": ["nestjs", "nodejs"],
+  "Requirements": [
+    "Having Basic Understanding of TypeScript and/or JavaScript."
+  ],
+  "TargetStudents": [
+    "Node or JavaScript Developers who need a robust framework for backend development.",
+    "TypeScript developers wanting to jump on to backend development."
+  ],
+  "LearnedContents": [
+    "Learn all the Schematics of a NestJS application. Become Familiar With NestJS Framework and all its components.",
+    "User Authentication using JSON Web Tokens and Google Authentication. Includes refresh tokens and security best practices.",
+    "Learn NestJS dependency injection in detail and understand the mechanics behind in."
+  ],
   "Level": "All",
   "IsPaid": true,
   "Price": {
-    "$numberDecimal": "4.99"
+    "$numberDecimal": "19.99"
   },
   "Rating": {
     "$numberDecimal": "0"
@@ -83,10 +104,16 @@
     "$date": "2024-11-06T11:33:57.013Z"
   },
   "StudentCount": 0,
-  "Locale": null,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
   "IsApproved": true,
   "Status": "Published",
-  "Thumbnail": null,
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/6048973_c5b2_17.jpg"
+  },
   "PreviewVideo": null,
   "Category": {
     "_id": "421679",
@@ -109,10 +136,20 @@
   "Title": "Khóa học Figma từ căn bản đến thực chiến",
   "TitleCleaned": "khoa-hoc-figma-tu-can-ban-en-thuc-chien",
   "Description": "Khóa học thiết kế giao diện bằng Figma dành cho những bạn có đam mê với ngành nghề UI/UX design. Khóa học tập trung vào những kỹ năng căn bản nhất, đồng thời cung cấp một cái nhìn tổng quát giúp học viên có thể tạo ra sản phẩm cụ thể sau khóa học.",
-  "Tags": [],
-  "Requirements": [],
-  "TargetStudents": [],
-  "LearnedContents": [],
+  "Tags": ["figma", "design"],
+  "Requirements": [
+    "Cần có laptop",
+    "Cần sự tập trung và kiên trì"
+  ],
+  "TargetStudents": [
+    "Người đang bước chân vào lĩnh vực thiết kế UI/UX",
+    "Người đã sử dụng figma và muốn nâng cao hiệu quả sử dụng công cụ"
+  ],
+  "LearnedContents": [
+    "Sử dụng thành thục figma",
+    "Nâng cao năng suất làm việc, nâng cao thu nhập",
+    "Hình thành tư duy hệ thống hóa thiết kế với figma"
+  ],
   "Level": "All",
   "IsPaid": false,
   "Price": {
@@ -128,10 +165,16 @@
     "$date": "2024-10-04T15:02:09.597Z"
   },
   "StudentCount": 0,
-  "Locale": null,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
   "IsApproved": true,
   "Status": "Published",
-  "Thumbnail": null,
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://images.squarespace-cdn.com/content/v1/62460a56418af8236d4f3fee/1678917204941-H4A8KPJQYPNYBHQILYDF/Figma.jpg"
+  },
   "PreviewVideo": null,
   "Category": {
     "_id": "688645",
@@ -142,6 +185,3288 @@
     "_id": "593034",
     "Name": "Degisn Tools",
     "Slug": "degisn-tools"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "t55Iqmyu1i28",
+  "Title": "React Ultimate - React.JS Cơ Bản Từ Z Đến A Cho Beginners",
+  "TitleCleaned": "react-ultimate-reactjs-co-ban-tu-z-en-a-cho-beginners",
+  "Description": "<p><strong>1. Công nghệ sử dụng</strong></p><p>React version 18 &amp; 19</p><p>React là thư viện với cơ chế CSR - client side rendering</p><p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Các kiến thức trọng tâm:</strong></p><ul><li><p>Phân biệt các phong cách code/sử dụng React trong thực tế</p></li><li><p>Học React với đúng tư duy ban đầu của React - React là library UI</p><p><br></p><p><strong>Các kiến thức về React (cốt lõi nhất):</strong></p></li></ul><ul><li><p>Tư duy thiết kế UI với React (sử dụng Component)</p></li><li><p>Render/Re-render giao diện với Props và State (useState hook)</p></li><li><p>Điều hướng trang với React-router-dom</p></li><li><p>Sử dụng useEffect để gọi API backend</p></li><li><p>Sử dụng Context API để sharing data giữa các component</p></li><li><p>Sử dụng mô hình Stateless (với access_token)</p></li><li><p>Sử dụng Ant Design (antd) để làm giao diện chuyên nghiệp (UI - UX)</p></li><li><p>Tối ưu hóa re-render với Uncontrolled Component</p></li></ul><p><br></p><p><strong>Backend (Nestjs)</strong> được mình cung cấp sẵn. Chỉ sử dụng và không sửa đổi. (<strong>không học code backend trong khóa học này</strong>). </p><p><strong>Database MongoDB</strong> sử dụng online (miễn phí) với MongoDB Atlas</p><p><br></p><p><strong>2. Học viên nào có thể học ?</strong></p><p>Học viên cần trang bị các kiến thức sau trước khi theo học: <strong>HTML, CSS và cú pháp của Javascript</strong></p><p><strong>Source code cả khóa học (full project) được cung cấp</strong> (cũng như cung cấp theo từng video hướng dẫn)</p><p><br></p><p><strong>3. Triển khai dự án</strong></p><p>Đến cuối khóa học, dự án được triển khai:</p><ul><li><p>Frontend triển khai với Vercel</p></li><li><p>Backend triển khai với Render</p></li><li><p>Database triển khai với MongoDB Atlas</p></li></ul></div>",
+  "Tags": [
+    "reactjs",
+    "frontend"
+  ],
+  "Requirements": [
+    "Có kiến thức về HTML, CSS, Javascript cơ bản là một lợi thế",
+    "Có tư duy lập trình"
+  ],
+  "TargetStudents": [
+    "Tất cả những bạn mới bắt đầu, những bạn muốn học lập trình với React, đang muốn học và làm chủ React thì đây chính là khóa học các bạn tìm. React Ultimate, chỉ một là đủ."
+  ],
+  "LearnedContents": [
+    "HỌC đi đôi với \"THỰC HÀNH\", xây dựng ĐAM MÊ về lập trình với REACT",
+    "Tự tin LÀM CHỦ, NẮM VỮNG những KIẾN THỨC cơ bản, cốt lõi nhất của REACT"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T16:37:20.399Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T16:58:47.684Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/4467252_61d1_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "CNmV2D9DDAOM",
+  "Title": "Backend RESTFul Server với Node.JS và Express (SQL/MongoDB)",
+  "TitleCleaned": "backend-restful-server-voi-nodejs-va-express-sqlmongodb",
+  "Description": "<p>Backend Server Website Pro Max với Node.JS và Express là một khóa học giúp các bạn beginners có thể học, hiểu và thực hành xây backend website từ số 0, bằng cách sử dụng platform Node.js và framework Express.</p><p>Các nội dung trọng tâm của khóa học có thể kể tới như:</p><p>- Hiểu các nguyên lý, các thành phần chủ chốt khi xây dựng một website, bao gồm, frontend, backend và database.</p><p>- Cài đặt và sử dụng môi trường Node.js để xây dựng server website với Javascript</p><p>- Tạo server Backend Node.js với Framework Express</p><p>- Xây dựng Server Backend với SSR (Server side rendering)</p><p>- Xây dựng Server Backend như là 1 RestfulAPIs, giúp thực hiện CSR (Client side rendering)</p><p>- Thực hành ứng dụng Fullstack (React/Node.js) với backend tự tạo</p><p>Bằng các tập trung vào các nội dung trọng tâm trên, các ví dụ được đưa ra theo góc nhìn của 'người chưa biết gì' về backend, cũng như sử dụng Framework Express, mình hi vọng đây chính là khóa học dành cho các bạn 'mất gốc', chưa có nền tảng về backend, có thể học &amp; hiểu 'cơ chế' để xây dựng một server webiste một cách thực thụ.</p><p>Hi vọng các bạn tìm thấy nhiều điều hữu ích từ khóa học này.</p>",
+  "Tags": [
+    "expressjs",
+    "nodejs",
+    "mongodb",
+    "sql"
+  ],
+  "Requirements": [
+    "Có hiểu cơ bản về Javascript",
+    "Có hiểu biết về React (Frontend) là một lợi thế"
+  ],
+  "TargetStudents": [
+    "Tất cả beginners muốn học Backend Nodejs từ số 0"
+  ],
+  "LearnedContents": [
+    "Học Tư Duy Xây Dựng Backend Server Cho Website",
+    "Thực Hành Các Ví Dụ Server Backend Từ Cơ Bản Tới Nâng Cao",
+    "Xây Dựng Ứng Dụng Fullstack với Backend Tự Viết"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://caodang.fpt.edu.vn/wp-content/uploads/a-9.png"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "AKmV2D9DDAAB",
+  "Title": "Nest.JS Zero - Xây Dựng Backend Node.JS Chuyên Nghiệp",
+  "TitleCleaned": "nestjs-zero-xay-dung-backend-nodejs-chuyen-nghiep",
+  "Description": "<p><strong>1. Kết quả đạt được khi kết thúc khóa học:</strong></p><p>- Hiểu rõ và nắm vững các tổ chức của Framework Nest.JS (cấu trúc modules, tự duy IoC - inversion of control, DI (dependency injection). Vận dụng mô hình MVC, kết hợp với database MongoDB</p><p>- Luyện tập sử dụng Restful APIs với Nest.JS (và mongodb / thư viện mongoose)</p><p>- Xây dựng Module Authentication, phân biệt rõ ràng khái niệm SSR (server side rendering), CSR (client side rendering). stateful và stateless application</p><p>- Thực hành dự án sử dụng Nest.JS như là một server cung cấp resftul API cho client sử dụng (với JWT - json web token)</p><p>Khóa học này sẽ phù hợp với các bạn đã có kiến thức cơ bản về backend (có hiểu biết về Express/Node.JS là một lợi thế), đồng thời sử dụng database MongoDB</p>",
+  "Tags": [
+    "nestjs",
+    "nodejs"
+  ],
+  "Requirements": [
+    "Có Hiểu Biết về Express (Backend Nodejs) là lợi thế",
+    "Có hiểu biết về MongoDB (Mongoose) là lợi thế",
+    "Có hiểu biết về TypeScript là lợi thế"
+  ],
+  "TargetStudents": [
+    "Các bạn theo đuổi lộ trình trở thành fullstack developer",
+    "Cần học framework NestJS để xây dựng backend chuyên nghiệp"
+  ],
+  "LearnedContents": [
+    "Luyện Tư Duy Khi Xây Dựng Một Hệ Thống Lớn & Tính Mở Rộng Cao",
+    "Rèn Luyện Kỹ Năng Lập Trình Hướng Đối Tượng Qua Thực Hành",
+    "Thực Hành NestJS như là server Restful APIs",
+    "Thực Hành Xây Dựng Backend phân chia Modules"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://cdn.intuji.com/2022/09/Nestjs_hero1.png"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "N62gvz93Urm1",
+  "Title": "React State Manager - Redux Toolkit, React Query, Redux Saga",
+  "TitleCleaned": "react-state-manager-redux-toolkit-react-query-redux-saga",
+  "Description": "<p>React State Manager là cách chúng ta quản lý \"global state\" trong ứng dụng React. Cụ thể hơn, có hai khía cạnh chúng ta quan tâm: </p><p>- Một là cách chia sẻ data giữa các components không có mối quan hệ với nhau.</p><p>- Hai là cách Fetching và Create/Update/Delete (mutate) data một cách hiệu quả (có xử lý caching data)</p>",
+  "Tags": [
+    "reactjs",
+    "redux",
+    "reactquery"
+  ],
+  "Requirements": [
+    "Có hiểu biết về React là một lợi thế"
+  ],
+  "TargetStudents": [
+    "Các bạn beginners muốn học và nắm vững Redux",
+    "Có nhu cầu về quản lý client state/server state trong ứng dụng React"
+  ],
+  "LearnedContents": [
+    "Học & Hiểu Tư Duy Đứng Sau Việc Quản Lý State của Ứng dụng React",
+    "Nắm Vững & Thành Thạo Redux Thuần, cũng như Redux Toolkit",
+    "Đá Bay (vì Đã Hiểu) Lý Do Dùng Redux Thunk, Redux Saga Middleware",
+    "Quản lý Server State với React Query"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "qqmf9aNnhwKr",
+  "Title": "React Pro Max - Làm Chủ Toàn Diện React.JS Hiện Đại",
+  "TitleCleaned": "react-pro-max-lam-chu-toan-dien-reactjs-hien-dai",
+  "Description": "<p>Next.JS là một framework javascript chuyên làm frontend, tích hợp sẵn thư viện React để code giao diện UI&nbsp;một cách hiệu quả.</p><p>Lợi thế của Next.js so với việc sử dụng React thuần túy, chính là việc cung cấp bộ khung framework, giải quyết các vấn đề thường gặp của React mà bấy lâu nay chúng ta cần tự xử lý, ví dụng như routing, nested route.</p>",
+  "Tags": [
+    "reactjs",
+    "nextjs"
+  ],
+  "Requirements": [
+    "Có Hiểu Biết về React là lợi thế",
+    "Có hiểu biết về TypeScript là lợi thế"
+  ],
+  "TargetStudents": [
+    "Các bạn theo đuổi lộ trình trở thành fullstack developer",
+    "Cần học framework Nextjs để xây dựng frontend chuyên nghiệp",
+    "Cần SEO website với React"
+  ],
+  "LearnedContents": [
+    "Làm Chủ React Toàn Diện Với Typescript",
+    "Xây dựng giao diện Admin React với Antd Design/Vite",
+    "Hiểu rõ cơ chế render React ở Client và Server",
+    "Rèn luyện tư duy phân tích, tích hợp thư viện javascript với React"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "pGfVD4Mi9qDP",
+  "Title": "React Pro TypeScript - Thực Hành Dự Án Portfolio",
+  "TitleCleaned": "react-pro-typescript-thuc-hanh-du-an-portfolio",
+  "Description": "<p><strong>1. Mục tiêu của khóa học</strong></p><ul><li><p>Hướng dẫn cách code ứng dụng React sử dụng với Typescript (hướng dẫn từ cách đọc tài liệu, search google cho tới cách thực hành)</p></li><li><p>Hướng dẫn cách “migrate” (chuyển đổi) từ code React với JavaScript sang code React với TypeScript</p></li><li><p>Là nền tảng để sử dụng các framework chuyên nghiệp của React, ví dụ Next.js (không học code Next.js trong khóa học này)</p></li><li><p>Giúp bạn có nhanh 1 CV (portfolio) xịn sò cho cá nhân bạn (hosting online)</p><p><br></p></li></ul><p><strong>2. Công nghệ sử dụng</strong></p><ul><li><p>Cấu hình dự án React với TypeScript và Vite từ số 0</p></li><li><p>Migrate từ javascript sang typescript</p>",
+  "Tags": [
+    "reactjs",
+    "typescript"
+  ],
+  "Requirements": [
+    "Có tư duy lập trình",
+    "Có hiểu biết về lập trình webiste với ReactJS là một lợi thế"
+  ],
+  "TargetStudents": [
+    "Tất cả những bạn mới bắt đầu, những bạn muốn học lập trình với React, đang muốn học và làm chủ React thì đây chính là khóa học các bạn tìm. React Ultimate, chỉ một là đủ."
+  ],
+  "LearnedContents": [
+    "THỰC HÀNH Kiến Thức React với TypeScript",
+    "Tự tin LÀM CHỦ, NẮM VỮNG những KIẾN THỨC cơ bản, cốt lõi nhất của REACT",
+    "Có được TƯ DUY lập trình với React, biết cách \"SEARCH Google\" khi gặp lỗi",
+    "Xây dựng và triển khai Dự án Portfolio làm đẹp CV xin việc"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "1qSuqjVgjnPw",
+  "Title": "Khóa học NextJS 14-ReactJS-Typescript thực chiến 2024 PRO",
+  "TitleCleaned": "khoa-hoc-nextjs-14-reactjs-typescript-thuc-chien-2024-pro",
+  "Description": "<p>Khoá học này cung cấp một phương pháp thực hành cho những người muốn trở thành nhà phát triển frontend. Qua các dự án thực hành, người tham gia sẽ đối mặt với các tình huống thực tế, học các kỹ thuật giải quyết vấn đề từ cơ bản đến nâng cao. Cụ thể, khóa học tập trung vào phát triển web sử dụng các công nghệ frontend tiên tiến như: TypeScript, ReactJS 18, Next.js 14, Material UI, Redux Toolkit, Next Auth, Yup, CI-CD, tối ưu SEO, Redux thunks, SocketIo, React Query, Firebase, Storybook, Jest ... <strong>Đặc biệt sau khi kết thúc khóa học , mấy bạn sẽ biết được cách tìm ra nguyên nhân của lỗi và biết cách research để giải quyết vấn đề</strong></p>",
+  "Tags": [
+    "nextjs",
+    "reactjs",
+    "typescript"
+  ],
+  "Requirements": [
+    "Bạn chỉ cần có kiến thức cơ bản về HTML,CSS, Javascript",
+    "Chấp nhận khó khăn, không bỏ cuộc khi gặp khó khăn"
+  ],
+  "TargetStudents": [
+    "Những bạn muốn trở thành lập trình viên Frontend",
+    "Những sinh viên mới ra trường, hoặc người chuyển ngành muốn có kinh nghiệm thực tế, hoặc project để apply CV"
+  ],
+  "LearnedContents": [
+    "Nắm vững các kiến thức của ReactJS",
+    "Thành thạo sử dụng Redux (Redux thunk, Redux toolkit)",
+    "Sử dụng thư viện Material UI để xây dựng giao diện nhanh hơn",
+    "Nắm vững và thành thạo sử dụng NextJS 14 - NextAuth"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://images.prismic.io/turing/652ec31afbd9a45bcec81965_Top_Features_in_Next_js_13_7f9a32190f.webp?auto=format,compress"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "gGqU8OFcapBH",
+  "Title": "HTML/CSS cho người mới bắt đầu 2023",
+  "TitleCleaned": "html-css-cho-nguoi-moi-bat-dau-2023",
+  "Description": "<p>Bạn có đam mê về thiết kế web?</p><p>Bạn muốn tạo ra những trang web đẹp mắt, tương tác và chuyên nghiệp?</p><p>Bạn lo lắng học online có hiệu quả không?</p><p>Bạn sợ việc phải bỏ tiền ra mua một khóa học online nhưng lại nhận về một khóa học không chất lượng?</p><p>Mình hoàn toàn hiểu những lo lắng đó của các bạn. Khóa học HTML/CSS sẽ giúp bạn giải quyết được những lo lắng này. Trong khóa học này mình có video hướng dẫn phương pháp học, đảm bảo quá trình học tập của bạn sẽ là học tập thực thụ.</p>",
+  "Tags": ["html", "css"],
+  "Requirements": [
+    "Sử dụng máy tính ở mức cơ bản",
+    "Chăm chỉ, có kĩ năng tự học tốt"
+  ],
+  "TargetStudents": [
+    "Học sinh, sinh viên chưa có nền tảng lập trình muốn tìm hiểu xây dựng website",
+    "Học sinh/sinh viên đã có nền tảng lập trình muốn củng cố, bổ sung kiến thức"
+  ],
+  "LearnedContents": [
+    "Trình bày được cấu trúc của tài liệu HTML",
+    "Sử dụng được các thẻ HTML cơ bản và nâng cao",
+    "Áp dụng được các kỹ thuật bố cục trang Web với CSS"
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://letdiv.com/wp-content/uploads/2024/04/khoa-hoc-html-css.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "698569",
+    "Name": "Web Development",
+    "Slug": "web-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "7ajoPlpIzcHP",
+  "Title": "Lập trình iOS với SwiftUI",
+  "TitleCleaned": "lap-trinh-ios-voi-swiftui",
+  "Description": "<p>- Khóa học cung cấp cho học viên kiến thức lập trình iOS mới nhất của Apple đó là SwiftUI. SwiftUI là một framework được Apple giới thiệu tại WWDC 2019, SwiftUI giúp chúng ta xây dựng App một cách đơn giản hơn. Với SwiftUI bạn chỉ cần viết một lần là có thể build cho iOS, MacOS, TvOS và cả WatchOS. Bạn có thể sử dụng SwiftUI và UIKit trong cùng một project, chúng ta sẽ viết code ít hơn và tạo ra những App tốt hơn.<br>- Khoá học cung cấp cho bạn những kiến thức và kỹ năng cơ bản nhất của lập trình iOS với SwiftUI. Các bài giảng được trình bày một cách cô đọng từng vấn đề, giúp bạn tiết kiệm tối đa thời gian để nghiên cứu kiến thức lập trình mới của Apple và ứng dụng nhanh chóng vào dự án của mình.<br>- Tiếp nối thành công của bộ video lập trình iOS với UIlKit, chúng tôi trân trọng những phản hồi của các bạn và luôn nỗi lực để tạo ra những khoá học lập trình iOS tốt hơn.<br>- Bạn sẽ là 1 trong số những người tiên phong về SwiftUI tại Việt Nam và sẽ mở ra các cơ hội làm việc mới trong lĩnh vực phát triển App cho Apple với công nghệ mới nhất tính đến thời điểm hiện tại.</p>",
+  "Tags": ["ios", "swiftui", "mobile"],
+  "Requirements": [
+    "Knowledge of Swift programming language",
+    "MacOS Catalina is recommended",
+    "Xcode 11"
+  ],
+  "TargetStudents": [
+    "Beginner iOS developers",
+    "Swift developers want to learn SwiftUI"
+  ],
+  "LearnedContents": [
+    "Fundamentals of the SwiftUI",
+    "Master iOS App Development with SwiftUI",
+    "Build iOS Apps using SwiftUI framework"
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/480x270/2870362_1e87_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "lV2UdKKIwNrh",
+  "Title": "iOS & Swift - The Complete iOS App Development Bootcamp",
+  "TitleCleaned": "ios-swift-the-complete-ios-app-development-bootcamp",
+  "Description": "<p>Welcome to the <strong>Complete iOS App Development Bootcamp</strong>. With over 39,000 5 star ratings and a 4.8 average my iOS course is the HIGHEST RATED iOS Course in the history of Udemy!  </p><p>At 55+ hours, this iOS 13 course is the <strong>most comprehensive</strong> iOS development course online!</p><p>This Swift 5.1 course is based on our<strong> in-person</strong> app development bootcamp in London, where we've perfected the curriculum over 4 years of in-person teaching.</p>",
+  "Tags": ["ios", "swift", "mobile"],
+  "Requirements": [
+    "No programming experience needed - I'll teach you everything you need to know",
+    "A Mac computer running macOS 10.15 (Catalina) or a PC running macOS."
+  ],
+  "TargetStudents": [
+    "Beginner iOS developers",
+    "If you are an absolute beginner to coding, then take this course."
+  ],
+  "LearnedContents": [
+    "You will create a portfolio of 15 apps to be able apply for junior developer jobs at a technology company",
+    "You will learn Xcode, UIKit and SwiftUI, ARKit, CoreML and CoreData.",
+    "You will learn by doing, where every lesson is incorporated into a real-world app project.",
+    "After the course, you will be able to build any app you want."
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "39.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/480x270/2870362_1e87_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "9AIiyaKglA0c",
+  "Title": "Flutter & Dart - The Complete Guide [2024 Edition]",
+  "TitleCleaned": "flutter-dart-the-complete-guide-2024-edition",
+  "Description": "<p><strong>What You'll Learn:</strong></p><ul><li><p>Detailed setup instructions for both macOS and Windows</p></li><li><p>A thorough introduction to Flutter, Dart, and the concept behind widgets</p></li><li><p>An overview of the built-in widgets and how to add your own</p></li><li><p>Debugging tips &amp; tricks</p></li><li><p>Page navigation with tabs, side drawers, and stack-based navigation</p></li><li><p>State management solutions</p></li><li><p>Handling and validating user input</p></li><li><p>Connecting your Flutter app to backend servers by sending HTTP requests</p></li><li><p>User authentication</p></li><li><p>Adding Google Maps</p></li><li><p>Using native device features like the camera</p></li><li><p>Adding beautiful animations &amp; page transitions</p></li><li><p>Image upload</p></li><li><p>Push notifications - manual approach and automated</p></li><li><p>And much more!</p></li></ul>",
+  "Tags": ["flutter", "dart", "mobile"],
+  "Requirements": [
+    "Basic programming language will help but is not a must-have",
+    "You can use either Windows, macOS or Linux for Android app development - iOS apps can only be built on macOS though"
+  ],
+  "TargetStudents": [
+    "Beginner and experienced developers who are interested in diving into mobile app development using one language for both platforms",
+    "Experienced iOS or Android developers who want to build cross-platform (iOS + Android) apps with one single programming language"
+  ],
+  "LearnedContents": [
+    "Learn Flutter and Dart from the ground up, step-by-step",
+    "Build engaging native mobile apps for both Android and iOS",
+    "Use features like Google Maps, the device camera, authentication and much more!",
+    "Learn how to upload images and how to send manual and automated push notifications"
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "39.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1708340_7108_5.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "YHGAVB8xinxd",
+  "Title": "The Complete Flutter Development Bootcamp with Dart",
+  "TitleCleaned": "the-complete-flutter-development-bootcamp-with-dart",
+  "Description": "<p>Welcome to the <strong>Complete Flutter App Development Bootcamp with Dart </strong>- created in collaboration with the Google Flutter team.</p><p><strong>Now includes a brand new module on Flutter State Management!</strong></p><p>Covering all the fundamental concepts for Flutter development, this is the <strong>most comprehensive</strong> Flutter course available online. </p><p>We built this course over months, perfecting the curriculum together with the Flutter team to teach you Flutter<strong> from scratch</strong> and make you into&nbsp; a <strong>skilled Flutter developer</strong> with a <strong>strong portfolio</strong> of beautiful Flutter apps.</p>",
+  "Tags": ["flutter", "dart", "mobile"],
+  "Requirements": [
+    "Have 10GB of free space on your hard drive.",
+    "Although you can build iOS apps on a Windows computer with Flutter, if you want to test it, you will need a Mac."
+  ],
+  "TargetStudents": [
+    "If you have never programmed before, then take this course to learn Dart and build iOS and Android apps.",
+    "If you know how to code, but are new to mobile development, then take this course to build apps with just one codebase."
+  ],
+  "LearnedContents": [
+    "Build beautiful, fast and native-quality apps with Flutter",
+    "Become a fully-fledged Flutter developer",
+    "Build iOS and Android apps with just one codebase",
+    "Build iOS and Android apps using just one programming language (Dart)"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/2259120_305f_6.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "0VX5sZVdMNzt",
+  "Title": "The Complete React Native + Hooks Course",
+  "TitleCleaned": "the-complete-react-native-hooks-course",
+  "Description": "<p>If you are new to React, or if you've been working to learn it but sometimes feel like you still don't quite 'get it', this is the React course for you! To learn React you have to understand it.</p><ul><li><p>Learn how to use React's custom markup language, JSX, to clean up your Javascript code</p></li><li><p>Master the process of breaking down a complex component into many smaller, interchangeable components</p></li><li><p>Grasp the difference between \"props\" and \"state\" and when to use each</p></li><li><p>Render interactive, media-rich components in beautifully styled apps</p></li><li><p>Develop apps that are unique, fun, and responsive</p></li><li><p>Build on <strong>both Android and iOS</strong> platforms</p></li><li><p>Master integration with <strong>Firebase for user authentication</strong></p></li><li><p>Learn the core principles of <strong>navigation</strong> with React Native</p></li></ul>",
+  "Tags": ["react-native", "mobile"],
+  "Requirements": [
+    "All you need is basic understanding of Javascript"
+  ],
+  "TargetStudents": [
+    "This course is for anyone looking to make native apps with React Native"
+  ],
+  "LearnedContents": [
+    "Create real-world native apps using React Native",
+    "Understand the terminology and concepts of Redux",
+    "Discover mobile design patterns used by experienced engineers"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/959700_8bd2_12.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "wK9d3vaoGaxn",
+  "Title": "React Native - The Practical Guide [2024]",
+  "TitleCleaned": "react-native-the-practical-guide-2024",
+  "Description": "<p>If you are new to React, or if you've been working to learn it but sometimes feel like you still don't quite 'get it', this is the React course for you! To learn React you have to understand it.</p><ul><li><p>Learn how to use React's custom markup language, JSX, to clean up your Javascript code</p></li><li><p>Master the process of breaking down a complex component into many smaller, interchangeable components</p></li><li><p>Grasp the difference between \"props\" and \"state\" and when to use each</p></li><li><p>Render interactive, media-rich components in beautifully styled apps</p></li><li><p>Develop apps that are unique, fun, and responsive</p></li><li><p>Build on <strong>both Android and iOS</strong> platforms</p></li><li><p>Master integration with <strong>Firebase for user authentication</strong></p></li><li><p>Learn the core principles of <strong>navigation</strong> with React Native</p></li></ul>",
+  "Tags": ["react-native", "mobile"],
+  "Requirements": [
+    "All you need is basic understanding of Javascript"
+  ],
+  "TargetStudents": [
+    "This course is for anyone looking to make native apps with React Native"
+  ],
+  "LearnedContents": [
+    "Create real-world native apps using React Native",
+    "Understand the terminology and concepts of Redux",
+    "Discover mobile design patterns used by experienced engineers"
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1436092_2024_4.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "RbSehgsm6j7d",
+  "Title": "The Complete Android Oreo Developer Course - Build 23 Apps!",
+  "TitleCleaned": "the-complete-android-oreo-developer-course-build-23-apps",
+  "Description": "<p><strong>The Complete Android 8.0 Oreo Developer Course by Rob Percival and Nick Walter</strong></p><p><strong><em>Learn Android App Development with Android 8.0 Oreo by building real apps including Twitter, Instagram&nbsp;and Super Mario Run.</em></strong></p><p>----</p><p><strong><em>PLEASE&nbsp;NOTE:&nbsp;The most recent Android OS version from Google is Android 11.&nbsp; If you want to learn Android 11 development, check out our brand new The Complete Android 11 Developer Course: Build AMAZING&nbsp;Apps (taught by the brilliant Mashrur Hossain). </em></strong></p>",
+  "Tags": ["android", "kotin", "mobile"],
+  "Requirements": [
+    "A Windows PC, Mac or Linux Computer",
+    "ZERO programming knowledge required - I'll teach you everything you need to know"
+  ],
+  "TargetStudents": [
+    "Anyone who wants to learn to code: Java is a fantastic language to learn how to code with."
+  ],
+  "LearnedContents": [
+    "Make pretty much any Android app you like (your only limit is your imagination)",
+    "Become a professional app developer, take freelance gigs and work from anywhere in the world"
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1405812_931d_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "RFSSSe4opxe0",
+  "Title": "The Complete Android 14 & Kotlin Development Masterclass",
+  "TitleCleaned": "the-complete-android-14-kotlin-development-masterclass",
+  "Description": "<p><strong>What Will You Build? </strong></p><p>In Android 14:</p><ul><li><p>A Unit Converter</p></li><li><p>A Shopping List APP</p></li><li><p>A GeoLocation Application</p></li><li><p>A Music Application</p></li><li><p>And still more to come!</p></li></ul><p>In Android 12:</p><ul><li><p>A Trello Clone</p></li><li><p>A Quiz App</p></li><li><p>A 7-Minute Workout App</p></li><li><p>A Weather App</p></li><li><p>A Drawing App</p></li><li><p>And many more!</p></li></ul>",
+  "Tags": ["android", "kotin", "mobile"],
+  "Requirements": [
+    "A Windows PC, Mac or Linux Computer",
+    "ZERO programming knowledge required - I'll teach you everything you need to know"
+  ],
+  "TargetStudents": [
+    "If you have an idea for an App, then take this course.",
+    "If you have no idea about programming and want to get started, then this course is for you."
+  ],
+  "LearnedContents": [
+    "You will build Apps for your portfolio to apply for jr. Android developer Jobs.",
+    "You'll be able to work as an Android freelancer and work from anywere in the world.",
+    "You will be very confident using Kotlin and programming in general",
+    "You'll be able to develop cloud apps using Google Firebase"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/2642574_61bb_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "98MvPU0NomMw",
+  "Title": "iOS 10 & Swift 3: From Beginner to Paid Professional™",
+  "TitleCleaned": "ios-10-swift-3-from-beginner-to-paid-professionaltm",
+  "Description": "<p>Welcome to the world's most comprehensive course on iOS development. This course is designed like an in-person coding bootcamp to give you the most amount of content and help with the least amount of cost.</p><p>Here are some of the things you'll be able to do after taking this course:</p><ul><li>Submit apps to the app store</li><li>Understand programming &amp;&nbsp;basic algorithms</li><li>Work fluently with Swift 3 &amp;&nbsp;iOS 10</li><li>Apply to jr iOS development jobs</li><li>Work as an iOS contractor</li></ul>",
+  "Tags": ["ios", "swift", "mobile"],
+  "Requirements": [
+    "Must have a computer with OSX or macOS on it"
+  ],
+  "TargetStudents": [
+    "If you are an absolute beginner to coding take this course",
+    "If you are an absolute beginner to iOS or mobile development then take this course"
+  ],
+  "LearnedContents": [
+    "Build iOS 10 & Swift 3 apps",
+    "Apply to jr. iOS development jobs",
+    "Submit iOS apps to the Apple App Store",
+    "Work as an iOS contractor"
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/892102_963b.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "jhHc5DA7xQi1",
+  "Title": "Flutter Beginner Tutorial - Build own App",
+  "TitleCleaned": "flutter-beginner-tutorial-build-own-app",
+  "Description": "<p>First part of the series talks about the basics of dart so beginners can get up to speed for the flutter tutorials. After that we will install android studio and start with the basics of flutter. At the end of the course we will create a simple ToDo App with basic functionallity. </p><p>- learn dart basics</p><p>- learn flutter basics</p><p>- create own app</p><p><br></p><p>Good luck and have fun!</p>",
+  "Tags": ["flutter", "mobile"],
+  "Requirements": [
+    "For beginners. No tools required"
+  ],
+  "TargetStudents": [
+    "If you are interested in Flutter and App development take this course"
+  ],
+  "LearnedContents": [
+    "Learn the basics of dart and flutter and build an complete ToDo App"
+  ],
+  "Level": "Basic",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1967418_c3c0.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824734",
+    "Name": "Mobile Apps Development",
+    "Slug": "mobile-apps-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "YWMXcsCJm9UF",
+  "Title": "Figmarketing | Khoá học figma dành cho thiết kế marketing",
+  "TitleCleaned": "figmarketing-khoa-hoc-figma-danh-cho-thiet-ke-marketing",
+  "Description": "<p><strong>KHÓA HỌC NÀY CÓ GÌ</strong></p><p>Khóa học đặc biệt, hướng dẫn Figma và các công cụ đặc biệt của nó nhưng lại hỗ trợ cho việc thiết kế graphic, social post hoặc banner phục vụ đơn giản cho thiết kế.</p><p><strong>KHÓA HỌC SẼ DẠY NHỮNG GÌ?</strong></p><p>Bạn sẽ được tiếp kiến thức thực chiến từ đội ngũ TELOS, bao gồm những nhân sự chuyên về design&nbsp;UI/UX, Graphic và Branding, những điều sẽ được hướng dẫn:</p><ul><li><p>Các công cụ cần thiết trong figma để làm graphic/thiết kế marketing</p></li><li><p>Cách thức tiếp nhận và hiểu được một thiết kế đã xây dựng từ người khác</p></li><li><p>Cách xử lý, export, thao tác gọn gàng để có output hiệu quả</p></li><li><p>Cách tự xây dựng hệ thống cho mình một cách khoa để tiết kiệm công sức</p></li><li><p>Các công cụ bỗ trợ cực kì chất lượng giúp giảm thời gian thao tác</p></li></ul>",
+  "Tags": ["figma", "design"],
+  "Requirements": [
+    "Tinh thần chủ động, tự thực hành",
+    "Hiểu biết cơ bản về máy tính và internet"
+  ],
+  "TargetStudents": [
+    "Marketer đang cần thực hiện thiết kế hoặc demo thiết kế",
+    "Freelancer cần biết thiết kế hỗ trợ công việc",
+    "Content writer người muốn làm minh hoạ thiết kế"
+  ],
+  "LearnedContents": [
+    "Hiểu được nền tảng về Figma và đưa vào ứng dụng cho thiết kế Graphic đơn giản",
+    "Tiếp nhận được thiết kế trên Figma và thừa hưởng để phát triển tiếp",
+    "Thiết kế được các dạng hình đơn giản phục vụ marketing như banner, poster, social post...",
+    "Tiết kiệm 50~60% thời gian và công sức cho những task về thiết kế khi dùng figma"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://cdn.sanity.io/images/599r6htc/regionalized/3225dab2b34419e6bc17bf52633ed13b4e86cd6d-3262x1836.jpg?rect=1,0,3260,1836&w=1632&h=919&q=75&fit=max&auto=format"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "593034",
+    "Name": "Degisn Tools",
+    "Slug": "degisn-tools"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "BLSxdyq7fO2i",
+  "Title": "Làm hiệu ứng video với After Effects",
+  "TitleCleaned": "lam-hieu-ung-video-voi-after-effects",
+  "Description": "<p>Kỹ xảo hình ảnh là một trong những yếu tố quan trọng trong sản xuất video, giúp video trở nên sống động và thu hút hơn. Sử dụng kỹ xảo đang trở thành xu hướng quảng cáo mới, giúp nâng cao giá trị thương hiệu, đem lại nhiều lợi nhuận hơn.</p>",
+  "Tags": ["after-effects", "design"],
+  "Requirements": [
+    "Có máy tính cấu hình tối thiểu là 8GB Ram",
+    "Có mạng Internet để download các plugin"
+  ],
+  "TargetStudents": [
+    "Người chưa biết gì muốn bắt đầu học làm hiệu ứng video",
+    "Những ai đã biết sơ qua nhưng chưa nắm chắc kiến thức cơ bản",
+    "Những người đang muốn làm cho video của mình trở nên đẹp và hấp dẫn hơn"
+  ],
+  "LearnedContents": [
+    "Cách sử dụng các công cụ trong After Effects để tạo video",
+    "Nắm được cơ chế hoạt động của các loại Layer trong After Effects",
+    "Cách sử dụng Camera 3D - Null Layer để tạo hiệu ứng",
+    "Cách sử dụng các Layer Shape - Solid để tạo hiệu ứng video"
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/5243536_dd02.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "593034",
+    "Name": "Degisn Tools",
+    "Slug": "degisn-tools"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "NCYuHjMuouth",
+  "Title": "Adobe Premiere Pro CC – Essentials Training Course",
+  "TitleCleaned": "adobe-premiere-pro-cc-essentials-training-course",
+  "Description": "<p>Hi there, my name is Daniel Walter Scott and I am an Adobe Certified Instructor.</p><p>I am here to help you learn Adobe Premiere Pro and to show you the tools you need to become a successful video editor.</p>",
+  "Tags": ["adobe-premiere", "design"],
+  "Requirements": [
+    "No video editing or Premiere Pro knowledge is necessary",
+    "You will need the latest version of Adobe Premiere Pro installed on your computer."
+  ],
+  "TargetStudents": [
+    "This course is suited for people that don't have any experience with editing video or Premiere Pro. We start right at the beginning.",
+    "Anyone who wants to start using Premiere Pro in their career or as a hobbie."
+  ],
+  "LearnedContents": [
+    "Learn how to edit a video interview",
+    "Learn how to edit social media advertising videos for Instagram, Facebook, Twitter & Youtube Stories"
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://sadesign.vn/pictures/picfullsizes/2024/09/19/cbr1726717547.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "593034",
+    "Name": "Degisn Tools",
+    "Slug": "degisn-tools"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "fvo3TDLsytTW",
+  "Title": "The Complete Adobe Premiere Pro Video Editing Bootcamp",
+  "TitleCleaned": "the-complete-adobe-premiere-pro-video-editing-bootcamp",
+  "Description": "<p><strong>Transform Your Video Editing Skills with Premiere Pro CC&nbsp;- The Ultimate Online Course</strong></p><p><br></p><p>Join Ravi Shirurkar and countless others in mastering Premiere Pro faster than ever before. This isn't just another course; it's a journey to proficiency in professional video editing for film, TV, and the web.</p><p><br></p><p><strong>Why This Premiere Pro Course Stands Out:</strong></p><ul><li><p>Crafted by the acclaimed author of the top-rated After Effects Complete Course.</p></li><li><p>Adobe Premiere Pro CC: The definitive course in video editing, celebrated by students and professionals alike.</p></li></ul><p><strong>What Makes my Teaching Unique?</strong></p><ul><li><p>An approach that delves deep into the 'how' and 'why' of video editing.</p></li><li><p>Designed for both fundamental learning and advanced techniques.</p></li><li><p>Focuses on your learning journey, ensuring you grasp key methodologies and concepts.</p></li></ul>",
+  "Tags": ["adobe-premiere", "design"],
+  "Requirements": [
+    "Adobe Premiere Pro CC installed to thoroughly follow along and practice while you are learning.",
+    "A minimum free disk space of 1 GB to download and work with the necessary professional footage I have provided."
+  ],
+  "TargetStudents": [
+    "You are a complete beginner and want to learn how to use Premiere Pro CC and Professional Video Editing",
+    "You want to start your Video Editing Career, become Professional in Premiere Pro and Video Editing"
+  ],
+  "LearnedContents": [
+    "By the end of the course you'll have created your own Demo-Reel from 1min to 4/5 minutes - depending on your ambitions",
+    "The Entire Video Editing Process while you create you Demo Reel with professionally shut footage provided for you.",
+    "Efficiently use all the editing tools in Premiere Pro CC - The right tools with right techniques at the right place and time"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://learnandexcel.in/wp-content/uploads/2022/03/Premiere-Pro-Thumpnai-2-1024x576.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "593034",
+    "Name": "Degisn Tools",
+    "Slug": "degisn-tools"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "PmjXnCKrIP5n",
+  "Title": "Learn Adobe Photoshop from Scratch",
+  "TitleCleaned": "learn-adobe-photoshop-from-scratch",
+  "Description": "<p>Photoshop is single most important tool for graphic designers and we bring together a course crafted for easy understanding and quick assimilation. This course starts with basic design introduction and follow it up with tools like Selection tools, manipulation tools , creation tools and workspace tools. You will also learn professional design principles and tips and tricks to get you started on photoshop. This practical course focus on the most important photoshop techniques and follows an unique task based pedagogy which is great for beginners and intermediate learners alike.</p>",
+  "Tags": ["adobe", "design"],
+  "Requirements": [
+    "No specific requirement except for a zeal to learn and a copy of the software on your pc"
+  ],
+  "TargetStudents": [
+    "Students who want to learn photoshop from ground up"
+  ],
+  "LearnedContents": [
+    "Use different manipulation and creation tools",
+    "Learn to add different effects using photoshop"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/270816_7956_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "593034",
+    "Name": "Degisn Tools",
+    "Slug": "degisn-tools"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "66nQRybTgvjh",
+  "Title": "Trọn Bộ 5 Kỹ Năng Thiết Kế Adobe",
+  "TitleCleaned": "tron-bo-5-ky-nang-thiet-ke-adobe",
+  "Description": "<p><strong>Trọn bộ 5 Kỹ Năng Thiết Kế Adobe</strong></p><p>Bạn có muốn học hỏi các kỹ năng và kỹ thuật sao nên những bản thiết kế đẹp mắt và những video hấp dẫn có kỹ xảo đặc biệt?</p><p>Bạn có muốn biết quy trình để tạo nên một video hay một tấm ảnh, một tạp chí hay banner đẹp.</p><p>Nếu bạn muốn tìm kiếm một công việc hay dự án liên quan đến thiết kế hình ảnh và video thì đây nhất định chính là một khóa học dành riêng cho bạn.</p><p>Giảng viên sẽ tổng hợp những kiến thức thiết kế thịnh hành nhất để giảng dạy cho bạn như là Typography, hệ thống màu, layout, cách để dùng hình ảnh trong thiết kế, ảnh manipulation, nhận diện thương hiệu, logo, cắt dụng video, hiệu ứng chuyển cảnh, hình ảnh, âm thanh, kỹ xảo và nhiều nhiều hơn nữa.</p><p>Bạn sẽ được học kiến thức căn bản của Photoshop, Illustrator, Indesign, Premiere Pro và After Effect để áp dụng chúng trong thực tế. Mỗi designer cũng như là video editor cần biết đến các phần mềm liên quan như vậy để bổ trợ nhau và nâng cấp bản thân mình ngay khi mà Công nghệ AI đang từng bước thay thế chúng ta làm mọi việc</p>",
+  "Tags": ["adobe", "design"],
+  "Requirements": [
+    "Sử dụng các chương trình Adobe từ CS6 trở lên",
+    "Máy tính bàn hoặc laptop có đồ họa xử lý từ RAM 8GB"
+  ],
+  "TargetStudents": [
+    "Bất cứ ai quan tâm đến lĩnh vực thiết kế hình ảnh và video",
+    "Đặc biệt những bạn có xu hướng trở thành vlogger hoặc youtuber, tiktoker"
+  ],
+  "LearnedContents": [
+    "Tìm hiểu sâu sắc về kiểu chữ, lý thuyết màu sắc, ảnh, bố cục, khối và các lý thuyết và kỹ năng thiết kế khác",
+    "Hiểu và học các công cụ và khả năng thiết yếu của Adobe After Effect, Premiere Pr, Photoshop, Illustrator và InDesign",
+    "Tìm hiểu chỉnh sửa và xử lý ảnh trong Adobe Photoshop.",
+    "Nắm vững công cụ bút, công cụ tạo hình và các công cụ thiết kế vector thiết yếu khác trong Adobe Illustrator."
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/5499942_3a51_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "589649",
+    "Name": "Graphic Degisn",
+    "Slug": "graphic-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "vuGAitOxcLeJ",
+  "Title": "Photoshop - Thiết kế poster/banner (dành cho người mới)",
+  "TitleCleaned": "photoshop-thiet-ke-poster-banner-danh-cho-nguoi-moi",
+  "Description": "<p>KHÓA&nbsp;HỌC THIẾT&nbsp;KẾ&nbsp;DÀNH&nbsp;CHO&nbsp;NGƯỜI&nbsp;MỚI&nbsp;BẮT&nbsp;ĐẦU&nbsp;</p><p>Thiết kế đồ hoạ dần trở thành một kỹ năng vô cùng cần thiết. Các nhà tuyển dụng luôn đòi hỏi ứng viên phải biết sử dụng các công cụ như adobe photoshop, illustrator, biết thiết kế ở mức độ cơ bản để có thể đáp ứng công việc làm truyền thông, quảng cáo hay kinh doanh, bán hàng</p><p>Với KHÓA&nbsp;HỌC&nbsp;ĐƯỢC&nbsp;TỐI&nbsp;ƯU&nbsp;từ thời gian, đến giáo trình,</p><p>Chỉ sau 8 buổi học tập, bạn có thể thành thạo công cụ thiết kế chuyên nghiệp, nắm bắt các nguyên lý thẩm mỹ để tạo ra những ấn phẩm đồ họa hiệu quả, mang tính chuyển đổi cao</p><p><br></p>",
+  "Tags": ["adobe", "photoshop", "design"],
+  "Requirements": [
+    "Biết sử dụng máy vi tính"
+  ],
+  "TargetStudents": [
+    "Content Creator",
+    "Marketer",
+    "Freelancer",
+    "Người Kinh doanh, bán hàng online",
+    "Sale"
+  ],
+  "LearnedContents": [
+    "Sử dụng thành thạo phần mềm thiết kế chuyên nghiệp photoshop",
+    "Thiết kế Poster/Banner quảng cáo, bán hàng",
+    "Nắm bắt các nguyên lý bố cục & màu sắc",
+    "Thiết kế truyền thông - Social media post"
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://www.classcentral.com/report/wp-content/uploads/2022/05/Adobe-Photoshop-BCG-Banner-1.png"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "589649",
+    "Name": "Graphic Degisn",
+    "Slug": "graphic-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "2wKf0QNZuccI",
+  "Title": "Bậc Thầy Canva | Tạo Thiết Kế Chuyên Nghiệp Từ Template",
+  "TitleCleaned": "bac-thay-canva-tao-thiet-ke-chuyen-nghiep-tu-template",
+  "Description": "<p>Bạn đã bao giờ muốn tạo ra các thiết kế chuyên nghiệp mà không cần phải là một nhà thiết kế đồ họa chuyên nghiệp? Trong khóa học này, chúng ta sẽ khám phá cách sử dụng Canva, một công cụ thiết kế trực tuyến phổ biến, để tạo ra các thiết kế chất lượng cao từ các template sẵn có.</p>",
+  "Tags": ["canva", "design"],
+  "Requirements": [
+    "Biết sử dụng máy vi tính",
+    "Máy tính có Internet để truy cập Canva cũng như đăng ký gói thành viên để sử dụng hết tính năng cần thiết"
+  ],
+  "TargetStudents": [
+    "Khóa học này phù hợp với mọi người, từ người mới bắt đầu đến người đã có kinh nghiệm trong thiết kế."
+  ],
+  "LearnedContents": [
+    "Học cách sử dụng giao diện của Canva, điều hướng qua các công cụ và tính năng cơ bản",
+    "Học viên sẽ học cách tạo ra các thiết kế đồ họa chuyên nghiệp bằng cách sử dụng các công cụ và tính năng tiên tiến của Canva.",
+    "Học cách sử dụng Canva một cách hiệu quả, tiết kiệm thời gian và nâng cao hiệu suất trong quá trình thiết kế."
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/750x422/4992484_8e0b_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "589649",
+    "Name": "Graphic Degisn",
+    "Slug": "graphic-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "zYr9qT0qnPAj",
+  "Title": "Adobe Photoshop Masterclass with Photoshop 2025 + AI Updates",
+  "TitleCleaned": "adobe-photoshop-masterclass-with-photoshop-2025-ai-updates",
+  "Description": "<p><strong>You will learn:</strong></p><ul><li><p>How to navigate Photoshop in a way that saves you time on larger projects</p></li><li><p>How to use the full range of Photoshop tools available to you</p></li><li><p>How to use the new Adobe Firefly AI (artificial intelligence) features of Photoshop</p></li><li><p>How to create new projects and set yourself up for the best experience</p></li><li><p>How to use the layer panel to create and edit layer masks with maximum efficiency and ease</p></li><li><p>How to create visually engaging and well-structured marketing content</p></li><li><p>How to edit, touch up, and manipulate images to get the perfect aesthetic</p></li><li><p>How to create professional-looking typography that blends seamlessly with your graphics</p></li><li><p>How to start and complete a Photoshop project and how to optimize every step along the way</p></li><li><p>How to create custom designs unique to your style and aesthetic</p></li><li><p>How to save files for any project, from social media infographics to printed content</p></li><li><p>How to create designs for different formats like apparel</p></li><li><p>Photoshop for web design</p></li><li><p>How to create visually compelling logos and brand identities</p></li><li><p>How to edit RAW and compressed image files</p></li></ul>",
+  "Tags": ["adobe", "design"],
+  "Requirements": [
+    "Students should have a copy of Adobe Photoshop to follow along. We'll be teaching using version CC (Creative Cloud), but any version will be fine."
+  ],
+  "TargetStudents": [
+    "This course is great for beginners who have never used Photoshop or have used it only a few times.",
+    "This course is also good for intermediate/casual Photoshop users who want to learn new techniques and tools, and how to properly use Photoshop."
+  ],
+  "LearnedContents": [
+    "You'll be comfortable navigating Photoshop, creating new projects, designing how you imagine, and saving it for any purpose.",
+    "You'll learn graphic design, photo editing & photo retouching in Photoshop",
+    "You'll learn the essential Photoshop tools for editing and manipulating images.",
+    "You'll learn how to use the Photoshop layers panel including creating and editing layer masks."
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://www.nextscreen.in/blog/wp-content/uploads/2022/04/is-it-possible-to-learn-photoshop-_1.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "589649",
+    "Name": "Graphic Degisn",
+    "Slug": "graphic-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "3zSjLv3XHIw8",
+  "Title": "The Game Design and AI Master Class Beginner to Expert",
+  "TitleCleaned": "the-game-design-and-ai-master-class-beginner-to-expert",
+  "Description": "<p><strong>What You'll Learn </strong></p><ul><li><p><strong>AI Design</strong>: Create images, videos, and complete virtual worlds using powerful AI&nbsp;tools like Stable Diffusion&nbsp;and Dall.e</p></li><li><p><strong>Game&nbsp;Design</strong>: Master 2D&nbsp;and 3D gamed design and development with Arcade Studio and Unity3D</p></li><li><p><strong>Computer Animation</strong>: Create incredible 3D animations industry tools like Maya and Arcade Studio</p></li><li><p><strong>Digital Painting</strong>: Master Photoshop by creating captivating worlds and characters</p></li><li><p><strong>Programming</strong>: Learn the powerful programing language C# as well as intuitive visual code for not programmers </p><p><br></p></li></ul>",
+  "Tags": ["game-design", "design", "unity", "photoshop"],
+  "Requirements": [
+    "This course is for everyone, from complete beginners to experts"
+  ],
+  "TargetStudents": [
+    "If you are interested in working in the game design industy",
+    "If you want to create and publish their own games",
+    "If you want to create incredible AI art"
+  ],
+  "LearnedContents": [
+    "AI design, create incredible AI images and videos for your game and VR experiences",
+    "Master game engines like Arcade Studio and Unity3D",
+    "Create advanced 2D and 3D games, apps, and websites",
+    "Master 3D modeling and animation with tools like Arcade Studio and Maya"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/526534_04bb_4.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "532474",
+    "Name": "Game Degisn",
+    "Slug": "game-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "h8zCDaTjtAKW",
+  "Title": "Visual Effects for Games in Unity - Beginner To Intermediate",
+  "TitleCleaned": "visual-effects-for-games-in-unity-beginner-to-intermediate",
+  "Description": "<p>This course is about the creation of VFX for Games with Unity. You'll start learning how to create Magic Spells, Fireballs, Special Skills and more effects for games. It will take you from a Beginner standpoint to an Intermediate level in Game VFX. It contains the theory, the practice and the creative liberty you will need in your future Visual Effects career.</p>",
+  "Tags": ["game-design", "design", "unity"],
+  "Requirements": [
+    "Unity: Basic",
+    "Unity 2019.1 Preferably",
+    "Photoshop: Basic",
+    "Graphic Tablet Helps",
+    "Blender: Basic"
+  ],
+  "TargetStudents": [
+    "If you are interested in working in the game design industy",
+    "If you want to create and publish their own games",
+    "If you want to create incredible AI art"
+  ],
+  "LearnedContents": [
+    "Learn how to create effects for games with Unity.",
+    "Fundamental concepts about Visual Effects.",
+    "Creating Textures, Meshes and Shaders for Game VFX.",
+    "How to structure AAA Visual Effects."
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1318732_86ee_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "532474",
+    "Name": "Game Degisn",
+    "Slug": "game-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "iv2V4Fw47CEv",
+  "Title": "Learn Professional Pixel Art & Animation for Games",
+  "TitleCleaned": "learn-professional-pixel-art-animation-for-games",
+  "Description": "<p>The Learn Professional Pixel Art & Animation for Games course will show you how to create high quality stylized pixel art and animation that will stand up as professional work. The techniques taught in this course can be translated into just about any asset creation for games. This course will enhance or give you skills in the world of digital art creation - or your money back!</p>",
+  "Tags": ["game-design", "design", "pixel-art", "animation"],
+  "Requirements": [
+    "Computer and mouse",
+    "Photoshop ( you can get the free trial version)"
+  ],
+  "TargetStudents": [
+    "Students looking to learn how to create amazing pixel art and animation",
+    "Students ready to put in a couple of hours learning how to do this"
+  ],
+  "LearnedContents": [
+    "Design and build professional pixel art",
+    "Understand shape, color, and value in pixel art",
+    "Animate your art for games"
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1318732_86ee_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "532474",
+    "Name": "Game Degisn",
+    "Slug": "game-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "2CS8DVmYkTOi",
+  "Title": "Learn Professional 2D Game Graphic Design in Photoshop",
+  "TitleCleaned": "learn-professional-2d-game-graphic-design-in-photoshop",
+  "Description": "<p>The 2D Game Background Creation Course will show you how to create quick high quality stylized backgrounds for games and animations that will stand up as professional work. The techniques taught in this course can be translated into prop and character creation. This course will enhance or give you skills in the world of digital art creation - or your money back!</p>",
+  "Tags": ["game-design", "design", "photoshop"],
+  "Requirements": [
+    "Computer and mouse",
+    "Photoshop ( you can get the free trial version)"
+  ],
+  "TargetStudents": [
+    "Students looking to learn how to create professional 2D game and animation backgrounds in Photoshop.",
+    "Students who are ready to grind it out and become a graphic artist."
+  ],
+  "LearnedContents": [
+    "Build professional stylized backgrounds from scratch in Photoshop",
+    "Create your own game graphics"
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/707876_9e82_4.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "532474",
+    "Name": "Game Degisn",
+    "Slug": "game-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "l6TPKDNVEvjV",
+  "Title": "Learn Blender 3D Modeling for Unity Video Game Development",
+  "TitleCleaned": "learn-blender-3d-modeling-for-unity-video-game-development",
+  "Description": "<p>This course was designed for Unity developers who want to extend their capabilities to include 3D modeling in Blender. Whether you're interested in designing unique 3D props for your games, building awesome levels, or tweaking your existing Unity Assets, this course can help you get through the learning curve and put you in the driver's seat. You'll learn to Blend like a pro with a good working knowledge of all of the most common tools for editing video game props and level design. We cover all the basic terms, keyboard shortcuts, best practices, time-saving tips, basic animation, assigning uvs, applying materials, textures and more.</p>",
+  "Tags": ["blender", "game-design", "design", "unity"],
+  "Requirements": [
+    "Students must have some working knowledge of video game development using Unity.",
+    "Student has a respectable background in personal computing."
+  ],
+  "TargetStudents": [
+    "This course is intended for video game developers who want to learn Blender for 3D modeling, texture mapping and simple animations"
+  ],
+  "LearnedContents": [
+    "Create your own Unity props with confidence using Blender 3D",
+    "Make adjustments to Unity Assets by editing them in Blender",
+    "Learn how to make a variety of low-poly models for your video game projects"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/625846_e25b.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "532474",
+    "Name": "Game Degisn",
+    "Slug": "game-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "Ec6tzjZbmiVf",
+  "Title": "Canva Master Course 2024 | Learn Canva",
+  "TitleCleaned": "canva-master-course-2024-learn-canva",
+  "Description": "<p>Master the complete Canva ecosystem in 2024: AI tools (including the brand new Dream Lab), video editing, website creation, and professional design - all in one comprehensive course!</p>",
+  "Tags": ["canva", "design"],
+  "Requirements": [
+    "You will need a laptop or desktop computer and an Internet connection. No previous design skills required."
+  ],
+  "TargetStudents": [
+    "Virtual assistants who need to create professional graphics, videos and websites for their clients",
+    "Social media managers and visual content creators",
+    "Entrepreneurs and small business owners who want to create a strong brand"
+  ],
+  "LearnedContents": [
+    "Learn How to Use ALL the latest AI features (Including Dream Lab)",
+    "Learn the fundamentals of Canva & graphic design while having fun",
+    "Build a strong brand identity & a brand style guide for your business",
+    "Use Canva to create 18 visuals you need to promote your business"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/750x422/5308280_ab92_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "688645",
+    "Name": "Design",
+    "Slug": "design"
+  },
+  "SubCategory": {
+    "_id": "589649",
+    "Name": "Graphic Degisn",
+    "Slug": "graphic-degisn"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "c8QqjvVqLBaA",
+  "Title": "Học máy (Machine learning) và ứng dụng",
+  "TitleCleaned": "hoc-may-machine-learning-va-ung-dung",
+  "Description": "<p>Học máy (Machine learning) đang ngày càng trở nên phổ biến và được ứng dụng rộng rãi. Chúng được sử dụng trong các hệ thống máy tính của Google, Facebook, ứng dụng trong nhận diện khuôn mặt, nhận diện chữ viết, xe tự lái,...</p><p>Trong khóa học này, chúng ta sẽ cùng tìm hiểu về các thuật toán Machine learning cơ bản để xem làm thế nào để dạy máy tính học từ số liệu có sẵn. </p><p>Các thuật&nbsp; toán và hướng dẫn thực hành được trình bày gồm:</p><ul><li><p>Mô hình hồi quy tuyến tính</p></li><li><p>Mô hình hồi quy Logistic</p></li><li><p>Mô hình cây quyết định</p></li><li><p>Mô hình k-NN</p></li><li><p>Mô hình học không giám sát (Phân cụm thứ bậc, phân cụm K-means)</p></li><li><p>Phương pháp xây dựng và kiểm định mô hình</p></li><li><p>Các thuật toán khác sẽ được cập nhật trong thời gian tới.</p></li></ul><p><br></p><p>Image Credit: <em>Omelchenko/Shutterstock</em>&nbsp; </p>",
+  "Tags": ["machine-learning", "data-science"],
+  "Requirements": [
+    "Toán học cơ bản bậc THPT",
+    "Hiểu biết về đại số tuyến tính, xác suất thống kê bậc đại học sẽ có ích, tuy nhiên các kiến thức cần thiết sẽ được ôn lại ở phần đầu khóa học"
+  ],
+  "TargetStudents": [
+    "Sinh viên có xu hướng về khoa học máy tính, khoa học dữ liệu, phân tích kinh doanh",
+    "Bất cứ ai muốn tìm hiểu về các thuật toán học máy (Machine learning) và cách mà máy tính học từ dữ liệu"
+  ],
+  "LearnedContents": [
+    "Hiểu về các thuật toán Machine Learning cơ bản",
+    "Biết cách áp dụng các thuật toán trong từng dự án/ bài tập nhất định",
+    "Các bước xây dựng mô hình và thực hiện dự báo",
+    "Mẫu code lập trình cho từng thuật toán"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1849356_5a7f_5.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824722",
+    "Name": "Data Science",
+    "Slug": "data-science"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "RkSjoT3FUpGq",
+  "Title": "Machine Learning A-Z: AI, Python & R + ChatGPT Prize [2024]",
+  "TitleCleaned": "machine-learning-a-z-ai-python-r-chatgpt-prize-2024",
+  "Description": "<p>Interested in the field of Machine Learning?&nbsp;Then this course is for you!</p><p>This course has been designed by a <strong>Data Scientist and a Machine Learning expert</strong> so that we can share our knowledge and help you learn complex theory,&nbsp;algorithms, and coding libraries in a simple way.</p><p><strong>Over 1&nbsp;Million students</strong> world-wide trust this course.</p><p>We will walk you step-by-step into the World of Machine Learning. With every tutorial, you will develop new skills and improve your understanding of this challenging yet lucrative sub-field of Data Science.</p>",
+  "Tags": ["machine-learning", "data-science", "python"],
+  "Requirements": [
+    "Just some high school mathematics level."
+  ],
+  "TargetStudents": [
+    "Anyone interested in Machine Learning.",
+    "Students who have at least high school knowledge in math and who want to start learning Machine Learning.",
+    "Any people who are not that comfortable with coding but who are interested in Machine Learning and want to apply it easily on datasets."
+  ],
+  "LearnedContents": [
+    "Master Machine Learning on Python & R",
+    "Have a great intuition of many Machine Learning models",
+    "Use Machine Learning for personal purpose",
+    "Handle specific topics like Reinforcement Learning, NLP and Deep Learning"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824722",
+    "Name": "Data Science",
+    "Slug": "data-science"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "vjHPr6xRKL4O",
+  "Title": "Python for Data Science and Machine Learning Bootcamp",
+  "TitleCleaned": "python-for-data-science-and-machine-learning-bootcamp",
+  "Description": "<p>Interested in the field of Machine Learning?&nbsp;Then this course is for you!</p><p>This course has been designed by a <strong>Data Scientist and a Machine Learning expert</strong> so that we can share our knowledge and help you learn complex theory,&nbsp;algorithms, and coding libraries in a simple way.</p><p><strong>Over 1&nbsp;Million students</strong> world-wide trust this course.</p><p>We will walk you step-by-step into the World of Machine Learning. With every tutorial, you will develop new skills and improve your understanding of this challenging yet lucrative sub-field of Data Science.</p>",
+  "Tags": ["machine-learning", "data-science", "python"],
+  "Requirements": [
+    "Just some high school mathematics level."
+  ],
+  "TargetStudents": [
+    "Anyone interested in Machine Learning.",
+    "Students who have at least high school knowledge in math and who want to start learning Machine Learning.",
+    "Any people who are not that comfortable with coding but who are interested in Machine Learning and want to apply it easily on datasets."
+  ],
+  "LearnedContents": [
+    "Use Python for Data Science and Machine Learning",
+    "Use Spark for Big Data Analysis",
+    "Implement Machine Learning Algorithms",
+    "Learn to use NumPy for Numerical Data"
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/903744_8eb2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824722",
+    "Name": "Data Science",
+    "Slug": "data-science"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "bY0VrZ1DH8zq",
+  "Title": "The Data Science Course: Complete Data Science Bootcamp 2024",
+  "TitleCleaned": "the-data-science-course-complete-data-science-bootcamp-2024",
+  "Description": "<p>Interested in the field of Machine Learning?&nbsp;Then this course is for you!</p><p>This course has been designed by a <strong>Data Scientist and a Machine Learning expert</strong> so that we can share our knowledge and help you learn complex theory,&nbsp;algorithms, and coding libraries in a simple way.</p><p><strong>Over 1&nbsp;Million students</strong> world-wide trust this course.</p><p>We will walk you step-by-step into the World of Machine Learning. With every tutorial, you will develop new skills and improve your understanding of this challenging yet lucrative sub-field of Data Science.</p>",
+  "Tags": ["machine-learning", "data-science", "python"],
+  "Requirements": [
+    "No prior experience is required. We will start from the very basics",
+    "You\\’ll need to install Anaconda. We will show you how to do that step by step",
+    "Microsoft Excel 2003, 2010, 2013, 2016, or 365"
+  ],
+  "TargetStudents": [
+    "You should take this course if you want to become a Data Scientist or if you want to learn about the field",
+    "The course is also ideal for beginners, as it starts from the fundamentals and gradually builds up your skills"
+  ],
+  "LearnedContents": [
+    "The course provides the entire toolbox you need to become a data scientist",
+    "Impress interviewers by showing an understanding of the data science field",
+    "Start coding in Python and learn how to use it for statistical analysis",
+    "Understand the mathematics behind Machine Learning (an absolute must which other courses don\\’t teach!)"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1754098_e0df_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824722",
+    "Name": "Data Science",
+    "Slug": "data-science"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "a3t7IYvGrOS5",
+  "Title": "Artificial Intelligence A-Z 2024: Build 7 AI + LLM & ChatGPT",
+  "TitleCleaned": "artificial-intelligence-a-z-2024-build-7-ai-llm-chatgpt",
+  "Description": "<p><strong>Welcome to Artificial Intelligence A-Z!</strong></p><p><br></p><p>Learn key AI concepts with intuition lectures to get you quickly up to speed with all things AI and practice them by building <strong>7 different AIs</strong>:</p><p><br></p><ol><li><p>Build an&nbsp;AI with a <strong>Q-Learning</strong> model and train it to optimize warehouse flows in a Process Optimization case study.</p></li><li><p>Build an AI with a <strong>Deep Q-Learning</strong> model and train it to land on the moon.</p></li><li><p>Build an&nbsp;AI with a <strong>Deep Convolutional Q-Learning</strong> model and train it to play the game of Pac-Man.</p></li><li><p>Build an AI&nbsp;with an <strong>A3C (Asynchronous Advantage Actor-Critic)</strong> model and train it to fight Kung Fu.</p></li><li><p>Build an AI with a <strong>PPO (Proximal Policy Optimization)</strong> model and train it for a Self-Driving Car.</p></li><li><p>Build an AI with a <strong>SAC (Soft Actor-Critic)</strong> model and train it for a Self-Driving Car.</p></li><li><p>Build an AI by <strong>fine-tuning a powerful pre-trained LLM (Llama 2 by Meta) with Hugging Face</strong> and re-train it to chat with you about medical terms. Simply put, we build here an <strong>AI Doctor Chatbot</strong>.</p><p><br></p></li></ol>",
+  "Tags": ["machine-learning", "data-science", "python", "deep-learning"],
+  "Requirements": [
+    "High School Maths",
+    "Basic Python knowledge"
+  ],
+  "TargetStudents": [
+    "Anyone interested in Artificial Intelligence, Machine Learning or Deep Learning"
+  ],
+  "LearnedContents": [
+    "Build 7 different AIs for 7 different applications",
+    "Understand the theory behind Artificial Intelligence",
+    "Master the State of the Art AI models",
+    "Solve Real World Problems with AI"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1219332_bdd7.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "824722",
+    "Name": "Data Science",
+    "Slug": "data-science"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "gI7CWDgpLPiZ",
+  "Title": "Complete C# Unity Game Developer 2D",
+  "TitleCleaned": "complete-c-unity-game-developer-2d",
+  "Description": "<p>The course is project-based as we believe this is the best way to learn Unity and C#. You will not just be learning dry programming concepts, but applying them immediately to real indie games as you go. All the project files will be included, as well as additional references and resources - you'll never get stuck. There are talking-head videos, powerful diagrams, quality screencasts and more. </p>",
+  "Tags": ["unity", "game", "c#"],
+  "Requirements": [
+    "Mac or PC capable of running Unity 2019 or later.",
+    "A passion and willingness to learn how to code."
+  ],
+  "TargetStudents": [
+    "Artists who want to learn to bring their assets into games.",
+    "Developers who want to re-skill across to game development."
+  ],
+  "LearnedContents": [
+    "Learn C#, a powerful modern language, from scratch - no prior programming experience is necessary.",
+    "Become excellent at using the Unity game engine.",
+    "Build a solid foundation for game design and game development that will help you build your own games.",
+    "Create playable game projects - good for your portfolio, or just for your own sense of achievement."
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/258316_55e9_12.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "452682",
+    "Name": "Game Development",
+    "Slug": "game-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "c3hbNyowqbjL",
+  "Title": "Unreal Engine 5 C++ Developer: Learn C++ & Make Video Games",
+  "TitleCleaned": "unreal-engine-5-c-developer-learn-c-make-video-games",
+  "Description": "<p>Ready to <strong>make games in the amazing world of Unreal Engine 5</strong>?</p><p>This<strong> </strong>\"<strong>critically-acclaimed</strong>\" and \"<strong>insanely successful</strong>\" Unreal Engine course<strong> </strong>was<strong> created in collaboration with Epic Games.</strong> </p><p><strong>The majority of the course has been fully updated and remastered to Unreal Engine 5. </strong>Existing students get all the new material for free.</p><p><strong>Learn how to create and mod video games using Unreal Engine 5</strong>, even if you're a complete beginner. Unreal is a free-to-use game development engine used by AAA studios and indie developers worldwide. It is a massive and powerful beast, but <strong>we break it down step-by-step</strong> so you can tame it.</p><p>We start super simple so <strong>no prior experience of Unreal or coding is needed</strong>! With our online tutorials, you'll be amazed at what you can achieve. We believe project-based learning is the best way to learn Unreal Engine, so you\\’ll create 5 Unreal games!</p>",
+  "Tags": ["unreal-engine", "game", "c++"],
+  "Requirements": [
+    "64-bit PC capable of running Unreal 5 (recommended).",
+    "+8GB of RAM.",
+    "Quad-core CPU, 2.5 GHz or faster.",
+    "DirectX 11, 12 or Metal 1.2 Compatible Graphics Card."
+  ],
+  "TargetStudents": [
+    "Existing programmers who want to re-skill to game development.",
+    "Developers who want to re-skill across to coding."
+  ],
+  "LearnedContents": [
+    "How to make games in Unreal Engine 5.",
+    "C++, the games industry standard language",
+    "Artificial Intelligence behaviour programming for enemies.",
+    "Modern game development technologies and techniques."
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/657932_c7e0_6.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "452682",
+    "Name": "Game Development",
+    "Slug": "game-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "wLHy3ymvkV3U",
+  "Title": "Unreal Engine 5: The Complete Beginner's Course",
+  "TitleCleaned": "unreal-engine-5-the-complete-beginners-course",
+  "Description": "<p>Learn game development with Unreal Engine 5. UE5 is the industry-leading 3D game design software that the professionals use to create today\\’s top games. Start your journey towards getting paid to make video games today!</p>",
+  "Tags": ["unreal-engine", "game", "c++"],
+  "Requirements": [
+    "64-bit PC capable of running Unreal 5 (recommended).",
+    "+8GB of RAM.",
+    "Quad-core CPU, 2.5 GHz or faster.",
+    "DirectX 11, 12 or Metal 1.2 Compatible Graphics Card."
+  ],
+  "TargetStudents": [
+    "Existing programmers who want to re-skill to game development.",
+    "Developers who want to re-skill across to coding."
+  ],
+  "LearnedContents": [
+    "How to make games in Unreal Engine 5.",
+    "Build realistic looking environments for games to take place in",
+    "Define custom inputs and movements to control characters",
+    "Script logic to define gameplay without needing to know how to code"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/660600_39b2_4.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "452682",
+    "Name": "Game Development",
+    "Slug": "game-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "cXdQ5iWMnNbl",
+  "Title": "Complete C# Unity Game Developer 3D (Updated To Unity 6)",
+  "TitleCleaned": "complete-c-unity-game-developer-3d-updated-to-unity-6",
+  "Description": "<p><strong>This is the long-awaited&nbsp;sequel to the Complete Unity Developer </strong>- one of the most popular e-learning courses on the internet!<strong>&nbsp;</strong>Completely re-worked from scratch with&nbsp;<strong>brand-new projects </strong>and&nbsp;our latest teaching techniques. You will&nbsp;benefit from the fact <strong>we have already taught over 2 million students</strong>&nbsp;programming and&nbsp;game development, many shipping commercial games as a result.</p>",
+  "Tags": ["unity", "game", "c#"],
+  "Requirements": [
+    "PC or Mac capable of running Unity 2017 or later.",
+    "Regular internet access for Q&A and community."
+  ],
+  "TargetStudents": [
+    "Anyone who wants to learn to code the fun way - by making games.",
+    "People who want to learn to make their video games, learning code as they go."
+  ],
+  "LearnedContents": [
+    "Learn C# from scratch. A powerful modern language.",
+    "Get experience using Unity 2020 - a very versatile 3D tool.",
+    "Gain an excellent general knowledge of video game design.",
+    "Transfer your knowledge to .NET, other languages, and more."
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1178124_76bb_13.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "452682",
+    "Name": "Game Development",
+    "Slug": "game-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "iVdLfGu38cKX",
+  "Title": "The Ultimate Guide to Game Development with Unity (Official)",
+  "TitleCleaned": "the-ultimate-guide-to-game-development-with-unity-official",
+  "Description": "",
+  "Tags": ["unity", "game", "c#"],
+  "Requirements": [
+    "PC or Mac capable of running Unity 2017 or later.",
+    "Regular internet access for Q&A and community."
+  ],
+  "TargetStudents": [
+    "Anyone who wants to learn to code the fun way - by making games.",
+    "People who want to learn to make their video games, learning code as they go."
+  ],
+  "LearnedContents": [
+    "Master beginner C# concepts, like variables, \"if\" statements, and arrays",
+    "Detect collisions, receive user input, and create player movements",
+    "Create power-ups including triple shots, laser beams, speed boosts, and shields"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1328572_b05d_5.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "421679",
+    "Name": "Development",
+    "Slug": "development"
+  },
+  "SubCategory": {
+    "_id": "452682",
+    "Name": "Game Development",
+    "Slug": "game-development"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "pomtzOtrLOEJ",
+  "Title": "The Complete Digital Marketing Course - 12 Courses in 1",
+  "TitleCleaned": "the-complete-digital-marketing-course-12-courses-in-1",
+  "Description": "<p>Covering 12 major online marketing topics and comprising 20+ hours of clear-cut lectures &amp; practice activities - this course is \"incredible value for money!\" as one student said. </p><ol><li><p><strong>Market Research. </strong>Ask 3 simple questions to validate your business idea.</p></li><li><p><strong>WordPress. </strong>Build a world-class website in 1 hour without any coding.</p></li><li><p><strong>Email Marketing. </strong>Build a&nbsp;mailing list of 1000&nbsp;people&nbsp;in 30 days from scratch.</p></li><li><p><strong>Copywriting</strong>. Write<strong> </strong>sales pages that make the cash register ring!</p></li><li><p><strong>SEO&nbsp;(Search Engine Optimisation). </strong>Get free traffic to your website with SEO.</p></li><li><p><strong>YouTube Marketing.</strong> Drive traffic &amp; sales with simple \"how to\" videos.</p></li><li><p><strong>Social Media Marketing (Instagram, Facebook, Twitter, Pinterest &amp; Quora).</strong></p></li><li><p><strong>Linkedin Marketing. </strong>Go viral on Linkedin and 400x your connections.</p></li><li><p><strong>App Marketing.</strong> Discover 43 Ways To Promote Your App.</p></li><li><p><strong>Google Adwords. </strong>Avoid common mistakes and set up profitable campaigns the first time.</p></li><li><p><strong>Facebook Ads.</strong> Make money with Facebook Ads without spending a fortune.</p></li><li><p><strong>Google Analytics. </strong>Improve your marketing with Google Analytics data.</p></li></ol>",
+  "Tags": ["digital-marketing", "marketing"],
+  "Requirements": [
+    "No experience required",
+    "Suitable for all types of businesses (digital product, physical product, service, B2B, B2C)."
+  ],
+  "TargetStudents": [
+    "Pre launch business owners who don't know where to get started",
+    "Website owners who are struggling to get traffic and sales",
+    "Anyone looking to add highly paid skills to their CV"
+  ],
+  "LearnedContents": [
+    "Grow a Business Online From Scratch",
+    "Make Money as an Affiliate Marketer",
+    "Get Hired as a Digital Marketing Expert",
+    "Work From Home as a Freelance Marketer"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/914296_3670_8.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "518245",
+    "Name": "Digital Marketing",
+    "Slug": "digital-marketing"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "gEJCMF9IPEHJ",
+  "Title": "Digital Marketing Masterclass: AI & Social Media Marketing",
+  "TitleCleaned": "digital-marketing-masterclass-ai-social-media-marketing",
+  "Description": "<p>You're looking for a&nbsp;<strong>complete digital marketing course</strong> to teach you everything you need to become a digital marketing expert, right?</p><p><strong><em>You've found the right digital marketing course!</em></strong></p><p>With the skills learned in our digital marketing course, you can:</p><ul><li><p><strong>GROW your own business</strong></p></li><li><p><strong>LAND a job in this hot marketing industry</strong></p></li><li><p><strong>HELP a client increase their business</strong></p></li></ul><p>We want to help you grow your business with social media marketing, content marketing, email marketing, and more!&nbsp;</p>",
+  "Tags": ["digital-marketing", "marketing", "ai"],
+  "Requirements": [
+    "No prior marketing knowledge required",
+    "You should be ready to take action and see real results!"
+  ],
+  "TargetStudents": [
+    "Entrepreneurs, business owners, bloggers, YouTubers, social media fans",
+    "Website owners who want to increase web traffic, conversions, and sales"
+  ],
+  "LearnedContents": [
+    "Watch our Free Digital Marketing course preview lessons to get started.",
+    "You will learn how to use dozens of proven digital marketing strategies",
+    "You will learn social media marketing using all of the most popular social media platforms to grow your business",
+    "You will improve your brand identity and grow your brand's audience"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://courses.iid.org.in/public//uploads/media_manager/628.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "518245",
+    "Name": "Digital Marketing",
+    "Slug": "digital-marketing"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "5WHMoqOualab",
+  "Title": "Mega Digital Marketing Course A-Z: 32 Courses in 1 + Updates",
+  "TitleCleaned": "mega-digital-marketing-course-a-z-32-courses-in-1-updates",
+  "Description": "<p>Dive into the dynamic world of digital marketing with our comprehensive course, expertly designed for beginners and intermediates, yet brimming with insights even seasoned marketers can leverage. Whether you're aspiring to become a digital marketing maestro, elevate your own business, or shine in the digital marketing arena, our course is your gateway to success.</p>",
+  "Tags": ["digital-marketing", "marketing"],
+  "Requirements": [
+    "No prior marketing knowledge required",
+    "Join with an open mind, hungry to learn amazing stuff!"
+  ],
+  "TargetStudents": [
+    "Entrepreneurs, business owners, bloggers, YouTubers, social media fans",
+    "Website owners who want to increase web traffic, conversions, and sales"
+  ],
+  "LearnedContents": [
+    "Advanced Digital Marketing planning.",
+    "ChatGPT for marketing.",
+    "Prompt engineering for marketing.",
+    "Build websites & online stores - no coding.",
+    "Psychological marketing tactics.",
+    "Email Marketing + pro strategies with AI."
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1931752_1012_16.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "518245",
+    "Name": "Digital Marketing",
+    "Slug": "digital-marketing"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "ZZfcnUy0bLZe",
+  "Title": "ChatGPT for Marketing, Content, Social Media, and PR",
+  "TitleCleaned": "chatgpt-for-marketing-content-social-media-and-pr",
+  "Description": "<p>In this video course, you will learn how to create, edit, and improve social media descriptions and copy, craft the perfect reply for email, ideate and discover new and unique topics to write about and create compelling outreach emails and subject lines. Furthermore, you\\’ll become proficient in prompting ChatGPT for a variety of other applications.</p>",
+  "Tags": ["digital-marketing", "marketing", "chatgpt"],
+  "Requirements": [
+    "No prior marketing knowledge required",
+    "Join with an open mind, hungry to learn amazing stuff!",
+    "Access to ChatGPT"
+  ],
+  "TargetStudents": [
+    "Entrepreneurs, business owners, bloggers, YouTubers, social media fans",
+    "Website owners who want to increase web traffic, conversions, and sales"
+  ],
+  "LearnedContents": [
+    "ChatGPT Setup and Best Practices",
+    "Social Media: Create, Edit, and Improve Social Media Descriptions & Copy.",
+    "Media Pitches: Create Compelling Outreach Emails & Subject Lines. Write Press Releases.",
+    "Email: Craft the Perfect Reply. ChatGPT for Email, Slack, and Teams."
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/5127818_abb9_3.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "518245",
+    "Name": "Digital Marketing",
+    "Slug": "digital-marketing"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "ztWxU70bcLZl",
+  "Title": "Digital Marketing Certification: Master Digital Marketing",
+  "TitleCleaned": "digital-marketing-certification-master-digital-marketing",
+  "Description": "<p><strong>No prior experience in digital marketing necessary. Start learning the tips and tricks as well as tested methods that will make you an expert in digital marketing and online advertising. </strong></p><p><strong>About this course</strong>:</p><ul><li><p>No prior experience in Digital Marketing necessary</p></li><li><p>More than 100.000 satisfied students</p></li><li><p>Unconditional 30 day money-back-guarantee: My personal promise that you will learn every secret of digital marketing</p></li><li><p>Step by step guide for every subject</p></li><li><p>Full, free lifetime access to the course. </p><p><br></p></li></ul><p><strong>The knowledge that this</strong> <strong>Digital Marketing Course provides is really advanced</strong>:</p><ul><li><p>Blogging</p></li><li><p>Social Media</p></li><li><p>Monitoring</p></li><li><p>Google Ads</p></li><li><p>SEO</p></li><li><p>Google Analytics</p></li><li><p>E-commerce Optimization</p></li><li><p>Conversion Optimization</p></li></ul>",
+  "Tags": ["digital-marketing", "marketing"],
+  "Requirements": [
+    "Knowledge of the English language"
+  ],
+  "TargetStudents": [
+    "Beginners in Digital Marketing"
+  ],
+  "LearnedContents": [
+    "Digital Marketing",
+    "Social Media",
+    "Search Engine Optimization",
+    "E-commerce Optimization"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/2658548_c93b_6.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "518245",
+    "Name": "Digital Marketing",
+    "Slug": "digital-marketing"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "sf9pJOexbu9j",
+  "Title": "SEO 2024: Complete SEO Training - AI SEO Masterclass",
+  "TitleCleaned": "seo-2024-complete-seo-training-ai-seo-masterclass",
+  "Description": "<p><strong>In this course, you will learn how to:</strong></p><ol><li><p>Conduct keyword research and find the best keywords for your niche</p></li><li><p>Explore innovative solutions like leveraging chatGPT and generative AI for SEO strategies</p></li><li><p>Optimize your website structure, content, and technical aspects for SEO</p></li><li><p>Build high-quality backlinks that boost your authority and rankings</p></li><li><p>Perform SEO audits and fix any issues that are holding you back</p></li><li><p>Track and measure your SEO results using Google Analytics and other tools</p></li><li><p>Stay ahead of the competition and avoid any SEO penalties or algorithm updates</p></li></ol>",
+  "Tags": ["marketing", "seo", "ai"],
+  "Requirements": [
+    "No prior SEO experience is required! This course is designed for complete beginners and will guide you step-by-step, from the basics to advanced strategies.",
+    "A computer with internet access: You'll be learning SEO tools and techniques that require online access."
+  ],
+  "TargetStudents": [
+    "Aspiring SEO Professionals: Learn SEO from scratch and build a lucrative career as an in-demand SEO expert.",
+    "Freelancers & Agencies: Offer high-value SEO services to clients and grow your business with proven techniques."
+  ],
+  "LearnedContents": [
+    "Master SEO Fundamentals: Gain a rock-solid understanding of SEO principles, terminology, and how search engines work to build a strong foundation.",
+    "Unlock Keyword Power: Discover profitable keywords with high search volume and low competition to attract your ideal audience and boost website traffic."
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://www.classcentral.com/report/wp-content/uploads/2022/07/SEO-BCG-Banner-2.png"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "338245",
+    "Name": "SEO",
+    "Slug": "seo"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "lGSmWHsQMSh7",
+  "Title": "The Ultimate SEO Training 2024 + SEO For Wordpress Websites",
+  "TitleCleaned": "the-ultimate-seo-training-2024-seo-for-wordpress-websites",
+  "Description": "<strong>What you\\’ll learn by taking this SEO course</strong><ul><li><p>Learn more about SEO and understand how it all works</p></li><li><p>How to structure and optimise your website to rank on page 1</p></li><li><p>How to find the best keywords to target for your website</p></li><li><p>Understanding the role of content in SEO</p></li><li><p>Find out how to spy on your competitors and see what SEO efforts they have been getting up to</p></li><li><p>How to find 100s of content ideas for your blog</p></li><li><p>How to build powerful backlinks that will crush the competition</p></li><li><p>Master technical SEO and outsmart your competitors</p></li></ul>",
+  "Tags": ["seo", "wordpress"],
+  "Requirements": [
+    "No previous SEO knowledge or experience is required."
+  ],
+  "TargetStudents": [
+    "Anyone who wants to learn about SEO",
+    "Business Owners who want to save $X,XXX paying SEO agencies"
+  ],
+  "LearnedContents": [
+    "Learn about SEO and understand how it all works",
+    "Learn how to structure and optimise your website to rank on page 1",
+    "SEO Training strategies used by Londons Leading SEO agency",
+    "How to find the best keywords to target for your website"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "29.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/2938000_f552_23.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "338245",
+    "Name": "SEO",
+    "Slug": "seo"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "4hwsIvOJUbwQ",
+  "Title": "SEO Training: Get Free Traffic to Your Website With SEO",
+  "TitleCleaned": "seo-training-get-free-traffic-to-your-website-with-seo",
+  "Description": "<p><strong>What You'll Learn</strong></p><ul><li><p>Substantially Increase Your Search Position, Traffic and Sales </p></li><li><p>Avoid Dangerous SEO Myths That Can Hurt Your Business</p></li><li><p>Gain Instant Access to The Best Free SEO Tools</p></li><li><p>Find The Most Profitable Keywords for Your Business</p></li><li><p>Write Perfectly SEO-Optimised Content Every Time</p></li><li><p>Discover 8 Smarter Ways to Earn Quality Backlinks</p></li><li><p>How to Rank Your Local Business WITHOUT Content Marketing</p></li><li><p>Perform a full SEO audit on any site for Free</p></li><li><p>Track SEO Metrics with Google Analytics</p></li><li><p>Perform Page Load Speed &amp; Mobile Friendliness Tests</p></li><li><p>Answers to hundreds of SEO questions asked to students in the course.</p></li></ul>",
+  "Tags": ["seo"],
+  "Requirements": [
+    "No previous SEO knowledge or experience is required."
+  ],
+  "TargetStudents": [
+    "Anyone who wants to learn about SEO",
+    "Business Owners who want to save $X,XXX paying SEO agencies"
+  ],
+  "LearnedContents": [
+    "Get Hundreds of Visitors from the Search Engines Every Day for FREE",
+    "Land Your Dream Job in Digital Marketing",
+    "Avoid Dangerous SEO Myths That Can Hurt Your Business"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/365176_1284_12.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "338245",
+    "Name": "SEO",
+    "Slug": "seo"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "VHpj7x0FUWrI",
+  "Title": "Complete SEO Guide to Ranking Local Business Websites",
+  "TitleCleaned": "complete-seo-guide-to-ranking-local-business-websites",
+  "Description": "<p>This course is being COMPLETELY updated! The first few sections have already been posted and there will be weekly updates with all new training and resources just for you. Get started knowing you're getting the latest SEO training and follow along with the steps each week. Have SEO questions? Just ask as you go!</p>",
+  "Tags": ["seo"],
+  "Requirements": [
+    "No previous SEO knowledge or experience is required.",
+    "Basic HTML knowledge is helpful but also not required."
+  ],
+  "TargetStudents": [
+    "Anyone interested in providing local SEO services to clients",
+    "Local business owners who want to rank their website on the first page of Google"
+  ],
+  "LearnedContents": [
+    "Rank a local business website on the first page of Google",
+    "Understand the entire local SEO process from start to finish",
+    "Identify the best, most profitable keywords for local businesses",
+    "Properly optimize a local website for maximum SEO benefit"
+  ],
+  "Level": "All",
+  "IsPaid": true,
+  "Price": {
+    "$numberDecimal": "19.99"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/632826_9159.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "338245",
+    "Name": "SEO",
+    "Slug": "seo"
+  },
+  "User": {
+    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+    "Name": "teacher 1",
+    "ThumbnailUrl": null
+  }
+},
+{
+  "_id": "VbP6CV6bmGHZ",
+  "Title": "The Complete SEO Bootcamp 2022",
+  "TitleCleaned": "the-complete-seo-bootcamp-2022",
+  "Description": "<p>If you want to master Search Engine Optimization, build a strong base about the subject, learn the advanced techniques and rank your site #1 on search engines in the least amount of time and cost, you have come to the right place! </p>",
+  "Tags": ["seo"],
+  "Requirements": [
+    "No previous SEO knowledge or experience is required.",
+    "Basic HTML knowledge is helpful but also not required."
+  ],
+  "TargetStudents": [
+    "Anyone interested in providing local SEO services to clients",
+    "Local business owners who want to rank their website on the first page of Google"
+  ],
+  "LearnedContents": [
+    "Rank your website on Search Enginese",
+    "Understand what SEO is and how it works",
+    "Understand how search engines work"
+  ],
+  "Level": "All",
+  "IsPaid": false,
+  "Price": {
+    "$numberDecimal": "0"
+  },
+  "Rating": {
+    "$numberDecimal": "0"
+  },
+  "CreatedAt": {
+    "$date": "2024-11-28T17:00:37.133Z"
+  },
+  "UpdatedAt": {
+    "$date": "2024-11-28T17:05:56.385Z"
+  },
+  "StudentCount": 0,
+  "Locale": {
+    "Name": "vi",
+    "EnglishTitle": "Vietnamese"
+  },
+  "IsApproved": true,
+  "Status": "Published",
+  "Thumbnail": {
+    "FileId": "abc.png",
+    "Url": "https://img-c.udemycdn.com/course/240x135/1433858_a050_2.jpg"
+  },
+  "PreviewVideo": null,
+  "Category": {
+    "_id": "528645",
+    "Name": "Marketing",
+    "Slug": "marketing"
+  },
+  "SubCategory": {
+    "_id": "338245",
+    "Name": "SEO",
+    "Slug": "seo"
   },
   "User": {
     "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",

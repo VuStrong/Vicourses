@@ -1,57 +1,1066 @@
-[{
-  "_id": "V90Dh8ykUsci",
-  "Title": "React - The Complete Guide 2024 (incl. Next.js, Redux)",
-  "TitleCleaned": "react-the-complete-guide-2024-incl-nextjs-redux",
-  "IsPaid": false,
-  "Price": {
-    "$numberDecimal": "0"
+[
+  {
+    "_id": "V90Dh8ykUsci",
+    "Title": "React - The Complete Guide 2024 (incl. Next.js, Redux)",
+    "TitleCleaned": "react-the-complete-guide-2024-incl-nextjs-redux",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "24.99"
+    },
+    "Rating": {
+      "$numberDecimal": "4.0000000000000000000000000000"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "Rating": {
-    "$numberDecimal": "4.0000000000000000000000000000"
+  {
+    "_id": "FtDOrVhpmBQ6",
+    "Title": "NestJS Masterclass - NodeJS Framework Backend Development",
+    "TitleCleaned": "nestjs-masterclass-nodejs-framework-backend-development",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/6048973_c5b2_17.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "ThumbnailUrl": "https://r2.strongtify.io.vn/test2.png",
-  "User": {
-    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
-    "Name": "teacher 1",
-    "ThumbnailUrl": null
+  {
+    "_id": "SgOyEZIhNu55",
+    "Title": "Khóa học Figma từ căn bản đến thực chiến",
+    "TitleCleaned": "khoa-hoc-figma-tu-can-ban-en-thuc-chien",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://images.squarespace-cdn.com/content/v1/62460a56418af8236d4f3fee/1678917204941-H4A8KPJQYPNYBHQILYDF/Figma.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "Status": "Published"
-},
-{
-  "_id": "FtDOrVhpmBQ6",
-  "Title": "NestJS Masterclass - NodeJS Framework Backend Development",
-  "TitleCleaned": "nestjs-masterclass-nodejs-framework-backend-development",
-  "IsPaid": true,
-  "Price": {
-    "$numberDecimal": "4.99"
+  {
+    "_id": "t55Iqmyu1i28",
+    "Title": "React Ultimate - React.JS Cơ Bản Từ Z Đến A Cho Beginners",
+    "TitleCleaned": "react-ultimate-reactjs-co-ban-tu-z-en-a-cho-beginners",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/4467252_61d1_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "Rating": {
-    "$numberDecimal": "0"
+  {
+    "_id": "CNmV2D9DDAOM",
+    "Title": "Backend RESTFul Server với Node.JS và Express (SQL/MongoDB)",
+    "TitleCleaned": "backend-restful-server-voi-nodejs-va-express-sqlmongodb",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://caodang.fpt.edu.vn/wp-content/uploads/a-9.png",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "ThumbnailUrl": null,
-  "User": {
-    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
-    "Name": "teacher 1",
-    "ThumbnailUrl": null
+  {
+    "_id": "AKmV2D9DDAAB",
+    "Title": "Nest.JS Zero - Xây Dựng Backend Node.JS Chuyên Nghiệp",
+    "TitleCleaned": "nestjs-zero-xay-dung-backend-nodejs-chuyen-nghiep",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://cdn.intuji.com/2022/09/Nestjs_hero1.png",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "Status": "Published"
-},
-{
-  "_id": "SgOyEZIhNu55",
-  "Title": "Khóa học Figma từ căn bản đến thực chiến",
-  "TitleCleaned": "khoa-hoc-figma-tu-can-ban-en-thuc-chien",
-  "IsPaid": true,
-  "Price": {
-    "$numberDecimal": "4.99"
+  {
+    "_id": "N62gvz93Urm1",
+    "Title": "React State Manager - Redux Toolkit, React Query, Redux Saga",
+    "TitleCleaned": "react-state-manager-redux-toolkit-react-query-redux-saga",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "Rating": {
-    "$numberDecimal": "0"
+  {
+    "_id": "qqmf9aNnhwKr",
+    "Title": "React Pro Max - Làm Chủ Toàn Diện React.JS Hiện Đại",
+    "TitleCleaned": "react-pro-max-lam-chu-toan-dien-reactjs-hien-dai",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "ThumbnailUrl": null,
-  "User": {
-    "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
-    "Name": "teacher 1",
-    "ThumbnailUrl": null
+  {
+    "_id": "pGfVD4Mi9qDP",
+    "Title": "React Pro TypeScript - Thực Hành Dự Án Portfolio",
+    "TitleCleaned": "react-pro-typescript-thuc-hanh-du-an-portfolio",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1362070_b9a1_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
   },
-  "Status": "Published"
-}]
+  {
+    "_id": "1qSuqjVgjnPw",
+    "Title": "Khóa học NextJS 14-ReactJS-Typescript thực chiến 2024 PRO",
+    "TitleCleaned": "khoa-hoc-nextjs-14-reactjs-typescript-thuc-chien-2024-pro",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://images.prismic.io/turing/652ec31afbd9a45bcec81965_Top_Features_in_Next_js_13_7f9a32190f.webp?auto=format,compress",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "gGqU8OFcapBH",
+    "Title": "HTML/CSS cho người mới bắt đầu 2023",
+    "TitleCleaned": "html-css-cho-nguoi-moi-bat-dau-2023",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://letdiv.com/wp-content/uploads/2024/04/khoa-hoc-html-css.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "7ajoPlpIzcHP",
+    "Title": "Lập trình iOS với SwiftUI",
+    "TitleCleaned": "lap-trinh-ios-voi-swiftui",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/480x270/2870362_1e87_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "lV2UdKKIwNrh",
+    "Title": "iOS & Swift - The Complete iOS App Development Bootcamp",
+    "TitleCleaned": "ios-swift-the-complete-ios-app-development-bootcamp",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "39.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/480x270/2870362_1e87_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "9AIiyaKglA0c",
+    "Title": "Flutter & Dart - The Complete Guide [2024 Edition]",
+    "TitleCleaned": "flutter-dart-the-complete-guide-2024-edition",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "39.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1708340_7108_5.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "YHGAVB8xinxd",
+    "Title": "The Complete Flutter Development Bootcamp with Dart",
+    "TitleCleaned": "the-complete-flutter-development-bootcamp-with-dart",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/2259120_305f_6.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "0VX5sZVdMNzt",
+    "Title": "The Complete React Native + Hooks Course",
+    "TitleCleaned": "the-complete-react-native-hooks-course",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/959700_8bd2_12.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "wK9d3vaoGaxn",
+    "Title": "React Native - The Practical Guide [2024]",
+    "TitleCleaned": "react-native-the-practical-guide-2024",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1436092_2024_4.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "RbSehgsm6j7d",
+    "Title": "The Complete Android Oreo Developer Course - Build 23 Apps!",
+    "TitleCleaned": "the-complete-android-oreo-developer-course-build-23-apps",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1405812_931d_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "RFSSSe4opxe0",
+    "Title": "The Complete Android 14 & Kotlin Development Masterclass",
+    "TitleCleaned": "the-complete-android-14-kotlin-development-masterclass",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/2642574_61bb_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "98MvPU0NomMw",
+    "Title": "iOS 10 & Swift 3: From Beginner to Paid Professional™",
+    "TitleCleaned": "ios-10-swift-3-from-beginner-to-paid-professionaltm",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/892102_963b.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "jhHc5DA7xQi1",
+    "Title": "Flutter Beginner Tutorial - Build own App",
+    "TitleCleaned": "flutter-beginner-tutorial-build-own-app",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1967418_c3c0.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "YWMXcsCJm9UF",
+    "Title": "Figmarketing | Khoá học figma dành cho thiết kế marketing",
+    "TitleCleaned": "figmarketing-khoa-hoc-figma-danh-cho-thiet-ke-marketing",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://cdn.sanity.io/images/599r6htc/regionalized/3225dab2b34419e6bc17bf52633ed13b4e86cd6d-3262x1836.jpg?rect=1,0,3260,1836&w=1632&h=919&q=75&fit=max&auto=format",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "BLSxdyq7fO2i",
+    "Title": "Làm hiệu ứng video với After Effects",
+    "TitleCleaned": "lam-hieu-ung-video-voi-after-effects",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/5243536_dd02.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "NCYuHjMuouth",
+    "Title": "Adobe Premiere Pro CC – Essentials Training Course",
+    "TitleCleaned": "adobe-premiere-pro-cc-essentials-training-course",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://sadesign.vn/pictures/picfullsizes/2024/09/19/cbr1726717547.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "fvo3TDLsytTW",
+    "Title": "The Complete Adobe Premiere Pro Video Editing Bootcamp",
+    "TitleCleaned": "the-complete-adobe-premiere-pro-video-editing-bootcamp",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://learnandexcel.in/wp-content/uploads/2022/03/Premiere-Pro-Thumpnai-2-1024x576.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "PmjXnCKrIP5n",
+    "Title": "Learn Adobe Photoshop from Scratch",
+    "TitleCleaned": "learn-adobe-photoshop-from-scratch",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/270816_7956_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "66nQRybTgvjh",
+    "Title": "Trọn Bộ 5 Kỹ Năng Thiết Kế Adobe",
+    "TitleCleaned": "tron-bo-5-ky-nang-thiet-ke-adobe",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/5499942_3a51_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "vuGAitOxcLeJ",
+    "Title": "Photoshop - Thiết kế poster/banner (dành cho người mới)",
+    "TitleCleaned": "photoshop-thiet-ke-poster-banner-danh-cho-nguoi-moi",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://www.classcentral.com/report/wp-content/uploads/2022/05/Adobe-Photoshop-BCG-Banner-1.png",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "2wKf0QNZuccI",
+    "Title": "Bậc Thầy Canva | Tạo Thiết Kế Chuyên Nghiệp Từ Template",
+    "TitleCleaned": "bac-thay-canva-tao-thiet-ke-chuyen-nghiep-tu-template",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/750x422/4992484_8e0b_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "zYr9qT0qnPAj",
+    "Title": "Adobe Photoshop Masterclass with Photoshop 2025 + AI Updates",
+    "TitleCleaned": "adobe-photoshop-masterclass-with-photoshop-2025-ai-updates",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://www.nextscreen.in/blog/wp-content/uploads/2022/04/is-it-possible-to-learn-photoshop-_1.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "3zSjLv3XHIw8",
+    "Title": "The Game Design and AI Master Class Beginner to Expert",
+    "TitleCleaned": "the-game-design-and-ai-master-class-beginner-to-expert",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/526534_04bb_4.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "h8zCDaTjtAKW",
+    "Title": "Visual Effects for Games in Unity - Beginner To Intermediate",
+    "TitleCleaned": "visual-effects-for-games-in-unity-beginner-to-intermediate",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1318732_86ee_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "iv2V4Fw47CEv",
+    "Title": "Learn Professional Pixel Art & Animation for Games",
+    "TitleCleaned": "learn-professional-pixel-art-animation-for-games",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1318732_86ee_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "2CS8DVmYkTOi",
+    "Title": "Learn Professional 2D Game Graphic Design in Photoshop",
+    "TitleCleaned": "learn-professional-2d-game-graphic-design-in-photoshop",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/707876_9e82_4.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "l6TPKDNVEvjV",
+    "Title": "Learn Blender 3D Modeling for Unity Video Game Development",
+    "TitleCleaned": "learn-blender-3d-modeling-for-unity-video-game-development",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/625846_e25b.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "Ec6tzjZbmiVf",
+    "Title": "Canva Master Course 2024 | Learn Canva",
+    "TitleCleaned": "canva-master-course-2024-learn-canva",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/750x422/5308280_ab92_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "c8QqjvVqLBaA",
+    "Title": "Học máy (Machine learning) và ứng dụng",
+    "TitleCleaned": "hoc-may-machine-learning-va-ung-dung",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1849356_5a7f_5.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "RkSjoT3FUpGq",
+    "Title": "Machine Learning A-Z: AI, Python & R + ChatGPT Prize [2024]",
+    "TitleCleaned": "machine-learning-a-z-ai-python-r-chatgpt-prize-2024",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/950390_270f_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "vjHPr6xRKL4O",
+    "Title": "Python for Data Science and Machine Learning Bootcamp",
+    "TitleCleaned": "python-for-data-science-and-machine-learning-bootcamp",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/903744_8eb2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "bY0VrZ1DH8zq",
+    "Title": "The Data Science Course: Complete Data Science Bootcamp 2024",
+    "TitleCleaned": "the-data-science-course-complete-data-science-bootcamp-2024",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1754098_e0df_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "a3t7IYvGrOS5",
+    "Title": "Artificial Intelligence A-Z 2024: Build 7 AI + LLM & ChatGPT",
+    "TitleCleaned": "artificial-intelligence-a-z-2024-build-7-ai-llm-chatgpt",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1219332_bdd7.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "gI7CWDgpLPiZ",
+    "Title": "Complete C# Unity Game Developer 2D",
+    "TitleCleaned": "complete-c-unity-game-developer-2d",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/258316_55e9_12.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "c3hbNyowqbjL",
+    "Title": "Unreal Engine 5 C++ Developer: Learn C++ & Make Video Games",
+    "TitleCleaned": "unreal-engine-5-c-developer-learn-c-make-video-games",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/657932_c7e0_6.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "wLHy3ymvkV3U",
+    "Title": "Unreal Engine 5: The Complete Beginner's Course",
+    "TitleCleaned": "unreal-engine-5-the-complete-beginners-course",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/660600_39b2_4.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "cXdQ5iWMnNbl",
+    "Title": "Complete C# Unity Game Developer 3D (Updated To Unity 6)",
+    "TitleCleaned": "complete-c-unity-game-developer-3d-updated-to-unity-6",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1178124_76bb_13.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "iVdLfGu38cKX",
+    "Title": "The Ultimate Guide to Game Development with Unity (Official)",
+    "TitleCleaned": "the-ultimate-guide-to-game-development-with-unity-official",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1328572_b05d_5.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "pomtzOtrLOEJ",
+    "Title": "The Complete Digital Marketing Course - 12 Courses in 1",
+    "TitleCleaned": "the-complete-digital-marketing-course-12-courses-in-1",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/914296_3670_8.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "gEJCMF9IPEHJ",
+    "Title": "Digital Marketing Masterclass: AI & Social Media Marketing",
+    "TitleCleaned": "digital-marketing-masterclass-ai-social-media-marketing",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://courses.iid.org.in/public//uploads/media_manager/628.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "5WHMoqOualab",
+    "Title": "Mega Digital Marketing Course A-Z: 32 Courses in 1 + Updates",
+    "TitleCleaned": "mega-digital-marketing-course-a-z-32-courses-in-1-updates",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1931752_1012_16.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "ZZfcnUy0bLZe",
+    "Title": "ChatGPT for Marketing, Content, Social Media, and PR",
+    "TitleCleaned": "chatgpt-for-marketing-content-social-media-and-pr",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/5127818_abb9_3.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "ztWxU70bcLZl",
+    "Title": "Digital Marketing Certification: Master Digital Marketing",
+    "TitleCleaned": "digital-marketing-certification-master-digital-marketing",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/2658548_c93b_6.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "sf9pJOexbu9j",
+    "Title": "SEO 2024: Complete SEO Training - AI SEO Masterclass",
+    "TitleCleaned": "seo-2024-complete-seo-training-ai-seo-masterclass",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://www.classcentral.com/report/wp-content/uploads/2022/07/SEO-BCG-Banner-2.png",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "lGSmWHsQMSh7",
+    "Title": "The Ultimate SEO Training 2024 + SEO For Wordpress Websites",
+    "TitleCleaned": "the-ultimate-seo-training-2024-seo-for-wordpress-websites",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "29.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/2938000_f552_23.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "4hwsIvOJUbwQ",
+    "Title": "SEO Training: Get Free Traffic to Your Website With SEO",
+    "TitleCleaned": "seo-training-get-free-traffic-to-your-website-with-seo",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/365176_1284_12.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "VHpj7x0FUWrI",
+    "Title": "Complete SEO Guide to Ranking Local Business Websites",
+    "TitleCleaned": "complete-seo-guide-to-ranking-local-business-websites",
+    "IsPaid": true,
+    "Price": {
+      "$numberDecimal": "19.99"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/632826_9159.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  },
+  {
+    "_id": "VbP6CV6bmGHZ",
+    "Title": "The Complete SEO Bootcamp 2022",
+    "TitleCleaned": "the-complete-seo-bootcamp-2022",
+    "IsPaid": false,
+    "Price": {
+      "$numberDecimal": "0"
+    },
+    "Rating": {
+      "$numberDecimal": "0"
+    },
+    "ThumbnailUrl": "https://img-c.udemycdn.com/course/240x135/1433858_a050_2.jpg",
+    "User": {
+      "_id": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+      "Name": "teacher 1",
+      "ThumbnailUrl": null
+    },
+    "Status": "Published"
+  }
+]
