@@ -2,6 +2,16 @@ import User from "../entities/user.entity";
 import { UserDto } from "./user-dtos";
 
 export function mapUserEntityToUserDto(user: User): UserDto {
+    let paypalAccount: any = undefined;
+
+    if (user.paypalAccount !== undefined) {
+        paypalAccount = user.paypalAccount ? {
+            id: user.paypalAccount.id,
+            payerId: user.paypalAccount.payerId,
+            email: user.paypalAccount.email,
+        } : null;
+    }
+
     return {
         id: user.id,
         createdAt: user.createdAt,
@@ -9,7 +19,6 @@ export function mapUserEntityToUserDto(user: User): UserDto {
         email: user.email,
         emailConfirmed: user.emailConfirmed,
         lockoutEnd: user.lockoutEnd,
-        isLocked: user.isLocked(),
         role: user.role,
         thumbnailUrl: user.thumbnailUrl,
         headline: user.headline,
@@ -23,5 +32,6 @@ export function mapUserEntityToUserDto(user: User): UserDto {
         totalEnrollmentCount: user.totalEnrollmentCount,
         courseTags: user.courseTags,
         categoryIds: user.categoryIds,
+        paypalAccount: paypalAccount,
     };
 }

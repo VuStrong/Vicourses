@@ -46,7 +46,7 @@ export async function signInWithEmailAndPassword(email: string, password: string
         throw new AppError("You are locked out!", 403);
     }
 
-    const accessToken = await jwt.signForUser(user);
+    const accessToken = jwt.signForUser(user);
     const refreshToken = await refreshTokensRepository.generateRefreshTokenForUser(user.id);
 
     logger.info("User logged in", {
@@ -111,7 +111,7 @@ export async function signInWithGoogle(idToken: string): Promise<{
             user.emailConfirmed = true;
         }
 
-        accessToken = await jwt.signForUser(user);
+        accessToken = jwt.signForUser(user);
         refreshToken = await refreshTokensRepository.generateRefreshTokenForUser(user.id);
         userDto = mapUserEntityToUserDto(user);
 
@@ -136,7 +136,7 @@ export async function signInWithGoogle(idToken: string): Promise<{
             email: user.email,
         });
 
-        accessToken = await jwt.signForUser(user);
+        accessToken = jwt.signForUser(user);
         refreshToken = await refreshTokensRepository.generateRefreshTokenForUser(user.id);
     }
 
@@ -178,7 +178,7 @@ export async function refreshAccessToken(userId: string, refreshToken: string): 
         throw new AppError("Invalid token", 403);
     }
 
-    const accessToken = await jwt.signForUser(user);
+    const accessToken = jwt.signForUser(user);
 
     return accessToken;
 }

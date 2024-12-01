@@ -1,5 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, Index } from "typeorm"
+import { 
+    Entity, 
+    Column, 
+    PrimaryGeneratedColumn, 
+    CreateDateColumn, 
+    OneToMany, 
+    Index, 
+    OneToOne, 
+    JoinColumn
+} from "typeorm"
 import RefreshToken from "./refresh-token.entity"
+import PaypalAccount from "./paypal-account.entity"
 
 export enum Role {
     ADMIN = "admin",
@@ -91,6 +101,10 @@ export default class User {
 
     @OneToMany(() => RefreshToken, (token) => token.user)
     refreshTokens: RefreshToken[]
+
+    @OneToOne(() => PaypalAccount, { nullable: true, onDelete: "SET NULL" })
+    @JoinColumn()
+    paypalAccount: PaypalAccount | null;
 
     public isLocked(): boolean {
         return this.lockoutEnd !== null && this.lockoutEnd > new Date()

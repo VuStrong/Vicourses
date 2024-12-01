@@ -30,6 +30,12 @@ const Config = {
         ClientID: process.env.GOOGLE_CLIENT_ID,
         ClientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
+
+    Paypal: {
+        ClientID: process.env.PAYPAL_CLIENT_ID,
+        ClientSecret: process.env.PAYPAL_CLIENT_SECRET,
+        Base: process.env.PAYPAL_BASE,
+    }
 }
 
 export default Config;

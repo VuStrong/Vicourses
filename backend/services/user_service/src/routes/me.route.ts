@@ -25,4 +25,17 @@ meRoute.patch(
     meController.handleChangePassword,
 );
 
+meRoute.post(
+    "/me/paypal",
+    authenticate(),
+    validateRequest("(post)/me/paypal"),
+    meController.handleLinkPaypalAccount,
+);
+
+meRoute.post(
+    "/me/instructor",
+    authenticate(),
+    meController.handleUpdateRoleToInstructor,
+);
+
 export default meRoute;

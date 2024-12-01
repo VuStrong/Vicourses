@@ -15,6 +15,7 @@ type RouteName =
     
     | "(patch)/me"
     | "(patch)/me/password"
+    | "(post)/me/paypal"
 
     | "(get)/users"
     | "(patch)/users/:id/lock";
@@ -107,6 +108,10 @@ const schemas: {
     "(patch)/me/password": Joi.object({
         oldPassword: Joi.string().required(),
         newPassword: Joi.string().min(8).max(50).required(),
+    }),
+
+    "(post)/me/paypal": Joi.object({
+        code: Joi.string().required(),
     }),
 
     "(get)/users": Joi.object({

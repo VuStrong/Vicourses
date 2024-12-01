@@ -51,3 +51,21 @@ export async function publishUserInfoUpdatedEvent(user: UserDto) {
 
     channel.publish(exchange, "", Buffer.from(JSON.stringify(user)));
 }
+
+export async function publishUserPaypalAccountUpdated(user: {
+    id: string,
+    paypalAccount: {
+        payerId: string,
+        email: string,
+        refreshToken: string,
+    }
+}) {
+    const channel = getPublisherChannel();
+    if (!channel) return;
+    
+    const exchange = "user.paypalaccount.updated";
+
+    await channel.assertExchange(exchange, "fanout");
+
+    channel.publish(exchange, "", Buffer.from(JSON.stringify(user)));
+}
