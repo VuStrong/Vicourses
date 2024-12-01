@@ -5,7 +5,6 @@ export type UserDto = {
     email: string;
     emailConfirmed: boolean;
     lockoutEnd: Date | null;
-    isLocked: boolean;
     role: string;
     thumbnailUrl: string | null;
     headline: string | null;
@@ -19,4 +18,11 @@ export type UserDto = {
     totalEnrollmentCount: number;
     courseTags: string;
     categoryIds: string;
+    paypalAccount: UserPaypalAccountDto | null;
+}
+
+export type UserPaypalAccountDto = {
+    id: string;
+    payerId: string;
+    email: string;
 }

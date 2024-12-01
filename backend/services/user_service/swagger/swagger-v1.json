@@ -524,6 +524,65 @@
                 }
             }
         },
+        "/me/paypal": {
+            "post": {
+                "tags": ["Me"],
+                "summary": "Link paypal account to user",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "code": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                    },
+                    "401": {
+                        "description": "Unauthorized or code is not valid"
+                    },
+                    "403": {
+                        "description": "Paypal account not verified"
+                    }
+                }
+            }
+        },
+        "/me/instructor": {
+            "post": {
+                "tags": ["Me"],
+                "summary": "Update user role to Instructor",
+                "produces": ["application/json"],
+                "security": [
+                    {
+                        "BearerAuth": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": ["User"],
@@ -741,53 +800,6 @@
                                 "properties": {
                                     "days": {
                                         "type": "integer"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "User not found"
-                    }
-                }
-            }
-        },
-        "/users/{id}/role": {
-            "patch": {
-                "tags": ["User"],
-                "summary": "Set role for an user",
-                "produces": ["application/json"],
-                "security": [
-                    {
-                        "BearerAuth": {}
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "required": true
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "role": {
-                                        "type": "string"
                                     }
                                 }
                             }

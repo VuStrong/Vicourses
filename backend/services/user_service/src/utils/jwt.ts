@@ -3,7 +3,7 @@ import fs from "fs";
 import User from "../entities/user.entity";
 import Config from "../config";
 
-export async function signForUser(user: User) {
+export function signForUser(user: User) {
     if (!fs.existsSync("private.key")) {
         throw new Error("Private key is missing!");
     }

@@ -5,13 +5,15 @@ import { AppError } from "../utils/app-error";
 import logger from "../logger";
 import Config from "../config";
 import * as rabbitmq from "../rabbitmq/publisher";
+import * as jwt from "../utils/jwt";
+import * as paypalService from "./paypal.service";
 import User, { Role } from "../entities/user.entity";
 import { usersRepository } from "../data/repositories";
-import * as jwt from "../utils/jwt";
 import { GetUsersPayload, UpdateProfilePayload } from "./payloads";
 import PagedResult from "../utils/paged-result";
 import { UserDto } from "../dtos/user-dtos";
 import { mapUserEntityToUserDto } from "../dtos/mapper";
+import { paypalAccountsRepository } from "../data/repositories/paypal-accounts.repository";
 
 /**
  * Get one user by Id
@@ -26,8 +28,11 @@ export async function getUserById(userId: string, fields?: (keyof User)[]): Prom
         const user = await usersRepository.findOne({
             where: { id: userId },
             select: fields,
+            relations: {
+                paypalAccount: fields?.includes("paypalAccount")
+            }
         });
-    
+        
         if (!user) {
             throw new AppError("User not found", 404);
         }
@@ -152,33 +157,6 @@ export async function setLockedOut(userId: string, days: number = 30) {
 
         logger.info(`User ${userId} is locked until ${lockTo}`);
     }
-}
-
-export async function setRole(userId: string, role: Role) {
-    const user = await usersRepository.findOne({
-        where: { id: userId },
-        select: {
-            role: true,
-            lockoutEnd: true,
-        },
-    });
-
-    if (!user) {
-        throw new AppError("User not found", 404);
-    }
-    if (user.role === Role.ADMIN) {
-        throw new AppError("Action on this user is not allowed", 403);
-    }
-    if (user.role === role) return;
-
-    user.role = role;
-
-    await usersRepository.save(user);
-
-    await rabbitmq.publishUserRoleUpdatedEvent({
-        id: userId,
-        role,
-    });
 }
 
 export async function changePassword(userId: string, oldPassword: string, newPassword: string) {
@@ -392,4 +370,57 @@ export async function updateUserProfile(id: string, payload: UpdateProfilePayloa
     await rabbitmq.publishUserInfoUpdatedEvent(userDto);
 
     return userDto;
+}
+
+/**
+ * Link a paypal account to a specific user
+ * @param userId - ID of user
+ * @param authorizationCode - The PayPal-generated authorization code.
+ */
+export async function linkPaypalAccount(userId: string, authorizationCode: string) {
+    const user = await usersRepository.findOne({
+        where: { id: userId },
+        select: {
+            id: true,
+        },
+        relations: {
+            paypalAccount: true
+        }
+    });
+
+    if (!user) {
+        throw new AppError("User not found", 404);
+    }
+
+    const tokenResult = await paypalService.getUserAccessToken(authorizationCode);
+    const paypalUser = await paypalService.getUserInfo(tokenResult.accessToken);
+
+    if (!paypalUser.emailVerified || !paypalUser.verifiedAccount) {
+        throw new AppError("Your paypal account must be verified", 403);
+    }
+
+    const paypalAccount = paypalAccountsRepository.create({
+        payerId: paypalUser.payerId,
+        email: paypalUser.email,
+        refreshToken: tokenResult.refreshToken,
+        emailVerified: true,
+        verifiedAccount: true,
+    });
+    await paypalAccountsRepository.insert(paypalAccount);
+    
+    if (user.paypalAccount) {
+        await paypalAccountsRepository.delete(user.paypalAccount.id);
+    }
+    user.paypalAccount = paypalAccount;
+
+    await usersRepository.save(user);
+
+    await rabbitmq.publishUserPaypalAccountUpdated({
+        id: user.id,
+        paypalAccount: {
+            payerId: paypalAccount.payerId,
+            email: paypalAccount.email,
+            refreshToken: paypalAccount.refreshToken,
+        }
+    });
 }
