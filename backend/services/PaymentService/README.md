@@ -4,7 +4,9 @@
 - The Payment Service is responsible for payment processing. It uses Paypal as payment gateway.
 - This service communicate with the [DiscountService](https://github.com/VuStrong/Vicourses/tree/main/backend/services/DiscountService) Grpc to check the coupon if applied and get course final price.
 - After a payment is completed, store the payment in database and publish the **payment.completed** event.
-- Todos: Add refund API
+- A payment can be refunded within 2 days. After a payment is refunded, publish the **payment.refunded** event.
+- There is a cronjob using Quartz that runs every Sunday at 6am to automatically calculate the instructor's income and send it to instructor's 
+paypal account using Paypal **Payouts** API.
 
 ## Technologies
 - .NET Core 8.0

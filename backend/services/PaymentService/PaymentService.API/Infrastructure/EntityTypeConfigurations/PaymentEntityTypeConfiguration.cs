@@ -14,6 +14,8 @@ namespace PaymentService.API.Infrastructure.EntityTypeConfigurations
 
             builder.HasIndex(x => x.PaypalOrderId).IsUnique();
 
+            builder.HasIndex(x => new { x.CreatedAt, x.Status });
+
             builder.HasIndex(x => new { x.Status, x.PaymentDueDate });
 
             builder

@@ -55,21 +55,5 @@ namespace PaymentService.API.Application.Services
                 throw new AppException(response.Details, 422);
             }
         }
-
-        public async Task<decimal> GetCoursePriceAsync(string courseId)
-        {
-            var request = new GetCoursePriceRequest { CourseId = courseId };
-
-            var response = await _client.GetCoursePriceAsync(request);
-
-            if (!response.Exists)
-            {
-                throw new AppException(
-                    $"Cannot find price of the course {courseId}", 
-                    404);
-            }
-
-            return decimal.Parse(response.Price);
-        }
     }
 }

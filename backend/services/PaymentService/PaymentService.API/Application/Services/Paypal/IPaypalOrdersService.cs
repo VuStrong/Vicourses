@@ -1,11 +1,9 @@
-﻿using PaymentService.API.Application.Dtos.Paypal;
+﻿using PaymentService.API.Application.Dtos.Paypal.Orders;
 
-namespace PaymentService.API.Application.Services
+namespace PaymentService.API.Application.Services.Paypal
 {
-    public interface IPaypalService
+    public interface IPaypalOrdersService
     {
-        Task<string> GetAccessTokenAsync();
-
         Task<PaypalOrderDto> GetOrderAsync(string orderId);
 
         Task<PaypalOrderDto> CreateOrderAsync(CreatePaypalOrderDto payload);

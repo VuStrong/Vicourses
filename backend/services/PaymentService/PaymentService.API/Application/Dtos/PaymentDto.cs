@@ -11,6 +11,8 @@ namespace PaymentService.API.Application.Dtos
         public string CourseId { get; set; } = string.Empty;
         public string CourseName { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
+        public DateTime PaymentDueDate { get; set; }
+        public DateTime RefundDueDate { get; set; }
         public decimal ListPrice { get; set; }
         public decimal Discount { get; set; }
         public decimal TotalPrice { get; set; }

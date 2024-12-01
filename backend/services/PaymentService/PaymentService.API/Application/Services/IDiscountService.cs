@@ -6,6 +6,5 @@ namespace PaymentService.API.Application.Services
     {
         Task<CouponCheckResultDto> CheckCouponAsync(string code, string courseId, string userId);
         Task ConsumeCouponAsync(string code, string courseId, string userId);
-        Task<decimal> GetCoursePriceAsync(string courseId);
     }
 }

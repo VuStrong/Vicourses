@@ -1,4 +1,4 @@
-﻿namespace PaymentService.API.Application.Dtos.Paypal
+﻿namespace PaymentService.API.Application.Dtos.Paypal.Orders
 {
     public class PaypalPayerDto
     {
