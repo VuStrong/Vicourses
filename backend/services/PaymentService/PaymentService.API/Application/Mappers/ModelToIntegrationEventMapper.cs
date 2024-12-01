@@ -16,5 +16,16 @@ namespace PaymentService.API.Application.Mappers
                 CreatedAt = payment.CreatedAt,
             };
         }
+
+        public static PaymentRefundedIntegrationEvent ToPaymentRefundedIntegrationEvent(this Payment payment)
+        {
+            return new PaymentRefundedIntegrationEvent
+            {
+                Id = payment.Id,
+                UserId = payment.UserId,
+                CourseId = payment.CourseId,
+                Reason = payment.RefundReason,
+            };
+        }
     }
 }

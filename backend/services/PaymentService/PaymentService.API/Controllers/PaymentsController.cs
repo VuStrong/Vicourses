@@ -12,11 +12,11 @@ namespace PaymentService.API.Controllers
     [Tags("Payment")]
     [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]
-    public class PaymentController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
 
-        public PaymentController(IPaymentService paymentService)
+        public PaymentsController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
         }
@@ -32,7 +32,8 @@ namespace PaymentService.API.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
-            var results = await _paymentService.GetUserPaymentsAsync(userId, request.Skip, request.Limit, cancellationToken);
+            var results = await _paymentService.GetUserPaymentsAsync(userId, request.Skip, request.Limit, 
+                request.Status, cancellationToken);
 
             return Ok(results);
         }
@@ -71,7 +72,6 @@ namespace PaymentService.API.Controllers
         [HttpPost("paypal")]
         [Authorize]
         [ProducesResponseType(typeof(PaymentDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreatePaypalPayment(CreatePaypalPaymentRequest request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
@@ -79,10 +79,7 @@ namespace PaymentService.API.Controllers
             var payload = new CreatePaymentDto
             {
                 UserId = userId,
-                Username = request.Username,
-                Email = request.Email,
                 CourseId = request.CourseId,
-                CourseName = request.CourseName,
                 CouponCode = request.CouponCode,
             };
 
@@ -98,7 +95,6 @@ namespace PaymentService.API.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="422">Business validation failed</response>
         [HttpPost("paypal/{id}/capture")]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [Authorize]
         public async Task<IActionResult> CapturePaypalPayment(string id)
         {
@@ -114,15 +110,33 @@ namespace PaymentService.API.Controllers
         /// </summary>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
         /// <response code="422">Business validation failed</response>
         [HttpPost("{id}/cancel")]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [Authorize]
         public async Task<IActionResult> CancelPayment(string id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
             await _paymentService.CancelPaymentAsync(id, userId);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Refund a payment
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="422">Business validation failed</response>
+        [HttpPost("{id}/refund")]
+        [Authorize]
+        public async Task<IActionResult> RefundPayment(string id, [FromQuery] string? reason = null)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            await _paymentService.RefundPaymentAsync(id, userId, reason);
 
             return Ok();
         }

@@ -1,7 +1,6 @@
 ﻿using DiscountService.API.Application.Dtos.Coupon;
 using DiscountService.API.Application.Exceptions;
 using DiscountService.API.Application.Services;
-using DiscountService.API.Infrastructure.Cache;
 using DiscountService.Grpc;
 using Grpc.Core;
 
@@ -10,16 +9,13 @@ namespace DiscountService.API.GrpcServices
     public class DiscountGrpcService : DiscountProtoService.DiscountProtoServiceBase
     {
         private readonly ICouponService _couponService;
-        private readonly ICourseCachedRepository _courseCachedRepository;
         private readonly ILogger<DiscountGrpcService> _logger;
 
         public DiscountGrpcService(
             ICouponService couponService,
-            ICourseCachedRepository courseCachedRepository,
             ILogger<DiscountGrpcService> logger)
         {
             _couponService = couponService;
-            _courseCachedRepository = courseCachedRepository;
             _logger = logger;
         }
 
@@ -76,22 +72,6 @@ namespace DiscountService.API.GrpcServices
                     Details = ex.Message,
                 };
             }
-        }
-
-        public override async Task<GetCoursePriceResponse> GetCoursePrice(GetCoursePriceRequest request, ServerCallContext context)
-        {
-            var price = await _courseCachedRepository.GetCoursePriceAsync(request.CourseId);
-
-            if (price == null)
-            {
-                return new GetCoursePriceResponse { Exists = false, Price = "0" };
-            }
-
-            return new GetCoursePriceResponse
-            {
-                Exists = true,
-                Price = price.Value.ToString(),
-            };
         }
     }
 }

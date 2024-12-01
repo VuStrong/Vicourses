@@ -7,17 +7,12 @@ package discount;
 service DiscountProtoService {
 	rpc CheckCoupon (CheckCouponRequest) returns (CheckCouponResponse);
 	rpc ConsumeCoupon (CheckCouponRequest) returns (ConsumeCouponResponse);
-	rpc GetCoursePrice (GetCoursePriceRequest) returns (GetCoursePriceResponse);
 }
 
 message CheckCouponRequest {
 	string code = 1;
 	string courseId = 2;
 	string userId = 3;
-}
-
-message GetCoursePriceRequest {
-	string courseId = 1;
 }
 
 message CheckCouponResponse {
@@ -34,9 +29,4 @@ message CheckCouponResponse {
 message ConsumeCouponResponse {
 	bool success = 1;
 	string details = 2;
-}
-
-message GetCoursePriceResponse {
-	string price = 1;
-	bool exists = 2;
 }

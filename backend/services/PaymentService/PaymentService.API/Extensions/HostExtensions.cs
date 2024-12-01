@@ -13,10 +13,16 @@ using PaymentService.API.Infrastructure;
 using EventBus.RabbitMQ;
 using PaymentService.API.Application.Configurations;
 using PaymentService.API.Application.Services;
+using PaymentService.API.Application.Services.Paypal;
 using PaymentService.API.Application.IntegrationEvents;
 using System.Text.Json.Serialization;
 using PaymentService.API.Responses;
 using PaymentService.API.Application.BackgroundServices;
+using PaymentService.API.Application.IntegrationEvents.Course;
+using PaymentService.API.Application.IntegrationEvents.User;
+using PaymentService.API.Application.IntegrationEventHandlers.Course;
+using PaymentService.API.Application.IntegrationEventHandlers.User;
+using Quartz;
 
 namespace PaymentService.API.Extensions
 {
@@ -73,7 +79,7 @@ namespace PaymentService.API.Extensions
 
             builder.AddApplicationServices();
 
-            builder.Services.AddHostedService<PaymentCancellationService>();
+            builder.AddBackgroundJobs();
         }
 
         private static void AddHealthChecks(this WebApplicationBuilder builder)
@@ -161,7 +167,49 @@ namespace PaymentService.API.Extensions
                 {
                     opt.ExchangeOptions.ExchangeName = "payment.completed";
                 });
-            });
+                c.ConfigurePublish<PaymentRefundedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "payment.refunded";
+                });
+
+                c.ConfigureConsume<CourseInfoUpdatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "course.info.updated";
+                    opt.QueueOptions.QueueName = "payment_service_course.info.updated";
+                });
+                c.ConfigureConsume<CoursePublishedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "course.published";
+                    opt.QueueOptions.QueueName = "payment_service_course.published";
+                });
+                c.ConfigureConsume<CourseUnpublishedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "course.unpublished";
+                    opt.QueueOptions.QueueName = "payment_service_course.unpublished";
+                });
+
+                c.ConfigureConsume<UserCreatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.created";
+                    opt.QueueOptions.QueueName = "payment_service_user.created";
+                });
+                c.ConfigureConsume<UserInfoUpdatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.info.updated";
+                    opt.QueueOptions.QueueName = "payment_service_user.info.updated";
+                });
+                c.ConfigureConsume<UserPaypalAccountUpdatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.paypalaccount.updated";
+                    opt.QueueOptions.QueueName = "payment_service_user.paypalaccount.updated";
+                });
+            })
+            .AddIntegrationEventHandler<CourseInfoUpdatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<CourseUnpublishedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<UserPaypalAccountUpdatedIntegrationEventHandler>();
         }
 
         private static void AddConfigurations(this WebApplicationBuilder builder)
@@ -178,11 +226,31 @@ namespace PaymentService.API.Extensions
         private static void AddApplicationServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IPaymentService, Application.Services.PaymentService>();
+            builder.Services.AddScoped<IPayoutService, Application.Services.PayoutService>();
             builder.Services.AddScoped<IDiscountService, DiscountGrpcService>(s =>
             {
                 return new DiscountGrpcService(builder.Configuration["DiscountGrpcAddress"] ?? "");
             });
-            builder.Services.AddSingleton<IPaypalService, PaypalService>();
+            builder.Services.AddScoped<IPaypalOrdersService, PaypalOrdersService>();
+            builder.Services.AddScoped<IPaypalPaymentsService, PaypalPaymentsService>();
+            builder.Services.AddScoped<IPaypalPayoutsService, PaypalPayoutsService>();
+        }
+
+        private static void AddBackgroundJobs(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddHostedService<PaymentCancellationService>();
+
+            builder.Services.AddQuartz(q =>
+            {
+                q.AddJob<WeeklyPayoutsJob>(opt => opt.WithIdentity("WeeklyPayoutsJob"));
+                q.AddTrigger(opts => opts
+                    .ForJob("WeeklyPayoutsJob")
+                    .WithIdentity("WeeklyPayoutsJobTrigger")
+                    .WithCronSchedule("0 0 6 ? * SUN"));
+                //.WithCronSchedule("0 0/1 * * * ?"));
+            });
+
+            builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }
     }
 }
