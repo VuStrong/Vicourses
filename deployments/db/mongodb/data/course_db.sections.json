@@ -39,18 +39,4 @@
     "$date": "2024-09-24T13:52:31.690Z"
   },
   "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
-},
-{
-  "_id": "bwhY1c96wNq1Od",
-  "CourseId": "FtDOrVhpmBQ6",
-  "Title": "Introduction to NestJS",
-  "Description": null,
-  "Order": 1,
-  "CreatedAt": {
-    "$date": "2024-09-24T14:14:23.070Z"
-  },
-  "UpdatedAt": {
-    "$date": "2024-09-24T14:14:23.070Z"
-  },
-  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
 }]

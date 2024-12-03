@@ -14,9 +14,6 @@ namespace CourseService.Domain.Contracts
 
         Task UpdateAsync(T entity);
 
-        Task DeleteOneAsync(string id);
-        Task DeleteOneAsync(Expression<Func<T, bool>> filter);
-
         Task<bool> ExistsAsync(string id);
         Task<bool> ExistsAsync(Expression<Func<T, bool>>? filter = null);
     }

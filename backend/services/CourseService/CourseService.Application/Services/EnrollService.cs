@@ -4,9 +4,7 @@ using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
-using CourseService.Domain.Events;
 using CourseService.Shared.Paging;
-using Microsoft.Extensions.Logging;
 
 namespace CourseService.Application.Services
 {
@@ -14,22 +12,16 @@ namespace CourseService.Application.Services
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IEnrollmentRepository _enrollmentRepository;
-        private readonly ILogger<EnrollService> _logger;
-        private readonly IDomainEventDispatcher _domainEventDispatcher;
         private readonly IMapper _mapper;
 
         public EnrollService(
             ICourseRepository courseRepository,
             IEnrollmentRepository enrollmentRepository,
-            ILogger<EnrollService> logger,
-            IDomainEventDispatcher domainEventDispatcher,
             IMapper mapper
         )
         {
             _courseRepository = courseRepository;
             _enrollmentRepository = enrollmentRepository;
-            _logger = logger;
-            _domainEventDispatcher = domainEventDispatcher;
             _mapper = mapper;
         }
 
@@ -47,15 +39,18 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("This course is paid, you cannot enroll");
             }
 
-            var enrollment = course.EnrollStudent(userId);
+            course.EnrollStudent(userId);
 
-            await _enrollmentRepository.CreateAsync(enrollment);
+            await _courseRepository.UpdateAsync(course);
+        }
 
-            await _courseRepository.UpdateStudentCountAsync(course);
+        public async Task UnenrollAsync(string courseId, string userId)
+        {
+            var course = await _courseRepository.FindOneAsync(courseId) ?? throw new CourseNotFoundException(courseId);
 
-            _ = _domainEventDispatcher.DispatchFrom(course);
+            course.UnenrollStudent(userId);
 
-            _logger.LogInformation($"[Course Service] User {userId} enrolled course {courseId}");
+            await _courseRepository.UpdateAsync(course);
         }
 
         public async Task<bool> CheckEnrollmentAsync(string courseId, string userId)

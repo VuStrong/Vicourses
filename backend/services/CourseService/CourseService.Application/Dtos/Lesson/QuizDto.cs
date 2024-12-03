@@ -1,9 +1,7 @@
-﻿namespace CourseService.Application.Dtos.Quiz
+﻿namespace CourseService.Application.Dtos.Lesson
 {
     public class QuizDto
     {
-        public string Id { get; set; } = string.Empty;
-        public string LessonId { get; set; } = string.Empty;
         public int Number { get; set; }
         public string Title { get; set; } = string.Empty;
         public bool IsMultiChoice { get; set; }

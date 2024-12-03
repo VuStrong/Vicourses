@@ -33,5 +33,20 @@ namespace StatisticsService.API.Controllers
 
             return Ok(result);
         }
+
+        /// <summary>
+        /// Get Admin metrics in a scope
+        /// </summary>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        [HttpGet("scope-metrics")]
+        [Authorize(Roles = Roles.Admin)]
+        [ProducesResponseType(typeof(List<AdminMetricsDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAdminMetrics([FromQuery] DateScope scope, CancellationToken cancellationToken = default)
+        {
+            var result = await _statistician.GetAdminMetricsAsync(scope, cancellationToken);
+
+            return Ok(result);
+        }
     }
 }

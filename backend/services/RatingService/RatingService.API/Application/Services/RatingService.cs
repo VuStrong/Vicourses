@@ -177,9 +177,9 @@ namespace RatingService.API.Application.Services
 
             _dbContext.Ratings.Remove(rating);
 
-            PublishCourseRatingUpdatedIntegrationEvent(course);
-
             await _dbContext.SaveChangesAsync();
+
+            PublishCourseRatingUpdatedIntegrationEvent(course);
         }
 
         public async Task<RatingDto> RespondRatingAsync(string ratingId, RespondRatingDto data)

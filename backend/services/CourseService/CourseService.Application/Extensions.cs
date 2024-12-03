@@ -1,7 +1,6 @@
 ﻿using CourseService.Application.DomainEventHandlers.Course;
 using CourseService.Application.DomainEventHandlers.Enrollment;
 using CourseService.Application.DomainEventHandlers.Lesson;
-using CourseService.Application.DomainEventHandlers.Section;
 using CourseService.Application.IntegrationEventHandlers.Payment;
 using CourseService.Application.IntegrationEventHandlers.Rating;
 using CourseService.Application.IntegrationEventHandlers.User;
@@ -19,7 +18,6 @@ using CourseService.Domain.Events;
 using CourseService.Domain.Events.Course;
 using CourseService.Domain.Events.Enrollment;
 using CourseService.Domain.Events.Lesson;
-using CourseService.Domain.Events.Section;
 using CourseService.Domain.Services;
 using CourseService.Domain.Services.Implementations;
 using EventBus.RabbitMQ;
@@ -40,14 +38,13 @@ namespace CourseService.Application
             services.AddScoped<ICourseService, Services.CourseService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICourseCurriculumService, CourseCurriculumService>();
-            services.AddScoped<ILessonQuizService, LessonQuizService>();
             services.AddScoped<IEnrollService, EnrollService>();
             services.AddScoped<ICommentService, CommentService>();
 
             // Domain services
-            services.AddScoped<IQuizDomainService, QuizDomainService>();
             services.AddScoped<ICategoryDomainService, CategoryDomainService>();
             services.AddScoped<ICommentDomainService, CommentDomainService>();
+            services.AddScoped<IDeleteResourceDomainService, DeleteResourceDomainService>();
 
             services.AddDomainEventHandlers();            
 
@@ -80,9 +77,8 @@ namespace CourseService.Application
             services.AddDomainEventHandler<LessonDeletedDomainEvent, LessonDeletedDomainEventHandler>();
             services.AddDomainEventHandler<LessonVideoUpdatedDomainEvent, LessonVideoUpdatedDomainEventHandler>();
 
-            services.AddDomainEventHandler<SectionDeletedDomainEvent, SectionDeletedDomainEventHandler>();
-
             services.AddDomainEventHandler<UserEnrolledDomainEvent, UserEnrolledDomainEventHandler>();
+            services.AddDomainEventHandler<UserUnenrolledDomainEvent, UserUnenrolledDomainEventHandler>();
         }
 
         private static void AddEventBus(this IServiceCollection services, ApplicationConfiguration configuration)
@@ -108,6 +104,10 @@ namespace CourseService.Application
                 c.ConfigurePublish<UserEnrolledIntegrationEvent>(opt =>
                 {
                     opt.ExchangeOptions.ExchangeName = "user.enrolled";
+                });
+                c.ConfigurePublish<UserUnenrolledIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.unenrolled";
                 });
 
                 // Events in storage service
@@ -166,13 +166,19 @@ namespace CourseService.Application
                     opt.ExchangeOptions.ExchangeName = "payment.completed";
                     opt.QueueOptions.QueueName = "course_service_payment.completed";
                 });
+                c.ConfigureConsume<PaymentRefundedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "payment.refunded";
+                    opt.QueueOptions.QueueName = "course_service_payment.refunded";
+                });
             })
             .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<VideoProcessingCompletedIntegrationEventHandler>()
             .AddIntegrationEventHandler<VideoProcessingFailedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CourseRatingUpdatedIntegrationEventHandler>()
-            .AddIntegrationEventHandler<PaymentCompletedIntegrationEventHandler>();
+            .AddIntegrationEventHandler<PaymentCompletedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<PaymentRefundedIntegrationEventHandler>();
         }
     }
 

@@ -106,19 +106,9 @@ namespace StatisticsService.API.Extensions
         private static void AddDb(this WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration["ConnectionStrings:StatisticsDB"] ?? "";
-            var isDevelopment = builder.Environment.EnvironmentName == "Development";
 
             builder.Services.AddDbContext<StatisticsServiceDbContext>(opt =>
-            {
-                var builder = opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-
-                if (isDevelopment)
-                {
-                    builder.LogTo(Console.WriteLine, LogLevel.Information)
-                        .EnableSensitiveDataLogging()
-                        .EnableDetailedErrors();
-                }
-            });
+                opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
         }
 
         private static void AddRedis(this WebApplicationBuilder builder)
@@ -154,11 +144,11 @@ namespace StatisticsService.API.Extensions
                     opt.ExchangeOptions.ExchangeName = "user.created";
                     opt.QueueOptions.QueueName = "statistics_service_user.created";
                 });
-                //c.ConfigureConsume<UserRoleUpdatedIntegrationEvent>(opt =>
-                //{
-                //    opt.ExchangeOptions.ExchangeName = "user.role.updated";
-                //    opt.QueueOptions.QueueName = "statistics_service_user.role.updated";
-                //});
+                c.ConfigureConsume<UserRoleUpdatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.role.updated";
+                    opt.QueueOptions.QueueName = "statistics_service_user.role.updated";
+                });
 
                 // Events from payment service
                 c.ConfigureConsume<PaymentCompletedIntegrationEvent>(opt =>
@@ -166,11 +156,18 @@ namespace StatisticsService.API.Extensions
                     opt.ExchangeOptions.ExchangeName = "payment.completed";
                     opt.QueueOptions.QueueName = "statistics_service_payment.completed";
                 });
+                c.ConfigureConsume<PaymentRefundedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "payment.refunded";
+                    opt.QueueOptions.QueueName = "statistics_service_payment.refunded";
+                });
             })
             .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
-            .AddIntegrationEventHandler<PaymentCompletedIntegrationEventHandler>();
+            .AddIntegrationEventHandler<UserRoleUpdatedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<PaymentCompletedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<PaymentRefundedIntegrationEventHandler>();
         }
     }
 }

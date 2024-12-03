@@ -5,15 +5,15 @@ namespace CourseService.Domain
     public abstract class Entity
     {
         private List<DomainEvent> _domainEvents = [];
-        public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        public IReadOnlyList<DomainEvent> DomainEvents => (_domainEvents ?? []).AsReadOnly();
 
-        protected void AddDomainEvent(DomainEvent domainEvent)
+        internal void AddDomainEvent(DomainEvent domainEvent)
         {
             _domainEvents ??= [];
             _domainEvents.Add(domainEvent);
         }
 
-        protected void AddUniqueDomainEvent(DomainEvent domainEvent)
+        internal void AddUniqueDomainEvent(DomainEvent domainEvent)
         {
             _domainEvents ??= [];
             _domainEvents.RemoveAll(e => e.GetType() == domainEvent.GetType());

@@ -4,6 +4,6 @@ namespace CourseService.Domain.Contracts
 {
     public interface ISectionRepository : IRepository<Section>
     {
-        Task DeleteByCourseIdAsync(string courseId);
+        Task<long> CountByCourseIdAsync(string courseId);
     }
 }

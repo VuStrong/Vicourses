@@ -1,4 +1,6 @@
-﻿namespace CourseService.Application.Dtos.Course
+﻿using CourseService.Application.Dtos.Lesson;
+
+namespace CourseService.Application.Dtos.Course
 {
     public class CourseInstructorCurriculumDto
     {
@@ -27,5 +29,7 @@
         public int Order { get; set; }
         public string Type { get; set; } = string.Empty;
         public VideoFileDto? Video {  get; set; }
+        public int QuizzesCount { get; set; }
+        public List<QuizDto> Quizzes { get; set; } = [];
     }
 }

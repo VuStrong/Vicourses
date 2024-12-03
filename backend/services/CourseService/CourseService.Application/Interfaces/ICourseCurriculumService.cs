@@ -17,6 +17,11 @@ namespace CourseService.Application.Interfaces
         Task<LessonDto> UpdateLessonAsync(string lessonId, UpdateLessonDto data, string ownerId);
         Task DeleteLessonAsync(string lessonId, string ownerId);
 
+        Task<LessonDto> AddQuizToLessonAsync(string lessonId, CreateLessonQuizDto data);
+        Task<LessonDto> UpdateQuizInLessonAsync(string lessonId, UpdateLessonQuizDto data);
+        Task<LessonDto> RemoveQuizFromLessonAsync(string lessonId, int quizNumber, string ownerId);
+        Task<LessonDto> MoveQuizInLessonAsync(string lessonId, int quizNumber, int to, string ownerId);
+
         Task<CoursePublicCurriculumDto> GetPublicCurriculumAsync(string courseId);
         Task<CourseInstructorCurriculumDto> GetInstructorCurriculumAsync(string courseId);
         Task UpdateCurriculumAsync(string courseId, List<CurriculumItem> items, string courseOwnerId);

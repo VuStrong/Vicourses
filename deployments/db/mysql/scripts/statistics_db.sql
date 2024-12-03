@@ -17,6 +17,12 @@ START TRANSACTION;
 
 ALTER DATABASE CHARACTER SET utf8mb4;
 
+CREATE TABLE `AdminMetrics` (
+    `Date` date NOT NULL,
+    `Revenue` decimal(65,30) NOT NULL,
+    CONSTRAINT `PK_AdminMetrics` PRIMARY KEY (`Date`)
+) CHARACTER SET=utf8mb4;
+
 CREATE TABLE `Courses` (
     `Id` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
     `InstructorId` longtext CHARACTER SET utf8mb4 NOT NULL,
@@ -32,6 +38,7 @@ CREATE TABLE `InstructorMetrics` (
     `Date` date NOT NULL,
     `EnrollmentCount` int NOT NULL,
     `Revenue` decimal(65,30) NOT NULL,
+    `RefundCount` int NOT NULL,
     CONSTRAINT `PK_InstructorMetrics` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4;
 
@@ -53,7 +60,7 @@ CREATE INDEX `IX_Users_CreatedAt` ON `Users` (`CreatedAt`);
 CREATE INDEX `IX_Users_Role` ON `Users` (`Role`);
 
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
-VALUES ('20241117082607_InitialCreate', '8.0.2');
+VALUES ('20241203115221_InitialCreate', '8.0.2');
 
 INSERT INTO `Users` VALUES 
 ('00543305-2d30-4520-9f5b-f35a58931338','2024-11-20','admin'),

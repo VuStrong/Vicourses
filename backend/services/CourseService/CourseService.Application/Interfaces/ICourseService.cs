@@ -19,5 +19,7 @@ namespace CourseService.Application.Interfaces
 
         Task ApproveCourseAsync(string courseId);
         Task CancelCourseApprovalAsync(string courseId, List<string> reasons);
+
+        Task<CourseCheckResultDto> CheckCourseAsync(string courseId);
     }
 }

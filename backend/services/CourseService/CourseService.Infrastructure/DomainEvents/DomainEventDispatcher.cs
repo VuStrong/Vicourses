@@ -16,7 +16,7 @@ namespace CourseService.Infrastructure.DomainEvents
             _logger = logger;
         }
 
-        public async Task Dispatch(DomainEvent domainEvent)
+        private async Task Dispatch(DomainEvent domainEvent)
         {
             var handlers = _serviceProvider.GetKeyedServices<IDomainEventHandler>(domainEvent.GetType());
 

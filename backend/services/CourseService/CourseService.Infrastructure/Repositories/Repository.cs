@@ -1,22 +1,27 @@
 ﻿using CourseService.Domain;
 using CourseService.Domain.Contracts;
+using CourseService.Domain.Events;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 
 namespace CourseService.Infrastructure.Repositories
 {
-    public abstract class Repository<T> : IRepository<T> where T : IBaseEntity
+    public abstract class Repository<T> : IRepository<T> where T : Entity, IBaseEntity
     {
         protected readonly IMongoCollection<T> _collection;
+        protected readonly IDomainEventDispatcher _dispatcher;
 
-        public Repository(IMongoCollection<T> collection)
+        public Repository(IMongoCollection<T> collection, IDomainEventDispatcher dispatcher)
         {
             _collection = collection;
+            _dispatcher = dispatcher;
         }
 
         public async Task CreateAsync(T entity)
         {
             await _collection.InsertOneAsync(entity);
+
+            _ = _dispatcher.DispatchFrom(entity);
         }
 
         public async Task<T?> FindOneAsync(string id)
@@ -74,23 +79,13 @@ namespace CourseService.Infrastructure.Repositories
             return await _collection.Find(filter).AnyAsync();
         }
 
-        public async Task DeleteOneAsync(string id)
-        {
-            var filter = Builders<T>.Filter.Eq("_id", id);
-
-            await _collection.DeleteOneAsync(filter);
-        }
-
-        public async Task DeleteOneAsync(Expression<Func<T, bool>> filter)
-        {
-            await _collection.DeleteOneAsync(filter);
-        }
-
         public async Task UpdateAsync(T entity)
         {
             var filter = Builders<T>.Filter.Eq("_id", entity.Id);
 
             await _collection.ReplaceOneAsync(filter, entity);
+
+            _ = _dispatcher.DispatchFrom(entity);
         }
     }
 }

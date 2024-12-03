@@ -8,6 +8,9 @@ namespace CourseService.Domain.Models
 {
     public class Lesson : Entity, IBaseEntity
     {
+        private const int MaxQuizzesInLesson = 10;
+        private List<Quiz> _quizzes = [];
+
         public string Id { get; private set; }
         public string CourseId { get; private set; }
         public string SectionId { get; private set; }
@@ -19,6 +22,9 @@ namespace CourseService.Domain.Models
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
         public VideoFile? Video { get; private set; }
+        public int QuizzesCount { get; private set; }
+
+        public IReadOnlyList<Quiz> Quizzes => _quizzes.AsReadOnly();
 
         #pragma warning disable CS8618
         private Lesson() { }
@@ -30,6 +36,8 @@ namespace CourseService.Domain.Models
             CourseId = courseId;
             SectionId = sectionId;
             UserId = userId;
+
+            AddUniqueDomainEvent(new LessonCreatedDomainEvent(this));
         }
 
         public static Lesson Create(string title, Course course, Section section, LessonType type, string? description)
@@ -102,6 +110,8 @@ namespace CourseService.Domain.Models
                 duration,
                 VideoStatus.Processed
             );
+
+            AddUniqueDomainEvent(new LessonVideoProcessedDomainEvent(this));
         }
 
         public void SetVideoStatusFailed()
@@ -117,6 +127,91 @@ namespace CourseService.Domain.Models
                 Video.OriginalFileName,
                 status: VideoStatus.ProcessingFailed
             );
+        }
+
+        public void AddQuiz(string title, List<Answer> answers)
+        {
+            if (Type != LessonType.Quiz)
+            {
+                throw new BusinessRuleViolationException("Cannot add quiz to a Non-Quiz lesson");
+            }
+            if (QuizzesCount >= MaxQuizzesInLesson)
+            {
+                throw new BusinessRuleViolationException($"A lesson can only have a maximum of {MaxQuizzesInLesson} quizzes");
+            }
+
+            _quizzes.Add(Quiz.Create(QuizzesCount + 1, title, answers));
+
+            QuizzesCount++;
+        }
+
+        public void UpdateQuiz(int number, string title, List<Answer> answers)
+        {
+            var quiz = _quizzes.FirstOrDefault(q => q.Number == number);
+
+            if (quiz == null)
+            {
+                throw new DomainValidationException($"Cannot find quiz with number = {number}");
+            }
+
+            quiz.UpdateInfoIgnoreNull(title, answers);
+        }
+
+        public void RemoveQuiz(int number)
+        {
+            var quiz = _quizzes.FirstOrDefault(q => q.Number == number);
+
+            if (quiz == null)
+            {
+                throw new DomainValidationException($"Cannot find quiz with number = {number}");
+            }
+
+            _quizzes.Remove(quiz);
+
+            foreach (var otherQuiz in _quizzes)
+            {
+                if (otherQuiz.Number > number)
+                {
+                    otherQuiz.Number--;
+                }
+            }
+
+            QuizzesCount--;
+        }
+
+        /// <summary>
+        /// Move a quiz to another position
+        /// </summary>
+        /// <param name="number">Number of the quiz</param>
+        /// <param name="to">Position to move (start from 1)</param>
+        public void MoveQuiz(int number, int to)
+        {
+            if (number == to) return;
+
+            var quiz = _quizzes.FirstOrDefault(q => q.Number == number);
+
+            if (quiz == null)
+            {
+                throw new DomainValidationException($"Cannot find quiz with number = {number}");
+            }
+
+            if (to < 1 || to > QuizzesCount)
+            {
+                throw new DomainValidationException($"The value {to} of 'to' is out of range");
+            }
+
+            _quizzes.Remove(quiz);
+            _quizzes.Insert(to - 1, quiz);
+
+            for (int i = 0; i < QuizzesCount; i++)
+            {
+                _quizzes[i].Number = i + 1;
+            }
+        }
+
+        public void SetDeleted()
+        {
+            AddUniqueDomainEvent(new LessonDeletedDomainEvent(this));
         }
     }
 }

@@ -88,6 +88,8 @@ namespace PaymentService.API.Application.BackgroundServices
                 });
             }
 
+            if (payoutDto.Items.Count == 0) return;
+
             var senderBatchId = await _paypalPayoutsService.BatchPayoutAsync(payoutDto);
 
             var batchPayout = new BatchPayout("paypal", senderBatchId);

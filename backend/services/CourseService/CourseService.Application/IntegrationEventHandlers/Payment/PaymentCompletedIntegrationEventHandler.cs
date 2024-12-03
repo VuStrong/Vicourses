@@ -1,6 +1,5 @@
 using CourseService.Application.IntegrationEvents.Payment;
 using CourseService.Application.Interfaces;
-using CourseService.Domain.Contracts;
 using EventBus;
 using Microsoft.Extensions.Logging;
 
