@@ -335,5 +335,18 @@ namespace CourseService.API.Controllers
 
             return Ok();
         }
+
+        /// <summary>
+        /// Check if a course can be published or not
+        /// </summary>
+        /// <response code="404">Course not found</response>
+        [HttpGet("{id}/check")]
+        [ProducesResponseType(typeof(CourseCheckResultDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CheckCourse(string id)
+        {
+            var result = await _courseService.CheckCourseAsync(id);
+
+            return Ok(result);
+        }
     }
 }
