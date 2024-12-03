@@ -268,6 +268,11 @@ namespace CourseService.Application.Services
                 result.IsValid = false;
                 result.MissingRequirements.Add("You must upload your course thumbnail.");
             }
+            if (course.Metrics.LessonsCount < 5)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("Your course must have at least 5 lessons");
+            }
 
             return result;
         }
