@@ -8,6 +8,7 @@ namespace StatisticsService.API.Infrastructure
     {
         public DbSet<Course> Courses { get; set; }
         public DbSet<InstructorMetric> InstructorMetrics { get; set; }
+        public DbSet<AdminMetric> AdminMetrics { get; set; }
         public DbSet<User> Users { get; set; }
 
         public StatisticsServiceDbContext(DbContextOptions<StatisticsServiceDbContext> options) : base(options) { }
@@ -17,6 +18,7 @@ namespace StatisticsService.API.Infrastructure
             modelBuilder.ApplyConfiguration(new CourseEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new InstructorMetricEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminMetricEntityTypeConfiguration());
         }
     }
 }

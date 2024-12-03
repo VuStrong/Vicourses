@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CourseService.Application.Dtos.Lesson;
-using CourseService.Application.Dtos.Quiz;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 
 namespace CourseService.Application.MapperProfiles
 {

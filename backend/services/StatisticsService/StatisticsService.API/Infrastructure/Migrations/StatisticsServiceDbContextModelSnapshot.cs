@@ -22,6 +22,19 @@ namespace StatisticsService.API.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("StatisticsService.API.Models.AdminMetric", b =>
+                {
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Revenue")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Date");
+
+                    b.ToTable("AdminMetrics");
+                });
+
             modelBuilder.Entity("StatisticsService.API.Models.Course", b =>
                 {
                     b.Property<string>("Id")
@@ -62,6 +75,9 @@ namespace StatisticsService.API.Infrastructure.Migrations
                     b.Property<string>("InstructorId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<int>("RefundCount")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Revenue")
                         .HasColumnType("decimal(65,30)");

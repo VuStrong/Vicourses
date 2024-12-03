@@ -1,17 +1,15 @@
-﻿namespace CourseService.Application.Dtos.Quiz
+﻿namespace CourseService.Application.Dtos.Lesson
 {
     public class CreateLessonQuizDto
     {
-        public string Title { get; set; }
-        public string LessonId { get; set; }
         public string UserId { get; set; }
+        public string Title { get; set; }
         public List<CreateUpdateLessonQuizAnswerDto> Answers { get; set; } = [];
 
-        public CreateLessonQuizDto(string title, string lessonId, string userId)
+        public CreateLessonQuizDto(string userId, string title)
         {
-            Title = title;
-            LessonId = lessonId;
             UserId = userId;
+            Title = title;
         }
     }
 

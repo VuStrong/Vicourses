@@ -14,9 +14,5 @@ namespace CourseService.Domain.Contracts
             CourseStatus? status = null);
 
         Task<List<Course>> FindByIdsAsync(IEnumerable<string> ids, CourseStatus? status = null, bool sortByIds = true);
-
-        Task UpdateStudentCountAsync(Course course);
-
-        Task UpdateUserInCoursesAsync(UserInCourse user);
     }
 }

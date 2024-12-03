@@ -1,5 +1,6 @@
 ﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
+using CourseService.Domain.Events;
 using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 using MongoDB.Driver;
@@ -8,7 +9,8 @@ namespace CourseService.Infrastructure.Repositories
 {
     public class CourseRepository : Repository<Course>, ICourseRepository
     {
-        public CourseRepository(IMongoCollection<Course> collection) : base(collection) {}
+        public CourseRepository(IMongoCollection<Course> collection, IDomainEventDispatcher dispatcher) : 
+            base(collection, dispatcher) {}
 
         public async Task<PagedResult<Course>> FindManyAsync(int skip, int limit, CourseSort? sort = null, string? searchKeyword = null, 
             string? categoryId = null, string? subCategoryId = null, bool? isPaid = null, CourseLevel? level = null, 
@@ -117,22 +119,6 @@ namespace CourseService.Infrastructure.Repositories
             }
 
             return items;
-        }
-
-        public async Task UpdateStudentCountAsync(Course course)
-        {
-            var filter = Builders<Course>.Filter.Eq("_id", course.Id);
-            var update = Builders<Course>.Update.Set(c => c.StudentCount, course.StudentCount);
-
-            await _collection.UpdateOneAsync(filter, update);
-        }
-
-        public async Task UpdateUserInCoursesAsync(UserInCourse user)
-        {
-            var filter = Builders<Course>.Filter.Eq(c => c.User.Id, user.Id);
-            var update = Builders<Course>.Update.Set(c => c.User, user);
-
-            await _collection.UpdateManyAsync(filter, update);
         }
 
         private IFindFluent<Course, Course> Sort(IFindFluent<Course, Course> fluent, CourseSort sort)

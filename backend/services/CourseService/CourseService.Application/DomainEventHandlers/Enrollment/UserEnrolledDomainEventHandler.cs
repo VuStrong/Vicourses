@@ -7,7 +7,7 @@ using EventBus;
 
 namespace CourseService.Application.DomainEventHandlers.Enrollment
 {
-    public class UserEnrolledDomainEventHandler : IDomainEventHandler<UserEnrolledDomainEvent>
+    internal class UserEnrolledDomainEventHandler : IDomainEventHandler<UserEnrolledDomainEvent>
     {
         private readonly IEventBus _eventBus;
         private readonly IMapper _mapper;

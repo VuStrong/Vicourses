@@ -6,8 +6,7 @@ namespace CourseService.Domain.Contracts
     {
         Task<List<Lesson>> FindBySectionIdAsync(string sectionId);
         Task<List<Lesson>> FindByCourseIdAsync(string courseId);
-
-        Task DeleteBySectionIdAsync(string sectionId);
-        Task DeleteByCourseIdAsync(string courseId);
+        Task<long> CountBySectionIdAsync(string sectionId);
+        Task<long> CountByCourseIdAsync(string courseId);
     }
 }

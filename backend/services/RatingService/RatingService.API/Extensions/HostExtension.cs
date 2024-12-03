@@ -187,12 +187,18 @@ namespace RatingService.API.Extensions
                     opt.ExchangeOptions.ExchangeName = "user.enrolled";
                     opt.QueueOptions.QueueName = "rating_service_user.enrolled";
                 });
+                c.ConfigureConsume<UserUnenrolledIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.unenrolled";
+                    opt.QueueOptions.QueueName = "rating_service_user.unenrolled";
+                });
             })
             .AddIntegrationEventHandler<UserCreatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CourseUnpublishedIntegrationEventHandler>()
-            .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>();
+            .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>()
+            .AddIntegrationEventHandler<UserUnenrolledIntegrationEventHandler>();
         }
     }
 }

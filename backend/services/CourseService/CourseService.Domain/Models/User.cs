@@ -1,4 +1,6 @@
-﻿namespace CourseService.Domain.Models
+﻿using CourseService.Domain.Events.User;
+
+namespace CourseService.Domain.Models
 {
     public class User : Entity, IBaseEntity
     {
@@ -25,9 +27,36 @@
 
         public void UpdateInfoIgnoreNull(string? name = null, string? thumbnailUrl = null, bool? enrolledCoursesVisible = null)
         {
-            if (name != null) Name = name;
-            if (thumbnailUrl != null) ThumbnailUrl = thumbnailUrl;
-            if (enrolledCoursesVisible != null) EnrolledCoursesVisible = enrolledCoursesVisible.Value;
+            bool updated = false;
+            bool nameOrThumbnailUpdated = false;
+
+            if (name != null && Name != name)
+            {
+                Name = name;
+                nameOrThumbnailUpdated = true;
+                updated = true;
+            }
+
+            if (thumbnailUrl != null && ThumbnailUrl != thumbnailUrl)
+            {
+                ThumbnailUrl = thumbnailUrl;
+                nameOrThumbnailUpdated = true;
+                updated = true;
+            }
+
+            if (enrolledCoursesVisible != null && enrolledCoursesVisible.Value != EnrolledCoursesVisible)
+            {
+                EnrolledCoursesVisible = enrolledCoursesVisible.Value;
+                updated = true;
+            }
+
+            if (updated)
+            {
+                AddUniqueDomainEvent(new UserInfoUpdatedDomainEvent(this)
+                {
+                    NameOrThumbnailUpdated = nameOrThumbnailUpdated,
+                });
+            }
         }
     }
 }

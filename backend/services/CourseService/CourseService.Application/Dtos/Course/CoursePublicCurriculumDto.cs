@@ -30,5 +30,6 @@
         public int Order { get; set; }
         public string Type { get; set; } = string.Empty;
         public int Duration { get; set; }
+        public int QuizzesCount { get; set; }
     }
 }

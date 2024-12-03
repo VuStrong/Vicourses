@@ -1,4 +1,4 @@
-﻿using CourseService.Application.Dtos.Quiz;
+﻿using CourseService.Application.Dtos.Lesson;
 using System.ComponentModel.DataAnnotations;
 
 namespace CourseService.API.Requests.Quiz
@@ -13,7 +13,7 @@ namespace CourseService.API.Requests.Quiz
         [Length(2, 5, ErrorMessage = "{0} length must be between {1} and {2}")]
         public List<CreateUpdateQuizAnswerRequest> Answers { get; set; } = [];
 
-        public UpdateLessonQuizDto ToUpdateLessonQuizDto()
+        public UpdateLessonQuizDto ToUpdateLessonQuizDto(string userId, int number)
         {
             List<CreateUpdateLessonQuizAnswerDto> answersDto = [];
 
@@ -26,8 +26,11 @@ namespace CourseService.API.Requests.Quiz
                 ));
             }
 
-            return new UpdateLessonQuizDto(Title)
+            return new UpdateLessonQuizDto
             {
+                UserId = userId,
+                Number = number,
+                Title = Title,
                 Answers = answersDto
             };
         }

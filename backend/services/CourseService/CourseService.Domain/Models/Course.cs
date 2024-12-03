@@ -36,6 +36,7 @@ namespace CourseService.Domain.Models
         public CategoryInCourse Category { get; private set; }
         public CategoryInCourse SubCategory { get; private set; }
         public UserInCourse User { get; private set; }
+        public CourseMetrics Metrics { get; private set; }
 
         public static readonly IReadOnlyList<decimal> AllowedPrices = [
             0, 19.99m, 22.99m, 24.99m, 27.99m, 29.99m, 39.99m, 49.99m, 59.99m
@@ -49,6 +50,7 @@ namespace CourseService.Domain.Models
             Category = category;
             SubCategory = subCategory;
             User = user;
+            Metrics = new CourseMetrics();
         }
 
         public static Course Create(string title, string? description, Category category, Category subCategory, User user)
@@ -234,20 +236,19 @@ namespace CourseService.Domain.Models
             }
         }
 
-        public Enrollment EnrollStudent(string studentId)
+        public void EnrollStudent(string studentId)
         {
             if (Status != CourseStatus.Published)
             {
                 throw new BusinessRuleViolationException("Cannot enroll student to Unpublished course");
             }
 
-            var enrollment = Enrollment.Create(Id, studentId);
-
-            StudentCount++;
-
             AddDomainEvent(new UserEnrolledDomainEvent(studentId, this));
+        }
 
-            return enrollment;
+        public void UnenrollStudent(string studentId)
+        {
+            AddDomainEvent(new UserUnenrolledDomainEvent(studentId, this));
         }
 
         public void UpdateThumbnail(ImageFile image)
@@ -318,6 +319,29 @@ namespace CourseService.Domain.Models
             Rating = rating;
 
             AddUniqueDomainEvent(new CourseInfoUpdatedDomainEvent(this));
+        }
+
+        public void SetDeleted()
+        {
+            if (Status == CourseStatus.Published)
+            {
+                throw new BusinessRuleViolationException($"This course cannot be deleted because it already published");
+            }
+            if (StudentCount > 0)
+            {
+                throw new BusinessRuleViolationException($"This course cannot be deleted because it already has students enrolled");
+            }
+
+            if (Metrics.SectionsCount > 0)
+            {
+                throw new BusinessRuleViolationException($"This course cannot be deleted because it contains sections");
+            }
+            if (Metrics.LessonsCount > 0)
+            {
+                throw new BusinessRuleViolationException($"This course cannot be deleted because it contains lessons");
+            }
+
+            AddUniqueDomainEvent(new CourseDeletedDomainEvent(this));
         }
     }
 }

@@ -8,7 +8,5 @@ namespace CourseService.Domain.Contracts
     {
         Task<PagedResult<Comment>> FindByLessonIdAsync(string lessonId, int skip, int limit, CommentSort? sort = null,
             string? replyToId = null, CancellationToken cancellationToken = default);
-    
-        Task UpdateUserInCommentsAsync(UserInComment user);
     }
 }

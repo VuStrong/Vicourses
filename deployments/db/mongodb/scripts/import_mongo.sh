@@ -8,8 +8,6 @@ mongoimport --uri "mongodb://$username:$password@$host/course_db" --collection c
 
 mongoimport --uri "mongodb://$username:$password@$host/course_db" --collection lessons --authenticationDatabase admin --file "/tmp/course_db.lessons.json" --jsonArray
 
-mongoimport --uri "mongodb://$username:$password@$host/course_db" --collection quizzes --authenticationDatabase admin --file "/tmp/course_db.quizzes.json" --jsonArray
-
 mongoimport --uri "mongodb://$username:$password@$host/course_db" --collection sections --authenticationDatabase admin --file "/tmp/course_db.sections.json" --jsonArray
 
 mongoimport --uri "mongodb://$username:$password@$host/course_db" --collection users --authenticationDatabase admin --file "/tmp/course_db.users.json" --jsonArray

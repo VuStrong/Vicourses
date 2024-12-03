@@ -49,5 +49,10 @@
                 _enrolledCourseIds.Add(courseId);
             }
         }
+
+        public void RemoveEnrollCourse(string courseId)
+        {
+            _enrolledCourseIds.RemoveAll(id => id == courseId);
+        }
     }
 }
