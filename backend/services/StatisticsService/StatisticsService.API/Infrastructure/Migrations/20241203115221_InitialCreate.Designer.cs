@@ -12,7 +12,7 @@ using StatisticsService.API.Infrastructure;
 namespace StatisticsService.API.Infrastructure.Migrations
 {
     [DbContext(typeof(StatisticsServiceDbContext))]
-    [Migration("20241117082607_InitialCreate")]
+    [Migration("20241203115221_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,19 @@ namespace StatisticsService.API.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("StatisticsService.API.Models.AdminMetric", b =>
+                {
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Revenue")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Date");
+
+                    b.ToTable("AdminMetrics");
+                });
 
             modelBuilder.Entity("StatisticsService.API.Models.Course", b =>
                 {
@@ -65,6 +78,9 @@ namespace StatisticsService.API.Infrastructure.Migrations
                     b.Property<string>("InstructorId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<int>("RefundCount")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Revenue")
                         .HasColumnType("decimal(65,30)");

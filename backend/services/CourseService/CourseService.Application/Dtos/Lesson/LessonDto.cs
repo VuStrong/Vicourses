@@ -13,5 +13,7 @@
         public DateTime UpdatedAt { get; set; }
         public string? Description { get; set; }
         public VideoFileDto? Video { get; set; }
+        public int QuizzesCount { get; set; }
+        public List<QuizDto> Quizzes { get; set; } = [];
     }
 }

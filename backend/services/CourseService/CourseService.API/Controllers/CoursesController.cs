@@ -303,7 +303,7 @@ namespace CourseService.API.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="403">The course is paid</response>
         /// <response code="404">Course not found</response>
-        [HttpPost("{id}/enroll-student")]
+        [HttpPost("{id}/enroll")]
         [Authorize]
         public async Task<IActionResult> EnrollStudent(string id)
         {
@@ -312,6 +312,41 @@ namespace CourseService.API.Controllers
             await _enrollService.EnrollAsync(id, userId, throwIfCourseIsPaid: true);
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Check if student enrolled a course or not
+        /// </summary>
+        /// <response code="200">Enrolled</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Not enrolled</response>
+        [HttpHead("{id}/enroll")]
+        [Authorize]
+        public async Task<IActionResult> CheckEnrolled(string id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            var enrolled = await _enrollService.CheckEnrollmentAsync(id, userId);
+
+            if (!enrolled)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Check if a course can be published or not
+        /// </summary>
+        /// <response code="404">Course not found</response>
+        [HttpGet("{id}/check")]
+        [ProducesResponseType(typeof(CourseCheckResultDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CheckCourse(string id)
+        {
+            var result = await _courseService.CheckCourseAsync(id);
+
+            return Ok(result);
         }
     }
 }

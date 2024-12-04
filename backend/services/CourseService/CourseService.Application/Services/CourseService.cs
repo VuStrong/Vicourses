@@ -4,8 +4,6 @@ using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
-using CourseService.Domain.Events;
-using CourseService.Domain.Events.Course;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Paging;
@@ -20,7 +18,6 @@ namespace CourseService.Application.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CourseService> _logger;
-        private readonly IDomainEventDispatcher _domainEventDispatcher;
         private readonly IFileUploadTokenValidator _fileUploadTokenValidator;
 
         public CourseService(
@@ -29,7 +26,6 @@ namespace CourseService.Application.Services
             ICategoryRepository categoryRepository,
             IMapper mapper,
             ILogger<CourseService> logger,
-            IDomainEventDispatcher domainEventDispatcher,
             IFileUploadTokenValidator fileUploadTokenValidator)
         {
             _courseRepository = courseRepository;
@@ -37,7 +33,6 @@ namespace CourseService.Application.Services
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _logger = logger;
-            _domainEventDispatcher = domainEventDispatcher;
             _fileUploadTokenValidator = fileUploadTokenValidator;
         }
 
@@ -179,8 +174,6 @@ namespace CourseService.Application.Services
 
             await _courseRepository.UpdateAsync(course);
 
-            _ = _domainEventDispatcher.DispatchFrom(course);
-
             return _mapper.Map<CourseDto>(course);
         }
 
@@ -198,30 +191,16 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException($"Forbidden resourse");
             }
 
-            if (course.Status == CourseStatus.Published)
-            {
-                throw new ForbiddenException($"The course {courseId} cannot be deleted because it already published");
-            }
+            course.SetDeleted();
 
-            if (course.StudentCount > 0)
-            {
-                throw new ForbiddenException(
-                    $"The course {courseId} cannot be deleted because it already has students enrolled"
-                );
-            }
-
-            await _courseRepository.DeleteOneAsync(courseId);
-
-            _logger.LogInformation($"Course {courseId} deleted");
-
-            _ = _domainEventDispatcher.Dispatch(new CourseDeletedDomainEvent(course));
+            await _courseRepository.UpdateAsync(course);
         }
 
         public async Task ApproveCourseAsync(string courseId)
         {
             var course = await _courseRepository.FindOneAsync(courseId);
 
-            if (course == null )
+            if (course == null)
             {
                 throw new CourseNotFoundException(courseId);
             }
@@ -229,8 +208,6 @@ namespace CourseService.Application.Services
             course.Approve();
 
             await _courseRepository.UpdateAsync(course);
-
-            _ = _domainEventDispatcher.DispatchFrom(course);
         }
 
         public async Task CancelCourseApprovalAsync(string courseId, List<string> reasons)
@@ -245,8 +222,59 @@ namespace CourseService.Application.Services
             course.CancelApproval(reasons);
 
             await _courseRepository.UpdateAsync(course);
+        }
 
-            _ = _domainEventDispatcher.DispatchFrom(course);
+        public async Task<CourseCheckResultDto> CheckCourseAsync(string courseId)
+        {
+            var course = await _courseRepository.FindOneAsync(courseId);
+
+            if (course == null)
+            {
+                throw new CourseNotFoundException(courseId);
+            }
+
+            var result = new CourseCheckResultDto()
+            {
+                IsValid = true,
+            };
+
+            if (course.Description == null || course.Description.Length < 100)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("Your course description must be at least 100 characters.");
+            }
+            if (course.Tags.Count < 2)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("Your course must have at least 2 tags.");
+            }
+            if (course.Requirements.Count == 0)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("You must clearly state any course requirements or prerequisites.");
+            }
+            if (course.TargetStudents.Count == 0)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("You must clearly state the target student of this course.");
+            }
+            if (course.LearnedContents.Count < 4)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("You must state at least 4 learned contents of this course.");
+            }
+            if (course.Thumbnail == null)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("You must upload your course thumbnail.");
+            }
+            if (course.Metrics.LessonsCount < 5)
+            {
+                result.IsValid = false;
+                result.MissingRequirements.Add("Your course must have at least 5 lessons");
+            }
+
+            return result;
         }
     }
 }

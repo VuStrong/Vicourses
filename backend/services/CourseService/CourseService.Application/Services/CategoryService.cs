@@ -12,21 +12,21 @@ namespace CourseService.Application.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ICourseRepository _courseRepository;
         private readonly ICategoryDomainService _categoryDomainService;
+        private readonly IDeleteResourceDomainService _deleteResourceDomainService;
         private readonly IMapper _mapper;
         private readonly ILogger<CategoryService> _logger;
 
         public CategoryService(
             ICategoryRepository categoryRepository,
-            ICourseRepository courseRepository,
             ICategoryDomainService categoryDomainService,
+            IDeleteResourceDomainService deleteResourceDomainService,
             IMapper mapper,
             ILogger<CategoryService> logger)
         {
             _categoryRepository = categoryRepository;
-            _courseRepository = courseRepository;
             _categoryDomainService = categoryDomainService;
+            _deleteResourceDomainService = deleteResourceDomainService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -51,24 +51,16 @@ namespace CourseService.Application.Services
 
         public async Task DeleteCategoryAsync(string categoryId)
         {
-            if (!(await _categoryRepository.ExistsAsync(categoryId)))
+            var category = await _categoryRepository.FindOneAsync(categoryId);
+
+            if (category == null)
             {
                 throw new CategoryNotFoundException(categoryId);
             }
 
-            if (await _categoryRepository.ExistsAsync(c => c.ParentId == categoryId))
-            {
-                throw new ForbiddenException("This category cannot be deleted");
-            }
+            await _deleteResourceDomainService.SetCategoryDeletedAsync(category);
 
-            if (await ExistsCategoryInAnyCourses(categoryId))
-            {
-                throw new ForbiddenException("This category cannot be deleted");
-            }
-
-            await _categoryRepository.DeleteOneAsync(categoryId);
-
-            _logger.LogInformation($"Deleted category: {categoryId}");
+            await _categoryRepository.UpdateAsync(category);
         }
 
         public async Task<List<CategoryDto>> GetAllCategoriesAsync(GetCategoriesParamsDto? paramsDto = null)
@@ -106,12 +98,6 @@ namespace CourseService.Application.Services
             _logger.LogInformation($"Category {category.Id} updated");
 
             return _mapper.Map<CategoryDto>(category);
-        }
-
-        private async Task<bool> ExistsCategoryInAnyCourses(string categoryId)
-        {
-            return await _courseRepository.ExistsAsync(
-                c => c.Category.Id == categoryId || c.SubCategory.Id == categoryId);
         }
     }
 }

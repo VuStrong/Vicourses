@@ -1,40 +1,31 @@
 ﻿using CourseService.Domain.Exceptions;
-using CourseService.Shared.Extensions;
 
-namespace CourseService.Domain.Models
+namespace CourseService.Domain.Objects
 {
-    public class Quiz : Entity, IBaseEntity
+    public class Quiz
     {
         private const int MaxAnswersInQuiz = 5;
         private List<Answer> _answers = [];
 
-        public string Id { get; private set; }
+        public int Number { get; internal set; }
         public string Title { get; private set; }
-        public int Number { get; private set; }
         public bool IsMultiChoice { get; private set; }
-        public string LessonId { get; private set; }
-        public string UserId { get; private set; }
 
         public IReadOnlyList<Answer> Answers => _answers.AsReadOnly();
 
-        private Quiz(string id, int number, string title, string lessonId, string userId)
+        private Quiz(int number, string title)
         {
-            Id = id;
             Number = number;
             Title = title;
-            LessonId = lessonId;
-            UserId = userId;
         }
 
-        internal static Quiz Create(string title, int number, Lesson lesson, List<Answer> answers)
+        internal static Quiz Create(int number, string title, List<Answer> answers)
         {
             title = title.Trim();
-            DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
             DomainValidationException.ThrowIfNegative(number, nameof(number));
+            DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
 
-            var id = StringExtensions.GenerateIdString(14);
-            
-            var quiz = new Quiz(id, number, title, lesson.Id, lesson.UserId);
+            var quiz = new Quiz(number, title);
 
             quiz.SetAnswers(answers);
 

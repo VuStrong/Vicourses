@@ -6,5 +6,6 @@
         public string[] Requirements { get; set; } = [];
         public string[] TargetStudents { get; set; } = [];
         public VideoFileDto? PreviewVideo { get; set; }
+        public CourseMetricsDto Metrics { get; set; } = null!;
     }
 }

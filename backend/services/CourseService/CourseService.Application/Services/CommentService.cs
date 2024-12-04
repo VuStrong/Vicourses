@@ -3,7 +3,6 @@ using CourseService.Application.Dtos.Comment;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
-using CourseService.Domain.Events;
 using CourseService.Domain.Models;
 using CourseService.Domain.Services;
 using CourseService.Shared.Paging;
@@ -16,7 +15,6 @@ namespace CourseService.Application.Services
         private readonly ILessonRepository _lessonRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICommentDomainService _commentDomainService;
-        private readonly IDomainEventDispatcher _domainEventDispatcher;
         private readonly IMapper _mapper;
 
         public CommentService(
@@ -24,14 +22,12 @@ namespace CourseService.Application.Services
             ILessonRepository lessonRepository,
             IUserRepository userRepository,
             ICommentDomainService commentDomainService,
-            IDomainEventDispatcher domainEventDispatcher,
             IMapper mapper)
         {
             _commentRepository = commentRepository;
             _lessonRepository = lessonRepository;
             _userRepository = userRepository;
             _commentDomainService = commentDomainService;
-            _domainEventDispatcher = domainEventDispatcher;
             _mapper = mapper;
         }
 
@@ -65,8 +61,6 @@ namespace CourseService.Application.Services
             var comment = await _commentDomainService.CreateCommentAsync(lesson, user, data.Content, replyTo);
 
             await _commentRepository.CreateAsync(comment);
-
-            _ = _domainEventDispatcher.DispatchFrom(comment);
 
             return _mapper.Map<CommentDto>(comment);
         }

@@ -15,6 +15,19 @@ namespace StatisticsService.API.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AdminMetrics",
+                columns: table => new
+                {
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Revenue = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdminMetrics", x => x.Date);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
                 {
@@ -43,7 +56,8 @@ namespace StatisticsService.API.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     EnrollmentCount = table.Column<int>(type: "int", nullable: false),
-                    Revenue = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
+                    Revenue = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    RefundCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,6 +111,9 @@ namespace StatisticsService.API.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AdminMetrics");
+
             migrationBuilder.DropTable(
                 name: "Courses");
 

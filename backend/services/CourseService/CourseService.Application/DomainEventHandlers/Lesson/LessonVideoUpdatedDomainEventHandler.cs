@@ -6,7 +6,7 @@ using EventBus;
 
 namespace CourseService.Application.DomainEventHandlers.Lesson
 {
-    public class LessonVideoUpdatedDomainEventHandler : IDomainEventHandler<LessonVideoUpdatedDomainEvent>
+    internal class LessonVideoUpdatedDomainEventHandler : IDomainEventHandler<LessonVideoUpdatedDomainEvent>
     {
         private readonly IEventBus _eventBus;
 

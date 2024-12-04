@@ -5,11 +5,9 @@ using CourseService.Application.Dtos.Section;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
 using CourseService.Domain.Contracts;
-using CourseService.Domain.Events;
-using CourseService.Domain.Events.Lesson;
-using CourseService.Domain.Events.Section;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
+using CourseService.Domain.Services;
 
 namespace CourseService.Application.Services
 {
@@ -19,29 +17,29 @@ namespace CourseService.Application.Services
         private readonly ISectionRepository _sectionRepository;
         private readonly ILessonRepository _lessonRepository;
         private readonly ICourseCurriculumManager _courseCurriculumManager;
-        private readonly IDomainEventDispatcher _domainEventDispatcher;
         private readonly IFileUploadTokenValidator _fileUploadTokenValidator;
         private readonly IMapper _mapper;
         private readonly IDataAggregator _dataAggregator;
+        private readonly IDeleteResourceDomainService _deleteResourceDomainService;
 
         public CourseCurriculumService(
             ICourseRepository courseRepository,
             ISectionRepository sectionRepository,
             ILessonRepository lessonRepository,
             ICourseCurriculumManager courseCurriculumManager,
-            IDomainEventDispatcher domainEventDispatcher,
             IFileUploadTokenValidator fileUploadTokenValidator,
             IMapper mapper,
-            IDataAggregator dataAggregator)
+            IDataAggregator dataAggregator,
+            IDeleteResourceDomainService deleteResourceDomainService)
         {
             _courseRepository = courseRepository;
             _sectionRepository = sectionRepository;
             _lessonRepository = lessonRepository;
             _courseCurriculumManager = courseCurriculumManager;
-            _domainEventDispatcher = domainEventDispatcher;
             _fileUploadTokenValidator = fileUploadTokenValidator;
             _mapper = mapper;
             _dataAggregator = dataAggregator;
+            _deleteResourceDomainService = deleteResourceDomainService;
         }
 
         public async Task<SectionDto> GetSectionByIdAsync(string id)
@@ -84,7 +82,7 @@ namespace CourseService.Application.Services
             var section = Section.Create(data.Title, course, data.Description);
 
             await _sectionRepository.CreateAsync(section);
-        
+
             return _mapper.Map<SectionDto>(section);
         }
 
@@ -123,9 +121,9 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resource");
             }
 
-            await _sectionRepository.DeleteOneAsync(sectionId);
+            await _deleteResourceDomainService.SetSectionDeletedAsync(section);
 
-            _ = _domainEventDispatcher.Dispatch(new SectionDeletedDomainEvent(section));
+            await _sectionRepository.UpdateAsync(section);
         }
 
         public async Task<LessonDto> CreateLessonAsync(CreateLessonDto data)
@@ -200,9 +198,101 @@ namespace CourseService.Application.Services
                 throw new ForbiddenException("Forbidden resourse");
             }
 
-            await _lessonRepository.DeleteOneAsync(lessonId);
+            lesson.SetDeleted();
 
-            _ = _domainEventDispatcher.Dispatch(new LessonDeletedDomainEvent(lesson));
+            await _lessonRepository.UpdateAsync(lesson);
+        }
+
+        public async Task<LessonDto> AddQuizToLessonAsync(string lessonId, CreateLessonQuizDto data)
+        {
+            var lesson = await _lessonRepository.FindOneAsync(lessonId);
+
+            if (lesson == null)
+            {
+                throw new LessonNotFoundException(lessonId);
+            }
+            if (lesson.UserId != data.UserId)
+            {
+                throw new ForbiddenException("Forbidden resourse");
+            }
+
+            var answers = new List<Answer>();
+            foreach (var answerDto in data.Answers)
+            {
+                answers.Add(Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation));
+            }
+
+            lesson.AddQuiz(data.Title, answers);
+
+            await _lessonRepository.UpdateAsync(lesson);
+
+            return _mapper.Map<LessonDto>(lesson);
+        }
+
+        public async Task<LessonDto> UpdateQuizInLessonAsync(string lessonId, UpdateLessonQuizDto data)
+        {
+            var lesson = await _lessonRepository.FindOneAsync(lessonId);
+
+            if (lesson == null)
+            {
+                throw new LessonNotFoundException(lessonId);
+            }
+            if (lesson.UserId != data.UserId)
+            {
+                throw new ForbiddenException("Forbidden resourse");
+            }
+
+            var answers = new List<Answer>();
+            foreach (var answerDto in data.Answers)
+            {
+                answers.Add(Answer.Create(answerDto.Title, answerDto.IsCorrect, answerDto.Explanation));
+            }
+
+            lesson.UpdateQuiz(data.Number, data.Title, answers);
+
+            await _lessonRepository.UpdateAsync(lesson);
+
+            return _mapper.Map<LessonDto>(lesson);
+        }
+
+        public async Task<LessonDto> RemoveQuizFromLessonAsync(string lessonId, int quizNumber, string ownerId)
+        {
+            var lesson = await _lessonRepository.FindOneAsync(lessonId);
+
+            if (lesson == null)
+            {
+                throw new LessonNotFoundException(lessonId);
+            }
+            if (lesson.UserId != ownerId)
+            {
+                throw new ForbiddenException("Forbidden resourse");
+            }
+
+            lesson.RemoveQuiz(quizNumber);
+
+            await _lessonRepository.UpdateAsync(lesson);
+
+            return _mapper.Map<LessonDto>(lesson);
+        }
+
+        public async Task<LessonDto> MoveQuizInLessonAsync(string lessonId, int quizNumber, int to, string ownerId)
+        {
+            var lesson = await _lessonRepository.FindOneAsync(lessonId);
+
+            if (lesson == null)
+            {
+                throw new LessonNotFoundException(lessonId);
+            }
+            if (lesson.UserId != ownerId)
+            {
+                throw new ForbiddenException("Forbidden resourse");
+            }
+
+            lesson.MoveQuiz(quizNumber, to);
+
+            await _lessonRepository.UpdateAsync(lesson);
+
+            return _mapper.Map<LessonDto>(lesson);
         }
 
         public async Task<CoursePublicCurriculumDto> GetPublicCurriculumAsync(string courseId)

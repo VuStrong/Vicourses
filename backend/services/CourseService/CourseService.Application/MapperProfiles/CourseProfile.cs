@@ -4,6 +4,7 @@ using CourseService.Application.Dtos.Lesson;
 using CourseService.Application.Dtos.Section;
 using CourseService.Application.IntegrationEvents.Course;
 using CourseService.Domain.Models;
+using CourseService.Domain.Objects;
 
 namespace CourseService.Application.MapperProfiles
 {
@@ -13,6 +14,7 @@ namespace CourseService.Application.MapperProfiles
         {
             CreateMap<CategoryInCourse, CategoryInCourseDto>();
             CreateMap<UserInCourse, UserInCourseDto>();
+            CreateMap<CourseMetrics, CourseMetricsDto>();
 
             CreateMap<LessonDto, LessonInPublicCurriculumDto>()
                 .ForMember(

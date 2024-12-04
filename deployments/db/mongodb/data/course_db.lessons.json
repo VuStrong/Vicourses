@@ -7,13 +7,22 @@
   "Description": null,
   "Order": 1,
   "Type": "Video",
-  "Video": null,
   "CreatedAt": {
     "$date": "2024-09-24T14:17:03.690Z"
   },
   "UpdatedAt": {
-    "$date": "2024-09-26T13:35:07.642Z"
-  }
+    "$date": "2024-12-03T08:17:34.780Z"
+  },
+  "Video": {
+    "FileId": "1MinuteSampleVideo.mp4",
+    "Url": "https://r2.strongtify.io.vn/1MinuteSampleVideo.mp4",
+    "OriginalFileName": "abcd.mp4",
+    "StreamFileUrl": "https://r2.strongtify.io.vn/hls/b0e40375-dae4-4f85-a39f-e3b3dbdda984/master.m3u8",
+    "Duration": 60,
+    "Status": "Processed"
+  },
+  "QuizzesCount": 0,
+  "Quizzes": []
 },
 {
   "_id": "Rk1xF3Jge8Ag9s",
@@ -30,7 +39,9 @@
   "UpdatedAt": {
     "$date": "2024-09-24T14:18:45.482Z"
   },
-  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+  "QuizzesCount": 0,
+  "Quizzes": []
 },
 {
   "_id": "0T4f4FTi5yF9s8",
@@ -38,7 +49,7 @@
   "SectionId": "1vDW02SQqqofw6",
   "Title": "Module Introduction",
   "Description": null,
-  "Order": 3,
+  "Order": 4,
   "Type": "Video",
   "Video": null,
   "CreatedAt": {
@@ -47,24 +58,9 @@
   "UpdatedAt": {
     "$date": "2024-09-24T14:21:06.178Z"
   },
-  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
-},
-{
-  "_id": "o2QGB5CHpwd6mb",
-  "CourseId": "FtDOrVhpmBQ6",
-  "SectionId": "bwhY1c96wNq1Od",
-  "Title": "NestJS Masterclass Introduction",
-  "Description": null,
-  "Order": 1,
-  "Type": "Video",
-  "Video": null,
-  "CreatedAt": {
-    "$date": "2024-09-24T14:23:45.456Z"
-  },
-  "UpdatedAt": {
-    "$date": "2024-09-24T14:23:45.456Z"
-  },
-  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9"
+  "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
+  "QuizzesCount": 0,
+  "Quizzes": []
 },
 {
   "_id": "kbkwoDCl1OY6j1",
@@ -73,7 +69,7 @@
   "UserId": "5a8a8a8c-4663-41b5-9849-81ae7f6726e9",
   "Title": "Some questions about ReactJS",
   "Description": null,
-  "Order": 0,
+  "Order": 3,
   "Type": "Quiz",
   "CreatedAt": {
     "$date": "2024-09-28T13:08:21.821Z"
@@ -81,5 +77,52 @@
   "UpdatedAt": {
     "$date": "2024-09-28T13:08:21.821Z"
   },
-  "Video": null
+  "Video": null,
+  "QuizzesCount": 2,
+  "Quizzes": [
+    {
+      "Number": 1,
+      "Title": "What is ReactJS?",
+      "IsMultiChoice": false,
+      "Answers": [
+        {
+          "Number": 1,
+          "Title": "A frontend library for building SPA",
+          "IsCorrect": true,
+          "Explanation": "string"
+        },
+        {
+          "Number": 2,
+          "Title": "A backend framework",
+          "IsCorrect": false,
+          "Explanation": null
+        }
+      ]
+    },
+    {
+      "Number": 2,
+      "Title": "What programming language ReactJS usee?",
+      "IsMultiChoice": false,
+      "Answers": [
+        {
+          "Number": 1,
+          "Title": "Javascript",
+          "IsCorrect": true,
+          "Explanation": "Yeah!"
+        },
+        {
+          "Number": 2,
+          "Title": "c++",
+          "IsCorrect": false,
+          "Explanation": null
+        },
+        {
+          "Number": 3,
+          "Title": "python",
+          "IsCorrect": false,
+          "Explanation": null
+        }
+      ]
+    }
+  ]
 }]

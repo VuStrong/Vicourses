@@ -1,4 +1,5 @@
-﻿using CourseService.Domain.Exceptions;
+﻿using CourseService.Domain.Events.Section;
+using CourseService.Domain.Exceptions;
 using CourseService.Shared.Extensions;
 
 namespace CourseService.Domain.Models
@@ -20,6 +21,8 @@ namespace CourseService.Domain.Models
             Title = title;
             CourseId = courseId;
             UserId = userId;
+
+            AddUniqueDomainEvent(new SectionCreatedDomainEvent(this));
         }
 
         public static Section Create(string title, Course course, string? description)

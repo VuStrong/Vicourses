@@ -46,6 +46,7 @@ namespace StatisticsService.API.Application.Services
                 Metrics = metrics,
                 TotalEnrollmentCount = metrics.Sum(m => m.EnrollmentCount),
                 TotalRevenue = metrics.Sum(m => m.Revenue),
+                TotalRefundCount = metrics.Sum(m => m.RefundCount),
             };
 
             await _cache.SetStringAsync(cachedKey, JsonSerializer.Serialize(data), new DistributedCacheEntryOptions
@@ -56,7 +57,7 @@ namespace StatisticsService.API.Application.Services
             return data;
         }
 
-        private static IQueryable<MetricsDto> BuildMetricsQuery(IQueryable<InstructorMetric> query, DateScope dateScope)
+        private static IQueryable<InstructorMetricsDto> BuildMetricsQuery(IQueryable<InstructorMetric> query, DateScope dateScope)
         {
             DateOnly to = DateOnly.FromDateTime(DateTime.Today);
             DateOnly? from = null;
@@ -67,11 +68,12 @@ namespace StatisticsService.API.Application.Services
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
                     .GroupBy(m => m.Date)
-                    .Select(m => new MetricsDto
+                    .Select(m => new InstructorMetricsDto
                     {
                         Label = m.Key.ToString(),
                         EnrollmentCount = m.Sum(x => x.EnrollmentCount),
-                        Revenue = m.Sum(x => x.Revenue)
+                        Revenue = m.Sum(x => x.Revenue),
+                        RefundCount = m.Sum(x => x.RefundCount),
                     });
             }
             else if (dateScope == DateScope.Month)
@@ -80,11 +82,12 @@ namespace StatisticsService.API.Application.Services
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
                     .GroupBy(m => m.Date)
-                    .Select(m => new MetricsDto
+                    .Select(m => new InstructorMetricsDto
                     {
                         Label = m.Key.ToString(),
                         EnrollmentCount = m.Sum(x => x.EnrollmentCount),
-                        Revenue = m.Sum(x => x.Revenue)
+                        Revenue = m.Sum(x => x.Revenue),
+                        RefundCount = m.Sum(x => x.RefundCount),
                     });
             }
             else if (dateScope == DateScope.Year)
@@ -93,22 +96,24 @@ namespace StatisticsService.API.Application.Services
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
                     .GroupBy(m => new { m.Date.Year, m.Date.Month })
-                    .Select(m => new MetricsDto
+                    .Select(m => new InstructorMetricsDto
                     {
                         Label = $"{m.Key.Month}/{m.Key.Year}",
                         EnrollmentCount = m.Sum(x => x.EnrollmentCount),
-                        Revenue = m.Sum(x => x.Revenue)
+                        Revenue = m.Sum(x => x.Revenue),
+                        RefundCount = m.Sum(x => x.RefundCount),
                     });
             }
             else
             {
                 return query
                     .GroupBy(m => new { m.Date.Year, m.Date.Month })
-                    .Select(m => new MetricsDto
+                    .Select(m => new InstructorMetricsDto
                     {
                         Label = $"{m.Key.Month}/{m.Key.Year}",
                         EnrollmentCount = m.Sum(x => x.EnrollmentCount),
-                        Revenue = m.Sum(x => x.Revenue)
+                        Revenue = m.Sum(x => x.Revenue),
+                        RefundCount = m.Sum(x => x.RefundCount),
                     });
             }
         }

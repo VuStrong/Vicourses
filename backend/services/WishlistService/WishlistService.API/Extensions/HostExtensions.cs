@@ -149,11 +149,17 @@ namespace WishlistService.API.Extensions
                     opt.ExchangeOptions.ExchangeName = "user.enrolled";
                     opt.QueueOptions.QueueName = "wishlist_service_user.enrolled";
                 });
+                c.ConfigureConsume<UserUnenrolledIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "user.unenrolled";
+                    opt.QueueOptions.QueueName = "wishlist_service_user.unenrolled";
+                });
             })
             .AddIntegrationEventHandler<CourseInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CourseUnpublishedIntegrationEventHandler>()
-            .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>();
+            .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>()
+            .AddIntegrationEventHandler<UserUnenrolledIntegrationEventHandler>();
         }
 
         private static void AddDb(this WebApplicationBuilder builder)

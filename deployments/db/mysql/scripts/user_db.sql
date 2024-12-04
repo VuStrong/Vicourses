@@ -24,8 +24,23 @@ CREATE TABLE `migrations` (
 --
 
 LOCK TABLES `migrations` WRITE;
-INSERT INTO `migrations` VALUES (1,1732721400370,'InitialCreate1732721400370');
+INSERT INTO `migrations` VALUES (1,1732958187637,'InitialCreate1732958187637');
 UNLOCK TABLES;
+
+--
+-- Table structure for table `paypal_accounts`
+--
+
+DROP TABLE IF EXISTS `paypal_accounts`;
+CREATE TABLE `paypal_accounts` (
+  `id` varchar(36) NOT NULL,
+  `payerId` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `refreshToken` varchar(255) NOT NULL,
+  `emailVerified` tinyint NOT NULL,
+  `verifiedAccount` tinyint NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table `refresh_tokens`
@@ -71,9 +86,12 @@ CREATE TABLE `users` (
   `courseTags` varchar(255) NOT NULL DEFAULT '',
   `categoryIds` varchar(255) NOT NULL DEFAULT '',
   `totalEnrollmentCount` int NOT NULL DEFAULT '0',
+  `paypalAccountId` varchar(36) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_97672ac88f789774dd47f7c8be` (`email`),
-  KEY `IDX_ace513fa30d485cfd25c11a9e4` (`role`)
+  UNIQUE KEY `REL_2a06e61d5000a2f944396aff68` (`paypalAccountId`),
+  KEY `IDX_ace513fa30d485cfd25c11a9e4` (`role`),
+  CONSTRAINT `FK_2a06e61d5000a2f944396aff689` FOREIGN KEY (`paypalAccountId`) REFERENCES `paypal_accounts` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -82,6 +100,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES 
-('00543305-2d30-4520-9f5b-f35a58931338','2024-09-13 17:08:10.264855','Admin 1','admin1@gmail.com','$2b$10$xQ7p5gldB/WQlDEa.NGVLue4RBriIdjVC4vHJx.Q.VuCd.mSTE7nG',1,NULL,NULL,NULL,NULL,NULL,'admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'','',0),
-('5a8a8a8c-4663-41b5-9849-81ae7f6726e9','2024-09-13 17:08:10.264855','Teacher 1','teacher1@gmail.com','$2b$10$RA6W6yic8r/uWSv64w4b4eYQl3Ev0LQAQzut8I0WfqQ/Qpd25M.8K',1,NULL,NULL,NULL,NULL,NULL,'instructor',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'','',0);
+('00543305-2d30-4520-9f5b-f35a58931338','2024-09-13 17:08:10.264855','Admin 1','admin1@gmail.com','$2b$10$B81Ab0kEpbWzEmENS1jDi.B3DRoLLzwoMOsD0lnhu3Qoo6T0Za53C',1,NULL,NULL,NULL,NULL,NULL,'admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'','',0,NULL),
+('5a8a8a8c-4663-41b5-9849-81ae7f6726e9','2024-09-13 17:08:10.264855','Teacher 1','teacher1@gmail.com','$2b$10$.QAEn/4ciZBaqxGTxyqSmuB63eiaOysYzz9px8GwZwFRnYnQyzV9C',1,NULL,NULL,NULL,NULL,NULL,'instructor',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'','',0,NULL);
 UNLOCK TABLES;

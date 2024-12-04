@@ -1,4 +1,5 @@
 ﻿using CourseService.Domain.Contracts;
+using CourseService.Domain.Events;
 using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 using MongoDB.Driver;
@@ -7,7 +8,8 @@ namespace CourseService.Infrastructure.Repositories
 {
     public class EnrollmentRepository : Repository<Enrollment>, IEnrollmentRepository
     {
-        public EnrollmentRepository(IMongoCollection<Enrollment> collection) : base(collection) { }
+        public EnrollmentRepository(IMongoCollection<Enrollment> collection, IDomainEventDispatcher dispatcher) : 
+            base(collection, dispatcher) { }
 
         public async Task<PagedResult<Enrollment>> FindByUserIdAsync(string userId, int skip, int limit)
         {

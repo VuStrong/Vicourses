@@ -8,6 +8,7 @@
         public DateOnly Date { get; private set; }
         public int EnrollmentCount { get; private set; }
         public decimal Revenue { get; private set; }
+        public int RefundCount { get; private set; }
 
 #pragma warning disable CS8618
         private InstructorMetric() { }
@@ -31,6 +32,11 @@
             {
                 Revenue += revenue;
             }
+        }
+
+        public void IncreaseRefundCount()
+        {
+            RefundCount++;
         }
     }
 }

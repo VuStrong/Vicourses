@@ -1,5 +1,6 @@
 ﻿using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
+using CourseService.Domain.Events;
 using CourseService.Domain.Models;
 using CourseService.Shared.Paging;
 using MongoDB.Driver;
@@ -8,7 +9,8 @@ namespace CourseService.Infrastructure.Repositories
 {
     public class CommentRepository : Repository<Comment>, ICommentRepository
     {
-        public CommentRepository(IMongoCollection<Comment> collection) : base(collection) { }
+        public CommentRepository(IMongoCollection<Comment> collection, IDomainEventDispatcher dispatcher) : 
+            base(collection, dispatcher) { }
 
         public async Task<PagedResult<Comment>> FindByLessonIdAsync(string lessonId, int skip, int limit, CommentSort? sort = null,
             string? replyToId = null, CancellationToken cancellationToken = default)
@@ -28,14 +30,6 @@ namespace CourseService.Infrastructure.Repositories
             var total = await _collection.CountDocumentsAsync(filter, cancellationToken: cancellationToken);
 
             return new PagedResult<Comment>(comments, skip, limit, total);
-        }
-
-        public async Task UpdateUserInCommentsAsync(UserInComment user)
-        {
-            var filter = Builders<Comment>.Filter.Eq(c => c.User.Id, user.Id);
-            var update = Builders<Comment>.Update.Set(c => c.User, user);
-
-            await _collection.UpdateManyAsync(filter, update);
         }
 
         private IFindFluent<Comment, Comment> Sort(IFindFluent<Comment, Comment> fluent, CommentSort sort)
