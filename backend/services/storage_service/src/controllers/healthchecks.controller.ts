@@ -53,7 +53,8 @@ export async function handleHealthCheck(req: Request, res: Response, next: NextF
 
 async function checkRabbitMQ(): Promise<void> {
     try {
-        await amqplib.connect(Config.RabbitMQ.Url ?? "");
+        const connection = await amqplib.connect(Config.RabbitMQ.Url ?? "");
+        connection.close();
     } catch (error: any) {
         throw new Error(error.code);
     }
