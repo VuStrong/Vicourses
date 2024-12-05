@@ -348,6 +348,7 @@ export async function updateUserProfile(id: string, payload: UpdateProfilePayloa
     if (payload.enrolledCoursesVisible !== undefined) user.enrolledCoursesVisible = payload.enrolledCoursesVisible;
     if (payload.isPublic !== undefined) user.isPublic = payload.isPublic;
 
+    let oldThumbnailId = undefined;
     if (payload.thumbnailToken) {
         try {
             const { fileId, url, userId } = jwt.verifyFileUploadToken(payload.thumbnailToken);
@@ -356,6 +357,7 @@ export async function updateUserProfile(id: string, payload: UpdateProfilePayloa
                 throw new Error();
             }
 
+            oldThumbnailId = user.thumbnailId;
             user.thumbnailId = fileId;
             user.thumbnailUrl = url;
         } catch {
@@ -368,6 +370,11 @@ export async function updateUserProfile(id: string, payload: UpdateProfilePayloa
     const userDto = mapUserEntityToUserDto(user);
 
     await rabbitmq.publishUserInfoUpdatedEvent(userDto);
+    if (oldThumbnailId) {
+        await rabbitmq.sendToDeleteFilesQueue({
+            fileIds: [oldThumbnailId]
+        });
+    }
 
     return userDto;
 }
