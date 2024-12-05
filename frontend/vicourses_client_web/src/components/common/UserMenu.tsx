@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
     Avatar,
@@ -13,7 +14,6 @@ import {
 import { DEFAULT_USER_AVATAR_URL } from "@/libs/constants";
 import { revokeRefreshToken } from "@/services/api/auth";
 import useUser from "@/hooks/useUser";
-import { usePathname } from "next/navigation";
 
 export default function UserMenu() {
     const { user, isLoading } = useUser("id,name,email,thumbnailUrl");
@@ -44,23 +44,27 @@ export default function UserMenu() {
                 />
             </MenuHandler>
             <MenuList>
-                <MenuItem className="flex items-center px-4 py-2 gap-2">
-                    <Avatar
-                        variant="circular"
-                        className="cursor-pointer"
-                        src={user.thumbnailUrl ?? DEFAULT_USER_AVATAR_URL}
-                        alt={user.name}
-                    />
-                    <div>
-                        <div className="font-bold text-base text-black">
-                            {user.name}
+                <Link href="/profile">
+                    <MenuItem className="flex items-center gap-2">
+                        <Avatar
+                            variant="circular"
+                            className="cursor-pointer"
+                            src={user.thumbnailUrl ?? DEFAULT_USER_AVATAR_URL}
+                            alt={user.name}
+                        />
+                        <div className="max-w-[200px]">
+                            <div className="font-bold text-base text-black truncate">
+                                {user.name}
+                            </div>
+                            <div className="text-gray-800 text-sm truncate">
+                                {user.email}
+                            </div>
                         </div>
-                        <div className="text-gray-800 text-sm">
-                            {user.email}
-                        </div>
-                    </div>
-                </MenuItem>
-                <MenuItem>Menu Item 2</MenuItem>
+                    </MenuItem>
+                </Link>
+                <Link href={`/user/${user.id}`}>
+                    <MenuItem>Public profile</MenuItem>
+                </Link>
                 <hr className="my-3" />
                 <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
             </MenuList>

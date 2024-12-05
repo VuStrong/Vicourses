@@ -1,5 +1,27 @@
 import { BACKEND_URL } from "@/libs/constants";
-import { CompleteMultipartUploadRequest, InitializeMultipartUploadResponse } from "@/libs/types/storage";
+import { CompleteMultipartUploadRequest, InitializeMultipartUploadResponse, UploadResponse } from "@/libs/types/storage";
+
+export async function uploadImage(file: File, accessToken: string, fileId?: string): Promise<UploadResponse> {
+    const formData = new FormData();
+    formData.append("image", file);
+    if (fileId) formData.append("fileId", fileId);
+
+    const res = await fetch(`${BACKEND_URL}/api/sts/v1/upload-image`, {
+        method: "POST",
+        body: formData,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+}
 
 export async function initializeMultipartUpload(
     fileId: string,
@@ -40,9 +62,8 @@ export async function completeMultipartUpload(request: CompleteMultipartUploadRe
         }
     );
 
-    const data = await res.json();
-
     if (!res.ok) {
+        const data = await res.json();
         throw new Error(data.message);
     }
 }

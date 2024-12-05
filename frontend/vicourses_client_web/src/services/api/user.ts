@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "@/libs/constants";
-import { UpdateProfileRequest, User } from "@/libs/types/user";
+import { PublicProfile, UpdateProfileRequest, User } from "@/libs/types/user";
 
 export async function getAuthenticatedUser(
     accessToken: string,
@@ -47,3 +47,35 @@ export async function updateProfile(request: UpdateProfileRequest, accessToken: 
     return data;
 }
 
+export async function getPublicProfile(id: string, accessToken?: string): Promise<PublicProfile | null> {
+    const res = await fetch(`${BACKEND_URL}/api/us/v1/users/${id}/public-profile`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken || ''}`,
+        },
+    });
+
+    if (!res.ok) {
+        return null;
+    }
+    
+    const data = await res.json();
+    return data;
+}
+
+export async function linkPaypalAccount(code: string, accessToken: string) {
+    const res = await fetch(`${BACKEND_URL}/api/us/v1/me/paypal`, {
+        method: "POST",
+        body: JSON.stringify({ code }),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
+    if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message);
+    }
+}

@@ -1,3 +1,10 @@
+export type UploadResponse = {
+    token: string;
+    url: string;
+    fileId: string;
+    originalFileName: string;
+}
+
 export type InitializeMultipartUploadResponse = {
     uploadId: string;
     parts: PartResponse[];

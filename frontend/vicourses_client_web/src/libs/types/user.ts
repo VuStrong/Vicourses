@@ -28,6 +28,11 @@ export type User = {
     totalEnrollmentCount: number;
     courseTags: string | null;
     categoryIds: string | null;
+    paypalAccount?: {
+        id: string;
+        payerId: string;
+        email: string;
+    },
 }
 
 export type UpdateProfileRequest = {
@@ -42,4 +47,19 @@ export type UpdateProfileRequest = {
     enrolledCoursesVisible?: boolean;
     isPublic?: boolean;
     categoryIds?: string;
+}
+
+export type PublicProfile = {
+    id: string;
+    createdAt: string;
+    name: string;
+    role: string;
+    thumbnailUrl: string | null;
+    headline: string | null;
+    description: string | null;
+    websiteUrl: string | null;
+    youtubeUrl: string | null;
+    facebookUrl: string | null;
+    linkedInUrl: string | null;
+    totalEnrollmentCount: number;
 }

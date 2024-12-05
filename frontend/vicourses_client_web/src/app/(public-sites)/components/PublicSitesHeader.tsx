@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import UserMenu from "./UserMenu";
+import UserMenu from "@/components/common/UserMenu";
 
 export default function PublicSitesHeader() {
     return (
