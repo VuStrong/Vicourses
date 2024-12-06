@@ -9,7 +9,9 @@ export default async function PublicSitesLayout({
         <>
             <PublicSitesHeader />
 
-            {children}
+            <div className="container mx-auto">
+                {children}
+            </div>
         </>
     );
 }

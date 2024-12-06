@@ -33,7 +33,7 @@ export default async function ConfirmEmailPage({
     }
 
     return (
-        <section className="lg:h-auto md:h-auto border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none">
+        <section className="lg:h-auto md:h-auto border-0 rounded-lg shadow-2xl flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="relative p-6 flex-auto">
                 <div className="flex flex-col gap-4">
                     <div className="text-center text-gray-900">

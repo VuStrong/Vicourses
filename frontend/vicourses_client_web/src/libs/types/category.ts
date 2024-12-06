@@ -5,4 +5,5 @@ export type Category = {
     parentId: string | null;
     createdAt: string;
     updatedAt: string;
+    subCategories?: Category[];
 }

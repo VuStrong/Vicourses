@@ -37,7 +37,7 @@ export default async function PublicProfilePage({
     if (!profile) notFound();
 
     return (
-        <div className="max-w-[61.2rem] mx-auto p-5 flex flex-wrap gap-10 bg-white my-5 rounded-lg">
+        <div className="max-w-[61.2rem] mx-auto p-5 flex md:flex-row flex-col gap-10 bg-white my-5 rounded-lg shadow-2xl">
             <div className="flex flex-col gap-5">
                 <img
                     className="w-52 h-52 rounded-full object-cover object-center"

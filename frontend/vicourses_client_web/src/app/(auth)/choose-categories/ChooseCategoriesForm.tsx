@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { Category } from "@/libs/types/category";
-import { getCategories } from "@/services/api/course";
 import { Loader } from "../../../components/common";
+import { getCategories } from "@/services/api/category";
 import { updateProfile } from "@/services/api/user";
 
 export default function ChooseCategoriesForm() {
@@ -48,7 +48,7 @@ export default function ChooseCategoriesForm() {
     }
 
     return (
-        <div className="lg:h-auto md:h-auto border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none">
+        <div className="lg:h-auto md:h-auto border-0 rounded-lg shadow-2xl flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="relative p-6 flex-auto">
                 <div className="flex flex-col gap-4">
                     <div className="text-start">

@@ -82,9 +82,6 @@ export default function ProfileThumbnail() {
                 );
 
                 setUser(result);
-
-                if (result) {
-                }
             }
         })();
     }, [session?.accessToken]);

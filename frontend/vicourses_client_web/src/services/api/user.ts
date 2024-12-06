@@ -79,3 +79,19 @@ export async function linkPaypalAccount(code: string, accessToken: string) {
         throw new Error(data.message);
     }
 }
+
+export async function changePassword(oldPassword: string, newPassword: string, accessToken: string) {
+    const res = await fetch(`${BACKEND_URL}/api/us/v1/me/password`, {
+        method: "PATCH",
+        body: JSON.stringify({ oldPassword, newPassword }),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
+    if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message);
+    }
+}
