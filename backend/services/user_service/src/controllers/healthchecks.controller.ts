@@ -79,17 +79,19 @@ async function checkMysql(): Promise<void> {
     
         connection.connect(function (err) {
             if (err) {
-                reject(new Error(err.message));                
+                reject(new Error(err.message));
             } else {
                 resolve();
             }
+            connection.end();
         });  
     });
 }
 
 async function checkRabbitMQ(): Promise<void> {
     try {
-        await amqplib.connect(Config.RabbitMQ.Url ?? "");
+        const connection = await amqplib.connect(Config.RabbitMQ.Url ?? "");
+        connection.close();
     } catch (error: any) {
         throw new Error(error.code);
     }

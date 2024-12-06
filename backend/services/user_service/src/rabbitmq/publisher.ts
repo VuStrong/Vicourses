@@ -16,6 +16,19 @@ export async function sendToEmailQueue(message: {
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
 }
 
+export async function sendToDeleteFilesQueue(message: {
+    fileIds: string[]
+}) {
+    const channel = getPublisherChannel();
+    if (!channel) return;
+
+    const queue = "delete_files";
+
+    await channel.assertQueue(queue);
+
+    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
+}
+
 export async function publishUserCreatedEvent(user: UserDto) {
     const channel = getPublisherChannel();
     if (!channel) return;
