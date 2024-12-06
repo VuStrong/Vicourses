@@ -9,7 +9,7 @@ export default async function AuthLayout({
     return (
         <section>
             {/* Header */}
-            <header className="bg-white py-2 px-5">
+            <header className="bg-white py-2 px-5 shadow-lg">
                 <Link href="/" className="w-[60px] block">
                     <Image
                         src="/img/logo-transparent.png"

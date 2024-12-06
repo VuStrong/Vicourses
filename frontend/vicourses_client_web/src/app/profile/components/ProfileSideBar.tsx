@@ -13,6 +13,7 @@ import { CgProfile } from "react-icons/cg";
 import { AiOutlineProfile } from "react-icons/ai";
 import { MdPrivacyTip } from "react-icons/md";
 import { FaPaypal } from "react-icons/fa";
+import { MdOutlineSecurity } from "react-icons/md";
 
 export default function ProfileSideBar() {
     return (
@@ -60,6 +61,14 @@ export default function ProfileSideBar() {
                             <FaPaypal className="h-5 w-5" />
                         </ListItemPrefix>
                         Payouts
+                    </ListItem>
+                </Link>
+                <Link href="/profile/security">
+                    <ListItem>
+                        <ListItemPrefix>
+                            <MdOutlineSecurity className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Security
                     </ListItem>
                 </Link>
             </List>

@@ -46,7 +46,7 @@ export default function ResetPasswordForm({
     };
 
     return (
-        <form className="lg:h-auto md:h-auto border-0 rounded-lg shadow-lg flex flex-col w-full bg-white outline-none focus:outline-none">
+        <form className="lg:h-auto md:h-auto border-0 rounded-lg shadow-2xl flex flex-col w-full bg-white outline-none focus:outline-none">
             {/* BODY */}
             <div className="relative p-6 flex-auto">
                 <div className="flex flex-col gap-4">

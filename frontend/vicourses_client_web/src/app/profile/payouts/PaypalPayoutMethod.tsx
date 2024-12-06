@@ -25,7 +25,7 @@ export default function PaypalPayoutMethod() {
     }, [session?.accessToken]);
 
     return (
-        <div className="flex items-center justify-between flex-wrap border border-gray-900 p-3">
+        <div className="flex items-center md:justify-between md:flex-row flex-col justify-center flex-wrap border border-gray-900 p-3">
             <div>
                 <img
                     className="w-20 object-cover object-center"
@@ -37,19 +37,19 @@ export default function PaypalPayoutMethod() {
             <div>
                 {user ? (
                     user.paypalAccount ? (
-                        <div className="flex gap-3">
+                        <div className="flex flex-wrap gap-3 items-center justify-center">
                             <div className="flex flex-col items-center">
                                 <div className="text-success">
                                     Connected
                                 </div>
-                                <div className="text-gray-700 truncate max-w-[200px]">
+                                <div className="text-gray-700 truncate max-w-[250px]">
                                     {user.paypalAccount.email}
                                 </div>
                             </div>
                             <PaypalLoginButton />
                         </div>
                     ) : (
-                        <div className="flex gap-3 items-center">
+                        <div className="flex flex-wrap gap-3 items-center justify-center">
                             <div className="text-gray-700">Not connected</div>
                             <PaypalLoginButton />
                         </div>
