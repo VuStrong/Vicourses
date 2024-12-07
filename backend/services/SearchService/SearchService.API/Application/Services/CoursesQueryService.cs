@@ -47,7 +47,10 @@ namespace SearchService.API.Application.Services
 
         private static void BuildQuery(SearchRequestDescriptor<Course> descriptor, SearchCoursesParams searchParams)
         {
-            if (string.IsNullOrEmpty(searchParams.Keyword) && searchParams.Rating == null)
+            if (string.IsNullOrEmpty(searchParams.Keyword) && 
+                searchParams.Rating == null && 
+                searchParams.Level == null &&
+                searchParams.Free == null)
             {
                 return;
             }
@@ -76,6 +79,26 @@ namespace SearchService.API.Application.Services
                             .Field(new Field("rating"))
                             .Gte(decimal.ToDouble(searchParams.Rating.Value))
                         )
+                    )
+                );
+            }
+
+            if (searchParams.Level != null)
+            {
+                mustQueries.Add(must => must
+                    .Match(match => match
+                        .Query(searchParams.Level.Value.ToString())
+                        .Field(new Field("level"))
+                    )
+                );
+            }
+
+            if (searchParams.Free != null)
+            {
+                mustQueries.Add(must => must
+                    .Term(term => term
+                        .Field(new Field("isPaid"))
+                        .Value(!searchParams.Free.Value)
                     )
                 );
             }
