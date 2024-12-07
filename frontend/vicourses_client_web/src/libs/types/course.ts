@@ -69,5 +69,15 @@ export type GetCoursesQuery = {
     limit?: number;
 }
 
+export type SearchCoursesQuery = {
+    sort?: "Relevance" | "Newest" | "HighestRated";
+    q?: string;
+    free?: boolean;
+    level?: CourseLevel;
+    rating?: number;
+    skip?: number;
+    limit?: number;
+}
+
 export type CourseLevel = "All" | "Basic" | "Intermediate" | "Expert";
 export type CourseStatus = "Unpublished" | "WaitingToVerify" | "Published";

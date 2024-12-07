@@ -62,9 +62,23 @@ export default function UserMenu() {
                         </div>
                     </MenuItem>
                 </Link>
+
+                <hr className="my-3" />
+                <Link href={`/my-courses`}>
+                    <MenuItem>Study</MenuItem>
+                </Link>
+                <Link href={`/my-courses/wishlist`}>
+                    <MenuItem>Wishlist</MenuItem>
+                </Link>
+
+                <hr className="my-3" />
                 <Link href={`/user/${user.id}`}>
                     <MenuItem>Public profile</MenuItem>
                 </Link>
+                <Link href={`/profile`}>
+                    <MenuItem>Edit profile</MenuItem>
+                </Link>
+
                 <hr className="my-3" />
                 <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
             </MenuList>

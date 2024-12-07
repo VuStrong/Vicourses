@@ -1,4 +1,4 @@
-import PublicSitesHeader from "@/app/(public-sites)/components/PublicSitesHeader";
+import PublicSitesHeader from "@/components/headers/PublicSitesHeader";
 
 export default async function PublicSitesLayout({
     children,
@@ -9,7 +9,7 @@ export default async function PublicSitesLayout({
         <>
             <PublicSitesHeader />
 
-            <div className="container mx-auto">
+            <div className="container mx-auto px-3 sm:px-0">
                 {children}
             </div>
         </>
