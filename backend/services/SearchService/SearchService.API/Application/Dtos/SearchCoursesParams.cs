@@ -33,5 +33,16 @@ namespace SearchService.API.Application.Dtos
         /// </summary>
         [Range(0, 5)]
         public decimal? Rating { get; set; }
+
+        /// <summary>
+        /// Filter courses by level
+        /// </summary>
+        [EnumDataType(typeof(CourseLevel))]
+        public CourseLevel? Level { get; set; }
+
+        /// <summary>
+        /// Filter free courses or not
+        /// </summary>
+        public bool? Free { get; set; }
     }
 }
