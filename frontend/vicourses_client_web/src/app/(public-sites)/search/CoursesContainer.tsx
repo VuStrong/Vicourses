@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { IoFilterSharp } from "react-icons/io5";
 import { Select, Option, Drawer, Typography } from "@material-tailwind/react";
-import { Category } from "@/libs/types/category";
 import { Course, CourseLevel } from "@/libs/types/course";
-import { getCourses } from "@/services/api/course";
+import { searchCourses } from "@/services/api/course";
 import { Loader } from "@/components/common";
 import CoursesGrid from "@/components/course/CoursesGrid";
 import CourseLevelFilter from "@/components/filters/CourseLevelFilter";
@@ -19,12 +18,10 @@ type CourseFilterOptions = {
 };
 const limit = 16;
 
-export default function CoursesContainer({ category }: { category: Category }) {
-    const isRootCategory = category.parentId === null;
-
+export default function CoursesContainer({ keyword }: { keyword?: string }) {
     const [isFilterPanelOpen, setIsFilterPanelOpen] = useState<boolean>(false);
     const [filter, setFilter] = useState<CourseFilterOptions>({});
-    const [sort, setSort] = useState<string>("Newest");
+    const [sort, setSort] = useState<string>("Relevance");
     
     const [isLoadingCourses, setIsLoadingCourses] = useState<boolean>(false);
     const [courses, setCourses] = useState<Course[]>([]);
@@ -32,14 +29,13 @@ export default function CoursesContainer({ category }: { category: Category }) {
     const [totalCourses, setTotalCourses] = useState<number>(0);
     const [end, setEnd] = useState<boolean>(false);
 
-    const getMoreCourses = async () => {
-        const data = await getCourses({
+    const searchMoreCourses = async () => {
+        const data = await searchCourses({
             skip: skip + limit,
             limit,
             ...filter,
             sort: sort as any,
-            categoryId: isRootCategory ? category.id : undefined,
-            subCategoryId: isRootCategory ? undefined : category.id,
+            q: keyword,
         });
 
         if (data) {
@@ -53,13 +49,12 @@ export default function CoursesContainer({ category }: { category: Category }) {
         (async () => {
             setIsLoadingCourses(true);
 
-            const data = await getCourses({
+            const data = await searchCourses({
                 skip: 0,
                 limit,
                 ...filter,
                 sort: sort as any,
-                categoryId: isRootCategory ? category.id : undefined,
-                subCategoryId: isRootCategory ? undefined : category.id,
+                q: keyword,
             });
 
             if (data) {
@@ -70,7 +65,7 @@ export default function CoursesContainer({ category }: { category: Category }) {
                 setIsLoadingCourses(false);
             }
         })();
-    }, [filter, sort]);
+    }, [filter, sort, keyword]);
 
     return (
         <div className="my-5">
@@ -132,16 +127,15 @@ export default function CoursesContainer({ category }: { category: Category }) {
                     <Select
                         disabled={isLoadingCourses}
                         onChange={(value) => {
-                            setSort(value || "Newest");
+                            setSort(value || "Relevance");
                         }}
                         value={sort}
                         label="Sort by"
                         className="flex items-center gap-2 border border-gray-900 px-3 py-1 bg-transparent rounded-none text-gray-900"
                     >
+                        <Option value="Relevance">Relevance</Option>
                         <Option value="Newest">Newest</Option>
                         <Option value="HighestRated">Highest rated</Option>
-                        <Option value="PriceDesc">Price high to low</Option>
-                        <Option value="PriceAsc">Price low to high</Option>
                     </Select>
                 </div>
                 <div className="md:block hidden">{totalCourses} results</div>
@@ -155,7 +149,7 @@ export default function CoursesContainer({ category }: { category: Category }) {
                     <CoursesGrid 
                         courses={courses}
                         end={end}
-                        next={getMoreCourses}
+                        next={searchMoreCourses}
                     />
                 )}
             </div>

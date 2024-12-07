@@ -33,7 +33,7 @@ export default async function CategoryPage({
 
     return (
         <div>
-            <h1 className="text-black font-medium text-2xl mt-5">
+            <h1 className="text-black font-bold text-2xl mt-5">
                 {category.name} Courses
             </h1>
 
