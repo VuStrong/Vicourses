@@ -20,21 +20,24 @@ export default function MobileSidebarDrawer({
     onClose: () => void;
 }) {
     return (
-        <Drawer open={open} onClose={onClose} className="p-4">
+        <Drawer
+            open={open}
+            onClose={onClose}
+            className="p-4 overflow-y-auto"
+            overlayProps={{
+                className: "fixed",
+            }}
+        >
             <div className="border-b border-gray-500 pb-3">
                 <div className="text-sm text-gray-800 mb-3">Categories</div>
 
-                <SidebarCategoriesList onTapItem={onClose}/>
+                <SidebarCategoriesList onTapItem={onClose} />
             </div>
         </Drawer>
     );
 }
 
-function SidebarCategoriesList({
-    onTapItem,
-}: {
-    onTapItem?: () => void,
-}) {
+function SidebarCategoriesList({ onTapItem }: { onTapItem?: () => void }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<number>(-1);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -94,7 +97,10 @@ function SidebarCategoriesList({
                         )
                     }
                 >
-                    <AccordionHeader className="text-base py-1 border-none" onClick={() => handleOpen(index)}>
+                    <AccordionHeader
+                        className="text-base py-1 border-none"
+                        onClick={() => handleOpen(index)}
+                    >
                         {category.name}
                     </AccordionHeader>
                     <AccordionBody>

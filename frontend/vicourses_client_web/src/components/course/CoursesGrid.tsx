@@ -11,7 +11,7 @@ export default function CoursesGrid({
     end,
 }: {
     courses: Course[];
-    next: () => Promise<void>;
+    next?: () => Promise<void>;
     end: boolean;
 }) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -29,7 +29,7 @@ export default function CoursesGrid({
                     <CourseCard key={course.id} course={course} />
                 ))}
             </div>
-            {!end && (
+            {next && !end && (
                 <div className="flex items-center justify-center mt-5">
                     <Button
                         loading={isLoading}

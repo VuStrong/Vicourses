@@ -10,6 +10,8 @@ import { Breadcrumbs, Rating } from "./components";
 import Sidebar from "./Sidebar";
 import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
 import CoursePurchaseSection from "./CoursePurchaseSection";
+import PublicCurriculumSection from "./PublicCurriculumSection";
+import InstructorCoursesSection from "./InstructorCoursesSection";
 
 export async function generateMetadata({
     params,
@@ -44,12 +46,13 @@ export default async function CoursePage({
     const updatedAt = new Date(course.updatedAt);
 
     return (
-        <div className="relative">
+        <div className="relative mb-10">
             <div className="absolute right-0 top-10 hidden lg:block">
                 <Sidebar course={course} />
             </div>
 
             <div className="py-5 w-full lg:max-w-[66.67%]">
+                {/* Info section */}
                 <div>
                     <Breadcrumbs className="bg-transparent p-0 py-3">
                         <Link
@@ -135,6 +138,7 @@ export default async function CoursePage({
                     <CoursePurchaseSection course={course} />
                 </div>
 
+                {/* Learned contents section */}
                 <div className="border border-gray-800 p-5 mb-5 mt-10">
                     <h2 className="text-black font-semibold text-2xl mb-5">
                         Contents
@@ -154,6 +158,47 @@ export default async function CoursePage({
                         ))}
                     </div>
                 </div>
+
+                <PublicCurriculumSection courseId={course.id} />
+
+                {/* Requirements section */}
+                <section className="mt-10">
+                    <h2 className="text-black font-semibold text-2xl mb-4">
+                        Requirements
+                    </h2>
+
+                    <ul className="pl-5">
+                        {course.requirements?.map((requiment, index) => (
+                            <li key={index}>{requiment}</li>
+                        ))}
+                    </ul>
+                </section>
+
+                {/* Description section */}
+                {course.description && (
+                    <section className="mt-10">
+                        <h2 className="text-black font-semibold text-2xl mb-4">
+                            Description
+                        </h2>
+
+                        <div dangerouslySetInnerHTML={{ __html: course.description }} />
+                    </section>
+                )}
+
+                {/* Target students section */}
+                <section className="mt-10">
+                    <h2 className="text-black font-semibold text-2xl mb-4">
+                        Target students
+                    </h2>
+
+                    <ul className="pl-5">
+                        {course.targetStudents?.map((target, index) => (
+                            <li key={index}>{target}</li>
+                        ))}
+                    </ul>
+                </section>
+
+                <InstructorCoursesSection course={course} />
             </div>
         </div>
     );

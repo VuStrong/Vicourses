@@ -9,7 +9,11 @@ const notRequireEmailConfirmedRoutes = [
     "/choose-categories",
 ];
 const checkProtectedRoute = (pathname: string) => {
-    return pathname.startsWith("/profile") || pathname === "/choose-categories";
+    return (
+        pathname.startsWith("/profile") ||
+        pathname.startsWith("/my-courses") ||
+        pathname === "/choose-categories"
+    );
 };
 
 export const config = {
@@ -73,9 +77,7 @@ async function handlePaypalRedirect(req: any) {
         await linkPaypalAccount(code, session.accessToken);
 
         return Response.redirect(new URL(`/profile/payouts`, req.nextUrl));
-    } catch (error) {
-        
-    }
+    } catch (error) {}
 
     return Response.redirect(new URL(`/`, req.nextUrl));
 }

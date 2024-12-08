@@ -2,10 +2,21 @@ import Link from "next/link";
 import { Rating } from "@material-tailwind/react";
 import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
 import { Course } from "@/libs/types/course";
+import AddToWishlistButton from "../common/AddToWishlistButton";
 
 export default function CourseCard({ course }: { course: Course }) {
     return (
-        <Link href={`/course/${course.titleCleaned}/${course.id}`} className="hover:shadow-xl transition-all">
+        <Link
+            href={`/course/${course.titleCleaned}/${course.id}`}
+            className="hover:shadow-xl transition-all relative"
+        >
+            <div
+                className="absolute bottom-0 right-0 mx-3"
+                onClick={(e) => e.preventDefault()}
+            >
+                <AddToWishlistButton courseId={course.id} />
+            </div>
+
             <div
                 className="w-full border border-gray-700"
                 style={{
@@ -18,7 +29,7 @@ export default function CourseCard({ course }: { course: Course }) {
                     alt={course.title}
                 />
             </div>
-            <div className="py-2">
+            <div className="p-2">
                 <div className="text-black font-bold line-clamp-2">
                     {course.title}
                 </div>

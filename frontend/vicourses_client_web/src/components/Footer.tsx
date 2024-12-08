@@ -8,7 +8,7 @@ export default function Footer() {
                     <p className="text-yellow-50 text-lg font-medium mb-2">
                         Info
                     </p>
-                    <ul className="text-gray-400 flex flex-col gap-2">
+                    <ul className="text-gray-400 flex flex-col gap-2 list-none m-0 p-0">
                         <li>
                             <a
                                 href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/swagger`}
@@ -41,7 +41,7 @@ export default function Footer() {
                     <p className="text-yellow-50 text-lg font-medium mb-2">
                         Sites
                     </p>
-                    <ul className="text-gray-400 flex flex-col gap-2">
+                    <ul className="text-gray-400 flex flex-col gap-2 list-none m-0 p-0">
                         <li>
                             <a
                                 href="https://strongtify.io.vn"
@@ -67,7 +67,7 @@ export default function Footer() {
                     <p className="text-yellow-50 text-lg font-medium mb-2">
                         Helps
                     </p>
-                    <ul className="text-gray-400 flex flex-col gap-2">
+                    <ul className="text-gray-400 flex flex-col gap-2 list-none m-0 p-0">
                         <li>
                             <Link
                                 href="/contact"

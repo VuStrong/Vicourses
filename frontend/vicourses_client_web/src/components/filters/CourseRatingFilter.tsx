@@ -19,7 +19,7 @@ export default function CourseRatingFilter({
     onRatingChange?: (rating?: number) => void;
     disabled?: boolean
 }) {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(true);
 
     return (
         <Accordion

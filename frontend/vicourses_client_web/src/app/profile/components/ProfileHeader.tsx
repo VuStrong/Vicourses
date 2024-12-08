@@ -13,7 +13,13 @@ export default function ProfileHeader() {
 
     return (
         <header className="flex justify-between lg:justify-end items-center py-2 px-5 bg-transparent">
-            <Drawer open={isDrawerOpen} onClose={closeDrawer}>
+            <Drawer
+                open={isDrawerOpen}
+                onClose={closeDrawer}
+                overlayProps={{
+                    className: "fixed",
+                }}
+            >
                 <ProfileSideBar />
             </Drawer>
 

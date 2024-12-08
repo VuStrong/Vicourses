@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 import { IoIosInfinite } from "react-icons/io";
-import { CiHeart } from "react-icons/ci";
 import {
     MdOutlineOndemandVideo,
     MdOutlinePlayLesson,
@@ -10,6 +9,7 @@ import {
 } from "react-icons/md";
 import { Button } from "@material-tailwind/react";
 import { CourseDetail } from "@/libs/types/course";
+import AddToWishlistButton from "@/components/common/AddToWishlistButton";
 
 export default function CoursePurchaseSection({
     course,
@@ -24,7 +24,7 @@ export default function CoursePurchaseSection({
     return (
         <div className="py-5">
             <div className="text-black font-bold text-2xl mb-3">
-                ${course.price}
+                {course.isPaid ? `$${course.price}` : "Free"}
             </div>
             <div className="flex gap-2 mb-3">
                 <Button
@@ -33,13 +33,7 @@ export default function CoursePurchaseSection({
                 >
                     Buy now
                 </Button>
-                <Button
-                    title="Add to wishlist"
-                    type="button"
-                    className="rounded-none bg-transparent text-black border border-gray-900 py-1 px-1"
-                >
-                    <CiHeart size={32} />
-                </Button>
+                <AddToWishlistButton courseId={course.id} />
             </div>
             <div className="text-gray-700 text-sm text-center mb-5">
                 2-day money-back guarantee
