@@ -36,6 +36,16 @@ namespace WishlistService.API.Application.Services
             return _mapper.Map<WishlistDto>(wishlist);
         }
 
+        public async Task<bool> CheckCourseInUserWishlistAsync(string userId, string courseId, CancellationToken cancellationToken = default)
+        {
+            return await _wishlistRepository.CheckCourseInWishlistAsync(userId, courseId, cancellationToken);
+        }
+
+        public async Task<IEnumerable<string>> GetCourseIdsInUserWishlistAsync(string userId, CancellationToken cancellationToken = default)
+        {
+            return await _wishlistRepository.GetCourseIdsInWishlistAsync(userId, cancellationToken);
+        }
+
         public async Task<WishlistDto> AddCourseToUserWishlistAsync(AddToWishlistDto data)
         {
             var wishlist = await _wishlistRepository.FindByUserIdAsync(data.UserId);
