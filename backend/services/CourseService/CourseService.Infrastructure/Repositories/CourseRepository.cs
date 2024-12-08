@@ -86,7 +86,7 @@ namespace CourseService.Infrastructure.Repositories
 
             var courses = await _collection.Find(filter)
                 .SortByDescending(c => c.CreatedAt)
-                .SortBy(c => c.Id)
+                .ThenBy(c => c.Id)
                 .Skip(skip)
                 .Limit(limit)
                 .ToListAsync();
@@ -130,13 +130,13 @@ namespace CourseService.Infrastructure.Repositories
             switch (sort)
             {
                 case CourseSort.Newest:
-                    return fluent.SortByDescending(c => c.UpdatedAt).SortBy(c => c.Id);
+                    return fluent.SortByDescending(c => c.UpdatedAt).ThenBy(c => c.Id);
                 case CourseSort.HighestRated:
-                    return fluent.SortByDescending(c => c.Rating).SortBy(c => c.Id);
+                    return fluent.SortByDescending(c => c.Rating).ThenBy(c => c.Id);
                 case CourseSort.PriceDesc:
-                    return fluent.SortByDescending(c => c.Price).SortBy(c => c.Id);
+                    return fluent.SortByDescending(c => c.Price).ThenBy(c => c.Id);
                 case CourseSort.PriceAsc:
-                    return fluent.SortBy(c => c.Price).SortBy(c => c.Id);
+                    return fluent.SortBy(c => c.Price).ThenBy(c => c.Id);
                 default:
                     throw new ArgumentException("Invalid sort value", nameof(sort));
             }
