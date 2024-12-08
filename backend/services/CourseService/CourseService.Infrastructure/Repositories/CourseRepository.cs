@@ -85,7 +85,11 @@ namespace CourseService.Infrastructure.Repositories
             }
 
             var courses = await _collection.Find(filter)
-                .SortByDescending(c => c.CreatedAt).Skip(skip).Limit(limit).ToListAsync();
+                .SortByDescending(c => c.CreatedAt)
+                .SortBy(c => c.Id)
+                .Skip(skip)
+                .Limit(limit)
+                .ToListAsync();
             var total = await _collection.CountDocumentsAsync(filter);
 
             return new PagedResult<Course>(courses, skip, limit, total);
@@ -121,18 +125,18 @@ namespace CourseService.Infrastructure.Repositories
             return items;
         }
 
-        private IFindFluent<Course, Course> Sort(IFindFluent<Course, Course> fluent, CourseSort sort)
+        private static IFindFluent<Course, Course> Sort(IFindFluent<Course, Course> fluent, CourseSort sort)
         {
             switch (sort)
             {
                 case CourseSort.Newest:
-                    return fluent.SortByDescending(c => c.UpdatedAt);
+                    return fluent.SortByDescending(c => c.UpdatedAt).SortBy(c => c.Id);
                 case CourseSort.HighestRated:
-                    return fluent.SortByDescending(c => c.Rating);
+                    return fluent.SortByDescending(c => c.Rating).SortBy(c => c.Id);
                 case CourseSort.PriceDesc:
-                    return fluent.SortByDescending(c => c.Price);
+                    return fluent.SortByDescending(c => c.Price).SortBy(c => c.Id);
                 case CourseSort.PriceAsc:
-                    return fluent.SortBy(c => c.Price);
+                    return fluent.SortBy(c => c.Price).SortBy(c => c.Id);
                 default:
                     throw new ArgumentException("Invalid sort value", nameof(sort));
             }

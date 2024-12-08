@@ -1,4 +1,6 @@
 ﻿using Elastic.Clients.Elasticsearch;
+using Microsoft.Extensions.Options;
+using SearchService.API.Application.Configurations;
 using SearchService.API.Application.Exceptions;
 using SearchService.API.Application.Interfaces;
 using SearchService.API.Models;
@@ -8,11 +10,12 @@ namespace SearchService.API.Application.Services
     public class CoursesCommandService : ICoursesCommandService
     {
         private readonly ElasticsearchClient _client;
-        private const string CourseIndex = "courses";
+        private readonly string CourseIndex;
 
-        public CoursesCommandService(ElasticsearchClient client)
+        public CoursesCommandService(ElasticsearchClient client, IOptions<ElasticsearchConfiguration> configuration)
         {
             _client = client;
+            CourseIndex = configuration.Value.CourseIndexName;
         }
 
         public async Task InsertOrUpdateCourseAsync(Course course, CancellationToken cancellationToken = default)

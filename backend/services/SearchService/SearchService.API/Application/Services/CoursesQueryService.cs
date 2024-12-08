@@ -1,5 +1,7 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
+using Microsoft.Extensions.Options;
+using SearchService.API.Application.Configurations;
 using SearchService.API.Application.Dtos;
 using SearchService.API.Application.Exceptions;
 using SearchService.API.Application.Interfaces;
@@ -10,11 +12,12 @@ namespace SearchService.API.Application.Services
     public class CoursesQueryService : ICoursesQueryService
     {
         private readonly ElasticsearchClient _client;
-        private const string CourseIndex = "courses";
+        private readonly string CourseIndex;
 
-        public CoursesQueryService(ElasticsearchClient client)
+        public CoursesQueryService(ElasticsearchClient client, IOptions<ElasticsearchConfiguration> configuration)
         {
             _client = client;
+            CourseIndex = configuration.Value.CourseIndexName;
         }
 
         public async Task<PagedResult<Course>> SearchCoursesAsync(SearchCoursesParams searchParams, CancellationToken cancellationToken = default)
@@ -36,6 +39,7 @@ namespace SearchService.API.Application.Services
 
             if (!response.IsValidResponse)
             {
+                Console.WriteLine(response.DebugInformation);
                 throw new InternalServerException("Cannot search for courses");
             }
 
@@ -86,9 +90,9 @@ namespace SearchService.API.Application.Services
             if (searchParams.Level != null)
             {
                 mustQueries.Add(must => must
-                    .Match(match => match
-                        .Query(searchParams.Level.Value.ToString())
+                    .Term(match => match
                         .Field(new Field("level"))
+                        .Value(searchParams.Level.Value.ToString())
                     )
                 );
             }
@@ -117,12 +121,14 @@ namespace SearchService.API.Application.Services
             switch (sort)
             {
                 case CourseSort.Newest:
-                    descriptor = descriptor.Sort(s => 
-                        s.Field(f => f.CreatedAt, new FieldSort { Order = SortOrder.Desc }));
+                    descriptor = descriptor.Sort(
+                        s => s.Field(f => f.CreatedAt, new FieldSort { Order = SortOrder.Desc }),
+                        s => s.Field(f => f.Id, new FieldSort { Order = SortOrder.Asc }));
                     break;
                 case CourseSort.HighestRated:
-                    descriptor = descriptor.Sort(s =>
-                        s.Field(f => f.Rating, new FieldSort { Order = SortOrder.Desc }));
+                    descriptor = descriptor.Sort(
+                        s => s.Field(f => f.Rating, new FieldSort { Order = SortOrder.Desc }), 
+                        s => s.Field(f => f.Id, new FieldSort { Order = SortOrder.Asc }));
                     break;
             }
         }

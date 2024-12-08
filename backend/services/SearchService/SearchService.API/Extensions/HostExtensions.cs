@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using SearchService.API.Application.Dtos;
 using SearchService.API.Utils.ExceptionHandlers;
 using System.Text.Json.Serialization;
+using SearchService.API.Application.BackgroundServices;
+using SearchService.API.Application.Configurations;
 
 namespace SearchService.API.Extensions
 {
@@ -109,6 +111,11 @@ namespace SearchService.API.Extensions
             var username = builder.Configuration["Elasticsearch:User"] ?? "";
             var password = builder.Configuration["Elasticsearch:Password"] ?? "";
 
+            builder.Services.Configure<ElasticsearchConfiguration>(c =>
+            {
+                c.CourseIndexName = builder.Configuration["CourseIndexName"] ?? "";
+            });
+
             var settings = new ElasticsearchClientSettings(new Uri(uri))
                 .ServerCertificateValidationCallback((sender, cert, chain, errors) => true)
                 .Authentication(new BasicAuthentication(username, password));
@@ -116,6 +123,7 @@ namespace SearchService.API.Extensions
             var client = new ElasticsearchClient(settings);
 
             builder.Services.AddSingleton(client);
+            builder.Services.AddHostedService<ElasticsearchSetupService>();
 
             builder.Services.AddScoped<ICoursesQueryService, CoursesQueryService>();
             builder.Services.AddScoped<ICoursesCommandService, CoursesCommandService>();
