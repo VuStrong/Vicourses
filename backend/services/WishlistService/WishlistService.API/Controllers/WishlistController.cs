@@ -38,15 +38,37 @@ namespace WishlistService.API.Controllers
         }
 
         /// <summary>
+        /// Check if a course added to wishlist or not
+        /// </summary>
+        /// <response code="200">Added</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Not added</response>
+        [HttpHead("courses/{courseId}")]
+        [Authorize]
+        public async Task<IActionResult> CheckCourse(string courseId, CancellationToken cancellationToken = default)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            var added = await _wishlistService.CheckCourseInUserWishlistAsync(userId, courseId, cancellationToken);
+
+            if (!added)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
         /// Add a course to wishlist
         /// </summary>
         /// <response code="401">Unauthorized</response>
         /// <response code="403">Forbidden</response>
         /// <response code="404">Course not found</response>
-        [HttpPost]
+        [HttpPost("courses/{courseId}")]
         [Authorize]
         [ProducesResponseType(typeof(WishlistDto), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Post(AddOrRemoveCourseRequest request)
+        public async Task<IActionResult> Post(string courseId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value ?? "";
@@ -56,7 +78,7 @@ namespace WishlistService.API.Controllers
                 {
                     UserId = userId,
                     Email = userEmail,
-                    CourseId = request.CourseId,
+                    CourseId = courseId,
                 }    
             );
 
@@ -68,22 +90,35 @@ namespace WishlistService.API.Controllers
         /// </summary>
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Wishlist not found</response>
-        [HttpDelete]
+        [HttpDelete("courses/{courseId}")]
         [Authorize]
         [ProducesResponseType(typeof(WishlistDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(AddOrRemoveCourseRequest request)
+        public async Task<IActionResult> Delete(string courseId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
-            var result = await _wishlistService.RemoveCourseFromUserWishlistAsync(userId, request.CourseId);
+            var result = await _wishlistService.RemoveCourseFromUserWishlistAsync(userId, courseId);
 
             return Ok(result);
         }
-    }
 
-    public class AddOrRemoveCourseRequest
-    {
-        [Required]
-        public string CourseId { get; set; } = null!;
+        /// <summary>
+        /// Get an array contains ID of courses added to wishlist
+        /// </summary>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet("courses/ids")]
+        [Authorize]
+        public async Task<IActionResult> GetCourseIds(CancellationToken cancellationToken = default)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+
+            var ids = await _wishlistService.GetCourseIdsInUserWishlistAsync(userId, cancellationToken);
+
+            return Ok(new 
+            {
+                CourseIds = ids,
+            });
+        }
     }
 }

@@ -5,6 +5,8 @@ namespace WishlistService.API.Infrastructure.Repositories
     public interface IWishlistRepository
     {
         Task<Wishlist?> FindByUserIdAsync(string userId, CancellationToken cancellationToken = default);
+        Task<bool> CheckCourseInWishlistAsync(string userId, string courseId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> GetCourseIdsInWishlistAsync(string userId, CancellationToken cancellationToken = default);
         Task InsertWishlistAsync(Wishlist wishlist);
         Task UpdateWishlistAsync(Wishlist wishlist);
 
