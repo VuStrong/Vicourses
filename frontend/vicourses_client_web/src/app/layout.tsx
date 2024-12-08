@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import ToasterProvider from "@/providers/ToasterProvider";
 import SessionProviderWrapper from "@/providers/SessionProvider";
+import GetWishlistHandler from "@/handlers/GetWishlistHandler";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -48,6 +49,7 @@ export default function RootLayout({
 				<ToasterProvider />
 
 				<SessionProviderWrapper>
+                    <GetWishlistHandler />
 					<div className="min-h-screen">
                 		{children}
 					</div>

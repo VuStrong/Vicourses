@@ -18,7 +18,7 @@ export default function CoursePriceFilter({
     onFreeChange?: (free?: boolean) => void;
     disabled?: boolean;
 }) {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(true);
 
     return (
         <Accordion

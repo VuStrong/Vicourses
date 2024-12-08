@@ -22,7 +22,7 @@ export default function CoursesContainer({ keyword }: { keyword?: string }) {
     const [isFilterPanelOpen, setIsFilterPanelOpen] = useState<boolean>(false);
     const [filter, setFilter] = useState<CourseFilterOptions>({});
     const [sort, setSort] = useState<string>("Relevance");
-    
+
     const [isLoadingCourses, setIsLoadingCourses] = useState<boolean>(false);
     const [courses, setCourses] = useState<Course[]>([]);
     const [skip, setSkip] = useState<number>(0);
@@ -68,11 +68,14 @@ export default function CoursesContainer({ keyword }: { keyword?: string }) {
     }, [filter, sort, keyword]);
 
     return (
-        <div className="my-5">
+        <>
             <Drawer
                 open={isFilterPanelOpen}
                 onClose={() => setIsFilterPanelOpen(false)}
-                className="p-4"
+                className="p-4 overflow-y-auto"
+                overlayProps={{
+                    className: "fixed",
+                }}
             >
                 <div className="mb-6 flex items-center justify-between">
                     <Typography variant="h5" color="blue-gray">
@@ -113,46 +116,49 @@ export default function CoursesContainer({ keyword }: { keyword?: string }) {
                     />
                 </div>
             </Drawer>
-
-            <div className="flex justify-between gap-3 mb-5">
-                <div className="flex gap-3">
-                    <button
-                        onClick={() => setIsFilterPanelOpen(true)}
-                        type="button"
-                        className="flex items-center gap-2 border border-gray-900 px-3 py-1 bg-transparent rounded-none text-gray-900"
-                    >
-                        <IoFilterSharp size={16} />
-                        Filter
-                    </button>
-                    <Select
-                        disabled={isLoadingCourses}
-                        onChange={(value) => {
-                            setSort(value || "Relevance");
-                        }}
-                        value={sort}
-                        label="Sort by"
-                        className="flex items-center gap-2 border border-gray-900 px-3 py-1 bg-transparent rounded-none text-gray-900"
-                    >
-                        <Option value="Relevance">Relevance</Option>
-                        <Option value="Newest">Newest</Option>
-                        <Option value="HighestRated">Highest rated</Option>
-                    </Select>
-                </div>
-                <div className="md:block hidden">{totalCourses} results</div>
-            </div>
-            <div>
-                {isLoadingCourses ? (
-                    <div className="flex justify-center">
-                        <Loader />
+            <div className="my-5">
+                <div className="flex justify-between gap-3 mb-5">
+                    <div className="flex gap-3">
+                        <button
+                            onClick={() => setIsFilterPanelOpen(true)}
+                            type="button"
+                            className="flex items-center gap-2 border border-gray-900 px-3 py-1 bg-transparent rounded-none text-gray-900"
+                        >
+                            <IoFilterSharp size={16} />
+                            Filter
+                        </button>
+                        <Select
+                            disabled={isLoadingCourses}
+                            onChange={(value) => {
+                                setSort(value || "Relevance");
+                            }}
+                            value={sort}
+                            label="Sort by"
+                            className="flex items-center gap-2 border border-gray-900 px-3 py-1 bg-transparent rounded-none text-gray-900"
+                        >
+                            <Option value="Relevance">Relevance</Option>
+                            <Option value="Newest">Newest</Option>
+                            <Option value="HighestRated">Highest rated</Option>
+                        </Select>
                     </div>
-                ) : (
-                    <CoursesGrid 
-                        courses={courses}
-                        end={end}
-                        next={searchMoreCourses}
-                    />
-                )}
+                    <div className="md:block hidden">
+                        {totalCourses} results
+                    </div>
+                </div>
+                <div>
+                    {isLoadingCourses ? (
+                        <div className="flex justify-center">
+                            <Loader />
+                        </div>
+                    ) : (
+                        <CoursesGrid
+                            courses={courses}
+                            end={end}
+                            next={searchMoreCourses}
+                        />
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

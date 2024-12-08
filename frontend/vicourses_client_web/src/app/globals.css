@@ -20,6 +20,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+ol,
+ul {
+  list-style: revert;
+  margin: revert;
+  padding: revert;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

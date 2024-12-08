@@ -1,3 +1,7 @@
+export type CourseLevel = "All" | "Basic" | "Intermediate" | "Expert";
+export type CourseStatus = "Unpublished" | "WaitingToVerify" | "Published";
+export type LessonType = "Video" | "Quiz";
+
 export type Course = {
     id: string;
     title: string;
@@ -69,6 +73,14 @@ export type GetCoursesQuery = {
     limit?: number;
 }
 
+export type GetInstructorCoursesQuery = {
+    instructorId: string;
+    q?: string;
+    status?: CourseStatus;
+    skip?: number;
+    limit?: number;
+}
+
 export type SearchCoursesQuery = {
     sort?: "Relevance" | "Newest" | "HighestRated";
     q?: string;
@@ -79,5 +91,24 @@ export type SearchCoursesQuery = {
     limit?: number;
 }
 
-export type CourseLevel = "All" | "Basic" | "Intermediate" | "Expert";
-export type CourseStatus = "Unpublished" | "WaitingToVerify" | "Published";
+export type PublicCurriculum = {
+    totalDuration: number;
+    totalSection: number;
+    totalLesson: number;
+    sections: {
+        id: string;
+        courseId: string;
+        title: string;
+        order: number;
+        duration: number;
+        lessonCount: number;
+        lessons: {
+            id: string;
+            title: string;
+            order: number;
+            type: LessonType;
+            duration: number;
+            quizzesCount: number;
+        }[];
+    }[];
+}
