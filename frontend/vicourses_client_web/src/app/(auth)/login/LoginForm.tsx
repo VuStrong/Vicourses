@@ -82,10 +82,6 @@ export default function LoginForm() {
                                 value: true,
                                 message: "Enter password.",
                             },
-                            minLength: {
-                                value: 8,
-                                message: "Password must have at least 8 characters.",
-                            },
                         })}
                         errors={errors}
                     />

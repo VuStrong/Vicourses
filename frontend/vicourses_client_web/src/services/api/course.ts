@@ -3,10 +3,12 @@ import { PagedResult } from "@/libs/types/common";
 import {
     Course,
     CourseDetail,
+    CreateCourseRequest,
     GetCoursesQuery,
     GetInstructorCoursesQuery,
     PublicCurriculum,
     SearchCoursesQuery,
+    UpdateCourseRequest,
 } from "@/libs/types/course";
 
 export async function getCourses(
@@ -168,6 +170,74 @@ export async function getPublicCurriculum(
 
     if (!res.ok) {
         return null;
+    }
+
+    const data = await res.json();
+    return data;
+}
+
+export async function createCourse(
+    request: CreateCourseRequest,
+    accessToken: string
+): Promise<Course> {
+    const res = await fetch(`${BACKEND_URL}/api/cs/v1/courses`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(request),
+    });
+
+    if (!res.ok) {
+        if (res.status === 403) {
+            throw new Error("Forbidden");
+        }
+
+        const error = await res.json();
+        throw new Error(error.message);
+    }
+
+    const data = await res.json();
+    return data;
+}
+
+export async function deleteCourse(courseId: string, accessToken: string) {
+    const res = await fetch(`${BACKEND_URL}/api/cs/v1/courses/${courseId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
+    if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message);
+    }
+}
+
+export async function updateCourse(
+    courseId: string,
+    request: UpdateCourseRequest,
+    accessToken: string
+): Promise<Course> {
+    const res = await fetch(`${BACKEND_URL}/api/cs/v1/courses/${courseId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(request),
+    });
+
+    if (!res.ok) {
+        if (res.status === 403) {
+            throw new Error("Forbidden");
+        }
+
+        const error = await res.json();
+        throw new Error(error.message);
     }
 
     const data = await res.json();

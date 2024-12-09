@@ -167,7 +167,7 @@ export default async function CoursePage({
                         Requirements
                     </h2>
 
-                    <ul className="pl-5">
+                    <ul className="list-disc pl-5">
                         {course.requirements?.map((requiment, index) => (
                             <li key={index}>{requiment}</li>
                         ))}
@@ -181,7 +181,12 @@ export default async function CoursePage({
                             Description
                         </h2>
 
-                        <div dangerouslySetInnerHTML={{ __html: course.description }} />
+                        <div
+                            className="[&_:is(ol,ul)]:[list-style:revert] [&_:is(ol,ul)]:[margin:revert] [&_:is(ol,ul)]:[padding:revert]"
+                            dangerouslySetInnerHTML={{
+                                __html: course.description,
+                            }}
+                        />
                     </section>
                 )}
 
@@ -191,7 +196,7 @@ export default async function CoursePage({
                         Target students
                     </h2>
 
-                    <ul className="pl-5">
+                    <ul className="list-disc pl-5">
                         {course.targetStudents?.map((target, index) => (
                             <li key={index}>{target}</li>
                         ))}
