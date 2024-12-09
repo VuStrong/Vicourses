@@ -112,3 +112,26 @@ export type PublicCurriculum = {
         }[];
     }[];
 }
+
+export type CreateCourseRequest = {
+    title: string;
+    categoryId: string;
+    subCategoryId: string;
+}
+
+export type UpdateCourseRequest = {
+    title?: string;
+    categoryId?: string;
+    subCategoryId?: string;
+    description?: string;
+    tags?: string[];
+    requirements?: string[];
+    targetStudents?: string[];
+    learnedContents?: string[];
+    price?: number;
+    locale?: string;
+    level?: CourseLevel;
+    status?: CourseStatus;
+    thumbnailToken?: string;
+    previewVideoToken?: string;
+}
