@@ -7,22 +7,14 @@ import Login from '../pages/Authentication/SignIn';
 const authRoutes = [
   {
     path: '/auth/login',
-    element: <>
-    <PageTitle title="Trang đăng nhập" />
-    <Login />
-    </>,
+    element: <Login />,
   },
 ];
 const userRoutes = [
   {
     path: '/',
-    element: (
-      <>
-        <PageTitle title="Trang chủ" />
-        <div> day la trang tru</div>
-      </>
-    ),
-  },
+    element: <></>,
+  }
 ];
 const AppRoutes = () => {
   return (

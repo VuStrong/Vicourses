@@ -7,21 +7,28 @@ import Login from '../pages/Authentication/SignIn';
 const authRoutes = [
   {
     path: '/auth/login',
-    element: <>
-    <PageTitle title="Trang đăng nhập" />
-    <Login />
-    </>,
-  },
+    element: <Login />,
+  }
 ];
 const userRoutes = [
   {
     path: '/',
-    element: (
-      <>
-        <PageTitle title="Trang chủ" />
-        <div> day la trang tru</div>
-      </>
-    ),
+    element: <Home />,
+  },
+  {
+    path: '/search',
+    element: <Find />,
+  },
+];
+
+const accountRoutes = [
+  {
+    path: '/account/',
+    element: <ChangeAccountForm/>,
+  },
+  {
+    path: '/account/password',
+    element:<ChangePassForm/>,
   },
 ];
 const AppRoutes = () => {
@@ -32,8 +39,8 @@ const AppRoutes = () => {
           <Route key={index} path={route.path} element={route.element} />
         ))}
       </Route>
-      <Route path="/" element={<DefaultLayout />}>
-        {userRoutes.map((route, index) => (
+      <Route path="/" element={<DefaultLayout/>}>
+        {authRoutes.map((route, index) => (
           <Route key={index} path={route.path} element={route.element} />
         ))}
       </Route>

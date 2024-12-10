@@ -1,13 +1,13 @@
 import { BRAND } from '../../types/brand';
-import BrandOne from '../../images/brand/brand-01.svg';
-import BrandTwo from '../../images/brand/brand-02.svg';
-import BrandThree from '../../images/brand/brand-03.svg';
-import BrandFour from '../../images/brand/brand-04.svg';
-import BrandFive from '../../images/brand/brand-05.svg';
+// import BrandOne from '../../images/brand/brand-01.svg';
+// import BrandTwo from '../../images/brand/brand-02.svg';
+// import BrandThree from '../../images/brand/brand-03.svg';
+// import BrandFour from '../../images/brand/brand-04.svg';
+// import BrandFive from '../../images/brand/brand-05.svg';
 
 const brandData: BRAND[] = [
   {
-    logo: BrandOne,
+    // logo: BrandOne,
     name: 'Google',
     visitors: 3.5,
     revenues: '5,768',
@@ -15,7 +15,7 @@ const brandData: BRAND[] = [
     conversion: 4.8,
   },
   {
-    logo: BrandTwo,
+    // logo: BrandTwo,
     name: 'Twitter',
     visitors: 2.2,
     revenues: '4,635',
@@ -23,7 +23,7 @@ const brandData: BRAND[] = [
     conversion: 4.3,
   },
   {
-    logo: BrandThree,
+    // logo: BrandThree,
     name: 'Github',
     visitors: 2.1,
     revenues: '4,290',
@@ -31,7 +31,7 @@ const brandData: BRAND[] = [
     conversion: 3.7,
   },
   {
-    logo: BrandFour,
+    // logo: BrandFour,
     name: 'Vimeo',
     visitors: 1.5,
     revenues: '3,580',
@@ -39,7 +39,7 @@ const brandData: BRAND[] = [
     conversion: 2.5,
   },
   {
-    logo: BrandFive,
+    // logo: BrandFive,
     name: 'Facebook',
     visitors: 3.5,
     revenues: '6,768',
@@ -95,7 +95,7 @@ const TableOne = () => {
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-5">
               <div className="flex-shrink-0">
-                <img src={brand.logo} alt="Brand" />
+                <img src="" alt="Brand" />
               </div>
               <p className="hidden text-black dark:text-white sm:block">
                 {brand.name}

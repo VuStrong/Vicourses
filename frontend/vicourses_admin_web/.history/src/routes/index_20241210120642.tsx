@@ -19,7 +19,6 @@ const userRoutes = [
     element: (
       <>
         <PageTitle title="Trang chủ" />
-        <div> day la trang tru</div>
       </>
     ),
   },
