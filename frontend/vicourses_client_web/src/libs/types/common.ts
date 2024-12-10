@@ -5,3 +5,8 @@ export type PagedResult<T> = {
     end: boolean;
     items: T[];
 }
+
+export type Locale = {
+    name: string;
+    englishTitle: string;
+}

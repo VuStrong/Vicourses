@@ -1,20 +1,20 @@
 "use client";
 
-import { ReactHookFormInput } from "@/components/common";
 import { sendPasswordResetLink } from "@/services/api/auth";
-import { Button } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import {
+    Controller,
+    FieldValues,
+    SubmitHandler,
+    useForm,
+} from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 export default function ForgotPasswordForm() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FieldValues>({
+    const { handleSubmit, control } = useForm<FieldValues>({
         defaultValues: {
             email: "",
         },
@@ -43,15 +43,15 @@ export default function ForgotPasswordForm() {
                             Enter your email
                         </div>
                         <p className="text-gray-900">
-                            Enter the email address you used to register your account. 
-                            We'll send an email with a link to reset your password.
+                            Enter the email address you used to register your
+                            account. We'll send an email with a link to reset
+                            your password.
                         </p>
                     </div>
-                    <ReactHookFormInput
-                        id="email"
-                        label="Email"
-                        disabled={isLoading}
-                        register={register("email", {
+                    <Controller
+                        name="email"
+                        control={control}
+                        rules={{
                             required: {
                                 value: true,
                                 message: "Enter email.",
@@ -60,8 +60,29 @@ export default function ForgotPasswordForm() {
                                 value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                                 message: "Email is invalid.",
                             },
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Email"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    disabled={isLoading}
+                                    size="lg"
+                                    type="email"
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
                 </div>
             </div>

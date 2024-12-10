@@ -9,13 +9,15 @@ export type RefreshTokenResponse = {
     refreshToken: string;
 }
 
+export type UserRole = "admin" | "student" | "instructor";
+
 export type User = {
     id: string;
     name: string;
     email: string;
     emailConfirmed: boolean;
     lockoutEnd: Date | null;
-    role: string;
+    role: UserRole;
     thumbnailUrl: string | null;
     headline: string | null;
     description: string | null;
@@ -53,7 +55,7 @@ export type PublicProfile = {
     id: string;
     createdAt: string;
     name: string;
-    role: string;
+    role: UserRole;
     thumbnailUrl: string | null;
     headline: string | null;
     description: string | null;

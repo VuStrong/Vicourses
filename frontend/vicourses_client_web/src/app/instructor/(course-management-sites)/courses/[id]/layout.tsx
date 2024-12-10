@@ -35,10 +35,10 @@ export default async function CourseManagementPagesLayout({
 
             <div className="lg:flex py-20 px-5 lg:px-20">
                 <div className="hidden lg:block">
-                    <CourseManagementSidebar courseId={course.id} />
+                    <CourseManagementSidebar course={course} />
                 </div>
                 <div className="lg:hidden">
-                    <OpenDrawerButton courseId={course.id} />
+                    <OpenDrawerButton course={course} />
                 </div>
                 <div className="flex-grow z-[5] bg-white">
                     <div className="shadow-2xl w-full min-h-screen p-5 lg:p-10">

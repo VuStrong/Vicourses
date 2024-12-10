@@ -4,8 +4,9 @@ import { Drawer } from "@material-tailwind/react";
 import { useState } from "react";
 import { MdMenu } from "react-icons/md";
 import CourseManagementSidebar from "./CourseManagementSidebar";
+import { Course } from "@/libs/types/course";
 
-export default function OpenDrawerButton({ courseId }: { courseId: string }) {
+export default function OpenDrawerButton({ course }: { course: Course }) {
     const [open, setOpen] = useState<boolean>(false);
 
     return (
@@ -19,7 +20,7 @@ export default function OpenDrawerButton({ courseId }: { courseId: string }) {
                 }}
             >
                 <CourseManagementSidebar
-                    courseId={courseId}
+                    course={course}
                     onCLickItem={() => setOpen(false)}
                 />
             </Drawer>

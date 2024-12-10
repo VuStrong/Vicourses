@@ -16,7 +16,7 @@ import { revokeRefreshToken } from "@/services/api/auth";
 import useUser from "@/hooks/useUser";
 
 export default function UserMenu() {
-    const { user, isLoading } = useUser("id,name,email,thumbnailUrl");
+    const { user, isLoading } = useUser("id,name,email,thumbnailUrl,role");
     const pathname = usePathname();
     const session = useSession();
 
@@ -70,6 +70,11 @@ export default function UserMenu() {
                 <Link href={`/my-courses/wishlist`}>
                     <MenuItem>Wishlist</MenuItem>
                 </Link>
+                {user.role === "instructor" && (
+                    <Link href={`/instructor/courses`}>
+                        <MenuItem>Instructor dashboard</MenuItem>
+                    </Link>
+                )}
 
                 <hr className="my-3" />
                 <Link href={`/user/${user.id}`}>
