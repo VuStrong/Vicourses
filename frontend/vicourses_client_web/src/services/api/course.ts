@@ -2,6 +2,7 @@ import { BACKEND_URL } from "@/libs/constants";
 import { PagedResult } from "@/libs/types/common";
 import {
     Course,
+    CourseCheckResponse,
     CourseDetail,
     CreateCourseRequest,
     GetCoursesQuery,
@@ -238,6 +239,27 @@ export async function updateCourse(
 
         const error = await res.json();
         throw new Error(error.message);
+    }
+
+    const data = await res.json();
+    return data;
+}
+
+export async function checkCourse(
+    courseId: string
+): Promise<CourseCheckResponse | null> {
+    const res = await fetch(
+        `${BACKEND_URL}/api/cs/v1/courses/${courseId}/check`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
+
+    if (!res.ok) {
+        return null;
     }
 
     const data = await res.json();

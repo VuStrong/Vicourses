@@ -54,7 +54,7 @@ export default function ProfileThumbnail() {
     };
 
     const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
+        if (e.target.files?.[0]) {
             const fileToUpdate = e.target.files[0];
             const ext = getFileExtension(fileToUpdate);
 

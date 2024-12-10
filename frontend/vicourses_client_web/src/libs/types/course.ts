@@ -135,3 +135,8 @@ export type UpdateCourseRequest = {
     thumbnailToken?: string;
     previewVideoToken?: string;
 }
+
+export type CourseCheckResponse = {
+    isValid: boolean;
+    missingRequirements: string[];
+}

@@ -6,22 +6,22 @@ import Link from "next/link";
 
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import {
+    Controller,
+    FieldValues,
+    SubmitHandler,
+    useForm,
+} from "react-hook-form";
 import toast from "react-hot-toast";
 
-import { Button } from "@material-tailwind/react";
-import { ReactHookFormInput } from "@/components/common";
+import { Button, Input, Typography } from "@material-tailwind/react";
 
 export default function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FieldValues>({
+    const { handleSubmit, control } = useForm<FieldValues>({
         defaultValues: {
             email: "",
             password: "",
@@ -32,7 +32,7 @@ export default function LoginForm() {
         setIsLoading(true);
 
         const res = await signIn("credentials", { ...data, redirect: false });
-        
+
         if (!res?.code) {
             router.push(searchParams?.get("callbackUrl") ?? "/");
             router.refresh();
@@ -44,7 +44,7 @@ export default function LoginForm() {
 
     const handleGoogleLogin = () => {
         signIn("google");
-    }
+    };
 
     return (
         <form className="lg:h-auto md:h-auto border-0 rounded-lg shadow-2xl flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -56,11 +56,10 @@ export default function LoginForm() {
                             Sign in to Vicourses
                         </div>
                     </div>
-                    <ReactHookFormInput
-                        id="email"
-                        label="Email"
-                        disabled={isLoading}
-                        register={register("email", {
+                    <Controller
+                        name="email"
+                        control={control}
+                        rules={{
                             required: {
                                 value: true,
                                 message: "Enter email.",
@@ -69,21 +68,61 @@ export default function LoginForm() {
                                 value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                                 message: "Email is invalid.",
                             },
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Email"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    type="email"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
-                    <ReactHookFormInput
-                        id="password"
-                        label="Password"
-                        type="password"
-                        disabled={isLoading}
-                        register={register("password", {
+                    <Controller
+                        name="password"
+                        control={control}
+                        rules={{
                             required: {
                                 value: true,
                                 message: "Enter password.",
                             },
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Password"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    type="password"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
                 </div>
             </div>
@@ -91,9 +130,9 @@ export default function LoginForm() {
             {/* FOOTER */}
             <div className="flex flex-col gap-2 p-6">
                 <div className="flex flex-col items-center gap-4 w-full">
-                    <Button 
+                    <Button
                         type="submit"
-                        fullWidth 
+                        fullWidth
                         loading={isLoading}
                         onClick={handleSubmit(onSubmit)}
                         className="bg-primary flex justify-center"
@@ -101,14 +140,17 @@ export default function LoginForm() {
                         Sign in
                     </Button>
 
-                    <Link href="/forgot-password" className="underline text-gray-900">
+                    <Link
+                        href="/forgot-password"
+                        className="underline text-gray-900"
+                    >
                         Forgot password?
                     </Link>
                 </div>
                 <div className="flex flex-col gap-4 mt-3">
                     <hr className="border-black" />
-                    <Button 
-                        fullWidth 
+                    <Button
+                        fullWidth
                         variant="outlined"
                         loading={isLoading}
                         onClick={handleGoogleLogin}

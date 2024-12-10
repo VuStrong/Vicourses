@@ -1,11 +1,15 @@
-"use client"
+"use client";
 
-import { ReactHookFormInput } from "@/components/common";
 import { resetPassword } from "@/services/api/auth";
-import { Button } from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import {
+    Controller,
+    FieldValues,
+    SubmitHandler,
+    useForm,
+} from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function ResetPasswordForm({
@@ -18,12 +22,7 @@ export default function ResetPasswordForm({
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        formState: { errors },
-    } = useForm<FieldValues>({
+    const { handleSubmit, getValues, control } = useForm<FieldValues>({
         defaultValues: {
             password: "",
             passwordConfirm: "",
@@ -55,15 +54,14 @@ export default function ResetPasswordForm({
                             Reset password
                         </div>
                     </div>
-                    <ReactHookFormInput
-                        id="password"
-                        label="New password"
-                        type="password"
-                        disabled={isLoading}
-                        register={register("password", {
+
+                    <Controller
+                        name="password"
+                        control={control}
+                        rules={{
                             required: {
                                 value: true,
-                                message: "Enter new password.",
+                                message: "Enter password.",
                             },
                             minLength: {
                                 value: 8,
@@ -75,20 +73,60 @@ export default function ResetPasswordForm({
                                 message:
                                     "Password must be between 8 and 50 characters",
                             },
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="New password"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    type="password"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
-                    <ReactHookFormInput
-                        id="passwordConfirm"
-                        label="Confirm password"
-                        type="password"
-                        disabled={isLoading}
-                        register={register("passwordConfirm", {
+                    <Controller
+                        name="passwordConfirm"
+                        control={control}
+                        rules={{
                             validate: (value) =>
                                 value === getValues("password") ||
                                 "Password not match",
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Confirm password"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    type="password"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
                 </div>
             </div>

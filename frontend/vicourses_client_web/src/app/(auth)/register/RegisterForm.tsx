@@ -4,22 +4,21 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import {
+    Controller,
+    FieldValues,
+    SubmitHandler,
+    useForm,
+} from "react-hook-form";
 import toast from "react-hot-toast";
-import { Button } from "@material-tailwind/react";
-import { ReactHookFormInput } from "../../../components/common";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import { register as registerUser } from "@/services/api/auth";
 
 export default function RegisterForm() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        formState: { errors },
-    } = useForm<FieldValues>({
+    const { handleSubmit, getValues, control } = useForm<FieldValues>({
         defaultValues: {
             name: "",
             email: "",
@@ -63,11 +62,11 @@ export default function RegisterForm() {
                             Register and start learning
                         </div>
                     </div>
-                    <ReactHookFormInput
-                        id="name"
-                        label="Name"
-                        disabled={isLoading}
-                        register={register("name", {
+
+                    <Controller
+                        name="name"
+                        control={control}
+                        rules={{
                             required: {
                                 value: true,
                                 message: "Enter your name.",
@@ -82,14 +81,33 @@ export default function RegisterForm() {
                                 message:
                                     "Name must be between 2 and 50 characters",
                             },
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Name"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
-                    <ReactHookFormInput
-                        id="email"
-                        label="Email"
-                        disabled={isLoading}
-                        register={register("email", {
+                    <Controller
+                        name="email"
+                        control={control}
+                        rules={{
                             required: {
                                 value: true,
                                 message: "Enter email.",
@@ -98,15 +116,34 @@ export default function RegisterForm() {
                                 value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                                 message: "Email is invalid.",
                             },
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Email"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    type="email"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
-                    <ReactHookFormInput
-                        id="password"
-                        label="Password"
-                        type="password"
-                        disabled={isLoading}
-                        register={register("password", {
+                    <Controller
+                        name="password"
+                        control={control}
+                        rules={{
                             required: {
                                 value: true,
                                 message: "Enter password.",
@@ -121,20 +158,60 @@ export default function RegisterForm() {
                                 message:
                                     "Password must be between 8 and 50 characters",
                             },
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Password"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    type="password"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
-                    <ReactHookFormInput
-                        id="passwordConfirm"
-                        label="Confirm password"
-                        type="password"
-                        disabled={isLoading}
-                        register={register("passwordConfirm", {
+                    <Controller
+                        name="passwordConfirm"
+                        control={control}
+                        rules={{
                             validate: (value) =>
                                 value === getValues("password") ||
                                 "Password not match",
-                        })}
-                        errors={errors}
+                        }}
+                        render={({ field, fieldState }) => (
+                            <div>
+                                <Input
+                                    {...field}
+                                    label="Confirm password"
+                                    crossOrigin={undefined}
+                                    error={!!fieldState.error}
+                                    size="lg"
+                                    type="password"
+                                    disabled={isLoading}
+                                />
+                                {fieldState.error && (
+                                    <Typography
+                                        variant="small"
+                                        color="red"
+                                        className="mt-2 flex items-center gap-1 font-normal"
+                                    >
+                                        {fieldState.error.message}
+                                    </Typography>
+                                )}
+                            </div>
+                        )}
                     />
                 </div>
             </div>
@@ -152,10 +229,14 @@ export default function RegisterForm() {
                         Sign up
                     </Button>
                     <small className="text-gray-700">
-                        By signing up, you agree to the 
-                        <Link href={"#"} className="px-1 underline">Terms of Use</Link> 
-                        and 
-                        <Link href={"#"} className="px-1 underline">Privacy Policy.</Link> 
+                        By signing up, you agree to the
+                        <Link href={"#"} className="px-1 underline">
+                            Terms of Use
+                        </Link>
+                        and
+                        <Link href={"#"} className="px-1 underline">
+                            Privacy Policy.
+                        </Link>
                     </small>
                 </div>
                 <div className="flex flex-col gap-4 mt-3">
