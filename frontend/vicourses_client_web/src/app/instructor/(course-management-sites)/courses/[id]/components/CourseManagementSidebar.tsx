@@ -5,7 +5,6 @@ import {
     Card,
     Dialog,
     DialogBody,
-    DialogFooter,
     DialogHeader,
     List,
     ListItem,
@@ -50,6 +49,26 @@ export default function CourseManagementSidebar({
                     }`}
                 >
                     <ListItem>Goals</ListItem>
+                </Link>
+                <Link
+                    onClick={onCLickItem}
+                    href={`/instructor/courses/${course.id}/pricing`}
+                    className={`${
+                        pathname.endsWith("pricing") &&
+                        "border-l-4 border-gray-800"
+                    }`}
+                >
+                    <ListItem>Pricing</ListItem>
+                </Link>
+                <Link
+                    onClick={onCLickItem}
+                    href={`/instructor/courses/${course.id}/promotions`}
+                    className={`${
+                        pathname.endsWith("promotions") &&
+                        "border-l-4 border-gray-800"
+                    }`}
+                >
+                    <ListItem>Promotions</ListItem>
                 </Link>
                 <Link
                     onClick={onCLickItem}

@@ -30,7 +30,7 @@ export async function checkInstructorInfo(user: User): Promise<InstructorCheckRe
         result.isValid = false;
         result.missingRequiments.push("You must set your profile headline.");
     }
-    if (!user.description || user.description.length < 1) {
+    if (!user.description || user.description.length < 100) {
         result.isValid = false;
         result.missingRequiments.push("You must write description for your profile, contains more than 100 characters.");
     }
