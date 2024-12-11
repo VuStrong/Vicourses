@@ -1,5 +1,7 @@
 "use client";
 
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
 import { Category } from "@/libs/types/category";
 import { CourseDetail } from "@/libs/types/course";
 import { getCategories } from "@/services/api/category";
@@ -17,7 +19,6 @@ import {
     SubmitHandler,
     useForm,
 } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import CourseInfoTooltip from "./CourseInfoTooltip";
@@ -27,10 +28,24 @@ import { useSession } from "next-auth/react";
 import { Locale } from "@/libs/types/common";
 import { getLocales } from "@/services/api/locale";
 import CourseThumbnailUpload from "./CourseThumbnailUpload";
-import { getFileExtension } from "@/libs/utils";
 import { uploadImage } from "@/services/api/storage";
+import CoursePreviewVideoUpload from "./CoursePreviewVideoUpload";
+import AsyncCreatableSelect from "react-select/async-creatable";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+const loadTagOptions = async (inputValue: string) => {
+    const res = await fetch(`/api/tags?q=${inputValue}`);
+
+    if (!res.ok) return [];
+
+    const data = await res.json();
+
+    return data.tags.map((tag: string) => ({
+        value: tag,
+        label: tag,
+    }));
+};
 
 const getWordCount = (text: string) => {
     const plainText = text?.replace(/<[^>]+>/g, "").trim();
@@ -62,7 +77,10 @@ export default function UpdateCourseOverviewForm({
             level: course.level.toString(),
             categoryId: course.category.id,
             subCategoryId: course.subCategory.id,
-            tags: course.tags,
+            tags: course.tags.map((tag) => ({
+                value: tag,
+                label: tag,
+            })),
             locale: course.locale?.name || null,
             thumbnail: null,
         },
@@ -82,9 +100,8 @@ export default function UpdateCourseOverviewForm({
             // Upload image first
             let thumbnailToken = undefined;
             if (data.thumbnail) {
-                const fileId = `vicourses-course-photos/${uuidv4()}.${getFileExtension(
-                    data.thumbnail
-                )}`;
+                const ext = path.extname(data.thumbnail.name);
+                const fileId = `vicourses-course-photos/${uuidv4()}${ext}`;
 
                 const uploadResponse = await uploadImage(
                     data.thumbnail,
@@ -100,6 +117,7 @@ export default function UpdateCourseOverviewForm({
                 {
                     ...data,
                     thumbnailToken,
+                    tags: data.tags.map((option: any) => option.value),
                 },
                 session?.accessToken || ""
             );
@@ -428,6 +446,32 @@ export default function UpdateCourseOverviewForm({
                 </div>
             </div>
 
+            {/* Course tags select */}
+            <div>
+                <div className="text-black font-bold flex gap-1">
+                    Tags
+                    <span>
+                        <CourseInfoTooltip content='Each individual tag you choose should comprehensively describe the course content but not be too spread out. For example: "Comprehensive reactjs course" must contain "reactjs"' />
+                    </span>
+                </div>
+
+                <Controller
+                    name="tags"
+                    control={control}
+                    render={({ field }) => (
+                        <AsyncCreatableSelect
+                            instanceId="tags"
+                            placeholder="Example: nodejs"
+                            isMulti
+                            cacheOptions
+                            loadOptions={loadTagOptions}
+                            value={field.value}
+                            onChange={field.onChange}
+                        />
+                    )}
+                />
+            </div>
+
             <div>
                 <div className="text-black font-bold">Course thumbnail</div>
 
@@ -439,6 +483,12 @@ export default function UpdateCourseOverviewForm({
                         });
                     }}
                 />
+            </div>
+
+            <div>
+                <div className="text-black font-bold">Preview video</div>
+
+                <CoursePreviewVideoUpload course={course} />
             </div>
         </form>
     );

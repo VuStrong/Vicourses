@@ -1,6 +1,7 @@
 "use client";
 
 import {
+    Button,
     Card,
     List,
     ListItem,
@@ -14,6 +15,7 @@ import { AiOutlineProfile } from "react-icons/ai";
 import { MdPrivacyTip } from "react-icons/md";
 import { FaPaypal } from "react-icons/fa";
 import { MdOutlineSecurity } from "react-icons/md";
+import BecomeInstructorButton from "./BecomeInstructorButton";
 
 export default function ProfileSideBar() {
     return (
@@ -72,6 +74,8 @@ export default function ProfileSideBar() {
                     </ListItem>
                 </Link>
             </List>
+
+            <BecomeInstructorButton />
         </Card>
     );
 }

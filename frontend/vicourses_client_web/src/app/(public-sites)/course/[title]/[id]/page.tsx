@@ -12,6 +12,7 @@ import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
 import CoursePurchaseSection from "./CoursePurchaseSection";
 import PublicCurriculumSection from "./PublicCurriculumSection";
 import InstructorCoursesSection from "./InstructorCoursesSection";
+import OpenPreviewVideoModalButton from "./OpenPreviewVideoModalButton";
 
 export async function generateMetadata({
     params,
@@ -70,7 +71,7 @@ export default async function CoursePage({
                     </Breadcrumbs>
 
                     <div
-                        className="block lg:hidden w-full border border-gray-700 mb-5"
+                        className="relative block lg:hidden w-full border border-gray-700 mb-5"
                         style={{
                             aspectRatio: "calc(1 / 0.5625)",
                         }}
@@ -83,6 +84,9 @@ export default async function CoursePage({
                             }
                             alt={course.title}
                         />
+                        <div className="absolute w-full h-full bg-black bg-opacity-20 top-0 left-0 flex justify-center items-center">
+                            <OpenPreviewVideoModalButton course={course} />
+                        </div>
                     </div>
 
                     <h1 className="text-black text-2xl lg:text-3xl font-bold mb-5">

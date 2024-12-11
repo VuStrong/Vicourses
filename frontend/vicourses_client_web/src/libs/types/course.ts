@@ -1,6 +1,7 @@
 export type CourseLevel = "All" | "Basic" | "Intermediate" | "Expert";
 export type CourseStatus = "Unpublished" | "WaitingToVerify" | "Published";
 export type LessonType = "Video" | "Quiz";
+export type VideoStatus = "BeingProcessed" | "Processed" | "ProcessingFailed";
 
 export type Course = {
     id: string;
@@ -49,8 +50,8 @@ export type CourseDetail = Course & {
         originalFileName: string;
         streamFileUrl: string | null;
         duration: number;
-        status: string;
-    },
+        status: VideoStatus;
+    } | null,
     metrics: {
         sectionsCount: number;
         lessonsCount: number;

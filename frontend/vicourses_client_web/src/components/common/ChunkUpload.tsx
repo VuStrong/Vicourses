@@ -1,14 +1,24 @@
 "use client";
 
+import { v4 as uuidv4 } from "uuid";
+import path from "path";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import S3ChunkUploader from "@/libs/s3-chunk-uploader";
-import { getFileExtension } from "@/libs/utils";
+import { UploadResponse } from "@/libs/types/storage";
+import { Input } from "@material-tailwind/react";
 
-const allowedExtensions = ["mp4", "mkv"];
-
-export default function VideoUpload() {
+export default function ChunkUpload({
+    extensions,
+    maxSize = 1,
+    getFileId,
+    onComplete,
+}: {
+    extensions?: string[];
+    maxSize?: number;
+    getFileId?: (file: File) => string;
+    onComplete: (result: UploadResponse) => void,
+}) {
     const [percent, setPercent] = useState<number>(0);
     const [file, setFile] = useState<File>();
     const [uploader, setUploader] = useState<S3ChunkUploader>();
@@ -17,9 +27,9 @@ export default function VideoUpload() {
 
     useEffect(() => {
         if (file) {
-            const fileId = `vicourses-videos/${uuidv4()}.${getFileExtension(
-                file
-            )}`;
+            const fileId = getFileId
+                ? getFileId(file)
+                : `vicourses-files/${uuidv4()}${path.extname(file.name)}`;
 
             const uploader = new S3ChunkUploader({
                 file,
@@ -34,8 +44,8 @@ export default function VideoUpload() {
                 onProgress: (percentage) => {
                     setPercent(percentage);
                 },
-                onComplete(fileId) {
-                    console.log("All done: " + fileId);
+                onComplete(result) {
+                    onComplete(result);
                 },
             });
             setUploader(uploader);
@@ -56,17 +66,19 @@ export default function VideoUpload() {
 
         if (!file) return;
 
-        if (file.size >= 1024 * 1024 * 1024 * 2) {
-            setError("Video size cannot larger than 2GB");
+        if (file.size >= 1024 * 1024 * 1024 * maxSize) {
+            setError(`File size cannot larger than ${maxSize}GB`);
             return;
         }
-        if (!allowedExtensions.includes(getFileExtension(file))) {
-            setError("Only allow .mp4, .mkv video extension");
+
+        const ext = path.extname(file.name);
+        if (extensions && !extensions.includes(ext)) {
+            setError(`Only allow ${extensions.join(",")} file extension`);
             return;
         }
 
         setFile(file);
-    }
+    };
 
     const handleAbort = () => {
         if (uploader) {
@@ -158,14 +170,15 @@ export default function VideoUpload() {
                     </div>
                 </div>
             ) : (
-                <input
-                    className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
+                <Input
                     type="file"
+                    accept={extensions?.join(",")}
                     onChange={onFileChange}
+                    crossOrigin={undefined}
                 />
             )}
 
-            {error && <div className="text-error absolute bot-0">{error}</div>}
+            {error && <div className="text-error bot-0">{error}</div>}
         </div>
     );
 }

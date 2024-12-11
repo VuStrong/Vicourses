@@ -65,3 +65,8 @@ export type PublicProfile = {
     linkedInUrl: string | null;
     totalEnrollmentCount: number;
 }
+
+export type UpdateToInstructorResponse = {
+    success: boolean;
+    missingRequirements: string[];
+}

@@ -1,11 +1,15 @@
+import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import { getFileExtension } from "./utils";
 import {
     abortMultipartUpload,
     completeMultipartUpload,
     initializeMultipartUpload,
 } from "@/services/api/storage";
-import { CompletePartRequest, PartResponse } from "./types/storage";
+import {
+    CompletePartRequest,
+    PartResponse,
+    UploadResponse,
+} from "./types/storage";
 
 interface S3ChunkUploaderOptions {
     chunkSize?: number;
@@ -14,7 +18,7 @@ interface S3ChunkUploaderOptions {
     accessToken: string;
     onError?: (error: Error) => void;
     onProgress?: (percentage: number) => void;
-    onComplete?: (fileId: string) => void;
+    onComplete?: (result: UploadResponse) => void;
 }
 
 export default class S3ChunkUploader {
@@ -34,7 +38,7 @@ export default class S3ChunkUploader {
 
     private onProgressCb?: (percentage: number) => void;
     private onErrorCb?: (error: Error) => void;
-    private onCompleteCb?: (fileId: string) => void;
+    private onCompleteCb?: (result: UploadResponse) => void;
 
     constructor(options: S3ChunkUploaderOptions) {
         this.chunkSize = options.chunkSize || 1024 * 1024 * 5;
@@ -45,7 +49,7 @@ export default class S3ChunkUploader {
 
         this.file = options.file;
         this.fileId =
-            options.fileId || `${uuidv4()}.${getFileExtension(this.file)}`;
+            options.fileId || `${uuidv4()}${path.extname(this.file.name)}`;
         this.accessToken = options.accessToken;
 
         this.onErrorCb = options.onError;
@@ -66,8 +70,11 @@ export default class S3ChunkUploader {
                 const partCount = Math.ceil(this.file.size / this.chunkSize);
 
                 const result = await initializeMultipartUpload(
-                    this.fileId,
-                    partCount,
+                    {
+                        fileId: this.fileId,
+                        partCount,
+                        fileName: this.file.name,
+                    },
                     this.accessToken
                 );
 
@@ -109,9 +116,9 @@ export default class S3ChunkUploader {
 
         if (allSuccess) {
             try {
-                await this.sendCompleteRequest();
+                const uploadResponse = await this.sendCompleteRequest();
                 this.done = true;
-                this.onCompleteCb?.(this.fileId);
+                this.onCompleteCb?.(uploadResponse);
             } catch (error: any) {
                 this.onErrorCb?.(error);
                 this.abort();
@@ -169,17 +176,15 @@ export default class S3ChunkUploader {
         });
     }
 
-    private async sendCompleteRequest() {
-        if (this.fileId && this.uploadId) {
-            await completeMultipartUpload(
-                {
-                    fileId: this.fileId,
-                    uploadId: this.uploadId,
-                    parts: this.uploadedParts,
-                },
-                this.accessToken
-            );
-        }
+    private async sendCompleteRequest(): Promise<UploadResponse> {
+        return await completeMultipartUpload(
+            {
+                fileId: this.fileId,
+                uploadId: this.uploadId || "",
+                parts: this.uploadedParts,
+            },
+            this.accessToken
+        );
     }
 
     private handleProgress(event: any) {

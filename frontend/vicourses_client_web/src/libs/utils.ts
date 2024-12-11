@@ -1,7 +1,3 @@
-export function getFileExtension(file: File): string {
-    return file.name.split(".").pop() || "";
-}
-
 export function formatLength(length: number) {
     const second = length % 60;
     const minute = Math.floor(length / 60) % 60;

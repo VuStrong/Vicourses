@@ -1,6 +1,11 @@
 "use client";
 
-import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
+import {
+    Button,
+    Input,
+    Tooltip,
+    Typography,
+} from "@material-tailwind/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
@@ -13,22 +18,29 @@ import toast from "react-hot-toast";
 import { Loader } from "@/components/common";
 import { User } from "@/libs/types/user";
 import { getAuthenticatedUser, updateProfile } from "@/services/api/user";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+const urlRegex =
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 export default function UpdateProfileForm() {
     const [isUpdating, setIsUpdating] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
-    const urlRegex =
-        /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
 
     const {
         handleSubmit,
-        setValue,
         control,
-        formState: { errors },
+        reset,
+        formState: { isDirty },
     } = useForm<FieldValues>();
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        if (isUpdating) return;
+
         setIsUpdating(true);
 
         try {
@@ -46,6 +58,7 @@ export default function UpdateProfileForm() {
             );
 
             toast.success("Profile saved");
+            reset(data);
         } catch (error: any) {
             toast.error(error.message);
         }
@@ -55,23 +68,27 @@ export default function UpdateProfileForm() {
 
     useEffect(() => {
         (async () => {
-            if (session?.accessToken) {
+            if (status === "authenticated") {
                 const result = await getAuthenticatedUser(session.accessToken);
 
                 setUser(result);
 
                 if (result) {
-                    setValue("name", result.name);
-                    setValue("headline", result.headline || "");
-                    setValue("description", result.description || "");
-                    setValue("websiteUrl", result.websiteUrl || "");
-                    setValue("youtubeUrl", result.youtubeUrl || "");
-                    setValue("facebookUrl", result.facebookUrl || "");
-                    setValue("linkedInUrl", result.linkedInUrl || "");
+                    const formData = {
+                        name: result.name,
+                        headline: result.headline || "",
+                        description: result.description || "",
+                        websiteUrl: result.websiteUrl || "",
+                        youtubeUrl: result.youtubeUrl || "",
+                        facebookUrl: result.facebookUrl || "",
+                        linkedInUrl: result.linkedInUrl || "",
+                    };
+
+                    reset(formData);
                 }
             }
         })();
-    }, [session?.accessToken]);
+    }, [status]);
 
     if (!user) {
         return (
@@ -83,7 +100,7 @@ export default function UpdateProfileForm() {
 
     return (
         <form className="my-5 w-full">
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col md:flex-row flex-wrap gap-3">
                 <div className="flex-1 flex flex-col gap-5">
                     <Controller
                         name="name"
@@ -104,23 +121,28 @@ export default function UpdateProfileForm() {
                                     "Name must be between 2 and 50 characters",
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <div>
+                                <label
+                                    htmlFor="name"
+                                    className="text-gray-800 font-semibold flex gap-1"
+                                >
+                                    Name
+                                </label>
                                 <Input
+                                    id="name"
                                     {...field}
-                                    label="Name"
                                     crossOrigin={undefined}
-                                    error={!!errors[field.name]}
+                                    error={!!fieldState.error}
+                                    className="placeholder:opacity-100"
                                 />
-                                {errors[field.name] && (
+                                {fieldState.error && (
                                     <Typography
                                         variant="small"
                                         color="red"
                                         className="mt-2 flex items-center gap-1 font-normal"
                                     >
-                                        {errors[
-                                            field.name
-                                        ]?.message?.toString()}
+                                        {fieldState.error.message}
                                     </Typography>
                                 )}
                             </div>
@@ -136,60 +158,62 @@ export default function UpdateProfileForm() {
                                     "Headline must not contains more than 60 characters",
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <div>
+                                <label
+                                    htmlFor="headline"
+                                    className="text-gray-800 font-semibold flex gap-1"
+                                >
+                                    Headline
+                                </label>
                                 <Input
                                     {...field}
-                                    label="Headline"
+                                    id="headline"
                                     placeholder="Instructor at Vicourses"
                                     crossOrigin={undefined}
-                                    error={!!errors[field.name]}
+                                    error={!!fieldState.error}
+                                    className="placeholder:opacity-100"
                                 />
-                                {errors[field.name] && (
+                                {fieldState.error && (
                                     <Typography
                                         variant="small"
                                         color="red"
                                         className="mt-2 flex items-center gap-1 font-normal"
                                     >
-                                        {errors[
-                                            field.name
-                                        ]?.message?.toString()}
+                                        {fieldState.error.message}
                                     </Typography>
                                 )}
                             </div>
                         )}
                     />
-                    <Controller
-                        name="description"
-                        control={control}
-                        rules={{}}
-                        render={({ field }) => (
-                            <div>
-                                <Textarea {...field} label="Bio" />
-                                <Typography
-                                    variant="small"
-                                    color="gray"
-                                    className="mt-2 flex items-center gap-1 font-normal"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                        className="-mt-px h-4 w-4"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                    To help students learn more about you, your
-                                    bio should reflect your Charisma, Empathy,
-                                    Passion, and Personality
-                                </Typography>
-                            </div>
-                        )}
-                    />
+
+                    <div>
+                        <div className="text-gray-800 font-semibold flex gap-1">
+                            Description
+                            <span>
+                                <ProfileInfoTooltip
+                                    content="To help students learn more about you,
+                                        your bio should reflect your Charisma,
+                                        Empathy, Passion, and Personality"
+                                />
+                            </span>
+                        </div>
+                        <Controller
+                            name="description"
+                            control={control}
+                            render={({ field }) => (
+                                <ReactQuill
+                                    theme="snow"
+                                    placeholder="Write your profile description"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    modules={{
+                                        toolbar: ["bold", "italic"],
+                                    }}
+                                />
+                            )}
+                        />
+                    </div>
                 </div>
                 <div className="flex-1 flex flex-col gap-5">
                     <Controller
@@ -201,24 +225,29 @@ export default function UpdateProfileForm() {
                                 message: "Url is invalid.",
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <div>
+                                <label
+                                    htmlFor="websiteUrl"
+                                    className="text-gray-800 font-semibold flex gap-1"
+                                >
+                                    Website
+                                </label>
                                 <Input
                                     {...field}
-                                    label="Website"
+                                    id="websiteUrl"
                                     placeholder="https://example.com"
                                     crossOrigin={undefined}
-                                    error={!!errors[field.name]}
+                                    error={!!fieldState.error}
+                                    className="placeholder:opacity-100"
                                 />
-                                {errors[field.name] && (
+                                {fieldState.error && (
                                     <Typography
                                         variant="small"
                                         color="red"
                                         className="mt-2 flex items-center gap-1 font-normal"
                                     >
-                                        {errors[
-                                            field.name
-                                        ]?.message?.toString()}
+                                        {fieldState.error.message}
                                     </Typography>
                                 )}
                             </div>
@@ -233,24 +262,29 @@ export default function UpdateProfileForm() {
                                 message: "Url is invalid.",
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <div>
+                                <label
+                                    htmlFor="youtubeUrl"
+                                    className="text-gray-800 font-semibold flex gap-1"
+                                >
+                                    Youtube
+                                </label>
                                 <Input
                                     {...field}
-                                    label="Youtube"
+                                    id="youtubeUrl"
                                     placeholder="http://www.youtube.com/yourusername"
                                     crossOrigin={undefined}
-                                    error={!!errors[field.name]}
+                                    error={!!fieldState.error}
+                                    className="placeholder:opacity-100"
                                 />
-                                {errors[field.name] && (
+                                {fieldState.error && (
                                     <Typography
                                         variant="small"
                                         color="red"
                                         className="mt-2 flex items-center gap-1 font-normal"
                                     >
-                                        {errors[
-                                            field.name
-                                        ]?.message?.toString()}
+                                        {fieldState.error.message}
                                     </Typography>
                                 )}
                             </div>
@@ -265,24 +299,29 @@ export default function UpdateProfileForm() {
                                 message: "Url is invalid.",
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <div>
+                                <label
+                                    htmlFor="facebookUrl"
+                                    className="text-gray-800 font-semibold flex gap-1"
+                                >
+                                    Facebook
+                                </label>
                                 <Input
                                     {...field}
-                                    label="Facebook"
+                                    id="facebookUrl"
                                     placeholder="http://www.facebook.com/yourusername"
                                     crossOrigin={undefined}
-                                    error={!!errors[field.name]}
+                                    error={!!fieldState.error}
+                                    className="placeholder:opacity-100"
                                 />
-                                {errors[field.name] && (
+                                {fieldState.error && (
                                     <Typography
                                         variant="small"
                                         color="red"
                                         className="mt-2 flex items-center gap-1 font-normal"
                                     >
-                                        {errors[
-                                            field.name
-                                        ]?.message?.toString()}
+                                        {fieldState.error.message}
                                     </Typography>
                                 )}
                             </div>
@@ -297,24 +336,29 @@ export default function UpdateProfileForm() {
                                 message: "Url is invalid.",
                             },
                         }}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <div>
+                                <label
+                                    htmlFor="linkedInUrl"
+                                    className="text-gray-800 font-semibold flex gap-1"
+                                >
+                                    LinkedIn
+                                </label>
                                 <Input
                                     {...field}
-                                    label="LinkedIn"
+                                    id="linkedInUrl"
                                     placeholder="http://www.linkedin.com/id"
                                     crossOrigin={undefined}
-                                    error={!!errors[field.name]}
+                                    error={!!fieldState.error}
+                                    className="placeholder:opacity-100"
                                 />
-                                {errors[field.name] && (
+                                {fieldState.error && (
                                     <Typography
                                         variant="small"
                                         color="red"
                                         className="mt-2 flex items-center gap-1 font-normal"
                                     >
-                                        {errors[
-                                            field.name
-                                        ]?.message?.toString()}
+                                        {fieldState.error.message}
                                     </Typography>
                                 )}
                             </div>
@@ -325,6 +369,7 @@ export default function UpdateProfileForm() {
             <div>
                 <Button
                     type="submit"
+                    disabled={!isDirty || isUpdating}
                     loading={isUpdating}
                     onClick={handleSubmit(onSubmit)}
                     className="bg-primary flex justify-center mt-5"
@@ -333,5 +378,38 @@ export default function UpdateProfileForm() {
                 </Button>
             </div>
         </form>
+    );
+}
+
+function ProfileInfoTooltip({ content }: { content: string }) {
+    return (
+        <Tooltip
+            content={
+                <div className="w-80">
+                    <Typography
+                        variant="small"
+                        color="white"
+                        className="font-normal opacity-80"
+                    >
+                        {content}
+                    </Typography>
+                </div>
+            }
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                className="h-5 w-5 cursor-pointer text-blue-gray-500"
+            >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                />
+            </svg>
+        </Tooltip>
     );
 }

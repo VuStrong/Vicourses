@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "@/libs/constants";
-import { PublicProfile, UpdateProfileRequest, User } from "@/libs/types/user";
+import { PublicProfile, UpdateProfileRequest, UpdateToInstructorResponse, User } from "@/libs/types/user";
 
 export async function getAuthenticatedUser(
     accessToken: string,
@@ -94,4 +94,31 @@ export async function changePassword(oldPassword: string, newPassword: string, a
         const data = await res.json();
         throw new Error(data.message);
     }
+}
+
+export async function updateRoleToInstructor(accessToken: string): Promise<UpdateToInstructorResponse> {
+    const res = await fetch(`${BACKEND_URL}/api/us/v1/me/instructor`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
+    const data = await res.json();
+    const result: UpdateToInstructorResponse = {
+        success: true,
+        missingRequirements: [],
+    }
+    
+    if (!res.ok) {
+        result.success = false;
+        if (data.errors) {
+            result.missingRequirements.push(...data.errors);
+        } else {
+            throw new Error(data.message);   
+        }
+    }
+
+    return result;
 }

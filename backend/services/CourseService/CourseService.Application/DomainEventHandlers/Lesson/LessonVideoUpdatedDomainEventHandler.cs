@@ -1,3 +1,4 @@
+using CourseService.Application.IntegrationEvents.Storage;
 using CourseService.Application.IntegrationEvents.VideoProcessing;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Events;
@@ -28,6 +29,13 @@ namespace CourseService.Application.DomainEventHandlers.Lesson
                     Url = newVideo.Url,
                     Entity = "lesson",
                     EntityId = @event.Lesson.Id,
+                });
+            }
+            if (oldVideo != null)
+            {
+                _eventBus.Publish(new DeleteFilesIntegrationEvent
+                {
+                    FileIds = [oldVideo.FileId],
                 });
             }
 

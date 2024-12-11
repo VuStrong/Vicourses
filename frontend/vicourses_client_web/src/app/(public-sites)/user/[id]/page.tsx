@@ -114,7 +114,12 @@ export default async function PublicProfilePage({
                             <h2 className="text-black font-semibold text-xl">
                                 About me
                             </h2>
-                            <div>{profile.description}</div>
+                            <div
+                                className="[&_:is(ol,ul)]:[list-style:revert] [&_:is(ol,ul)]:[margin:revert] [&_:is(ol,ul)]:[padding:revert]"
+                                dangerouslySetInnerHTML={{
+                                    __html: profile.description,
+                                }}
+                            />
                         </div>
                     )}
                 </div>

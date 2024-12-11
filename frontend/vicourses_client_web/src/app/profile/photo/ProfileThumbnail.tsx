@@ -1,5 +1,6 @@
 "use client";
 
+import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import { useSession } from "next-auth/react";
 import { Button, Input, Typography } from "@material-tailwind/react";
@@ -9,10 +10,9 @@ import { User } from "@/libs/types/user";
 import { Loader } from "@/components/common";
 import { getAuthenticatedUser, updateProfile } from "@/services/api/user";
 import { DEFAULT_USER_AVATAR_URL } from "@/libs/constants";
-import { getFileExtension } from "@/libs/utils";
 import { uploadImage } from "@/services/api/storage";
 
-const validExtensions = ["jpeg", "jpg", "png"];
+const validExtensions = [".jpeg", ".jpg", ".png"];
 
 export default function ProfileThumbnail() {
     const [isUpdating, setIsUpdating] = useState<boolean>(false);
@@ -28,20 +28,22 @@ export default function ProfileThumbnail() {
         if (error || !file) return;
 
         setIsUpdating(true);
-        const fileId = `vicourses-user-photos/${uuidv4()}.${getFileExtension(
-            file
-        )}`;
+        const ext = path.extname(file.name);
+        const fileId = `vicourses-user-photos/${uuidv4()}${ext}`;
 
         try {
             const uploadResponse = await uploadImage(
                 file,
                 session?.accessToken || "",
-                fileId,
+                fileId
             );
 
-            await updateProfile({
-                thumbnailToken: uploadResponse.token,
-            }, session?.accessToken || "");
+            await updateProfile(
+                {
+                    thumbnailToken: uploadResponse.token,
+                },
+                session?.accessToken || ""
+            );
 
             setFile(undefined);
 
@@ -56,7 +58,7 @@ export default function ProfileThumbnail() {
     const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.[0]) {
             const fileToUpdate = e.target.files[0];
-            const ext = getFileExtension(fileToUpdate);
+            const ext = path.extname(fileToUpdate.name);
 
             if (!validExtensions.includes(ext)) {
                 setError(
