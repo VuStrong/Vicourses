@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useState } from "react";
 import {
     Controller,
-    FieldValues,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
@@ -14,11 +13,18 @@ import toast from "react-hot-toast";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { register as registerUser } from "@/services/api/auth";
 
+type FormValues = {
+    name: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+}
+
 export default function RegisterForm() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { handleSubmit, getValues, control } = useForm<FieldValues>({
+    const { handleSubmit, getValues, control } = useForm<FormValues>({
         defaultValues: {
             name: "",
             email: "",
@@ -27,7 +33,7 @@ export default function RegisterForm() {
         },
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
         setIsLoading(true);
 
         try {

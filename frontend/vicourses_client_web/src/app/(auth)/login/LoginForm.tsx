@@ -3,32 +3,34 @@
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import {
     Controller,
-    FieldValues,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
 import toast from "react-hot-toast";
-
 import { Button, Input, Typography } from "@material-tailwind/react";
+
+type FormValues = {
+    email: string;
+    password: string;
+}
 
 export default function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { handleSubmit, control } = useForm<FieldValues>({
+    const { handleSubmit, control } = useForm<FormValues>({
         defaultValues: {
             email: "",
             password: "",
         },
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
         setIsLoading(true);
 
         const res = await signIn("credentials", { ...data, redirect: false });

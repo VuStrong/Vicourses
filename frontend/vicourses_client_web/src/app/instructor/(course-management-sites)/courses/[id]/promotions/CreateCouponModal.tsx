@@ -16,11 +16,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
     Controller,
-    FieldValues,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
 import toast from "react-hot-toast";
+
+type FormValues = {
+    days: string;
+    availability: string;
+    discount: string;
+}
 
 export default function CreateCouponModal({
     course,
@@ -35,7 +40,7 @@ export default function CreateCouponModal({
     const { data: session } = useSession();
     const router = useRouter();
 
-    const { handleSubmit, control, reset } = useForm<FieldValues>({
+    const { handleSubmit, control, reset } = useForm<FormValues>({
         defaultValues: {
             days: "0",
             availability: "0",
@@ -43,7 +48,7 @@ export default function CreateCouponModal({
         },
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
         if (isCreating) return;
 
         setIsCreating(true);
@@ -52,9 +57,9 @@ export default function CreateCouponModal({
             await createCoupon(
                 {
                     courseId: course.id,
-                    days: data.days,
-                    availability: data.availability,
-                    discount: data.discount,
+                    days: +data.days,
+                    availability: +data.availability,
+                    discount: +data.discount,
                 },
                 session?.accessToken || ""
             );

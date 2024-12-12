@@ -10,7 +10,6 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
     Controller,
-    FieldValues,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
@@ -26,6 +25,16 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const urlRegex =
     /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
+type FormValues = {
+    name: string;
+    headline?: string;
+    description?: string;
+    websiteUrl?: string;
+    youtubeUrl?: string;
+    facebookUrl?: string;
+    linkedInUrl?: string;
+}
+
 export default function UpdateProfileForm() {
     const [isUpdating, setIsUpdating] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
@@ -36,9 +45,9 @@ export default function UpdateProfileForm() {
         control,
         reset,
         formState: { isDirty },
-    } = useForm<FieldValues>();
+    } = useForm<FormValues>();
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
         if (isUpdating) return;
 
         setIsUpdating(true);
