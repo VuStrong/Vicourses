@@ -55,6 +55,31 @@ namespace RatingService.API.Controllers
         }
 
         /// <summary>
+        /// Get ratings of an instructor
+        /// </summary>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet("instructor")]
+        [Authorize]
+        [ProducesResponseType(typeof(PagedResult<RatingDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetByInstructor([FromQuery]GetRatingsByInstructorRequest request, CancellationToken cancellationToken = default)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+            var paramsDto = new GetRatingsByInstructorParamsDto
+            {
+                InstructorId = userId,
+                Skip = request.Skip,
+                Limit = request.Limit,
+                CourseId = request.CourseId,
+                Star = request.Star,
+                Responded = request.Responded,
+            };
+
+            var result = await _ratingService.GetRatingsByInstructorAsync(paramsDto, cancellationToken);
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Get a rating of an user to a course
         /// </summary>
         /// <response code="401">Unauthorized</response>

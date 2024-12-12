@@ -70,7 +70,7 @@ namespace DiscountService.API.Application.Services
             if (course.IsFree)
             {
                 throw new AppException(
-                    $"Cannot create coupon for the course '{course.Id}' because it free",
+                    "Cannot create coupon for the course because it free",
                     422);
             }
 
@@ -79,7 +79,7 @@ namespace DiscountService.API.Application.Services
             if (existsCoupon)
             {
                 throw new AppException(
-                    $"The course '{course.Id}' already have a coupon in use",
+                    "This course course already have a coupon in use",
                     422);
             }
 

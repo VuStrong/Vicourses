@@ -76,6 +76,8 @@ namespace RatingService.API.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    InstructorId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Feedback = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Star = table.Column<int>(type: "int", nullable: false),
@@ -108,6 +110,11 @@ namespace RatingService.API.Infrastructure.Migrations
                 table: "Ratings",
                 columns: new[] { "CourseId", "UserId" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ratings_InstructorId_CourseId",
+                table: "Ratings",
+                columns: new[] { "InstructorId", "CourseId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_UserId",

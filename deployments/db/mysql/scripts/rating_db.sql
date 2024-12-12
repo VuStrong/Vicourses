@@ -44,6 +44,7 @@ CREATE TABLE `Ratings` (
     `Id` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
     `CourseId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
     `UserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `InstructorId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
     `Feedback` longtext CHARACTER SET utf8mb4 NOT NULL,
     `Star` int NOT NULL,
     `CreatedAt` datetime(6) NOT NULL,
@@ -57,10 +58,12 @@ CREATE TABLE `Ratings` (
 
 CREATE UNIQUE INDEX `IX_Ratings_CourseId_UserId` ON `Ratings` (`CourseId`, `UserId`);
 
+CREATE INDEX `IX_Ratings_InstructorId_CourseId` ON `Ratings` (`InstructorId`, `CourseId`);
+
 CREATE INDEX `IX_Ratings_UserId` ON `Ratings` (`UserId`);
 
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
-VALUES ('20241105152014_InitialCreate', '8.0.2');
+VALUES ('20241212123132_InitialCreate', '8.0.2');
 
 INSERT INTO `Users` VALUES 
 ('00543305-2d30-4520-9f5b-f35a58931338','Admin 1','admin1@gmail.com',NULL),

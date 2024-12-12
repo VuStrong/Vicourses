@@ -7,6 +7,7 @@
         public Course Course { get; set; } = null!;
         public string UserId { get; set; }
         public User User { get; set; } = null!;
+        public string InstructorId { get; set; }
         public string Feedback { get; set; }
         public int Star { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -14,11 +15,12 @@
         public string? Response { get; set; }
         public DateTime? RespondedAt { get; set; }
 
-        public Rating(string courseId, string userId, string feedback, int star)
+        public Rating(string courseId, string userId, string instructorId, string feedback, int star)
         {
             Id = Guid.NewGuid().ToString();
             CourseId = courseId;
             UserId = userId;
+            InstructorId = instructorId;
             Feedback = feedback;
             Star = star;
             CreatedAt = DateTime.Now;
