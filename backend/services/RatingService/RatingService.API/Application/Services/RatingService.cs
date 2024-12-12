@@ -63,6 +63,42 @@ namespace RatingService.API.Application.Services
             return _mapper.Map<RatingDto>(rating);
         }
 
+        public async Task<PagedResult<RatingDto>> GetRatingsByInstructorAsync(
+            GetRatingsByInstructorParamsDto paramsDto, 
+            CancellationToken cancellationToken = default)
+        {
+            int skip = paramsDto.Skip < 0 ? 0 : paramsDto.Skip;
+            int limit = paramsDto.Limit <= 0 ? 15 : paramsDto.Limit;
+
+            var query = _dbContext.Ratings.Where(r => r.InstructorId == paramsDto.InstructorId);
+
+            if (!string.IsNullOrEmpty(paramsDto.CourseId))
+            {
+                query = query.Where(r => r.CourseId == paramsDto.CourseId);
+            }
+            if (paramsDto.Star != null)
+            {
+                query = query.Where(r => r.Star == paramsDto.Star.Value);
+            }
+            if (paramsDto.Responded != null)
+            {
+                query = query.Where(r => r.Responded == paramsDto.Responded.Value);
+            }
+
+            var total = await query.CountAsync(cancellationToken);
+
+            var ratings = await query
+                .Include(r => r.User)
+                .OrderByDescending(r => r.CreatedAt)
+                .Skip(skip)
+                .Take(limit)
+                .ToListAsync(cancellationToken);
+
+            return new PagedResult<RatingDto>(
+                _mapper.Map<List<RatingDto>>(ratings), skip, limit, total
+            );
+        }
+
         public async Task<RatingDto> CreateRatingAsync(CreateRatingDto data)
         {
             var course = await _dbContext.Courses.FirstOrDefaultAsync(c => c.Id == data.CourseId);
@@ -84,7 +120,7 @@ namespace RatingService.API.Application.Services
                 throw new ForbiddenException("Cannot rating owned course");
             }
 
-            var rating = new Rating(data.CourseId, data.UserId, data.Feedback, data.Star);
+            var rating = new Rating(data.CourseId, data.UserId, course.InstructorId, data.Feedback, data.Star);
             _dbContext.Ratings.Add(rating);
 
             var newAvgRating = (course.AvgRating * course.RatingCount + rating.Star) / (course.RatingCount + 1);
@@ -203,13 +239,7 @@ namespace RatingService.API.Application.Services
                 throw new NotFoundException("rating", ratingId);
             }
 
-            var course = await _dbContext.Courses.FirstOrDefaultAsync(c => c.Id == rating.CourseId);
-            if (course == null)
-            {
-                throw new NotFoundException("course", rating.CourseId);
-            }
-
-            if (data.UserId != course.InstructorId)
+            if (data.UserId != rating.InstructorId)
             {
                 throw new ForbiddenException("Only instructor of the course can respond its rating");
             }

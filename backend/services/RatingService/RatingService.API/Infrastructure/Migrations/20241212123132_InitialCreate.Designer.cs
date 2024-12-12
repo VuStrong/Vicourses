@@ -12,7 +12,7 @@ using RatingService.API.Infrastructure;
 namespace RatingService.API.Infrastructure.Migrations
 {
     [DbContext(typeof(RatingServiceDbContext))]
-    [Migration("20241105152014_InitialCreate")]
+    [Migration("20241212123132_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -77,6 +77,10 @@ namespace RatingService.API.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<bool>("Responded")
                         .HasColumnType("tinyint(1)");
 
@@ -99,6 +103,8 @@ namespace RatingService.API.Infrastructure.Migrations
 
                     b.HasIndex("CourseId", "UserId")
                         .IsUnique();
+
+                    b.HasIndex("InstructorId", "CourseId");
 
                     b.ToTable("Ratings");
                 });

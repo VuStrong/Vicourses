@@ -12,6 +12,8 @@ namespace RatingService.API.Infrastructure.EntityTypeConfigurations
 
             builder.HasIndex(x => new { x.CourseId, x.UserId }).IsUnique();
 
+            builder.HasIndex(x => new { x.InstructorId, x.CourseId });
+
             builder.HasOne(x => x.User)
                 .WithMany()
                 .HasForeignKey(x => x.UserId)
