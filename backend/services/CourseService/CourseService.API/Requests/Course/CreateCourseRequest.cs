@@ -13,7 +13,6 @@ namespace CourseService.API.Requests.Course
         [Required]
         public string SubCategoryId { get; set; } = null!;
 
-        [MinLength(100, ErrorMessage = "{0} must have minimum length of 100 words")]
         public string? Description { get; set; }
     }
 }

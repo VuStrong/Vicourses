@@ -55,6 +55,22 @@ namespace RatingService.API.Controllers
         }
 
         /// <summary>
+        /// Get a rating of an user to a course
+        /// </summary>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">Notfound</response>
+        [HttpGet("me")]
+        [Authorize]
+        [ProducesResponseType(typeof(RatingDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserRating([FromQuery] string courseId, CancellationToken cancellationToken = default)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+            var rating = await _ratingService.GetUserRatingAsync(userId, courseId, cancellationToken);
+
+            return Ok(rating);
+        }
+
+        /// <summary>
         /// Create a rating
         /// </summary>
         /// <response code="401">Unauthorized</response>

@@ -12,10 +12,9 @@ namespace CourseService.API.Requests.Course
         public string? CategoryId { get; set; }
         public string? SubCategoryId { get; set; }
 
-        [MinLength(100, ErrorMessage = "{0} must have minimum length of 100 words")]
         public string? Description { get; set; }
 
-        [Length(0, 10)]
+        [Length(0, 20)]
         public List<string>? Tags { get; set; }
 
         [Length(0, 10)]
