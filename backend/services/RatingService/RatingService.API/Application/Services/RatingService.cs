@@ -50,6 +50,19 @@ namespace RatingService.API.Application.Services
             );
         }
 
+        public async Task<RatingDto> GetUserRatingAsync(string userId, string courseId, CancellationToken cancellationToken = default)
+        {
+            var rating = await _dbContext.Ratings
+                .FirstOrDefaultAsync(r => r.CourseId == courseId && r.UserId == userId, cancellationToken);
+
+            if (rating == null)
+            {
+                throw new NotFoundException("Rating not found");
+            }
+
+            return _mapper.Map<RatingDto>(rating);
+        }
+
         public async Task<RatingDto> CreateRatingAsync(CreateRatingDto data)
         {
             var course = await _dbContext.Courses.FirstOrDefaultAsync(c => c.Id == data.CourseId);
