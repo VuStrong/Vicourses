@@ -6,7 +6,6 @@ import { useState } from "react";
 import {
     Control,
     Controller,
-    FieldValues,
     SubmitHandler,
     useFieldArray,
     useForm,
@@ -21,6 +20,18 @@ const MAX_LEARNED_CONTENTS = 10;
 const MAX_REQUIREMENTS = 10;
 const MAX_TARGET_STUDENTS = 10;
 
+type FormValues = {
+    learnedContents: {
+        content: string;
+    }[];
+    requirements: {
+        content: string;
+    }[];
+    targetStudents: {
+        content: string;
+    }[];
+};
+
 export default function GoalsForm({ course }: { course: CourseDetail }) {
     const [isUpdating, setIsUpdating] = useState<boolean>(false);
     const { data: session } = useSession();
@@ -30,7 +41,7 @@ export default function GoalsForm({ course }: { course: CourseDetail }) {
         handleSubmit,
         reset,
         formState: { isDirty },
-    } = useForm<FieldValues>({
+    } = useForm<FormValues>({
         defaultValues: {
             learnedContents: !!course.learnedContents[0]
                 ? course.learnedContents.map((c) => ({ content: c }))
@@ -44,12 +55,12 @@ export default function GoalsForm({ course }: { course: CourseDetail }) {
         },
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
         setIsUpdating(true);
 
-        const learnedContents = data.learnedContents.map((c: any) => c.content);
-        const requirements = data.requirements.map((c: any) => c.content);
-        const targetStudents = data.targetStudents.map((c: any) => c.content);
+        const learnedContents = data.learnedContents.map((c) => c.content);
+        const requirements = data.requirements.map((c) => c.content);
+        const targetStudents = data.targetStudents.map((c) => c.content);
         try {
             await updateCourse(
                 course.id,
@@ -125,7 +136,7 @@ export default function GoalsForm({ course }: { course: CourseDetail }) {
     );
 }
 
-function LearnedContents({ control }: { control: Control<FieldValues, any> }) {
+function LearnedContents({ control }: { control: Control<FormValues, any> }) {
     const {
         fields: learnedContentsFields,
         append: appendLearnedContent,
@@ -209,7 +220,7 @@ function LearnedContents({ control }: { control: Control<FieldValues, any> }) {
     );
 }
 
-function Requirements({ control }: { control: Control<FieldValues, any> }) {
+function Requirements({ control }: { control: Control<FormValues, any> }) {
     const {
         fields: requirementsFields,
         append: appendRequirement,
@@ -291,7 +302,7 @@ function Requirements({ control }: { control: Control<FieldValues, any> }) {
     );
 }
 
-function TargetStudents({ control }: { control: Control<FieldValues, any> }) {
+function TargetStudents({ control }: { control: Control<FormValues, any> }) {
     const {
         fields: targetStudentsFields,
         append: appendTargetStudent,

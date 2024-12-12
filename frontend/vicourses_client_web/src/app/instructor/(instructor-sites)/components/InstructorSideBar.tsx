@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { MdOutlineOndemandVideo, MdOutlineBarChart } from "react-icons/md";
+import { IoIosStar } from "react-icons/io";
 
 export default function InstructorSideBar() {
     return (
@@ -41,6 +42,14 @@ export default function InstructorSideBar() {
                             <MdOutlineBarChart className="h-5 w-5" />
                         </ListItemPrefix>
                         Performance
+                    </ListItem>
+                </Link>
+                <Link href="/instructor/ratings">
+                    <ListItem>
+                        <ListItemPrefix>
+                            <IoIosStar className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Ratings
                     </ListItem>
                 </Link>
             </List>

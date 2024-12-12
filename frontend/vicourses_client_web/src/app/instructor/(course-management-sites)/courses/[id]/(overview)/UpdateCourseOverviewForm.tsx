@@ -3,7 +3,7 @@
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import { Category } from "@/libs/types/category";
-import { CourseDetail } from "@/libs/types/course";
+import { CourseDetail, CourseLevel } from "@/libs/types/course";
 import { getCategories } from "@/services/api/category";
 import {
     Button,
@@ -15,7 +15,6 @@ import {
 import { useEffect, useState } from "react";
 import {
     Controller,
-    FieldValues,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
@@ -47,11 +46,19 @@ const loadTagOptions = async (inputValue: string) => {
     }));
 };
 
-const getWordCount = (text: string) => {
-    const plainText = text?.replace(/<[^>]+>/g, "").trim();
-    if (!plainText) return 0;
-    return plainText.split(/\s+/).length;
-};
+type FormValues = {
+    title: string;
+    description?: string;
+    level: CourseLevel;
+    categoryId: string;
+    subCategoryId: string;
+    tags: {
+        value: string;
+        label: string;
+    }[],
+    locale?: string;
+    thumbnail: File | null;
+}
 
 export default function UpdateCourseOverviewForm({
     course,
@@ -70,31 +77,27 @@ export default function UpdateCourseOverviewForm({
         setValue,
         reset,
         formState: { isDirty },
-    } = useForm<FieldValues>({
+    } = useForm<FormValues>({
         defaultValues: {
             title: course.title,
-            description: course.description,
-            level: course.level.toString(),
+            description: course.description || undefined,
+            level: course.level,
             categoryId: course.category.id,
             subCategoryId: course.subCategory.id,
             tags: course.tags.map((tag) => ({
                 value: tag,
                 label: tag,
             })),
-            locale: course.locale?.name || null,
+            locale: course.locale?.name,
             thumbnail: null,
         },
         mode: "onSubmit",
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FormValues> = async (data) => {
         if (isUpdating) return;
 
         setIsUpdating(true);
-        const descriptionWordCount = getWordCount(data.description);
-        if (descriptionWordCount === 0) {
-            data.description = null;
-        }
 
         try {
             // Upload image first
@@ -117,7 +120,7 @@ export default function UpdateCourseOverviewForm({
                 {
                     ...data,
                     thumbnailToken,
-                    tags: data.tags.map((option: any) => option.value),
+                    tags: data.tags.map((option) => option.value),
                 },
                 session?.accessToken || ""
             );
@@ -243,46 +246,21 @@ export default function UpdateCourseOverviewForm({
                 <Controller
                     name="description"
                     control={control}
-                    rules={{
-                        validate: (value: string) => {
-                            const wordCount = getWordCount(value);
-
-                            if (wordCount === 0 || wordCount >= 100)
-                                return true;
-
-                            const remain = 100 - wordCount;
-                            return `Description must have at least 100 words, write ${remain} more words`;
-                        },
-                    }}
-                    render={({ field, fieldState }) => (
-                        <>
-                            <ReactQuill
-                                className={`${
-                                    !!fieldState.error && "border border-error"
-                                }`}
-                                theme="snow"
-                                placeholder="Write your course description"
-                                value={field.value}
-                                onChange={field.onChange}
-                                modules={{
-                                    toolbar: [
-                                        "bold",
-                                        "italic",
-                                        { list: "ordered" },
-                                        { list: "bullet" },
-                                    ],
-                                }}
-                            />
-                            {fieldState.error && (
-                                <Typography
-                                    variant="small"
-                                    color="red"
-                                    className="mt-2 font-normal"
-                                >
-                                    {fieldState.error.message as string}
-                                </Typography>
-                            )}
-                        </>
+                    render={({ field }) => (
+                        <ReactQuill
+                            theme="snow"
+                            placeholder="Write your course description"
+                            value={field.value}
+                            onChange={field.onChange}
+                            modules={{
+                                toolbar: [
+                                    "bold",
+                                    "italic",
+                                    { list: "ordered" },
+                                    { list: "bullet" },
+                                ],
+                            }}
+                        />
                     )}
                 />
             </div>
