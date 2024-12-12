@@ -1,4 +1,3 @@
-
 import { BACKEND_URL } from '../../libs/contants';
 import callAPI from '../callApi';
 
@@ -18,13 +17,14 @@ export async function login(email: string, password: string): Promise<any> {
 
   return data;
 }
-export async function logout(refreshToken: string) {
+export async function logout(refreshToken: string, userId: string) {
   console.log(BACKEND_URL);
-  const res = await callAPI(`${BACKEND_URL}/api/v1/auth/logout`, {
+  const res = await callAPI(`${BACKEND_URL}/api/us/v1/auth/revoke-refresh-token`, {
     method: 'POST',
     contentType: 'application/json',
     body: JSON.stringify({
       refreshToken,
+      userId
     }),
   });
 

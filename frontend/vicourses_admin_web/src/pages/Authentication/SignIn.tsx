@@ -1,33 +1,34 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { login } from '../../service/api/auth';
-import { useDispatch } from 'react-redux';
+import { login, logout } from '../../service/api/auth';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadAccount } from '../../redux/slices/accountSlice';
+
+type FormData = {
+  email: string;
+  password: string;
+};
+
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const account = useSelector((state: any) => state.account.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .email('email không hợp lệ')
-      .required('Không được để trống'),
-    password: yup.string().required('Không được để trống'),
-  });
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-    resolver: yupResolver(schema),
-  });
+  } = useForm<FormData>();
+
+  useEffect(() => {
+    if (account) {
+      navigate('/');
+    }
+  }, [account]);
+
   const onSubmit = async (data: any) => {
     const { email, password } = data;
     try {
@@ -38,17 +39,20 @@ const Login = () => {
         localStorage.setItem('accessToken', result.accessToken);
         localStorage.setItem('refreshToken', result.refreshToken);
         localStorage.setItem('account', JSON.stringify(result.user));
-        console.log('running')
+
         dispatch(loadAccount(data.user));
-        console.log('running')
+
         navigate('/');
       } else {
-        navigate('/auth/login');
+        
+        if (result) await logout(result.refreshToken, result.user.id);
+        alert("Forbidden");
       }
-    } catch (error) {}
+    } catch (error: any) {
+      alert(error.message);
+    }
     setIsLoading(false);
   };
-
   return (
     <div>
       <section className="bg-gray-50 dark:bg-gray-900">
@@ -56,7 +60,7 @@ const Login = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Đăng Nhập
+                Login
               </h1>
               <form
                 className="space-y-4 md:space-y-6"
@@ -67,7 +71,16 @@ const Login = () => {
                     Email:
                   </label>
                   <input
-                    {...register('email')}
+                    {...register('email', {
+                      required: {
+                        value: true,
+                        message: "Enter email"
+                      },
+                      pattern:{
+                        value: emailRegex,
+                        message: "Email invalid"
+                      }                        
+                    })}
                     className="                        
                         peer
                         w-full
@@ -80,14 +93,14 @@ const Login = () => {
                         disabled:opacity-70
                         disabled:cursor-not-allowed"
                   />
-                  <p className='text-red-700'>{errors.email?.message}</p>
+                  <p className="text-red-700">{errors.email?.message}</p>
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Password:
                   </label>
                   <input
-                    {...register('password')}
+                    {...register('password', { required: true })}
                     type="password"
                     className="                        
                         peer
@@ -101,32 +114,15 @@ const Login = () => {
                         disabled:opacity-70
                         disabled:cursor-not-allowed"
                   />
-                  <p className='text-red-700'>{errors.password?.message}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-gray-500 hover:underline dark:text-primary-500"
-                  >
-                    Quên mật khẩu?
-                  </a>
+                  <p className="text-red-700">{errors.password?.message}</p>
                 </div>
                 <button
                   disabled={isLoading}
                   type="submit"
                   className=" w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  {isLoading ? 'Waiting...' : 'Đăng nhập'}
+                  {isLoading ? 'Waiting...' : 'Login'}
                 </button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Chưa có tài khoản?{' '}
-                  <a
-                    href="/auth/register"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Đăng ký
-                  </a>
-                </p>
               </form>
             </div>
           </div>

@@ -3,14 +3,18 @@ import DefaultLayout from '../layout/DefaultLayout';
 import PageTitle from '../components/PageTitle';
 import NotFound from '../pages/errors/NotFound';
 import Login from '../pages/Authentication/SignIn';
+import ProtectedRoute from './ProtectedRoute';
+import TableOne from '../components/Tables/TableOne';
 
 const authRoutes = [
   {
     path: '/auth/login',
-    element: <>
-    <PageTitle title="Trang đăng nhập" />
-    <Login />
-    </>,
+    element: (
+      <>
+        <PageTitle title="Login" />
+        <Login />
+      </>
+    ),
   },
 ];
 const userRoutes = [
@@ -18,8 +22,8 @@ const userRoutes = [
     path: '/',
     element: (
       <>
-        <PageTitle title="Trang chủ" />
-        <div> day la trang tru</div>
+        <PageTitle title="Dashboard" />
+        <TableOne/>
       </>
     ),
   },
@@ -32,10 +36,12 @@ const AppRoutes = () => {
           <Route key={index} path={route.path} element={route.element} />
         ))}
       </Route>
-      <Route path="/" element={<DefaultLayout />}>
-        {userRoutes.map((route, index) => (
-          <Route key={index} path={route.path} element={route.element} />
-        ))}
+      <Route path="/" element={<ProtectedRoute />}>
+        <Route path="/" element={<DefaultLayout />}>
+          {userRoutes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.element} />
+          ))}
+        </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
