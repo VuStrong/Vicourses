@@ -1,3 +1,5 @@
+export type VideoStatus = "BeingProcessed" | "Processed" | "ProcessingFailed";
+
 export type PagedResult<T> = {
     skip: number;
     limit: number;

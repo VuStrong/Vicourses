@@ -7,9 +7,11 @@ import {
     CreateCourseRequest,
     GetCoursesQuery,
     GetInstructorCoursesQuery,
+    InstructorCurriculum,
     PublicCurriculum,
     SearchCoursesQuery,
     UpdateCourseRequest,
+    UpdateCurriculumRequest,
 } from "@/libs/types/course";
 
 export async function getCourses(
@@ -177,6 +179,29 @@ export async function getPublicCurriculum(
     return data;
 }
 
+export async function getInstructorCurriculum(
+    courseId: string,
+    accessToken: string
+): Promise<InstructorCurriculum | null> {
+    const res = await fetch(
+        `${BACKEND_URL}/api/cs/v1/courses/${courseId}/instructor-curriculum`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+
+    if (!res.ok) {
+        return null;
+    }
+
+    const data = await res.json();
+    return data;
+}
+
 export async function createCourse(
     request: CreateCourseRequest,
     accessToken: string
@@ -264,4 +289,27 @@ export async function checkCourse(
 
     const data = await res.json();
     return data;
+}
+
+export async function updateCurriculumOrder(
+    courseId: string,
+    request: UpdateCurriculumRequest,
+    accessToken: string
+) {
+    const res = await fetch(
+        `${BACKEND_URL}/api/cs/v1/courses/${courseId}/curriculum`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(request),
+        }
+    );
+
+    if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message);
+    }
 }

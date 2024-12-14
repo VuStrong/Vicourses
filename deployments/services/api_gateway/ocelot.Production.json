@@ -25,7 +25,7 @@
                 }
             ],
             "UpstreamPathTemplate": "/api/cs/{version}/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "DELETE" ]
+            "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "DELETE", "PUT", "HEAD" ]
         },
         {
             "DownstreamPathTemplate": "/api/sts/{version}/{everything}",
