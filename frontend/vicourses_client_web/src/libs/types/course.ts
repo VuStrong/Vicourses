@@ -1,7 +1,9 @@
+import { VideoStatus } from "./common";
+import { LessonType } from "./lesson";
+import { SectionInInstructorCurriculum } from "./section";
+
 export type CourseLevel = "All" | "Basic" | "Intermediate" | "Expert";
 export type CourseStatus = "Unpublished" | "WaitingToVerify" | "Published";
-export type LessonType = "Video" | "Quiz";
-export type VideoStatus = "BeingProcessed" | "Processed" | "ProcessingFailed";
 
 export type Course = {
     id: string;
@@ -114,6 +116,10 @@ export type PublicCurriculum = {
     }[];
 }
 
+export type InstructorCurriculum = {
+    sections: SectionInInstructorCurriculum[];
+}
+
 export type CreateCourseRequest = {
     title: string;
     categoryId: string;
@@ -140,4 +146,11 @@ export type UpdateCourseRequest = {
 export type CourseCheckResponse = {
     isValid: boolean;
     missingRequirements: string[];
+}
+
+export type UpdateCurriculumRequest = {
+    items: {
+        id: string;
+        type: "Section" | "Lesson";
+    }[];
 }

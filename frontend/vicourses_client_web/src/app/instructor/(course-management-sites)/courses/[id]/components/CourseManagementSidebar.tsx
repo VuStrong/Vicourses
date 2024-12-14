@@ -72,6 +72,16 @@ export default function CourseManagementSidebar({
                 </Link>
                 <Link
                     onClick={onCLickItem}
+                    href={`/instructor/courses/${course.id}/curriculum`}
+                    className={`${
+                        pathname.endsWith("curriculum") &&
+                        "border-l-4 border-gray-800"
+                    }`}
+                >
+                    <ListItem>Curriculum</ListItem>
+                </Link>
+                <Link
+                    onClick={onCLickItem}
                     href={`/instructor/courses/${course.id}/settings`}
                     className={`${
                         pathname.endsWith("settings") &&
