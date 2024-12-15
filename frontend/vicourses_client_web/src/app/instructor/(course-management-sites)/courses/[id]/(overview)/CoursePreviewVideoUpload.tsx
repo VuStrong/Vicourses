@@ -3,12 +3,7 @@
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import { Typography } from "@material-tailwind/react";
-import { ChunkUpload } from "@/components/common";
-import { CourseDetail } from "@/libs/types/course";
-import { UploadResponse } from "@/libs/types/storage";
-import { updateCourse } from "@/services/api/course";
 import { useSession } from "next-auth/react";
-import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import {
     defaultLayoutIcons,
@@ -16,6 +11,12 @@ import {
 } from "@vidstack/react/player/layouts/default";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
+
+import { ChunkUpload } from "@/components/common";
+import { CourseDetail } from "@/libs/types/course";
+import { UploadResponse } from "@/libs/types/storage";
+import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
+import { updateCourse } from "@/services/api/course";
 
 export default function CoursePreviewVideoUpload({
     course,

@@ -13,6 +13,7 @@ const checkProtectedRoute = (pathname: string) => {
         pathname.startsWith("/profile") ||
         pathname.startsWith("/my-courses") ||
         pathname.startsWith("/instructor") ||
+        pathname.startsWith("/learn") ||
         pathname === "/choose-categories"
     );
 };

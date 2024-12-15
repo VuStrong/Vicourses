@@ -1,7 +1,6 @@
 "use client";
 
 import {
-    Button,
     Card,
     List,
     ListItem,
@@ -12,9 +11,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineProfile } from "react-icons/ai";
-import { MdPrivacyTip } from "react-icons/md";
 import { FaPaypal } from "react-icons/fa";
-import { MdOutlineSecurity } from "react-icons/md";
+import {
+    MdOutlineSecurity,
+    MdOutlinePayment,
+    MdPrivacyTip,
+} from "react-icons/md";
+
 import BecomeInstructorButton from "./BecomeInstructorButton";
 
 export default function ProfileSideBar() {
@@ -71,6 +74,17 @@ export default function ProfileSideBar() {
                             <MdOutlineSecurity className="h-5 w-5" />
                         </ListItemPrefix>
                         Security
+                    </ListItem>
+                </Link>
+
+                <hr className="my-3" />
+
+                <Link href="/profile/purchase-history">
+                    <ListItem>
+                        <ListItemPrefix>
+                            <MdOutlinePayment className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Purchase History
                     </ListItem>
                 </Link>
             </List>

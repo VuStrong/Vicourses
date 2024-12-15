@@ -16,7 +16,7 @@ export default function ProfilePagesLayout({
             <div className="lg:block hidden">
                 <ProfileSideBar />
             </div>
-            <div className="flex-1">
+            <div className="lg:flex-grow w-full">
                 <ProfileHeader />
                 <div className="px-5">
                     {children}

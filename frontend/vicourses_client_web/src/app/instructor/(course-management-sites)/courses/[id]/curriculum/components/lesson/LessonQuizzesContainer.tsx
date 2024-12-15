@@ -102,7 +102,7 @@ export default function LessonQuizzesContainer({
 
             {!openQuizForm && (
                 <>
-                    <div className="flex gap-3 items-center justify-between mb-5 w-full">
+                    <div className="mb-5">
                         <Button
                             variant="text"
                             size="sm"
@@ -111,13 +111,6 @@ export default function LessonQuizzesContainer({
                         >
                             New quiz
                         </Button>
-                        <a
-                            href="#"
-                            target="_blank"
-                            className="bg-black py-2 px-3 text-white text-xs font-bold uppercase"
-                        >
-                            Preview
-                        </a>
                     </div>
                     <div className="flex flex-col gap-3 relative">
                         {isDeleting && (

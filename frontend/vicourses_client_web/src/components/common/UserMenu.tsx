@@ -70,6 +70,9 @@ export default function UserMenu() {
                 <Link href={`/my-courses/wishlist`}>
                     <MenuItem>Wishlist</MenuItem>
                 </Link>
+                <Link href={`/profile/purchase-history`}>
+                    <MenuItem>Purchase History</MenuItem>
+                </Link>
                 {user.role === "instructor" && (
                     <Link href={`/instructor/courses`}>
                         <MenuItem>Instructor dashboard</MenuItem>
