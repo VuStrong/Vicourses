@@ -17,9 +17,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      NEXT_PUBLIC_BACKEND_URL: http://localhost:8000
-
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js
