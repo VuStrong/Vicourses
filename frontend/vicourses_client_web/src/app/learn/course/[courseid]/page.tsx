@@ -56,7 +56,7 @@ export default async function CourseLearnPage({
             <Sidebar courseId={course.id} lessonId={lessonId} />
             <BottomNav />
             <main className="w-full lg:w-[calc(100%-24rem)]">
-                <LearnView course={course} lessonId={lessonId} />
+                <LearnView lessonId={lessonId} />
             </main>
         </>
     )

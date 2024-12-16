@@ -27,6 +27,7 @@ export type Lesson = {
     id: string;
     courseId: string;
     sectionId: string;
+    userId: string;
     title: string;
     order: number;
     type: LessonType;

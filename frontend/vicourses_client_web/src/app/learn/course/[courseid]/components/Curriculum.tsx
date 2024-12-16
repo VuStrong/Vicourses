@@ -17,6 +17,18 @@ import { formatLength } from "@/libs/utils";
 import { getPublicCurriculum } from "@/services/api/course";
 import useLessonNavigation from "../hooks/useLessonNavigation";
 
+function getSectionIdByLesson(curriculum: PublicCurriculum, lessonId: string) {
+    for (const section of curriculum.sections) {
+        for (const lesson of section.lessons) {
+            if (lesson.id === lessonId) {
+                return section.id;
+            }
+        }
+    }
+
+    return null;
+}
+
 export default function Curriculum({
     courseId,
     lessonId,
@@ -30,8 +42,12 @@ export default function Curriculum({
     const router = useRouter();
     const { data: session, status } = useSession();
 
-    const setLessonIds = useLessonNavigation(state => state.setIdsFromPublicCurriculum);
-    const setCurrentLessonId = useLessonNavigation(state => state.setCurrentId);
+    const setLessonIds = useLessonNavigation(
+        (state) => state.setIdsFromPublicCurriculum
+    );
+    const setCurrentLessonId = useLessonNavigation(
+        (state) => state.setCurrentId
+    );
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -48,21 +64,36 @@ export default function Curriculum({
                     setIsLoading(false);
                     setLessonIds(result, lessonId);
 
-                    if (lessonId) return;
+                    if (lessonId) {
+                        const sectionToOpen = getSectionIdByLesson(
+                            result,
+                            lessonId
+                        );
+
+                        if (sectionToOpen) setOpenSections([sectionToOpen]);
+
+                        return;
+                    }
 
                     const lessonToRedirect = result.sections[0]?.lessons[0];
-                    
+
                     if (!lessonToRedirect) return;
 
-                    router.push(`/learn/course/${courseId}?lesson=${lessonToRedirect.id}`);
+                    router.push(
+                        `/learn/course/${courseId}?lesson=${lessonToRedirect.id}`
+                    );
                 }
             })();
         }
     }, [courseId, status]);
 
     useEffect(() => {
-        if (lessonId) {
+        if (lessonId && curriculum) {
             setCurrentLessonId(lessonId);
+
+            const sectionToOpen = getSectionIdByLesson(curriculum, lessonId);
+
+            if (sectionToOpen) setOpenSections([sectionToOpen]);
         }
     }, [lessonId]);
 

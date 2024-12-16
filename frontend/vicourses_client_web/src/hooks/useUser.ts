@@ -29,7 +29,7 @@ export default function useUser(fields?: string): {
         } else {
             setIsLoading(true);
         }
-    }, [status, session]);
+    }, [status]);
 
     return {
         user,

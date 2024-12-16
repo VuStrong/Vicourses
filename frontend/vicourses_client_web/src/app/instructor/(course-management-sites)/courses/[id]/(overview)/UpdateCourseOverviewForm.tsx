@@ -2,9 +2,9 @@
 
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import { Category } from "@/libs/types/category";
-import { CourseDetail, CourseLevel } from "@/libs/types/course";
-import { getCategories } from "@/services/api/category";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import {
     Button,
     Input,
@@ -12,24 +12,25 @@ import {
     Typography,
     Option,
 } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
 import {
     Controller,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
-import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-import CourseInfoTooltip from "./CourseInfoTooltip";
-import toast from "react-hot-toast";
-import { updateCourse } from "@/services/api/course";
-import { useSession } from "next-auth/react";
-import { Locale } from "@/libs/types/common";
-import { getLocales } from "@/services/api/locale";
-import CourseThumbnailUpload from "./CourseThumbnailUpload";
-import { uploadImage } from "@/services/api/storage";
-import CoursePreviewVideoUpload from "./CoursePreviewVideoUpload";
 import AsyncCreatableSelect from "react-select/async-creatable";
+import toast from "react-hot-toast";
+
+import { Locale } from "@/libs/types/common";
+import { Category } from "@/libs/types/category";
+import { CourseDetail, CourseLevel } from "@/libs/types/course";
+import { updateCourse } from "@/services/api/course";
+import { getLocales } from "@/services/api/locale";
+import { uploadImage } from "@/services/api/storage";
+import { getCategories } from "@/services/api/category";
+import CourseInfoTooltip from "./CourseInfoTooltip";
+import CourseThumbnailUpload from "./CourseThumbnailUpload";
+import CoursePreviewVideoUpload from "./CoursePreviewVideoUpload";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
