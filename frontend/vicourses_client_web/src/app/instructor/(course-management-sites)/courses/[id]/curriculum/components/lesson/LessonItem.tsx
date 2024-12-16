@@ -6,19 +6,25 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { IoMdMenu, IoMdTrash } from "react-icons/io";
 import { IoPencil } from "react-icons/io5";
-import { MdOutlineOndemandVideo, MdOutlineQuiz } from "react-icons/md";
+import {
+    MdOutlineOndemandVideo,
+    MdOutlineQuiz,
+    MdOutlinePreview,
+} from "react-icons/md";
 import toast from "react-hot-toast";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import { Lesson, Quiz } from "@/libs/types/lesson";
+import { Lesson, LessonVideo, Quiz } from "@/libs/types/lesson";
 import { updateLesson } from "@/services/api/course-lesson";
 import useDeleteCurriculumItemModal from "../../useDeleteCurriculumItemModal";
 import LessonQuizzesContainer from "./LessonQuizzesContainer";
+import LessonVideoUpload from "./LessonVideoUpload";
 
 type ChangeableLessonStates = {
     title: string;
     description: string;
+    video: LessonVideo | null;
     quizzes: Quiz[];
 };
 
@@ -32,6 +38,7 @@ export default function LessonItem({
     const [state, setState] = useState<ChangeableLessonStates>({
         title: lesson.title,
         description: lesson.description || "",
+        video: lesson.video,
         quizzes: lesson.quizzes,
     });
     const [expanded, setExpanded] = useState<boolean>(false);
@@ -105,6 +112,13 @@ export default function LessonItem({
                             >
                                 <IoMdTrash size={18} />
                             </button>
+                            <a
+                                title="Preview"
+                                target="_blank"
+                                href={`/learn/course/${lesson.courseId}?lesson=${lesson.id}`}
+                            >
+                                <MdOutlinePreview size={18} />
+                            </a>
                         </div>
                     </div>
                     <div className="flex gap-2 items-center">
@@ -139,7 +153,19 @@ export default function LessonItem({
                             }}
                         />
                     )}
-                    {lesson.type === "Video" && <div>Video</div>}
+                    {lesson.type === "Video" && (
+                        <LessonVideoUpload
+                            lessonId={lesson.id}
+                            video={state.video}
+                            session={session}
+                            onVideoChanged={(video) => {
+                                setState({
+                                    ...state,
+                                    video,
+                                });
+                            }}
+                        />
+                    )}
                 </div>
             )}
         </div>

@@ -6,6 +6,22 @@ import {
     UpdateLessonRequest,
 } from "@/libs/types/lesson";
 
+export async function getLesson(lessonId: string, accessToken: string): Promise<Lesson | null> {
+    const res = await fetch(`${BACKEND_URL}/api/cs/v1/lessons/${lessonId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
+    if (!res.ok) {
+        return null;
+    }
+
+    return await res.json();
+}
+
 export async function createLesson(
     request: CreateLessonRequest,
     accessToken: string

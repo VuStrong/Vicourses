@@ -14,6 +14,15 @@ export type Quiz = {
     }[];
 };
 
+export type LessonVideo = {
+    fileId: string;
+    url: string;
+    originalFileName: string;
+    streamFileUrl: string | null;
+    duration: number;
+    status: VideoStatus;
+}
+
 export type Lesson = {
     id: string;
     courseId: string;
@@ -24,14 +33,7 @@ export type Lesson = {
     createdAt: string;
     updatedAt: string;
     description: string | null;
-    video: {
-        fileId: string;
-        url: string;
-        originalFileName: string;
-        streamFileUrl: string | null;
-        duration: number;
-        status: VideoStatus;
-    } | null;
+    video: LessonVideo | null;
     quizzesCount: number;
     quizzes: Quiz[];
 };

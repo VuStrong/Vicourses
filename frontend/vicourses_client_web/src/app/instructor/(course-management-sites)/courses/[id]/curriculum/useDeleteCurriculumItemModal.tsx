@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { CurriculumItem, CurriculumItemType } from "./types";
+import { CurriculumItem } from "./types";
 
 interface DeleteCurriculumItemModalStore {
     isOpen: boolean;

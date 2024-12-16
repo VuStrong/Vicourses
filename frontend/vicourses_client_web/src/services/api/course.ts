@@ -313,3 +313,25 @@ export async function updateCurriculumOrder(
         throw new Error(data.message);
     }
 }
+
+export async function checkEnroll(
+    courseId: string,
+    accessToken: string
+): Promise<boolean> {
+    const res = await fetch(
+        `${BACKEND_URL}/api/cs/v1/courses/${courseId}/enroll`,
+        {
+            method: "HEAD",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+
+    if (!res.ok) {
+        return false;
+    }
+
+    return true;
+}
