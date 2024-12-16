@@ -23,7 +23,7 @@ namespace CourseService.Domain.Objects
         {
             title = title.Trim();
             DomainValidationException.ThrowIfNegative(number, nameof(number));
-            DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
+            DomainValidationException.ThrowIfStringNullOrEmpty(title, nameof(title));
 
             var quiz = new Quiz(number, title);
 
@@ -37,7 +37,7 @@ namespace CourseService.Domain.Objects
             if (title != null)
             {
                 title = title.Trim();
-                DomainValidationException.ThrowIfStringOutOfLength(title, 3, 100, nameof(title));
+                DomainValidationException.ThrowIfStringNullOrEmpty(title, nameof(title));
 
                 Title = title;
             }

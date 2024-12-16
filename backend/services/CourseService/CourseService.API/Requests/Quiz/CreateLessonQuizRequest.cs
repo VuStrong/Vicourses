@@ -6,7 +6,6 @@ namespace CourseService.API.Requests.Quiz
     public class CreateLessonQuizRequest
     {
         [Required]
-        [StringLength(100, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 3)]
         public string Title { get; set; } = null!;
 
         [Required]

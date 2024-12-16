@@ -1,4 +1,5 @@
-﻿using CourseService.Domain.Exceptions;
+﻿using CourseService.Domain.Events.Comment;
+using CourseService.Domain.Exceptions;
 
 namespace CourseService.Domain.Models
 {
@@ -11,24 +12,29 @@ namespace CourseService.Domain.Models
         public string Id { get; private set; }
         public string CourseId { get; private set; }
         public string LessonId { get; private set; }
+        public string InstructorId { get; private set; }
         public UserInComment User { get; private set; }
         public string Content { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public bool IsDeleted { get; private set; }
         public string? ReplyToId { get; private set; }
+        public int ReplyCount { get; private set; }
         public int UpvoteCount { get; private set; }
 
         public IReadOnlyList<string> UserUpvoteIds => _userUpvoteIds.AsReadOnly();
 
         public bool IsRoot { get => ReplyToId == null; }
 
-        private Comment(string id, string courseId, string lessonId, UserInComment user, string content)
+        private Comment(string id, string courseId, string lessonId, string instructorId, UserInComment user, string content)
         {
             Id = id;
             CourseId = courseId;
             LessonId = lessonId;
+            InstructorId = instructorId;
             User = user;
             Content = content;
+
+            AddUniqueDomainEvent(new CommentCreatedDomainEvent(this));
         }
 
         internal static Comment Create(Lesson lesson, User user, string content, Comment? replyTo)
@@ -57,7 +63,7 @@ namespace CourseService.Domain.Models
             var id = Guid.NewGuid().ToString();
             var userInComment = new UserInComment(user.Id, user.Name, user.ThumbnailUrl);
 
-            return new Comment(id, lesson.CourseId, lesson.Id, userInComment, content)
+            return new Comment(id, lesson.CourseId, lesson.Id, lesson.UserId, userInComment, content)
             {
                 CreatedAt = DateTime.Now,
                 ReplyToId = replyTo?.Id,
