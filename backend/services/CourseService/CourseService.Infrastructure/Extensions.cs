@@ -2,6 +2,7 @@
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Events;
 using CourseService.Domain.Events.Category;
+using CourseService.Domain.Events.Comment;
 using CourseService.Domain.Events.Course;
 using CourseService.Domain.Events.Enrollment;
 using CourseService.Domain.Events.Lesson;
@@ -65,6 +66,7 @@ namespace CourseService.Infrastructure
         private static void AddDomainEventHandlers(this IServiceCollection services)
         {
             services.AddDomainEventHandler<CategoryDeletedDomainEvent, CategoryDeletedDomainEventHandler>();
+            services.AddDomainEventHandler<CommentCreatedDomainEvent, CommentCreatedDomainEventHandler>();
             services.AddDomainEventHandler<CourseDeletedDomainEvent, CourseDeletedDomainEventHandler>();
             services.AddDomainEventHandler<LessonCreatedDomainEvent, LessonCreatedDomainEventHandler>();
             services.AddDomainEventHandler<LessonDeletedDomainEvent, LessonDeletedDomainEventHandler>();

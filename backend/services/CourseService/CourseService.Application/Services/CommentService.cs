@@ -87,14 +87,9 @@ namespace CourseService.Application.Services
         {
             var comment = await _commentRepository.FindOneAsync(commentId) ?? throw new CommentNotFoundException(commentId);
 
-            if (comment.User.Id != userId)
+            if (comment.User.Id != userId && comment.InstructorId != userId)
             {
-                var lesson = await _lessonRepository.FindOneAsync(comment.LessonId) ?? throw new LessonNotFoundException(comment.LessonId);
-
-                if (lesson.UserId != userId)
-                {
-                    throw new ForbiddenException("Forbidden action!");
-                }
+                throw new ForbiddenException("Forbidden action!");
             }
 
             comment.SetDeleted();
