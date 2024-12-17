@@ -2,8 +2,8 @@
 
 import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
 import { CourseDetail } from "@/libs/types/course";
-import CoursePurchaseSection from "./CoursePurchaseSection";
 import OpenPreviewVideoModalButton from "./OpenPreviewVideoModalButton";
+import CoursePurchaseSection from "./CoursePurchaseSection";
 
 export default function Sidebar({ course }: { course: CourseDetail }) {
     return (

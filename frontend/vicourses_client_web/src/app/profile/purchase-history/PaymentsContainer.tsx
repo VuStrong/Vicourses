@@ -59,7 +59,7 @@ export default function PaymentsContainer() {
                     setSkip(0);
                     setIsLoading(false);
 
-                    setPayments(paymentsFake);
+                    // setPayments(paymentsFake);
                 }
             })();
         }

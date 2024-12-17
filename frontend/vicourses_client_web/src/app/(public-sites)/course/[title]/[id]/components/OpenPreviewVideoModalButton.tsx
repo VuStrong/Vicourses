@@ -1,9 +1,8 @@
 "use client";
 
-import { CourseDetail } from "@/libs/types/course";
-import { Dialog, DialogBody, DialogHeader } from "@material-tailwind/react";
 import { useState } from "react";
 import { FaPlay } from "react-icons/fa6";
+import { Dialog, DialogBody, DialogHeader } from "@material-tailwind/react";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import {
     defaultLayoutIcons,
@@ -11,6 +10,8 @@ import {
 } from "@vidstack/react/player/layouts/default";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
+
+import { CourseDetail } from "@/libs/types/course";
 
 export default function OpenPreviewVideoModalButton({
     course,

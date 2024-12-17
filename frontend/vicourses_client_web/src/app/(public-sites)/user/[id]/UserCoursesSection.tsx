@@ -62,8 +62,11 @@ export default function UserCoursesSection({ userId }: { userId: string }) {
                 setSkip(0);
                 setEnd(data.end);
                 setCourses(data.items);
-                setIsLoading(false);
+            } else {
+                setCourses([]);
             }
+            
+            setIsLoading(false);
         })();
     }, [tab]);
 

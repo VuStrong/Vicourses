@@ -24,10 +24,10 @@ export default function AddToWishlistButton({
         if (wishlist.isLoading) return;
 
         if (added) {
-            removeFromWishlist(courseId, session?.accessToken || "");
+            removeFromWishlist(courseId, session?.accessToken || "").catch(() => undefined);
             wishlist.removeCourseId(courseId);
         } else {
-            addToWishlist(courseId, session?.accessToken || "");
+            addToWishlist(courseId, session?.accessToken || "").catch(() => undefined);
             wishlist.addCourseId(courseId);
         }
     };

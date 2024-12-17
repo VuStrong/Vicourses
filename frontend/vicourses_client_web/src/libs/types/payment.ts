@@ -17,6 +17,7 @@ export type Payment = {
     couponCode: string | null;
     status: PaymentStatus;
     method: PaymentMethod;
+    paypalOrderId: string | null;
 }
 
 export type GetUserPaymentsQuery = {
