@@ -335,3 +335,24 @@ export async function checkEnroll(
 
     return true;
 }
+
+export async function enrollToFreeCourse(
+    courseId: string,
+    accessToken: string
+) {
+    const res = await fetch(
+        `${BACKEND_URL}/api/cs/v1/courses/${courseId}/enroll`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+
+    if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message);
+    }
+}

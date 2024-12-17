@@ -4,15 +4,19 @@ import Link from "next/link";
 import { MdOutlineUpdate } from "react-icons/md";
 import { IoIosCheckmark } from "react-icons/io";
 import { CiGlobe } from "react-icons/ci";
+
 import { auth } from "@/libs/auth";
-import { getCourseById } from "@/services/api/course";
-import { Breadcrumbs, Rating } from "./components";
-import Sidebar from "./Sidebar";
 import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
-import CoursePurchaseSection from "./CoursePurchaseSection";
-import PublicCurriculumSection from "./PublicCurriculumSection";
-import InstructorCoursesSection from "./InstructorCoursesSection";
-import OpenPreviewVideoModalButton from "./OpenPreviewVideoModalButton";
+import { getCourseById } from "@/services/api/course";
+import {
+    Breadcrumbs,
+    Rating,
+    Sidebar,
+    CoursePurchaseSection,
+    InstructorCoursesSection,
+    OpenPreviewVideoModalButton,
+    PublicCurriculumSection,
+} from "./components";
 
 export async function generateMetadata({
     params,
@@ -58,13 +62,13 @@ export default async function CoursePage({
                     <Breadcrumbs className="bg-transparent p-0 py-3">
                         <Link
                             href={`/category/${course.category.slug}`}
-                            className="text-[#5022cf]"
+                            className="text-primary"
                         >
                             {course.category.name}
                         </Link>
                         <Link
                             href={`/category/${course.subCategory.slug}`}
-                            className="text-[#5022cf]"
+                            className="text-primary"
                         >
                             {course.subCategory.name}
                         </Link>
@@ -106,7 +110,7 @@ export default async function CoursePage({
                         Created by{" "}
                         <Link
                             href={`/user/${course.user.id}`}
-                            className="underline text-[#5022cf]"
+                            className="underline text-primary font-bold"
                         >
                             {course.user.name}
                         </Link>
@@ -129,7 +133,7 @@ export default async function CoursePage({
                             {course.tags.map((tag) => (
                                 <div
                                     key={tag}
-                                    className="rounded-full px-2 bg-[#daebfc]"
+                                    className="rounded-full px-2 bg-primary/20"
                                 >
                                     {tag}
                                 </div>

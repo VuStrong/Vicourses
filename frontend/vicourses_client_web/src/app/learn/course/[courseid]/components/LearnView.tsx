@@ -15,7 +15,7 @@ export default function LearnView({
 }: {
     lessonId?: string;
 }) {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [lesson, setLesson] = useState<Lesson | null>(null);
     const { data: session, status } = useSession();
 
