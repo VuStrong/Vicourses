@@ -5,11 +5,19 @@ export async function getCategories(query?: {
     q?: string;
     parentId?: string;
 }): Promise<Category[]> {
-    const params = new URLSearchParams({
-        ...query as any
-    });
+    let params = "";
 
-    const res = await fetch(`${BACKEND_URL}/api/cs/v1/categories?${params}`, {
+    if (query) {
+        Object.entries(query).forEach(([key, value]) => {
+            if (value !== undefined) {
+                params += `${key}=${value}&`;
+            }
+        });
+    }
+
+    if (params) params = `?${params}`;
+
+    const res = await fetch(`${BACKEND_URL}/api/cs/v1/categories${params}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

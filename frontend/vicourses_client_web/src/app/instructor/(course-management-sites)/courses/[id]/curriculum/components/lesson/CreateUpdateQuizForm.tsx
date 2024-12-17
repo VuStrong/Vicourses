@@ -1,6 +1,5 @@
 "use client";
 
-import { Quiz } from "@/libs/types/lesson";
 import {
     Button,
     Checkbox,
@@ -8,6 +7,7 @@ import {
     Tooltip,
     Typography,
 } from "@material-tailwind/react";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import {
     Controller,
@@ -16,6 +16,10 @@ import {
     useForm,
 } from "react-hook-form";
 import { FaPlus, FaTrash } from "react-icons/fa";
+import "react-quill/dist/quill.snow.css";
+import { Quiz } from "@/libs/types/lesson";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 export type QuizFormValues = {
     title: string;
@@ -105,36 +109,24 @@ export default function CreateUpdateQuizForm({
                 rules={{
                     required: {
                         value: true,
-                        message: "Title must be between 3 and 100 characters.",
-                    },
-                    minLength: {
-                        value: 3,
-                        message: "Title must be between 3 and 100 characters.",
-                    },
-                    maxLength: {
-                        value: 100,
-                        message: "Title must be between 3 and 100 characters.",
-                    },
+                        message: "This field must not empty",
+                    }
                 }}
-                render={({ field, fieldState }) => (
-                    <div className="mb-2">
-                        <Input
-                            label="Title"
-                            {...field}
-                            disabled={isCreating}
-                            crossOrigin={undefined}
-                            error={!!fieldState.error}
-                        />
-                        {fieldState.error && (
-                            <Typography
-                                variant="small"
-                                color="red"
-                                className="mt-2 flex items-center gap-1 font-normal"
-                            >
-                                {fieldState.error.message}
-                            </Typography>
-                        )}
-                    </div>
+                render={({ field }) => (
+                    <ReactQuill
+                        theme="snow"
+                        placeholder="Write quiz"
+                        value={field.value}
+                        onChange={field.onChange}
+                        modules={{
+                            toolbar: [
+                                "bold",
+                                "italic",
+                                "code"
+                            ],
+                        }}
+                        className="mb-4"
+                    />
                 )}
             />
             <div className="flex flex-col gap-3">

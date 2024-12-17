@@ -52,7 +52,7 @@ export default function LessonQuizItem({
                         <span className="text-black font-semibold">
                             {quiz.number}.
                         </span>
-                        <span className="text-gray-900">{quiz.title}</span>
+                        <span className="text-gray-900 line-clamp-1">Quiz number {quiz.number}</span>
                     </div>
                     <div className="flex gap-2">
                         <button

@@ -3,18 +3,16 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-import { CourseDetail } from "@/libs/types/course";
 import { Lesson } from "@/libs/types/lesson";
 import { getLesson } from "@/services/api/course-lesson";
 import { Loader } from "@/components/common";
 import LessonVideo from "./LessonVideo";
 import LessonQuizzes from "./LessonQuizzes";
+import CommentsContainer from "./comment/CommentsContainer";
 
 export default function LearnView({
-    course,
     lessonId,
 }: {
-    course: CourseDetail;
     lessonId?: string;
 }) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -55,9 +53,11 @@ export default function LearnView({
                 <LessonQuizzes lesson={lesson} />
             )}
 
-            <div className="p-10">
+            <div className="px-2 py-10 md:px-5 lg:px-10">
                 <h1 className="text-black font-bold text-2xl mb-3">{lesson.title}</h1>
                 <p className="text-black">{lesson.description}</p>
+                
+                <CommentsContainer lesson={lesson} />
             </div>
         </div>
     );
