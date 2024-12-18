@@ -1,16 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { Button } from "@material-tailwind/react";
+
 import { Loader } from "@/components/common";
-import CoursesGrid from "@/components/course/CoursesGrid";
+import LearningUnitCard from "@/components/course/LearningUnitCard";
 import { Course } from "@/libs/types/course";
 import { getUserEnrolledCourses } from "@/services/api/course";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
 const limit = 12;
 
 export default function MyCoursesPage() {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [courses, setCourses] = useState<Course[]>([]);
     const [skip, setSkip] = useState<number>(0);
     const [end, setEnd] = useState<boolean>(false);
@@ -63,6 +65,49 @@ export default function MyCoursesPage() {
             <Loader />
         </div>
     ) : (
-        <CoursesGrid courses={courses} end={end} next={getMoreCourses} />
+        <LearningList courses={courses} end={end} next={getMoreCourses} />
+    );
+}
+
+function LearningList({
+    courses,
+    next,
+    end,
+}: {
+    courses: Course[];
+    next?: () => Promise<void>;
+    end: boolean;
+}) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    return (
+        <>
+            {courses.length === 0 && (
+                <div className="flex justify-center text-gray-900 font-bold">
+                    You don't have any courses
+                </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {courses.map((course) => (
+                    <LearningUnitCard key={course.id} course={course} />
+                ))}
+            </div>
+            {next && !end && (
+                <div className="flex items-center justify-center mt-5">
+                    <Button
+                        loading={isLoading}
+                        className="bg-transparent text-gray-900 border border-gray-900"
+                        onClick={async () => {
+                            setIsLoading(true);
+                            await next();
+                            setIsLoading(false);
+                        }}
+                    >
+                        Load more
+                    </Button>
+                </div>
+            )}
+        </>
     );
 }
