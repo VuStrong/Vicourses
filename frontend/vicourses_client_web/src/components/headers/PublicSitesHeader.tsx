@@ -1,14 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CiHeart } from "react-icons/ci";
+import { BiMenuAltLeft, BiSearch } from "react-icons/bi";
+
 import { SearchBar } from "@/components/common";
 import UserMenu from "@/components/common/UserMenu";
 import HeaderCategoriesMenu from "./HeaderCategoriesMenu";
-import { BiMenuAltLeft, BiSearch } from "react-icons/bi";
-import { useState } from "react";
 import MobileSidebarDrawer from "./MobileSidebarDrawer";
 
 export default function PublicSitesHeader() {
@@ -22,10 +23,12 @@ export default function PublicSitesHeader() {
 
 function MobileHeader() {
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+    const [openSearch, setOpenSearch] = useState<boolean>(false);
+    const router = useRouter();
 
     return (
         <>
-            <MobileSidebarDrawer 
+            <MobileSidebarDrawer
                 open={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}
             />
@@ -33,35 +36,61 @@ function MobileHeader() {
             <header
                 className={`md:hidden flex items-center justify-between flex-wrap gap-5 py-2 bg-white shadow-lg`}
             >
-                <button
-                    type="button"
-                    className="p-2 rounded-lg focus:outline-none focus:ring-2"
-                    onClick={() => setIsDrawerOpen(true)}
-                >
-                    <BiMenuAltLeft size={28} className="text-gray-900" />
-                </button>
+                {openSearch && (
+                    <>
+                        <div className="flex-grow pl-2">
+                            <SearchBar
+                                onSubmit={(value) => {
+                                    router.push(`/search?q=${value}`);
+                                }}
+                            />
+                        </div>
+                        <button
+                            onClick={() => setOpenSearch(false)}
+                            className="text-black font-semibold pr-2"
+                        >
+                            Close
+                        </button>
+                    </>
+                )}
 
-                <div></div>
+                {!openSearch && (
+                    <>
+                        <button
+                            type="button"
+                            className="p-2 rounded-lg focus:outline-none focus:ring-2"
+                            onClick={() => setIsDrawerOpen(true)}
+                        >
+                            <BiMenuAltLeft
+                                size={28}
+                                className="text-gray-900"
+                            />
+                        </button>
 
-                <Link href="/" className="w-[60px] -translate-x-1/3">
-                    <Image
-                        src="/img/logo-transparent.png"
-                        width={80}
-                        height={40}
-                        alt="Vicourses"
-                    />
-                </Link>
+                        <div></div>
 
-                <div className="flex items-center gap-2">
-                    <button
-                        type="button"
-                        className="py-2 rounded-lg focus:outline-none focus:ring-2"
-                    >
-                        <BiSearch size={28} className="text-gray-900" />
-                    </button>
+                        <Link href="/" className="w-[60px] -translate-x-1/3">
+                            <Image
+                                src="/img/logo-transparent.png"
+                                width={80}
+                                height={40}
+                                alt="Vicourses"
+                            />
+                        </Link>
 
-                    <UserMenu />
-                </div>
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                className="py-2 rounded-lg focus:outline-none focus:ring-2"
+                                onClick={() => setOpenSearch(true)}
+                            >
+                                <BiSearch size={28} className="text-gray-900" />
+                            </button>
+
+                            <UserMenu />
+                        </div>
+                    </>
+                )}
             </header>
         </>
     );

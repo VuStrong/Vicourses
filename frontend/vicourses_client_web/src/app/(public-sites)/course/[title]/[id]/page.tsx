@@ -14,9 +14,11 @@ import {
     Sidebar,
     CoursePurchaseSection,
     InstructorCoursesSection,
+    RatingsSection,
     OpenPreviewVideoModalButton,
     PublicCurriculumSection,
 } from "./components";
+import CheckEnrollHandler from "./CheckEnrollHandler";
 
 export async function generateMetadata({
     params,
@@ -52,6 +54,8 @@ export default async function CoursePage({
 
     return (
         <div className="relative mb-10">
+            <CheckEnrollHandler courseId={course.id} />
+
             <div className="absolute right-0 top-10 hidden lg:block">
                 <Sidebar course={course} />
             </div>
@@ -170,7 +174,7 @@ export default async function CoursePage({
                 <PublicCurriculumSection courseId={course.id} />
 
                 {/* Requirements section */}
-                <section className="mt-10">
+                <section className="mt-7">
                     <h2 className="text-black font-semibold text-2xl mb-4">
                         Requirements
                     </h2>
@@ -184,7 +188,7 @@ export default async function CoursePage({
 
                 {/* Description section */}
                 {course.description && (
-                    <section className="mt-10">
+                    <section className="mt-7">
                         <h2 className="text-black font-semibold text-2xl mb-4">
                             Description
                         </h2>
@@ -199,7 +203,7 @@ export default async function CoursePage({
                 )}
 
                 {/* Target students section */}
-                <section className="mt-10">
+                <section className="mt-7">
                     <h2 className="text-black font-semibold text-2xl mb-4">
                         Target students
                     </h2>
@@ -210,6 +214,8 @@ export default async function CoursePage({
                         ))}
                     </ul>
                 </section>
+
+                <RatingsSection course={course} />
 
                 <InstructorCoursesSection course={course} />
             </div>

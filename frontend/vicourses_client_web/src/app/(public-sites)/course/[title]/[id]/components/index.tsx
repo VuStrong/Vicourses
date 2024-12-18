@@ -5,6 +5,7 @@ import CoursePurchaseSection from "./CoursePurchaseSection";
 import InstructorCoursesSection from "./InstructorCoursesSection";
 import OpenPreviewVideoModalButton from "./OpenPreviewVideoModalButton";
 import PublicCurriculumSection from "./PublicCurriculumSection";
+import RatingsSection from "./Rating/RatingsSection";
 import Sidebar from "./Sidebar";
 
 export {
@@ -14,5 +15,6 @@ export {
     InstructorCoursesSection,
     OpenPreviewVideoModalButton,
     PublicCurriculumSection,
+    RatingsSection,
     Sidebar,
 };

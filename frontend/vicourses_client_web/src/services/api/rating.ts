@@ -47,7 +47,29 @@ export async function getRatingsByInstructor(
         }
     });
 
-    const res = await fetch(`${BACKEND_URL}/api/rs/v1/ratings/instructor?${params}`, {
+    const res = await fetch(
+        `${BACKEND_URL}/api/rs/v1/ratings/instructor?${params}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+
+    if (!res.ok) {
+        return null;
+    }
+
+    return await res.json();
+}
+
+export async function getUserRating(
+    accessToken: string,
+    courseId: string
+): Promise<Rating | null> {
+    const res = await fetch(`${BACKEND_URL}/api/rs/v1/ratings/me?courseId=${courseId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -118,15 +140,22 @@ export async function deleteRating(ratingId: string, accessToken: string) {
     }
 }
 
-export async function respondRating(ratingId: string, response: string, accessToken: string) {
-    const res = await fetch(`${BACKEND_URL}/api/rs/v1/ratings/${ratingId}/response`, {
-        method: "POST",
-        body: JSON.stringify({ response }),
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-        },
-    });
+export async function respondRating(
+    ratingId: string,
+    response: string,
+    accessToken: string
+) {
+    const res = await fetch(
+        `${BACKEND_URL}/api/rs/v1/ratings/${ratingId}/response`,
+        {
+            method: "POST",
+            body: JSON.stringify({ response }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
 
     if (!res.ok) {
         const data = await res.json();

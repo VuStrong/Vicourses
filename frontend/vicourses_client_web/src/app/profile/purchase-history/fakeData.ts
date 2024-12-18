@@ -17,6 +17,7 @@ export const paymentsFake: Payment[] = [
         couponCode: null,
         status: "Pending",
         method: "Paypal",
+        paypalOrderId: null,
     },
     {
         id: "payment2",
@@ -34,6 +35,7 @@ export const paymentsFake: Payment[] = [
         couponCode: null,
         status: "Completed",
         method: "Paypal",
+        paypalOrderId: null,
     },
     {
         id: "payment3",
@@ -51,5 +53,6 @@ export const paymentsFake: Payment[] = [
         couponCode: null,
         status: "Refunded",
         method: "Paypal",
+        paypalOrderId: null,
     },
 ];

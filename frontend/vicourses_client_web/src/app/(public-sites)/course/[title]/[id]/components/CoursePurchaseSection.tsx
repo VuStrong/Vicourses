@@ -22,7 +22,8 @@ export default function CoursePurchaseSection({
 }: {
     course: CourseDetail;
 }) {
-    const { isLoading, enrolled } = useEnrollStatus(course.id);
+    const isLoading = useEnrollStatus(state => state.isLoading);
+    const enrolled = useEnrollStatus(state => state.enrolled);
     const router = useRouter();
 
     const time = useMemo(

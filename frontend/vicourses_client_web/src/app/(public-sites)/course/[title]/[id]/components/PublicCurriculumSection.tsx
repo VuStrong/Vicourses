@@ -44,7 +44,7 @@ export default function PublicCurriculumSection({
     }, [courseId, status]);
 
     return (
-        <section className="mt-10">
+        <section className="mt-7">
             <h2 className="text-black font-semibold text-2xl mb-5">
                 Curriculum
             </h2>
