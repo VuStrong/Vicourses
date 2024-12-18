@@ -223,7 +223,12 @@ namespace RatingService.API.Application.Services
                 throw new NotFoundException("course", rating.CourseId);
             }
 
-            var newAvgRating = (course.AvgRating * course.RatingCount - rating.Star) / (course.RatingCount - 1);
+            decimal newAvgRating = 0;
+            if (course.RatingCount > 1)
+            {
+                newAvgRating = (course.AvgRating * course.RatingCount - rating.Star) / (course.RatingCount - 1);
+            }
+
             course.AvgRating = newAvgRating;
             course.RatingCount--;
 
