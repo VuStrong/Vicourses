@@ -53,6 +53,7 @@ namespace RatingService.API.Application.Services
         public async Task<RatingDto> GetUserRatingAsync(string userId, string courseId, CancellationToken cancellationToken = default)
         {
             var rating = await _dbContext.Ratings
+                .Include(r => r.User)
                 .FirstOrDefaultAsync(r => r.CourseId == courseId && r.UserId == userId, cancellationToken);
 
             if (rating == null)
@@ -150,12 +151,14 @@ namespace RatingService.API.Application.Services
 
             PublishCourseRatingUpdatedIntegrationEvent(course);
 
+            await _dbContext.Entry(rating).Reference(r => r.User).LoadAsync();
+
             return _mapper.Map<RatingDto>(rating);
         }
 
         public async Task<RatingDto> UpdateRatingAsync(string ratingId, UpdateRatingDto data)
         {
-            var rating = await _dbContext.Ratings.FirstOrDefaultAsync(r => r.Id == ratingId);
+            var rating = await _dbContext.Ratings.Include(r => r.User).FirstOrDefaultAsync(r => r.Id == ratingId);
             if (rating == null)
             {
                 throw new NotFoundException("rating", ratingId);
@@ -233,7 +236,7 @@ namespace RatingService.API.Application.Services
 
         public async Task<RatingDto> RespondRatingAsync(string ratingId, RespondRatingDto data)
         {
-            var rating = await _dbContext.Ratings.FirstOrDefaultAsync(r => r.Id == ratingId);
+            var rating = await _dbContext.Ratings.Include(r => r.User).FirstOrDefaultAsync(r => r.Id == ratingId);
             if (rating == null)
             {
                 throw new NotFoundException("rating", ratingId);
