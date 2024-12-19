@@ -1,9 +1,29 @@
 Ports:
- - Api Gateway: dev:5139 prod:8000
+ - Client Web: dev:4000 docker:3000
+ - Api Gateway: dev:5139 docker:8000:8080
  - Mysql: 13306:3306
  - Mongodb: 37017:27017
  - Rabbitmq: 5672 ui:15672
  - Elasticsearch: 9200
  - Kibana: 5601
- - Auth Service: dev:prod:3000
- - Course Service: dev:prod:5182
+ - User Service: dev:docker:3000
+ - Course Service: dev:5182 docker:8080
+ - Storage Service: dev:3001 docker:3000
+ - Search Service: dev:5054 docker:8080
+ - Rating Service: dev:5078 docker:8080
+ - Wishlist Service: dev:5281 docker:8080
+ - Discount Service: dev:5161 docker:8080
+ - Statistics Service: dev:5111 docker:8080
+ - Email Service: dev:3002 docker:3000 
+ - Payment Service: dev:5053 docker:8080
+
+Services:
+ - us => User Service
+ - cs => Course Service
+ - sts => Storage Service
+ - ss => Search Service
+ - rs => Rating Service
+ - ws => Wishlist Service
+ - ds => Discount Service
+ - stats => Statistics Service
+ - ps => Payment Service
