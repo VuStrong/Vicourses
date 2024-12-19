@@ -5,9 +5,15 @@ import { Avatar, Rating as RatingComponent } from "@material-tailwind/react";
 import { DEFAULT_USER_AVATAR_URL } from "@/libs/constants";
 import { Rating } from "@/libs/types/rating";
 
-export default function RatingItem({ rating }: { rating: Rating }) {
+export default function RatingItem({
+    rating,
+    border,
+}: {
+    rating: Rating;
+    border?: boolean;
+}) {
     return (
-        <div className="py-2">
+        <div className={`py-2 ${border && "border-b border-gray-300"}`}>
             <div className="flex gap-3">
                 <Avatar
                     src={rating.user?.thumbnailUrl || DEFAULT_USER_AVATAR_URL}

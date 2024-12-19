@@ -148,7 +148,7 @@ function RatingList({
             ) : (
                 <div className="flex flex-col gap-3">
                     {ratings.map((rating) => (
-                        <RatingItem key={rating.id} rating={rating} />
+                        <RatingItem key={rating.id} rating={rating} border />
                     ))}
                 </div>
             )}

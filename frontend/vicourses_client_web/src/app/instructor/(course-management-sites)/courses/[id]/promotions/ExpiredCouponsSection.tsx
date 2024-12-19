@@ -56,8 +56,9 @@ export default function ExpiredCouponsSection({ course }: { course: Course }) {
                     setCoupons(result.items);
                     setEnd(result.end);
                     setSkip(0);
-                    setIsLoading(false);
                 }
+                
+                setIsLoading(false);
             })();
         }
     }, [status]);

@@ -53,14 +53,10 @@ export default async function CoursePage({
     const updatedAt = new Date(course.updatedAt);
 
     return (
-        <div className="relative mb-10">
+        <div className="mb-10 lg:flex justify-between">
             <CheckEnrollHandler courseId={course.id} />
 
-            <div className="absolute right-0 top-10 hidden lg:block">
-                <Sidebar course={course} />
-            </div>
-
-            <div className="py-5 w-full lg:max-w-[66.67%]">
+            <div className="py-5 w-full lg:max-w-[66.67%] flex-shrink-0">
                 {/* Info section */}
                 <div>
                     <Breadcrumbs className="bg-transparent p-0 py-3">
@@ -219,6 +215,8 @@ export default async function CoursePage({
 
                 <InstructorCoursesSection course={course} />
             </div>
+
+            <Sidebar course={course} />
         </div>
     );
 }

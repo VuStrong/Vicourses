@@ -30,8 +30,9 @@ export default function CouponActiveSection({ course }: { course: Course }) {
 
                 if (result) {
                     setCoupon(result.items[0] || null);
-                    setIsLoading(false);
                 }
+                
+                setIsLoading(false);
             })();
         }
     }, [status, course]);

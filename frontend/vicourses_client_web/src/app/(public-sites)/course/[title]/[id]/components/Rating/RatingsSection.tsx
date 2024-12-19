@@ -81,7 +81,7 @@ export default function RatingsSection({ course }: { course: CourseDetail }) {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                         {ratings.map((rating) => (
-                            <RatingItem key={rating.id} rating={rating} />
+                            <RatingItem key={rating.id} rating={rating} border />
                         ))}
                     </div>
                 )}
