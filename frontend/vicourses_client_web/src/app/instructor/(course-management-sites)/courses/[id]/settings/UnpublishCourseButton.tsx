@@ -8,11 +8,12 @@ import {
     DialogHeader,
 } from "@material-tailwind/react";
 import { useSession } from "next-auth/react";
-import { useMemo, useState } from "react";
-import { CourseDetail } from "@/libs/types/course";
-import toast from "react-hot-toast";
-import { updateCourse } from "@/services/api/course";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+
+import { updateCourse } from "@/services/api/course";
+import { CourseDetail } from "@/libs/types/course";
 
 export default function UnpublishCourseButton({
     course,
@@ -71,14 +72,6 @@ export default function UnpublishCourseButton({
         setIsLoading(false);
     };
 
-    const buttonText = useMemo<string>(() => {
-        if (!course.isApproved || course.status !== "Unpublished") {
-            return "Unpublish";
-        }
-
-        return "Republish";
-    }, [course]);
-
     return (
         <>
             <Button
@@ -94,7 +87,9 @@ export default function UnpublishCourseButton({
                     }
                 }}
             >
-                {buttonText}
+                {!course.isApproved || course.status !== "Unpublished"
+                    ? "Unpublish"
+                    : "Republish"}
             </Button>
             <Dialog open={modalOpen} handler={() => setModalOpen(false)}>
                 <DialogHeader>Unpublish this course?</DialogHeader>

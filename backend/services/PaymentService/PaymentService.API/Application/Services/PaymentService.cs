@@ -36,6 +36,40 @@ namespace PaymentService.API.Application.Services
             _logger = logger;
         }
 
+        public async Task<PagedResult<PaymentDto>> GetPaymentsAsync(GetPaymentsParamsDto paramsDto, CancellationToken cancellationToken = default)
+        {
+            int skip = paramsDto.Skip < 0 ? 0 : paramsDto.Skip;
+            int limit = paramsDto.Limit <= 0 ? 15 : paramsDto.Limit;
+
+            var query = _dbContext.Payments.AsQueryable();
+
+            if (!string.IsNullOrEmpty(paramsDto.UserId))
+            {
+                query = query.Where(p => p.UserId == paramsDto.UserId);
+            }
+            if (paramsDto.Status != null)
+            {
+                query = query.Where(p => p.Status == paramsDto.Status.Value);
+            }
+            if (paramsDto.From != null)
+            {
+                query = query.Where(p => p.CreatedAt >= paramsDto.From.Value);
+            }
+            if (paramsDto.To != null)
+            {
+                query = query.Where(p => p.CreatedAt <= paramsDto.To.Value);
+            }
+
+            var total = await query.CountAsync(cancellationToken);
+            var payments = await query
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip(skip)
+                .Take(limit)
+                .ToListAsync(cancellationToken);
+
+            return new PagedResult<PaymentDto>(payments.ToPaymentDtos(), skip, limit, total);
+        }
+
         public async Task<PagedResult<PaymentDto>> GetUserPaymentsAsync(string userId, int skip, int limit, PaymentStatus? status = null,
             CancellationToken cancellationToken = default)
         {
@@ -62,7 +96,7 @@ namespace PaymentService.API.Application.Services
 
         public async Task<PaymentDto> GetPaymentAsync(string paymentId, CancellationToken cancellationToken = default)
         {
-            var payment = await _dbContext.Payments.FirstOrDefaultAsync(p => p.Id == paymentId);
+            var payment = await _dbContext.Payments.FirstOrDefaultAsync(p => p.Id == paymentId, cancellationToken);
 
             if (payment == null)
             {

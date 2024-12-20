@@ -18,7 +18,7 @@ export async function getUserPayments(
         }
     });
 
-    const res = await fetch(`${BACKEND_URL}/api/ps/v1/payments?${params}`, {
+    const res = await fetch(`${BACKEND_URL}/api/ps/v1/payments/my-payments?${params}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
