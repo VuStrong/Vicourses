@@ -1,25 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
-import { logout } from '../../service/api/auth';
-import { useSelector } from 'react-redux';
+import useAccount from '../../hooks/useAccount';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
-  const account = useSelector((state: any) => state.account.data);
+  const account = useAccount(state => state.data);
   const onLogout = async () => {
-    if (!account) return;
-    const {id} = account;
+    if (!account){
+      return;
+    } 
     const refreshToken = localStorage.getItem('refreshToken');
-    if (refreshToken) await logout(refreshToken, id);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('account');
-    navigate('/auth/login');
+    if (refreshToken) {
+      localStorage.removeItem('token_data');
+      navigate('/auth/login');
+    }
   };
-
-
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">

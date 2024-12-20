@@ -5,10 +5,11 @@ import NotFound from '../pages/errors/NotFound';
 import Login from '../pages/Authentication/SignIn';
 import ProtectedRoute from './ProtectedRoute';
 import TableOne from '../components/Tables/TableOne';
+import PublicRoute from './PublicRoute';
 
 const authRoutes = [
   {
-    path: '/auth/login',
+    path: 'login',
     element: (
       <>
         <PageTitle title="Login" />
@@ -19,11 +20,12 @@ const authRoutes = [
 ];
 const userRoutes = [
   {
-    path: '/',
+    index: true,
+    path: 'dashboard',
     element: (
       <>
         <PageTitle title="Dashboard" />
-        <TableOne/>
+        <TableOne />
       </>
     ),
   },
@@ -31,15 +33,15 @@ const userRoutes = [
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/auth">
+      <Route path="/auth" element={<PublicRoute />}>
         {authRoutes.map((route, index) => (
           <Route key={index} path={route.path} element={route.element} />
         ))}
       </Route>
-      <Route path="/" element={<ProtectedRoute />}>
-        <Route path="/" element={<DefaultLayout />}>
+      <Route path='/' element={<ProtectedRoute />}>
+        <Route element={<DefaultLayout />}>
           {userRoutes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
+            <Route key={index} path={route.path} element={route.element} index={route.index} />
           ))}
         </Route>
       </Route>

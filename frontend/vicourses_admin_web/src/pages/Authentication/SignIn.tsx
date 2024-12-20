@@ -1,52 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { login, logout } from '../../service/api/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadAccount } from '../../redux/slices/accountSlice';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import instance from '../../api/axios';
+import { SignInResponse } from '../../types/user';
+import useAccount from '../../hooks/useAccount';
 
 type FormData = {
   email: string;
   password: string;
 };
 
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Login = () => {
+  const initialize = useAccount((state) => state.initialize);
   const [isLoading, setIsLoading] = useState(false);
-  const account = useSelector((state: any) => state.account.data);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
 
-  useEffect(() => {
-    if (account) {
-      navigate('/');
-    }
-  }, [account]);
-
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     const { email, password } = data;
     try {
       if (isLoading) return;
       setIsLoading(true);
-      const result = await login(email, password);
-      if (result && result.user.role === 'admin') {
-        localStorage.setItem('accessToken', result.accessToken);
-        localStorage.setItem('refreshToken', result.refreshToken);
-        localStorage.setItem('account', JSON.stringify(result.user));
 
-        dispatch(loadAccount(data.user));
+      const response = await instance.post<SignInResponse>(
+        '/api/us/v1/auth/login',
+        {
+          email,
+          password,
+        },
+      );
 
-        navigate('/');
+      const expiryTime = new Date();
+      expiryTime.setMinutes(expiryTime.getMinutes() + 1);
+
+      if (response.data.user.role === 'admin') {
+        localStorage.setItem(
+          'token_data',
+          JSON.stringify({
+            userId: response.data.user.id,
+            accessToken: response.data.accessToken,
+            refreshToken: response.data.refreshToken,
+            expiryTime,
+          }),
+        );
+
+        initialize();
       } else {
-        
-        if (result) await logout(result.refreshToken, result.user.id);
-        alert("Forbidden");
+        alert('Forbidden');
       }
     } catch (error: any) {
       alert(error.message);
@@ -74,12 +79,12 @@ const Login = () => {
                     {...register('email', {
                       required: {
                         value: true,
-                        message: "Enter email"
+                        message: 'Enter email',
                       },
-                      pattern:{
+                      pattern: {
                         value: emailRegex,
-                        message: "Email invalid"
-                      }                        
+                        message: 'Email invalid',
+                      },
                     })}
                     className="                        
                         peer
