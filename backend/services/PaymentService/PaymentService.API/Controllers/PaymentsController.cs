@@ -22,13 +22,36 @@ namespace PaymentService.API.Controllers
         }
 
         /// <summary>
+        /// Get payments (admin required)
+        /// </summary>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(typeof(PagedResult<PaymentDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromQuery]GetPaymentsRequest request, CancellationToken cancellationToken = default)
+        {
+            var results = await _paymentService.GetPaymentsAsync(new GetPaymentsParamsDto
+            {
+                Skip = request.Skip,
+                Limit = request.Limit,
+                UserId = request.UserId,
+                Status = request.Status,
+                From = request.From,
+                To = request.To,
+            }, cancellationToken);
+
+            return Ok(results);
+        }
+
+        /// <summary>
         /// Get user payments
         /// </summary>
         /// <response code="401">Unauthorized</response>
-        [HttpGet]
+        [HttpGet("my-payments")]
         [Authorize]
         [ProducesResponseType(typeof(PagedResult<PaymentDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] GetUserPaymentsRequest request, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetByMe([FromQuery] GetUserPaymentsRequest request, CancellationToken cancellationToken = default)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
 
@@ -46,7 +69,7 @@ namespace PaymentService.API.Controllers
         /// <response code="404">Payment not found</response>
         [HttpGet("{id}")]
         [Authorize]
-        [ProducesResponseType(typeof(PagedResult<PaymentDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaymentDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetById(string id, CancellationToken cancellationToken = default)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";

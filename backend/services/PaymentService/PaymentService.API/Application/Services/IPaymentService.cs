@@ -5,6 +5,7 @@ namespace PaymentService.API.Application.Services
 {
     public interface IPaymentService
     {
+        Task<PagedResult<PaymentDto>> GetPaymentsAsync(GetPaymentsParamsDto paramsDto, CancellationToken cancellationToken = default);
         Task<PagedResult<PaymentDto>> GetUserPaymentsAsync(string userId, int skip, int limit, PaymentStatus? status = null,
             CancellationToken cancellationToken = default);
         
