@@ -1,21 +1,14 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import useAccount from '../hooks/useAccount';
-import { useEffect } from 'react';
+import { Navigate, Outlet } from "react-router-dom";
+import useUser from "../hooks/useUser";
 
 const PublicRoute = () => {
-  const initialize = useAccount(state => state.initialize);
-  const status = useAccount(state => state.status);
+    const status = useUser((state) => state.status);
 
-  useEffect(() => {
-    console.log(111);
+    if (status === "authenticated") {
+        return <Navigate to="/" replace />;
+    }
     
-    initialize();
-  }, []);
-
-  if (status === "authenticated") {
-    return <Navigate to="/dashboard" replace />;
-  }
-  return <Outlet />;
+    return <Outlet />;
 };
 
 export default PublicRoute;

@@ -1,18 +1,13 @@
-import React, { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import useAccount from '../hooks/useAccount';
+import { Navigate, Outlet } from "react-router-dom";
+import useUser from "../hooks/useUser";
 
 const ProtectedRoute = () => {
-    const status = useAccount(state => state.status);
-    const initialize = useAccount(state => state.initialize);
+    const status = useUser((state) => state.status);
 
-    useEffect(() => {
-        initialize();
-    }, []);
-
-    if (status === "unauthenticated") { 
+    if (status === "unauthenticated") {
         return <Navigate to="/auth/login" replace />;
     }
+    
     return <Outlet />;
 };
 

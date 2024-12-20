@@ -8,14 +8,13 @@ export default function NotFound() {
                             Error 404
                         </h1>
                         <p className="pb-8 font-semibold text-white">
-                            Chúng tôi dường như không thể tìm <br />
-                            thấy trang bạn đang tìm kiếm.
+                            Page not found
                         </p>
                         <a
                             href="/"
                             className="inline-flex items-center justify-center px-8 py-4 font-bold text-black rounded-full bg-primary"
                         >
-                            Quay về trang chủ
+                            Go to dashboard page
                         </a>
                     </div>
 
@@ -30,7 +29,7 @@ export default function NotFound() {
                 </div>
 
                 <div className="flex items-center self-end justify-center gap-2 text-sm font-semibold">
-                    <p>strongtify@gmail.com</p>
+                    <p>vicoursesvn@gmail.com</p>
                 </div>
             </section>
         </>
