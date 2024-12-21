@@ -5,12 +5,14 @@ on:
     paths:
       - "deployments/**"
       - ".gitattributes"
+      - "README.md"
       - ".github/workflows/no-build.yml"
   pull_request:
     branches: [ "main" ]
     paths:
       - "deployments/**"
       - ".gitattributes"
+      - "README.md"
       - ".github/workflows/no-build.yml"
 jobs:
   build:

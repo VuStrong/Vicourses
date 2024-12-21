@@ -63,25 +63,27 @@ Here's an overview of folders and their purposes in the project:
 
 [MORE SCREENSHOTS](./images/screenshots.md)
 ## Running with Docker
-To run the backend and its necessary infrastructure, make sure that you have Docker and Docker Compose installed on your machine.
+To run the backend and its necessary infrastructure, make sure that you have Docker, Docker Compose and OpenSSL installed on your machine.
 
-**First**, navigate to the **deployments/services/user_service** directory, run commands below to generate RSA key pairs (make sure OpenSSL is installed on your machine). 
-   ```shell
-   openssl genrsa -out private.key -traditional 2048
-   openssl rsa -pubout -in private.key -out public.key
-   ```
-
-**Optional**, there are some configuration you may want to set if you want to use some features below: (all configuration is in **deployments/services/** directory)
+**Optional**, there are some environment variables you may want to set if you want to use some features below: (all ``.env`` files is in **deployments/services/** directory)
  - Google login: set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`  in **user_service/.env** file
  - Pay with paypal or link paypal account: provide your paypal clientid and secret to `.env` file in **user_service/** and **payment_service/**
  - Send email: provide SMTP configuration to `.env` file in **email_service/**
   - Upload files: provide S3 configuration to `.env` file in **storage_service/**
   - Video processing: provide S3 and Rclone configuration to `.env` file in **video_processing_service/**
 
-In the **deployments** directory, run:
+Navigate to the **deployments** directory and run the following commands:
+
+**Windows**
    ```shell
-   docker-compose -p vicourses up -d
+   .\start.bat
    ```
+
+**Linux**
+   ```shell
+   ./start.sh
+   ```
+
 The command will launch 20 containers, including microservices and infrastructure.
 
 After all the containers is running, you should able to browse the different urls by visiting:
@@ -93,4 +95,4 @@ After all the containers is running, you should able to browse the different url
    ```
 Username and password for both MySQL and MongoDB are root:123456.
 
-To run the frontend, navigate to the frontend project you want to run in the **frontend/** directory and run the `Dockerfile` or run it manually
+To run the frontend, navigate to the frontend project you want to run in the **frontend/** directory and follow the instructions to run it.
