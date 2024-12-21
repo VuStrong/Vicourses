@@ -4,11 +4,15 @@ import DefaultLayout from "../layout/DefaultLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
-import NotFound from "../pages/errors/NotFound";
-import LoginPage from "../pages/authentication/LoginPage";
+import NotFound from "../pages/Errors/NotFound";
+import LoginPage from "../pages/Authentication/LoginPage";
 import DashboardPage from "../pages/DashboardPage";
-import CategoriesPage from "../pages/categories/CategoriesPage";
-import CategoryEditPage from "../pages/categories/CategoryEditPage";
+import CategoriesPage from "../pages/Categories/CategoriesPage";
+import CategoryEditPage from "../pages/Categories/CategoryEditPage";
+import CategoryCreatePage from "../pages/Categories/CategoryCreatePage";
+import UsersPage from "../pages/Users/UsersPage";
+import CoursesPage from "../pages/Courses/CoursesPage";
+import CourseDetailPage from "../pages/Courses/CourseDetailPage";
 
 const AppRoutes = () => {
     return (
@@ -27,6 +31,18 @@ const AppRoutes = () => {
                     <Route path="categories">
                         <Route path="" element={<CategoriesPage />} />
                         <Route path=":slug" element={<CategoryEditPage />} />
+                        <Route path="create" element={<CategoryCreatePage />} />
+                    </Route>
+
+                    {/* Course pages */}
+                    <Route path="courses">
+                        <Route path="" element={<CoursesPage />} />
+                        <Route path=":id" element={<CourseDetailPage />} />
+                    </Route>
+
+                    {/* User pages */}
+                    <Route path="users">
+                        <Route path="" element={<UsersPage />} />
                     </Route>
                 </Route>
             </Route>
