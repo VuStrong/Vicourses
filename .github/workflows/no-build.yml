@@ -1,15 +1,17 @@
-name: docker-compose-deployments
+name: no-build
 on:
   push:
     branches: [ "main" ]
     paths:
       - "deployments/**"
-      - ".github/workflows/docker-compose-deployments.yml"
+      - ".gitattributes"
+      - ".github/workflows/no-build.yml"
   pull_request:
     branches: [ "main" ]
     paths:
       - "deployments/**"
-      - ".github/workflows/docker-compose-deployments.yml"
+      - ".gitattributes"
+      - ".github/workflows/no-build.yml"
 jobs:
   build:
     runs-on: ubuntu-latest
