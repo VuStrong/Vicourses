@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaPen } from "react-icons/fa";
 
 import { Category } from "../../types/category";
 import axiosInstance from "../../libs/axios";

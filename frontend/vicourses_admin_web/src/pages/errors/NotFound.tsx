@@ -1,4 +1,4 @@
-export default function NotFound() {
+export default function NotFound() { 
     return (
         <>
             <section className="grid h-screen pt-32 pb-16">
