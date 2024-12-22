@@ -2,6 +2,7 @@ import { VideoStatus } from "./common";
 
 export type CourseLevel = "All" | "Basic" | "Intermediate" | "Expert";
 export type CourseStatus = "Unpublished" | "WaitingToVerify" | "Published";
+export type LessonType = "Video" | "Quiz";
 
 export type Course = {
     id: string;
@@ -59,3 +60,55 @@ export type CourseDetail = Course & {
         totalVideoDuration: number;
     },
 }
+
+export type InstructorCurriculum = {
+    sections: SectionInInstructorCurriculum[];
+}
+
+export type SectionInInstructorCurriculum = {
+    id: string;
+    courseId: string;
+    title: string;
+    description: string | null;
+    order: number;
+    duration: number;
+    lessonCount: number;
+    lessons: Lesson[];
+};
+
+export type Quiz = {
+    number: number;
+    title: string;
+    isMultiChoice: boolean;
+    answers: {
+        number: number;
+        title: string;
+        isCorrect: boolean;
+        explanation: string | null;
+    }[];
+};
+
+export type LessonVideo = {
+    fileId: string;
+    url: string;
+    originalFileName: string;
+    streamFileUrl: string | null;
+    duration: number;
+    status: VideoStatus;
+}
+
+export type Lesson = {
+    id: string;
+    courseId: string;
+    sectionId: string;
+    userId: string;
+    title: string;
+    order: number;
+    type: LessonType;
+    createdAt: string;
+    updatedAt: string;
+    description: string | null;
+    video: LessonVideo | null;
+    quizzesCount: number;
+    quizzes: Quiz[];
+};

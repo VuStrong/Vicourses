@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
@@ -19,7 +19,6 @@ type FormValues = {
 }
 
 export default function LoginForm() {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -36,8 +35,9 @@ export default function LoginForm() {
         const res = await signIn("credentials", { ...data, redirect: false });
 
         if (!res?.code) {
-            router.push(searchParams?.get("callbackUrl") ?? "/");
-            router.refresh();
+            const pageToRedirect = searchParams?.get("callbackUrl") ?? "/";
+
+            window.location.href = decodeURIComponent(pageToRedirect);
         } else {
             toast.error("Invalid credentials!");
             setIsLoading(false);
