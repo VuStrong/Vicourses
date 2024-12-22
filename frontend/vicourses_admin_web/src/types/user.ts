@@ -13,10 +13,11 @@ export type UserRole = "admin" | "student" | "instructor";
 
 export type User = {
     id: string;
+    createdAt: string;
     name: string;
     email: string;
     emailConfirmed: boolean;
-    lockoutEnd: Date | null;
+    lockoutEnd: string | null;
     role: UserRole;
     thumbnailUrl: string | null;
     headline: string | null;

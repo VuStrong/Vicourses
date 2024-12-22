@@ -16,6 +16,7 @@ import Loader from "../../components/Loader";
 import Rating from "../../components/Rating";
 import CourseLearnedContents from "../../components/Course/CourseLearnedContents";
 import CoursePreviewVideo from "../../components/Course/CoursePreviewVideo";
+import CourseCurriculum from "../../components/Course/CourseCurriculum";
 
 export default function CourseDetailPage() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -213,6 +214,14 @@ export default function CourseDetailPage() {
                                 ))}
                             </ul>
                         </section>
+
+                        <div className="mt-10">
+                            <h2 className="font-semibold text-2xl mb-4">
+                                Curriculum
+                            </h2>
+
+                            <CourseCurriculum courseId={course.id} />
+                        </div>
                     </div>
                 </div>
             )}

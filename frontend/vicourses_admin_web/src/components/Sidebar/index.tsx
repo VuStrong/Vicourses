@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { MdCategory, MdOutlineOndemandVideo } from "react-icons/md";
+import { MdCategory, MdDashboard, MdOutlineOndemandVideo } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 
 interface SidebarProps {
@@ -64,13 +64,25 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <ul className="mb-6 flex flex-col gap-1.5">
                             <li>
                                 <NavLink
+                                    to="/"
+                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                        pathname === "/" &&
+                                        "bg-graydark dark:bg-meta-4"
+                                    }`}
+                                >
+                                    <MdDashboard />
+                                    Dashboard
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
                                     to="/categories"
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.startsWith("/categories") &&
                                         "bg-graydark dark:bg-meta-4"
                                     }`}
                                 >
-                                    <MdCategory />   
+                                    <MdCategory />
                                     Categories
                                 </NavLink>
                             </li>
@@ -82,7 +94,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                         "bg-graydark dark:bg-meta-4"
                                     }`}
                                 >
-                                    <MdOutlineOndemandVideo />   
+                                    <MdOutlineOndemandVideo />
                                     Courses
                                 </NavLink>
                             </li>
@@ -94,13 +106,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                         "bg-graydark dark:bg-meta-4"
                                     }`}
                                 >
-                                    <FaUser />   
+                                    <FaUser />
                                     Users
                                 </NavLink>
                             </li>
                         </ul>
                     </div>
-
                 </nav>
                 {/* <!-- Sidebar Menu --> */}
             </div>

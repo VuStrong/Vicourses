@@ -11,6 +11,7 @@ import CategoriesPage from "../pages/Categories/CategoriesPage";
 import CategoryEditPage from "../pages/Categories/CategoryEditPage";
 import CategoryCreatePage from "../pages/Categories/CategoryCreatePage";
 import UsersPage from "../pages/Users/UsersPage";
+import UserDetailPage from "../pages/Users/UserDetailPage";
 import CoursesPage from "../pages/Courses/CoursesPage";
 import CourseDetailPage from "../pages/Courses/CourseDetailPage";
 
@@ -43,6 +44,7 @@ const AppRoutes = () => {
                     {/* User pages */}
                     <Route path="users">
                         <Route path="" element={<UsersPage />} />
+                        <Route path=":id" element={<UserDetailPage />} />
                     </Route>
                 </Route>
             </Route>

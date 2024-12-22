@@ -182,7 +182,7 @@ function CoursesTable({ courses }: { courses: Course[] }) {
                                     </td>
                                     <td className="p-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="h-10 w-10 rounded-full">
+                                            <div className="h-10 w-10">
                                                 <img
                                                     src={
                                                         course.user
@@ -190,12 +190,15 @@ function CoursesTable({ courses }: { courses: Course[] }) {
                                                         DEFAULT_USER_AVATAR_URL
                                                     }
                                                     alt={course.user.name}
-                                                    className="w-full h-full object-cover"
+                                                    className="w-full h-full object-cover rounded-full"
                                                 />
                                             </div>
-                                            <p className="max-w-[100px] line-clamp-1">
+                                            <Link
+                                                to={`/users/${course.user.id}`}
+                                                className="max-w-[100px] hover:text-primary line-clamp-1"
+                                            >
                                                 {course.user.name}
-                                            </p>
+                                            </Link>
                                         </div>
                                     </td>
                                     <td className="p-4">{course.createdAt}</td>
