@@ -17,6 +17,7 @@ import Rating from "../../components/Rating";
 import CourseLearnedContents from "../../components/Course/CourseLearnedContents";
 import CoursePreviewVideo from "../../components/Course/CoursePreviewVideo";
 import CourseCurriculum from "../../components/Course/CourseCurriculum";
+import CourseActions from "../../components/Course/CourseActions";
 
 export default function CourseDetailPage() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -121,7 +122,28 @@ export default function CourseDetailPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-5">
+
+                    <div className="my-5">
+                        <CourseActions
+                            course={course}
+                            onCourseApprovalCanceled={() => {
+                                setCourse({
+                                    ...course,
+                                    isApproved: false,
+                                    status: "Unpublished",
+                                });
+                            }}
+                            onCourseApproved={() => {
+                                setCourse({
+                                    ...course,
+                                    isApproved: true,
+                                    status: "Published",
+                                });
+                            }}
+                        />
+                    </div>
+
+                    <div>
                         <div className="mb-5">
                             <div>
                                 <span className="font-semibold">Status:</span>{" "}

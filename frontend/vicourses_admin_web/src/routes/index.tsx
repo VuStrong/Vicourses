@@ -14,6 +14,8 @@ import UsersPage from "../pages/Users/UsersPage";
 import UserDetailPage from "../pages/Users/UserDetailPage";
 import CoursesPage from "../pages/Courses/CoursesPage";
 import CourseDetailPage from "../pages/Courses/CourseDetailPage";
+import PaymentsPage from "../pages/Payments/PaymentsPage";
+import PaymentDetailPage from "../pages/Payments/PaymentDetailPage";
 
 const AppRoutes = () => {
     return (
@@ -45,6 +47,12 @@ const AppRoutes = () => {
                     <Route path="users">
                         <Route path="" element={<UsersPage />} />
                         <Route path=":id" element={<UserDetailPage />} />
+                    </Route>
+
+                    {/* Payment pages */}
+                    <Route path="payments">
+                        <Route path="" element={<PaymentsPage />} />
+                        <Route path=":id" element={<PaymentDetailPage />} />
                     </Route>
                 </Route>
             </Route>
