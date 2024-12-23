@@ -202,7 +202,10 @@ namespace CourseService.Domain.Models
 
         public void CancelApproval(List<string>? reasons = null)
         {
-            if (!IsApproved) return;
+            if (!IsApproved && Status != CourseStatus.WaitingToVerify)
+            {
+                throw new BusinessRuleViolationException("A course can only be unapproved if it is approved or pending verification");
+            }
 
             IsApproved = false;
             Status = CourseStatus.Unpublished;
