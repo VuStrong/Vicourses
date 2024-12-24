@@ -1,4 +1,4 @@
-import UpdateProfileForm from "./components/UpdateProfileForm";
+import UpdateProfileForm from "./_components/UpdateProfileForm";
 
 export default function ProfilePage() {
     return (

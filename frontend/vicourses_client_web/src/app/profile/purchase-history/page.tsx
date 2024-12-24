@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import PaymentsContainer from "./PaymentsContainer";
+import PaymentsContainer from "./_components/PaymentsContainer";
 
 export const metadata: Metadata = {
     title: "Purchase History",

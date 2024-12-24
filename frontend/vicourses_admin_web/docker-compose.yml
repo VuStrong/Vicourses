@@ -1,0 +1,16 @@
+version: '2'
+services:
+  ###
+  vicourses-admin-web:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 4001:4001
+    networks:
+      - vicourses-network
+
+networks:
+  vicourses-network:
+    name: vicourses-network
+    external: true

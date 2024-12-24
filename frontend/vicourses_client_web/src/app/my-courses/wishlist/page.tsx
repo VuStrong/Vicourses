@@ -1,8 +1,8 @@
 "use client";
 
 import { Loader } from "@/components/common";
-import useWishlist from "./useWishlist";
 import WishlistedCourseCard from "@/components/course/WishlistedCourseCard";
+import useWishlist from "./_hooks/useWishlist";
 
 export default function WishlistPage() {
     const { isLoading, wishlist } = useWishlist();

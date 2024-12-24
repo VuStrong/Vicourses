@@ -2,9 +2,9 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/libs/auth";
 import { getCourseById } from "@/services/api/course";
-import CourseManagementHeader from "./components/CourseManagementHeader";
-import CourseManagementSidebar from "./components/CourseManagementSidebar";
-import OpenDrawerButton from "./components/OpenDrawerButton";
+import CourseManagementHeader from "./_components/CourseManagementHeader";
+import CourseManagementSidebar from "./_components/CourseManagementSidebar";
+import OpenDrawerButton from "./_components/OpenDrawerButton";
 
 export const metadata: Metadata = {
     title: "Manage course | Vicourses",

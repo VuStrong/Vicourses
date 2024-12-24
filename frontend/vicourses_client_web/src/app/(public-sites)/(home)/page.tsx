@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Loader } from "@/components/common";
 import CategoriesSection from "./CategoriesSection";
 import CourseSectionsContainer from "./CourseSectionsContainer";
-import UserCoursesSection from "./UserCoursesSection";
+import UserCoursesSection from "./_components/UserCoursesSection";
 
 export default function HomePage() {
     return (

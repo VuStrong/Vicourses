@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { auth } from "@/libs/auth";
 import { getCourseById } from "@/services/api/course";
-import DeleteCourseButton from "./DeleteCourseButton";
-import UnpublishCourseButton from "./UnpublishCourseButton";
+import DeleteCourseButton from "./_components/DeleteCourseButton";
+import UnpublishCourseButton from "./_components/UnpublishCourseButton";
 
 export default async function CourseSettingsPage({
     params,

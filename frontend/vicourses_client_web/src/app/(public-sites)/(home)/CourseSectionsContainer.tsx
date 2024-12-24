@@ -1,7 +1,7 @@
 import Link from "next/link";
-import CoursesCarousel from "./components/CoursesCarousel";
 import { getCategories } from "@/services/api/category";
 import { getCourses } from "@/services/api/course";
+import CoursesCarousel from "./_components/CoursesCarousel";
 
 export default async function CourseSectionsContainer() {
     const categoryIds = (await getCategories())

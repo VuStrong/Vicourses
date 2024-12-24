@@ -2,10 +2,10 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/libs/auth";
 import { checkEnroll, getCourseById } from "@/services/api/course";
-import Header from "./components/Header";
-import LearnView from "./components/LearnView";
-import Sidebar from "./components/Sidebar";
-import BottomNav from "./components/BottomNav";
+import Header from "./_components/Header";
+import LearnView from "./_components/LearnView";
+import Sidebar from "./_components/Sidebar";
+import BottomNav from "./_components/BottomNav";
 
 export async function generateMetadata({
     params,

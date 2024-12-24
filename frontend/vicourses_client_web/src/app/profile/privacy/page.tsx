@@ -1,4 +1,4 @@
-import UpdateProfilePrivacyForm from "./UpdateProfilePrivacyForm";
+import UpdateProfilePrivacyForm from "./_components/UpdateProfilePrivacyForm";
 
 export default function ProfilePrivacyPage() {
     return (

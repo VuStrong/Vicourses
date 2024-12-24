@@ -1,4 +1,4 @@
-import ProfileThumbnail from "./ProfileThumbnail";
+import ProfileThumbnail from "./_components/ProfileThumbnail";
 
 export default function ProfilePhotoPage() {
     return (

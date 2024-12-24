@@ -1,9 +1,9 @@
-import { auth } from "@/libs/auth";
-import { getCourseById } from "@/services/api/course";
 import { notFound } from "next/navigation";
-import CreateCouponButton from "./CreateCouponButton";
-import ExpiredCouponsSection from "./ExpiredCouponsSection";
-import CouponActiveSection from "./CouponActiveSection";
+import { getCourseById } from "@/services/api/course";
+import { auth } from "@/libs/auth";
+import CreateCouponButton from "./_components/CreateCouponButton";
+import ExpiredCouponsSection from "./_components/ExpiredCouponsSection";
+import CouponActiveSection from "./_components/CouponActiveSection";
 
 export default async function CoursePromotionsPage({
     params,

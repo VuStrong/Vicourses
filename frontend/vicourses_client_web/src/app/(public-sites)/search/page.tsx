@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import CoursesContainer from "./CoursesContainer";
+import CoursesContainer from "./_components/CoursesContainer";
 
 export const metadata: Metadata = {
     title: "Search | Vicourses",

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import InstructorSideBar from "./components/InstructorSideBar";
-import InstructorPagesHeader from "./components/InstructorPagesHeader";
+import InstructorSideBar from "./_components/InstructorSideBar";
+import InstructorPagesHeader from "./_components/InstructorPagesHeader";
 
 export const metadata: Metadata = {
     title: "Instructor | Vicourses",

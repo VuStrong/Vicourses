@@ -1,4 +1,4 @@
-import RatingsContainer from "./RatingsContainer";
+import RatingsContainer from "./_components/RatingsContainer";
 
 export default function InstructorRatingPage() {
     return (

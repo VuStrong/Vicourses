@@ -1,4 +1,4 @@
-import ProfileSecurity from "./ProfileSecurity";
+import ProfileSecurity from "./_components/ProfileSecurity";
 
 export default function ProfileSecurityPage() {
     return (

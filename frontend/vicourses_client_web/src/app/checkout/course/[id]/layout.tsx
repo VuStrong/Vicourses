@@ -1,4 +1,4 @@
-import Header from "./Header";
+import Header from "./_components/Header";
 
 export default function CheckoutPageLayout({
     children,

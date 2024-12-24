@@ -1,4 +1,4 @@
-import PerformanceCharts from "./PerformanceCharts";
+import PerformanceCharts from "./_components/PerformanceCharts";
 
 export default function InstructorPerformancePage() {
     return (

@@ -17,8 +17,8 @@ import {
     RatingsSection,
     OpenPreviewVideoModalButton,
     PublicCurriculumSection,
-} from "./components";
-import CheckEnrollHandler from "./CheckEnrollHandler";
+} from "./_components";
+import CheckEnrollHandler from "./_components/CheckEnrollHandler";
 
 export async function generateMetadata({
     params,

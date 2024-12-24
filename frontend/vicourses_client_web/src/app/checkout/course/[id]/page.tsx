@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/libs/auth";
 import { checkEnroll, getCourseById } from "@/services/api/course";
-import CheckoutOverview from "./CheckoutOverview";
-import CheckoutSummary from "./CheckoutSummary";
+import CheckoutOverview from "./_components/CheckoutOverview";
+import CheckoutSummary from "./_components/CheckoutSummary";
 
 export const metadata: Metadata = {
     title: "Checkout | Vicourses",
