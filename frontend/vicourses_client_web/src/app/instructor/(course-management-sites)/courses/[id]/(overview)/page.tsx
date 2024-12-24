@@ -1,7 +1,7 @@
-import { auth } from "@/libs/auth";
-import UpdateCourseOverviewForm from "./UpdateCourseOverviewForm";
-import { getCourseById } from "@/services/api/course";
 import { notFound } from "next/navigation";
+import { auth } from "@/libs/auth";
+import { getCourseById } from "@/services/api/course";
+import UpdateCourseOverviewForm from "./_components/UpdateCourseOverviewForm";
 
 export default async function CourseOverviewPage({
     params,

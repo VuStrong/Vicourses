@@ -5,7 +5,7 @@ import { FaYoutube, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { auth } from "@/libs/auth";
 import { getPublicProfile } from "@/services/api/user";
 import { DEFAULT_USER_AVATAR_URL } from "@/libs/constants";
-import UserCoursesSection from "./UserCoursesSection";
+import UserCoursesSection from "./_components/UserCoursesSection";
 
 export async function generateMetadata({
     params,

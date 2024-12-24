@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCategoryBySlug } from "@/services/api/category";
-import CoursesContainer from "./CoursesContainer";
+import CoursesContainer from "./_components/CoursesContainer";
 
 export async function generateMetadata({
     params,

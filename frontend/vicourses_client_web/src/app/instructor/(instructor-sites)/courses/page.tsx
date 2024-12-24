@@ -1,4 +1,4 @@
-import CoursesContainer from "./CoursesContainer";
+import CoursesContainer from "./_components/CoursesContainer";
 
 export default function InstructorCoursesPage() {
     return (

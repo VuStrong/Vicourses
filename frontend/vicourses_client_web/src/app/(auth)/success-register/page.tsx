@@ -1,9 +1,9 @@
-import { auth } from "@/libs/auth";
-import { getAuthenticatedUser } from "@/services/api/user";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import SendEmailConfirmationButton from "./SendEmailConfirmationButton";
-import SignOutButton from "./SignOutButton";
+import { auth } from "@/libs/auth";
+import { getAuthenticatedUser } from "@/services/api/user";
+import SendEmailConfirmationButton from "./_components/SendEmailConfirmationButton";
+import SignOutButton from "./_components/SignOutButton";
 
 export const metadata: Metadata = {
     title: "Success register",

@@ -1,4 +1,4 @@
-import PaypalPayoutMethod from "./PaypalPayoutMethod";
+import PaypalPayoutMethod from "./_components/PaypalPayoutMethod";
 
 export default function ProfilePayoutsPage() {
     return (

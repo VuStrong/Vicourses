@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import ProfileHeader from "./components/ProfileHeader";
-import ProfileSideBar from "./components/ProfileSideBar";
+import ProfileHeader from "./_components/ProfileHeader";
+import ProfileSideBar from "./_components/ProfileSideBar";
 
 export const metadata: Metadata = {
     title: "Profile",

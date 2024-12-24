@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Tabs from "./Tabs";
+import Tabs from "./_components/Tabs";
 import PublicSitesHeader from "@/components/headers/PublicSitesHeader";
 
 export const metadata: Metadata = {

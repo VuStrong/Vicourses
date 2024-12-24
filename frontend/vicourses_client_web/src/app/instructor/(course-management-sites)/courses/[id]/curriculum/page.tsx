@@ -1,4 +1,4 @@
-import SectionsContainer from "./SectionsContainer";
+import SectionsContainer from "./_components/SectionsContainer";
 
 export default async function CourseCurriculumPage({
     params,

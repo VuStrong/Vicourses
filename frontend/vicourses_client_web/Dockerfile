@@ -1,0 +1,43 @@
+FROM node:lts-alpine AS base
+
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+ARG BACKEND_URL
+ARG NEXT_PUBLIC_BACKEND_URL
+ARG NEXT_PUBLIC_PAYPAL_CLIENT_ID
+ARG NEXT_PUBLIC_PAYPAL_LOGIN_AUTHORIZATION_URL
+ARG NEXT_PUBLIC_PAYPAL_LOGIN_RETURN_URL
+
+ENV BACKEND_URL=$BACKEND_URL
+ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_PAYPAL_CLIENT_ID=$NEXT_PUBLIC_PAYPAL_CLIENT_ID
+ENV NEXT_PUBLIC_PAYPAL_LOGIN_AUTHORIZATION_URL=$NEXT_PUBLIC_PAYPAL_LOGIN_AUTHORIZATION_URL
+ENV NEXT_PUBLIC_PAYPAL_LOGIN_RETURN_URL=$NEXT_PUBLIC_PAYPAL_LOGIN_RETURN_URL
+
+RUN npm run build
+
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+
+EXPOSE 4000
+
+ENV PORT 4000
+ENV HOSTNAME 0.0.0.0
+
+CMD ["node", "server.js"]

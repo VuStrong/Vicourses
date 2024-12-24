@@ -403,6 +403,7 @@ services:
 
 networks:
   vicourses-network:
+    name: vicourses-network
     driver: bridge
 
 volumes:

@@ -1,7 +1,7 @@
 import { auth } from "@/libs/auth";
 import { getCourseById } from "@/services/api/course";
 import { notFound } from "next/navigation";
-import UpdatePriceForm from "./UpdatePriceForm";
+import UpdatePriceForm from "./_components/UpdatePriceForm";
 
 export default async function CoursePricingPage({
     params,

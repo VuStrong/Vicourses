@@ -1,0 +1,12 @@
+node_modules
+.next
+.vscode
+*.DS_Store
+.gitignore
+README.md
+LICENSE
+.docker
+.gitlab
+.git
+.env
+.env.example

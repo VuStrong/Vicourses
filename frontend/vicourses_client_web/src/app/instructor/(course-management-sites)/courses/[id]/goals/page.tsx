@@ -1,7 +1,7 @@
 import { auth } from "@/libs/auth";
 import { getCourseById } from "@/services/api/course";
 import { notFound } from "next/navigation";
-import GoalsForm from "./GoalsForm";
+import GoalsForm from "./_components/GoalsForm";
 
 export default async function CourseGoalsPage({
     params,
