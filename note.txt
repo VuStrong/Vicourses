@@ -1,5 +1,6 @@
 Ports:
- - Client Web: dev:4000 docker:3000
+ - Client Web: dev:4000 docker:4000
+ - Admin Web: dev:4001 docker:4001
  - Api Gateway: dev:5139 docker:8000:8080
  - Mysql: 13306:3306
  - Mongodb: 37017:27017
