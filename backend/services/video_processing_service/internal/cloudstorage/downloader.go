@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 
 	"github.com/VuStrong/Vicourses/backend/services/video_processing_service/internal/config"
-	"github.com/aws/aws-sdk-go-v2/aws"
 	awsConfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
@@ -25,19 +24,15 @@ type s3Downloader struct {
 }
 
 func NewDownloader(cfg *config.Config) (*s3Downloader, error) {
-	s3Cfg := cfg.S3
-
 	awsCfg, err := awsConfig.LoadDefaultConfig(context.TODO(),
-		awsConfig.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(s3Cfg.AccessKeyId, s3Cfg.AccessKeySecret, "")),
-		awsConfig.WithRegion("auto"),
+		awsConfig.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(cfg.AWS.AccessKey, cfg.AWS.SecretKey, "")),
+		awsConfig.WithRegion(cfg.AWS.Region),
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	s3Client := s3.NewFromConfig(awsCfg, func(o *s3.Options) {
-		o.BaseEndpoint = aws.String(s3Cfg.Endpoint)
-	})
+	s3Client := s3.NewFromConfig(awsCfg)
 
 	return &s3Downloader{s3Client: s3Client, appConfig: cfg}, nil
 }
@@ -45,7 +40,7 @@ func NewDownloader(cfg *config.Config) (*s3Downloader, error) {
 // Download the file and save to temp/ directory
 func (s3Downloader *s3Downloader) DownloadFile(fileId string) (string, error) {
 	var partMiBs int64 = 10
-	s3Cfg := s3Downloader.appConfig.S3
+	s3Cfg := s3Downloader.appConfig.AWS
 
 	ext := filepath.Ext(fileId)
 	path := fmt.Sprintf("temp/%s%s", uuid.New().String(), ext)
@@ -65,7 +60,7 @@ func (s3Downloader *s3Downloader) DownloadFile(fileId string) (string, error) {
 	})
 
 	input := &s3.GetObjectInput{
-		Bucket: &s3Cfg.Bucket,
+		Bucket: &s3Cfg.S3Bucket,
 		Key:    &fileId,
 	}
 

@@ -8,10 +8,10 @@ type RequestVideoProcessingEvent struct {
 }
 
 type VideoProcessingCompletedEvent struct {
-	StreamFileUrl string
-	Duration      int
-	Entity        string
-	EntityId      string
+	ManifestFileId string
+	Duration       int
+	Entity         string
+	EntityId       string
 }
 
 type VideoProcessingFailedEvent struct {

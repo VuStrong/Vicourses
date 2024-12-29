@@ -3,6 +3,7 @@ import multer from "multer";
 import swaggerUi, { SwaggerUiOptions } from "swagger-ui-express";
 import swaggerDocV1 from "../../swagger/swagger-v1.json";
 import * as uploadController from "../controllers/upload.controller";
+import * as mediaController from "../controllers/media.controller";
 import { AppError } from "../utils/app-error";
 import authenticate from "../middlewares/authentice.middleware";
 import { handleHealthCheck } from "../controllers/healthchecks.controller";
@@ -81,6 +82,11 @@ router.post(
     authenticate,
     validateRequest("/api/sts/v1/abort-multipart-upload"),
     uploadController.handleAbortS3MultipartUpload,
+);
+
+router.get(
+    "/api/sts/v1/hls-manifest-url",
+    mediaController.handleGetHlsManifestUrl,
 );
 
 export default router;

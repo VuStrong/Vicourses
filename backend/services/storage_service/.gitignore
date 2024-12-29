@@ -5,3 +5,5 @@
 .env
 
 public.key
+
+cf-keypair/*.pem

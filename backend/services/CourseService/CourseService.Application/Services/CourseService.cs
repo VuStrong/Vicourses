@@ -2,17 +2,21 @@
 using CourseService.Application.Dtos.Course;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
+using CourseService.Application.Utils;
 using CourseService.Domain.Contracts;
 using CourseService.Domain.Enums;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
 using CourseService.Shared.Paging;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace CourseService.Application.Services
 {
     public class CourseService : ICourseService
     {
+        private readonly string _mediaSecret;
+
         private readonly ICourseRepository _courseRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -26,7 +30,8 @@ namespace CourseService.Application.Services
             ICategoryRepository categoryRepository,
             IMapper mapper,
             ILogger<CourseService> logger,
-            IFileUploadTokenValidator fileUploadTokenValidator)
+            IFileUploadTokenValidator fileUploadTokenValidator,
+            ApplicationConfiguration applicationConfiguration)
         {
             _courseRepository = courseRepository;
             _userRepository = userRepository;
@@ -34,6 +39,7 @@ namespace CourseService.Application.Services
             _mapper = mapper;
             _logger = logger;
             _fileUploadTokenValidator = fileUploadTokenValidator;
+            _mediaSecret = applicationConfiguration.MediaFileSecret;
         }
 
         public async Task<PagedResult<CourseDto>> GetCoursesAsync(GetCoursesParamsDto? paramsDto = null)
@@ -76,7 +82,22 @@ namespace CourseService.Application.Services
                 throw new CourseNotFoundException(courseId);
             }
 
-            return _mapper.Map<CourseDetailDto>(course);
+            var courseDto = _mapper.Map<CourseDetailDto>(course);
+
+            if (course.PreviewVideo != null && course.PreviewVideo.Status == VideoStatus.Processed)
+            {
+                var token = JwtHelper.GenerateJWT(_mediaSecret, (descriptor) => {
+                    descriptor.Expires = DateTime.Now.AddHours(2);
+                    descriptor.Subject = new ClaimsIdentity(new List<Claim> {
+                        new("manifestFileId", course.PreviewVideo.ManifestFileId ?? ""),
+                        new("fileId", course.PreviewVideo.FileId)
+                    });
+                });
+
+                courseDto.PreviewVideo!.Token = token;
+            }
+
+            return courseDto;
         }
 
         public async Task<CourseDto> CreateCourseAsync(CreateCourseDto data)

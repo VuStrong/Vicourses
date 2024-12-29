@@ -7,7 +7,7 @@ namespace CourseService.Domain.Objects
         public string FileId { get; private set; }
         public string Url { get; private set; }
         public string OriginalFileName { get; private set; }
-        public string? StreamFileUrl { get; private set; }
+        public string? ManifestFileId { get; private set; }
         public int Duration { get; private set; }
         public VideoStatus Status { get; private set; }
 
@@ -19,12 +19,12 @@ namespace CourseService.Domain.Objects
             Status = VideoStatus.BeingProcessed;
         }
 
-        public static VideoFile Create(string fileId, string url, string originalFileName, string? streamFileUrl = null, int duration = 0,
+        public static VideoFile Create(string fileId, string url, string originalFileName, string? manifestFileId = null, int duration = 0,
             VideoStatus status = VideoStatus.BeingProcessed)
         {
             return new VideoFile(fileId, url, originalFileName)
             {
-                StreamFileUrl = streamFileUrl,
+                ManifestFileId = manifestFileId,
                 Duration = duration,
                 Status = status,
             };

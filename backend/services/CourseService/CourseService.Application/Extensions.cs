@@ -32,6 +32,8 @@ namespace CourseService.Application
             var appConfiguration = new ApplicationConfiguration();
             config?.Invoke(appConfiguration);
 
+            services.AddSingleton(appConfiguration);
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // App services
@@ -50,10 +52,7 @@ namespace CourseService.Application
 
             services.AddEventBus(appConfiguration);
 
-            services.AddScoped<IFileUploadTokenValidator, FileUploadTokenValidator>(s =>
-            {
-                return new FileUploadTokenValidator(appConfiguration.FileUploadSecret);
-            });
+            services.AddScoped<IFileUploadTokenValidator, FileUploadTokenValidator>();
         }
 
         private static void AddDomainEventHandler<T, TH>(this IServiceCollection services) 
@@ -188,5 +187,6 @@ namespace CourseService.Application
         public int RabbitMQRetryDelay { get; set; } = 0;
 
         public string FileUploadSecret { get; set; } = string.Empty;
+        public string MediaFileSecret { get; set; } = string.Empty;
     }
 }

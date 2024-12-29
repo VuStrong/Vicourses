@@ -11,9 +11,9 @@ namespace CourseService.Application.Services
     {
         private readonly byte[] _secretKey;
 
-        public FileUploadTokenValidator(string secretKey)
+        public FileUploadTokenValidator(ApplicationConfiguration applicationConfiguration)
         {
-            _secretKey = Encoding.UTF8.GetBytes(secretKey);
+            _secretKey = Encoding.UTF8.GetBytes(applicationConfiguration.FileUploadSecret);
         }
 
         public UploadFileDto ValidateFileUploadToken(string token, string userId)

@@ -279,7 +279,7 @@ namespace CourseService.Domain.Models
             AddUniqueDomainEvent(new CoursePreviewVideoUpdatedDomainEvent(this, oldVideo));
         }
 
-        public void SetPreviewVideoStatusCompleted(string streamFileUrl, int duration)
+        public void SetPreviewVideoStatusCompleted(string manifestFileId, int duration)
         {
             if (PreviewVideo == null)
             {
@@ -292,7 +292,7 @@ namespace CourseService.Domain.Models
                 PreviewVideo.FileId,
                 PreviewVideo.Url,
                 PreviewVideo.OriginalFileName,
-                streamFileUrl,
+                manifestFileId,
                 duration,
                 VideoStatus.Processed
             );
