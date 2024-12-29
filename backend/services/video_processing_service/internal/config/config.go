@@ -10,19 +10,17 @@ import (
 
 type Config struct {
 	RabbitMQUri        string
-	S3                 S3
+	AWS                AWS
 	Logger             Logger
 	VideoEncodeHeights []int
 	RcloneRemote       string
 }
 
-type S3 struct {
-	Endpoint        string
-	AccountId       string
-	AccessKeyId     string
-	AccessKeySecret string
-	Bucket          string
-	Domain          string
+type AWS struct {
+	AccessKey string
+	SecretKey string
+	Region    string
+	S3Bucket  string
 }
 
 type Logger struct {
@@ -35,13 +33,11 @@ func LoadConfig() (*Config, error) {
 	godotenv.Load()
 
 	config.RabbitMQUri = os.Getenv("RABBITMQ_URI")
-	config.S3 = S3{
-		Endpoint:        os.Getenv("S3_ENDPOINT"),
-		AccountId:       os.Getenv("S3_ACCOUNT_ID"),
-		AccessKeyId:     os.Getenv("S3_ACCESS_KEY_ID"),
-		AccessKeySecret: os.Getenv("S3_ACCESS_KEY_SECRET"),
-		Bucket:          os.Getenv("S3_BUCKET_NAME"),
-		Domain:          os.Getenv("S3_DOMAIN"),
+	config.AWS = AWS{
+		AccessKey: os.Getenv("AWS_ACCESS_KEY"),
+		SecretKey: os.Getenv("AWS_SECRET_KEY"),
+		Region:    os.Getenv("AWS_REGION"),
+		S3Bucket:  os.Getenv("AWS_S3_BUCKET_NAME"),
 	}
 
 	config.Logger = Logger{

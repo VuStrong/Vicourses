@@ -19,11 +19,10 @@ import Config from "../config";
 import { AppError } from "../utils/app-error";
 
 const S3 = new S3Client({
-    region: "auto",
-    endpoint: `${Config.S3.Endpoint}`,
+    region: `${Config.AWS.Region}`,
     credentials: {
-        accessKeyId: `${Config.S3.AccessKeyId}`,
-        secretAccessKey: `${Config.S3.AccessKeySecret}`,
+        accessKeyId: `${Config.AWS.AccessKey}`,
+        secretAccessKey: `${Config.AWS.SecretKey}`,
     },
 });
 
@@ -79,7 +78,7 @@ export async function uploadSingleFile(
     await S3.send(cmd);
 
     return {
-        url: `${Config.S3.Domain}/${fileId}`,
+        url: `${Config.Cloudfront.Domain}/${fileId}`,
         fileId,
         originalFileName: file.originalname,
     };
@@ -163,7 +162,6 @@ export async function initializeMultipartUpload(params: InitializeMultipartUploa
     const cmd = new CreateMultipartUploadCommand({
         Bucket: Config.S3.BucketName,
         Key: fileId,
-        ACL: "public-read",
         Metadata: {
             'original-name': fileName || ""
         }
@@ -221,7 +219,7 @@ export async function completeMultipartUpload(
 
         return {
             fileId,
-            url: `${Config.S3.Domain}/${fileId}`,
+            url: `${Config.Cloudfront.Domain}/${fileId}`,
             originalFileName: metadata?.["original-name"]
         };
     } catch (error) {

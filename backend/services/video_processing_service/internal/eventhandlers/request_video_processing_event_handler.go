@@ -86,7 +86,8 @@ func (handler *RequestVideoProcessingEventHandler) doProcess(
 	}
 
 	uploader := cloudstorage.NewUploader(handler.Cfg)
-	remotePath, err := uploader.UploadDirectory(encodeResult.Path, "hls/"+encodeResult.Id)
+	uploadDir := "hls/" + encodeResult.Id
+	err = uploader.UploadDirectory(encodeResult.Path, uploadDir)
 
 	// Cleanup
 	go func() {
@@ -99,10 +100,10 @@ func (handler *RequestVideoProcessingEventHandler) doProcess(
 	}
 
 	completedEvent := &events.VideoProcessingCompletedEvent{
-		StreamFileUrl: remotePath + "/" + encodeResult.MasterFileName,
-		Duration:      duration,
-		Entity:        event.Entity,
-		EntityId:      event.EntityId,
+		ManifestFileId: uploadDir + "/" + encodeResult.MasterFileName,
+		Duration:       duration,
+		Entity:         event.Entity,
+		EntityId:       event.EntityId,
 	}
 
 	return completedEvent, nil

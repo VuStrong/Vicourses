@@ -6,13 +6,20 @@ const Config = {
     Environment: process.env.NODE_ENV || "development",
     Port: Number(process.env.PORT) || 3000,
 
+    AWS: {
+        AccessKey: process.env.AWS_ACCESS_KEY,
+        SecretKey: process.env.AWS_SECRET_KEY,
+        Region: process.env.AWS_REGION,
+    },
+
     S3: {
-        Endpoint: process.env.S3_ENDPOINT,
-        AccountId: process.env.S3_ACCOUNT_ID,
-        AccessKeyId: process.env.S3_ACCESS_KEY_ID,
-        AccessKeySecret: process.env.S3_ACCESS_KEY_SECRET,
         BucketName: process.env.S3_BUCKET_NAME,
-        Domain: process.env.S3_DOMAIN,
+    },
+
+    Cloudfront: {
+        Domain: process.env.CLOUDFRONT_DOMAIN,
+        KeyPairId: process.env.CLOUDFRONT_KEYPAIR_ID,
+        PrivateKeyPath: process.env.CLOUDFRONT_PRIVATE_KEY_PATH,
     },
 
     RabbitMQ: {
@@ -21,6 +28,7 @@ const Config = {
     },
 
     FileUploadSecret: process.env.FILE_UPLOAD_SECRET,
+    MediaFileSecret: process.env.MEDIA_FILE_SECRET,
 };
 
 export default Config;

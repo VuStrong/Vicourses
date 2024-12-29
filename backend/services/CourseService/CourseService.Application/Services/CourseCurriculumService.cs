@@ -4,15 +4,20 @@ using CourseService.Application.Dtos.Lesson;
 using CourseService.Application.Dtos.Section;
 using CourseService.Application.Exceptions;
 using CourseService.Application.Interfaces;
+using CourseService.Application.Utils;
 using CourseService.Domain.Contracts;
+using CourseService.Domain.Enums;
 using CourseService.Domain.Models;
 using CourseService.Domain.Objects;
 using CourseService.Domain.Services;
+using System.Security.Claims;
 
 namespace CourseService.Application.Services
 {
     public class CourseCurriculumService : ICourseCurriculumService
     {
+        private readonly string _mediaSecret;
+
         private readonly ICourseRepository _courseRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ILessonRepository _lessonRepository;
@@ -30,7 +35,8 @@ namespace CourseService.Application.Services
             IFileUploadTokenValidator fileUploadTokenValidator,
             IMapper mapper,
             IDataAggregator dataAggregator,
-            IDeleteResourceDomainService deleteResourceDomainService)
+            IDeleteResourceDomainService deleteResourceDomainService,
+            ApplicationConfiguration applicationConfiguration)
         {
             _courseRepository = courseRepository;
             _sectionRepository = sectionRepository;
@@ -40,6 +46,7 @@ namespace CourseService.Application.Services
             _mapper = mapper;
             _dataAggregator = dataAggregator;
             _deleteResourceDomainService = deleteResourceDomainService;
+            _mediaSecret = applicationConfiguration.MediaFileSecret;
         }
 
         public async Task<SectionDto> GetSectionByIdAsync(string id)
@@ -63,7 +70,22 @@ namespace CourseService.Application.Services
                 throw new LessonNotFoundException(id);
             }
 
-            return _mapper.Map<LessonDto>(lesson);
+            var lessonDto = _mapper.Map<LessonDto>(lesson);
+
+            if (lesson.Video != null && lesson.Video.Status == VideoStatus.Processed)
+            {
+                var token = JwtHelper.GenerateJWT(_mediaSecret, (descriptor) => {
+                    descriptor.Expires = DateTime.Now.AddHours(2);
+                    descriptor.Subject = new ClaimsIdentity(new List<Claim> {
+                        new("manifestFileId", lesson.Video.ManifestFileId ?? ""),
+                        new("fileId", lesson.Video.FileId)
+                    });
+                });
+
+                lessonDto.Video!.Token = token;
+            }
+
+            return lessonDto;
         }
 
         public async Task<SectionDto> CreateSectionAsync(CreateSectionDto data)

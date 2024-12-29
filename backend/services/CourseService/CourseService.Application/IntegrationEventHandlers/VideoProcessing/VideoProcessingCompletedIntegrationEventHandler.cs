@@ -30,7 +30,7 @@ namespace CourseService.Application.IntegrationEventHandlers.VideoProcessing
             {
                 var course = await _courseRepository.FindOneAsync(@event.EntityId) ?? throw new CourseNotFoundException(@event.EntityId);
 
-                course.SetPreviewVideoStatusCompleted(@event.StreamFileUrl, @event.Duration);
+                course.SetPreviewVideoStatusCompleted(@event.ManifestFileId, @event.Duration);
 
                 await _courseRepository.UpdateAsync(course);
             }
@@ -38,7 +38,7 @@ namespace CourseService.Application.IntegrationEventHandlers.VideoProcessing
             {
                 var lesson = await _lessonRepository.FindOneAsync(@event.EntityId) ?? throw new LessonNotFoundException(@event.EntityId);
 
-                lesson.SetVideoStatusCompleted(@event.StreamFileUrl, @event.Duration);
+                lesson.SetVideoStatusCompleted(@event.ManifestFileId, @event.Duration);
 
                 await _lessonRepository.UpdateAsync(lesson);
             }

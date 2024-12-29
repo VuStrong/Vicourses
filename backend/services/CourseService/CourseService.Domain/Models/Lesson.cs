@@ -93,7 +93,7 @@ namespace CourseService.Domain.Models
             AddUniqueDomainEvent(new LessonVideoUpdatedDomainEvent(this, oldVideo));
         }
 
-        public void SetVideoStatusCompleted(string streamFileUrl, int duration)
+        public void SetVideoStatusCompleted(string manifestFileId, int duration)
         {
             if (Video == null)
             {
@@ -106,7 +106,7 @@ namespace CourseService.Domain.Models
                 Video.FileId,
                 Video.Url,
                 Video.OriginalFileName,
-                streamFileUrl,
+                manifestFileId,
                 duration,
                 VideoStatus.Processed
             );

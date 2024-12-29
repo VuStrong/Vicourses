@@ -267,6 +267,45 @@
                     }
                 }
             }
+        },
+        "/hls-manifest-url": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The media token"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "manifestFileUrl": {
+                                            "type": "string"
+                                        },
+                                        "params": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }   
+                    },
+                    "400": {
+                        "description": "Media token is missing"
+                    },
+                    "403": {
+                        "description": "Media token invalid"
+                    }
+                }
+            }
         }
     }
 }

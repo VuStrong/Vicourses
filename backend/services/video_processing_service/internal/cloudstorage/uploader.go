@@ -21,12 +21,11 @@ func NewUploader(cfg *config.Config) *s3Uploader {
 	}
 }
 
-// upload all files in localPath to destPath on cloud storage, return full path of cloud directory
-func (uploader *s3Uploader) UploadDirectory(localPath string, destPath string) (string, error) {
+func (uploader *s3Uploader) UploadDirectory(localPath string, destPath string) error {
 	remotePath := fmt.Sprintf(
 		"%s:%s/%s",
 		uploader.cfg.RcloneRemote,
-		uploader.cfg.S3.Bucket,
+		uploader.cfg.AWS.S3Bucket,
 		destPath,
 	)
 
@@ -36,12 +35,8 @@ func (uploader *s3Uploader) UploadDirectory(localPath string, destPath string) (
 
 	err := cmd.Run()
 	if err != nil {
-		return "", err
+		return err
 	}
 
-	return fmt.Sprintf(
-		"%s/%s",
-		uploader.cfg.S3.Domain,
-		destPath,
-	), nil
+	return nil
 }

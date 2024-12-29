@@ -37,7 +37,7 @@
                 }
             ],
             "UpstreamPathTemplate": "/api/sts/{version}/{everything}",
-            "UpstreamHttpMethod": [ "POST" ] 
+            "UpstreamHttpMethod": [ "GET", "POST" ] 
         },
         {
             "DownstreamPathTemplate": "/api/ss/{version}/{everything}",
