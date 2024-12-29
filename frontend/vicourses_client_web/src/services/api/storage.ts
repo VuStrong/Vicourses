@@ -33,9 +33,9 @@ export async function uploadImage(
 
 export async function initializeMultipartUpload(
     request: {
-        fileId: string,
-        partCount: number,
-        fileName?: string,
+        fileId: string;
+        partCount: number;
+        fileName?: string;
     },
     accessToken: string
 ): Promise<InitializeMultipartUploadResponse> {
@@ -106,4 +106,23 @@ export async function abortMultipartUpload(
         const data = await res.json();
         throw new Error(data.message);
     }
+}
+
+export async function getHlsManifest(token: string): Promise<{
+    manifestFileUrl: string;
+    params: string;
+} | null> {
+    const res = await fetch(
+        `${BACKEND_URL}/api/sts/v1/hls-manifest-url?token=${token}`,
+        {
+            method: "GET",
+        }
+    );
+
+    if (!res.ok) {
+        return null;
+    }
+
+    const data = await res.json();
+    return data;
 }

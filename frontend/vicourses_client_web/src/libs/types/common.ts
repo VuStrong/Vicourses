@@ -12,3 +12,10 @@ export type Locale = {
     name: string;
     englishTitle: string;
 }
+
+export type VideoFile = {
+    originalFileName: string;
+    duration: number;
+    status: VideoStatus;
+    token: string | null;
+}

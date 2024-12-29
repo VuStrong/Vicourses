@@ -1,16 +1,10 @@
 import { useState } from "react";
 import { FaPlay } from "react-icons/fa";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
-import {
-    defaultLayoutIcons,
-    DefaultVideoLayout,
-} from "@vidstack/react/player/layouts/default";
-import "@vidstack/react/player/styles/default/theme.css";
-import "@vidstack/react/player/styles/default/layouts/video.css";
 
 import { DEFAULT_COURSE_IMAGE_URL } from "../../libs/contants";
 import { CourseDetail } from "../../types/course";
 import { Modal, ModalBody, ModalHeader } from "../Modal";
+import HlsVideoPlayer from "../HlsVideoPlayer";
 
 export default function CoursePreviewVideo({
     course,
@@ -56,20 +50,10 @@ export default function CoursePreviewVideo({
                 <ModalBody>
                     {course.previewVideo &&
                     course.previewVideo.status === "Processed" ? (
-                        <div>
-                            <MediaPlayer
-                                autoPlay={false}
-                                title={course.title}
-                                src={course.previewVideo.streamFileUrl || ""}
-                                className="w-full object-cover aspect-video"
-                            >
-                                <MediaProvider />
-                                <DefaultVideoLayout
-                                    thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt"
-                                    icons={defaultLayoutIcons}
-                                />
-                            </MediaPlayer>
-                        </div>
+                        <HlsVideoPlayer 
+                            token={course.previewVideo.token || ""}
+                            title={course.title}
+                        />
                     ) : (
                         <div>This course doesn't have a preview video</div>
                     )}

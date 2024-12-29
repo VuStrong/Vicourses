@@ -7,9 +7,9 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ChunkUpload } from "@/components/common";
 import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
-import { LessonVideo } from "@/libs/types/lesson";
 import { formatLength } from "@/libs/utils";
 import { UploadResponse } from "@/libs/types/storage";
+import { VideoFile } from "@/libs/types/common";
 import { updateLesson } from "@/services/api/course-lesson";
 
 export default function LessonVideoUpload({
@@ -19,9 +19,9 @@ export default function LessonVideoUpload({
     onVideoChanged,
 }: {
     lessonId: string;
-    video: LessonVideo | null;
+    video: VideoFile | null;
     session: Session | null;
-    onVideoChanged: (video: LessonVideo) => void;
+    onVideoChanged: (video: VideoFile) => void;
 }) {
     const onComplete = async (result: UploadResponse) => {
         try {

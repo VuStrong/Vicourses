@@ -1,4 +1,4 @@
-import { VideoStatus } from "./common";
+import { VideoFile } from "./common";
 import { LessonType } from "./lesson";
 import { SectionInInstructorCurriculum } from "./section";
 
@@ -46,14 +46,7 @@ export type CourseDetail = Course & {
     description: string | null;
     requirements: string[],
     targetStudents: string[],
-    previewVideo: {
-        fileId: string;
-        url: string;
-        originalFileName: string;
-        streamFileUrl: string | null;
-        duration: number;
-        status: VideoStatus;
-    } | null,
+    previewVideo: VideoFile | null,
     metrics: {
         sectionsCount: number;
         lessonsCount: number;

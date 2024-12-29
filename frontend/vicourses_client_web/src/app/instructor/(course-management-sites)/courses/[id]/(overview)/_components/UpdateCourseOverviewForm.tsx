@@ -105,7 +105,7 @@ export default function UpdateCourseOverviewForm({
             let thumbnailToken = undefined;
             if (data.thumbnail) {
                 const ext = path.extname(data.thumbnail.name);
-                const fileId = `vicourses-course-photos/${uuidv4()}${ext}`;
+                const fileId = `images/vicourses-course-photos/${uuidv4()}${ext}`;
 
                 const uploadResponse = await uploadImage(
                     data.thumbnail,
@@ -467,7 +467,7 @@ export default function UpdateCourseOverviewForm({
             <div>
                 <div className="text-black font-bold">Preview video</div>
 
-                <CoursePreviewVideoUpload course={course} />
+                <CoursePreviewVideoUpload initialCourse={course} />
             </div>
         </form>
     );

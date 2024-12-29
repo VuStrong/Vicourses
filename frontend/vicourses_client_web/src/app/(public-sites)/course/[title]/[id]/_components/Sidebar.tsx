@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
 import { CourseDetail } from "@/libs/types/course";
-import OpenPreviewVideoModalButton from "./OpenPreviewVideoModalButton";
 import CoursePurchaseSection from "./CoursePurchaseSection";
+import { OpenPreviewVideoModalButton } from "./PreviewVideoModal";
 
 export default function Sidebar({ course }: { course: CourseDetail }) {
     const [style, setStyle] = useState<string>("mt-10");
@@ -37,7 +37,7 @@ export default function Sidebar({ course }: { course: CourseDetail }) {
                 />
 
                 <div className="absolute w-full h-full bg-black bg-opacity-20 top-0 left-0 flex justify-center items-center">
-                    <OpenPreviewVideoModalButton course={course} />
+                    <OpenPreviewVideoModalButton />
                 </div>
             </div>
 
