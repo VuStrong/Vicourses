@@ -69,8 +69,8 @@ To run the backend and its necessary infrastructure, make sure that you have Doc
  - Google login: set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`  in **user_service/.env** file
  - Pay with paypal or link paypal account: provide your paypal clientid and secret to `.env` file in **user_service/** and **payment_service/**
  - Send email: provide SMTP configuration to `.env` file in **email_service/**
-  - Upload files: provide S3 configuration to `.env` file in **storage_service/**
-  - Video processing: provide S3 and Rclone configuration to `.env` file in **video_processing_service/**
+  - Upload, get files: provide AWS S3, Cloudfront configuration to `.env` file in **storage_service/** and Cloudfront key pair in **storage_service/cf-keypair/**
+  - Video processing: provide AWS S3 and Rclone configuration to `.env` file in **video_processing_service/**
 
 Navigate to the **deployments** directory and run the following commands:
 
