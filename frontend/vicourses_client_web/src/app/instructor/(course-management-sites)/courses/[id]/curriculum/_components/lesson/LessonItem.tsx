@@ -15,7 +15,8 @@ import toast from "react-hot-toast";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import { Lesson, LessonVideo, Quiz } from "@/libs/types/lesson";
+import { Lesson, Quiz } from "@/libs/types/lesson";
+import { VideoFile } from "@/libs/types/common";
 import { updateLesson } from "@/services/api/course-lesson";
 import LessonQuizzesContainer from "./LessonQuizzesContainer";
 import LessonVideoUpload from "./LessonVideoUpload";
@@ -24,7 +25,7 @@ import useDeleteCurriculumItemModal from "../../_hooks/useDeleteCurriculumItemMo
 type ChangeableLessonStates = {
     title: string;
     description: string;
-    video: LessonVideo | null;
+    video: VideoFile | null;
     quizzes: Quiz[];
 };
 

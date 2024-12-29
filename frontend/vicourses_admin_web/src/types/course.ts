@@ -1,4 +1,4 @@
-import { VideoStatus } from "./common";
+import { VideoFile } from "./common";
 
 export type CourseLevel = "All" | "Basic" | "Intermediate" | "Expert";
 export type CourseStatus = "Unpublished" | "WaitingToVerify" | "Published";
@@ -45,14 +45,7 @@ export type CourseDetail = Course & {
     description: string | null;
     requirements: string[],
     targetStudents: string[],
-    previewVideo: {
-        fileId: string;
-        url: string;
-        originalFileName: string;
-        streamFileUrl: string | null;
-        duration: number;
-        status: VideoStatus;
-    } | null,
+    previewVideo: VideoFile | null,
     metrics: {
         sectionsCount: number;
         lessonsCount: number;
@@ -88,15 +81,6 @@ export type Quiz = {
     }[];
 };
 
-export type LessonVideo = {
-    fileId: string;
-    url: string;
-    originalFileName: string;
-    streamFileUrl: string | null;
-    duration: number;
-    status: VideoStatus;
-}
-
 export type Lesson = {
     id: string;
     courseId: string;
@@ -108,7 +92,7 @@ export type Lesson = {
     createdAt: string;
     updatedAt: string;
     description: string | null;
-    video: LessonVideo | null;
+    video: VideoFile | null;
     quizzesCount: number;
     quizzes: Quiz[];
 };

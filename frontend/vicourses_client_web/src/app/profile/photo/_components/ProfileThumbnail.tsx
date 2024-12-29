@@ -30,7 +30,7 @@ export default function ProfileThumbnail() {
 
         setIsUpdating(true);
         const ext = path.extname(file.name);
-        const fileId = `vicourses-user-photos/${uuidv4()}${ext}`;
+        const fileId = `images/vicourses-user-photos/${uuidv4()}${ext}`;
 
         try {
             const uploadResponse = await uploadImage(

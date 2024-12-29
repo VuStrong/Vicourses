@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import { MdOutlineOndemandVideo, MdOutlineQuiz } from "react-icons/md";
 import { IoEyeOutline } from "react-icons/io5";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
-import {
-    defaultLayoutIcons,
-    DefaultVideoLayout,
-} from "@vidstack/react/player/layouts/default";
-import "@vidstack/react/player/styles/default/theme.css";
-import "@vidstack/react/player/styles/default/layouts/video.css";
 
 import { InstructorCurriculum, Lesson } from "../../types/course";
 import axiosInstance from "../../libs/axios";
@@ -16,6 +9,7 @@ import Loader from "../Loader";
 import Accordion from "../Accordion";
 import { Modal, ModalBody, ModalHeader } from "../Modal";
 import LessonQuizzes from "./LessonQuizzes";
+import LessonVideo from "./LessonVideo";
 
 export default function CourseCurriculum({ courseId }: { courseId: string }) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -95,27 +89,7 @@ export default function CourseCurriculum({ courseId }: { courseId: string }) {
                 </ModalHeader>
                 <ModalBody>
                     {selectedLesson?.type === "Video" && (
-                        <div>
-                            {selectedLesson.video?.status === "Processed" ? (
-                                <MediaPlayer
-                                    autoPlay={false}
-                                    title={selectedLesson.title}
-                                    src={
-                                        selectedLesson.video?.streamFileUrl ||
-                                        ""
-                                    }
-                                    className="w-full object-cover aspect-video"
-                                >
-                                    <MediaProvider />
-                                    <DefaultVideoLayout
-                                        thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt"
-                                        icons={defaultLayoutIcons}
-                                    />
-                                </MediaPlayer>
-                            ) : (
-                                <div>This lesson doesn't have a video</div>
-                            )}
-                        </div>
+                        <LessonVideo lesson={selectedLesson} />
                     )}
                     {selectedLesson?.type === "Quiz" && (
                         <LessonQuizzes lesson={selectedLesson} />

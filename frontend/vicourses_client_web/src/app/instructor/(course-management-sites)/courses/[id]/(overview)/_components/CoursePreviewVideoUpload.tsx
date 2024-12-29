@@ -2,53 +2,57 @@
 
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 import { Typography } from "@material-tailwind/react";
 import { useSession } from "next-auth/react";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
-import {
-    defaultLayoutIcons,
-    DefaultVideoLayout,
-} from "@vidstack/react/player/layouts/default";
-import "@vidstack/react/player/styles/default/theme.css";
-import "@vidstack/react/player/styles/default/layouts/video.css";
 
-import { ChunkUpload } from "@/components/common";
+import { VideoFile } from "@/libs/types/common";
 import { CourseDetail } from "@/libs/types/course";
 import { UploadResponse } from "@/libs/types/storage";
 import { DEFAULT_COURSE_THUMBNAIL_URL } from "@/libs/constants";
 import { updateCourse } from "@/services/api/course";
+import { ChunkUpload } from "@/components/common";
+import HlsVideoPlayer from "@/components/HlsVideoPlayer";
 
 export default function CoursePreviewVideoUpload({
-    course,
+    initialCourse,
 }: {
-    course: CourseDetail;
+    initialCourse: CourseDetail;
 }) {
+    const [previewVideo, setPreviewVideo] = useState<VideoFile | null>(initialCourse.previewVideo);
     const { data: session } = useSession();
 
     const onComplete = async (result: UploadResponse) => {
         try {
             await updateCourse(
-                course.id,
+                initialCourse.id,
                 {
                     previewVideoToken: result.token,
                 },
                 session?.accessToken || ""
             );
+            
+            setPreviewVideo({
+                status: "BeingProcessed",
+                originalFileName: "",
+                duration: 0,
+                token: null,
+            });
         } catch (error: any) {}
     };
 
     const getVideoHtml = () => {
-        if (!course.previewVideo) {
+        if (!previewVideo) {
             return (
                 <img
                     className="w-full max-h-60 object-cover aspect-video border border-gray-900"
                     src={DEFAULT_COURSE_THUMBNAIL_URL}
-                    alt={course.title}
+                    alt={initialCourse.title}
                 />
             );
         }
 
-        if (course.previewVideo.status === "BeingProcessed") {
+        if (previewVideo.status === "BeingProcessed") {
             return (
                 <div
                     className="relative w-full h-60 bg-center bg-cover border border-gray-900"
@@ -63,7 +67,7 @@ export default function CoursePreviewVideoUpload({
             );
         }
 
-        if (course.previewVideo.status === "ProcessingFailed") {
+        if (previewVideo.status === "ProcessingFailed") {
             return (
                 <div
                     className="relative w-full h-60 bg-center bg-cover border border-gray-900"
@@ -79,18 +83,11 @@ export default function CoursePreviewVideoUpload({
         }
 
         return (
-            <MediaPlayer
-                autoPlay={false}
-                title={course.title}
-                src={course.previewVideo.streamFileUrl || ""}
+            <HlsVideoPlayer
+                title={initialCourse.title}
+                token={previewVideo.token || ""}
                 className="w-full max-h-60 object-cover aspect-video"
-            >
-                <MediaProvider />
-                <DefaultVideoLayout
-                    thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt"
-                    icons={defaultLayoutIcons}
-                />
-            </MediaPlayer>
+            />
         );
     };
 
