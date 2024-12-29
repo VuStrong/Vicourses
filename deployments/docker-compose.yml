@@ -293,6 +293,7 @@ services:
       - services/storage_service/.env
     volumes:
       - ./services/user_service/public.key:/app/public.key
+      - ./services/storage_service/cf-keypair:/app/cf-keypair
     networks:
       - vicourses-network
     depends_on:
