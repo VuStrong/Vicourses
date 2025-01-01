@@ -14,9 +14,8 @@ This Service consume messages from **request_video** queue, download the video, 
 For this service to run. Golang, FFmpeg and Rclone must be installed on your machine. If you don't want to install them manually, you can use docker to run the `Dockerfile`.
 
 1. Rename `.env.example` file to `.env`
-2. Provide your S3 credentials for keys with prefix `S3_`
-3. You can change value of the key `VIDEO_ENCODE_HEIGHTS` with resolutions you want to encode videos. Default is `360,720`.
-4. For keys with `RCLONE_` prefix, change `{remote}` to `MYREMOTE` and provide your S3 credentials
+and provide your AWS credentials.
+2. You can change the env `VIDEO_ENCODE_HEIGHTS` with resolutions you want to encode videos. Default is `360,720`.
 
 ## Run this service
 ```shell
