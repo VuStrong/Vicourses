@@ -137,6 +137,7 @@ services:
     ports:
       - ${ELASTIC_PORT}:9200
     environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       - node.name=elasticsearch01
       - cluster.name=vicourses-cluster
       - cluster.initial_master_nodes=elasticsearch01
@@ -155,7 +156,6 @@ services:
       - xpack.license.self_generated.type=basic
     networks:
       - vicourses-network
-    mem_limit: 1073741824
     ulimits:
       memlock:
         soft: -1
@@ -189,7 +189,6 @@ services:
       - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
     networks:
       - vicourses-network
-    mem_limit: 1073741824
     healthcheck:
       test:
         [
