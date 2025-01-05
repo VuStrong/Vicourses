@@ -12,14 +12,10 @@ import {
     Typography,
     Option,
 } from "@material-tailwind/react";
-import {
-    Controller,
-    SubmitHandler,
-    useForm,
-} from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
-import AsyncCreatableSelect from "react-select/async-creatable";
 import toast from "react-hot-toast";
+import CreatableSelect from "react-select/creatable";
 
 import { Locale } from "@/libs/types/common";
 import { Category } from "@/libs/types/category";
@@ -56,10 +52,10 @@ type FormValues = {
     tags: {
         value: string;
         label: string;
-    }[],
+    }[];
     locale?: string;
     thumbnail: File | null;
-}
+};
 
 export default function UpdateCourseOverviewForm({
     course,
@@ -70,6 +66,12 @@ export default function UpdateCourseOverviewForm({
     const [categories, setCategories] = useState<Category[]>();
     const [subCategories, setSubCategories] = useState<Category[]>();
     const [locales, setLocales] = useState<Locale[]>();
+    const [courseTagOptions, setCourseTagOptions] = useState<
+        {
+            value: string;
+            label: string;
+        }[]
+    >([]);
     const { data: session } = useSession();
 
     const {
@@ -154,11 +156,26 @@ export default function UpdateCourseOverviewForm({
             setSubCategories(result);
         })();
 
-        // Fetch locales for select tag
+        // Fetch locales
         (async () => {
             const result = await getLocales();
 
             setLocales(result);
+        })();
+
+        // Fetch course tags
+        (async () => {
+            const result = await fetch("/data/tags.json");
+
+            if (result.ok) {
+                const tags = (await result.json()) as string[];
+                setCourseTagOptions(
+                    tags.map((tag) => ({
+                        value: tag,
+                        label: tag,
+                    }))
+                );
+            }
         })();
     }, []);
 
@@ -438,14 +455,13 @@ export default function UpdateCourseOverviewForm({
                     name="tags"
                     control={control}
                     render={({ field }) => (
-                        <AsyncCreatableSelect
+                        <CreatableSelect
                             instanceId="tags"
                             placeholder="Example: nodejs"
                             isMulti
-                            cacheOptions
-                            loadOptions={loadTagOptions}
                             value={field.value}
                             onChange={field.onChange}
+                            options={courseTagOptions}
                         />
                     )}
                 />

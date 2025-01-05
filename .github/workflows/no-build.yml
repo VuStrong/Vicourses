@@ -8,6 +8,7 @@ on:
       - "README.md"
       - "images/**"
       - ".github/workflows/no-build.yml"
+      - "frontend/vicourses_mobile_app/**"
   pull_request:
     branches: [ "main" ]
     paths:
@@ -16,6 +17,8 @@ on:
       - "README.md"
       - "images/**"
       - ".github/workflows/no-build.yml"
+      - "frontend/vicourses_mobile_app/**"
+      
 jobs:
   build:
     runs-on: ubuntu-latest
