@@ -30,19 +30,6 @@ import CoursePreviewVideoUpload from "./CoursePreviewVideoUpload";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
-const loadTagOptions = async (inputValue: string) => {
-    const res = await fetch(`/api/tags?q=${inputValue}`);
-
-    if (!res.ok) return [];
-
-    const data = await res.json();
-
-    return data.tags.map((tag: string) => ({
-        value: tag,
-        label: tag,
-    }));
-};
-
 type FormValues = {
     title: string;
     description?: string;
