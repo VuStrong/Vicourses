@@ -27,6 +27,7 @@ class TokenInterceptor extends QueuedInterceptor {
     bool shouldRefresh = isExpired == true || accessToken == null;
 
     if (shouldRefresh) {
+      print('Start refresh token');
       try {
         String newAccessToken = await _refreshToken(refreshToken, userId);
 
@@ -37,6 +38,7 @@ class TokenInterceptor extends QueuedInterceptor {
 
       return handler.next(options);
     } else {
+      print('Not yet refresh token');
       options.headers['Authorization'] = "Bearer $accessToken";
       return handler.next(options);
     }

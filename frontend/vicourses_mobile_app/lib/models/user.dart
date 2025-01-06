@@ -1,5 +1,3 @@
-import 'package:vicourses_mobile_app/utils/role.dart';
-
 class User {
   final String id;
   final DateTime createdAt;
@@ -46,7 +44,7 @@ class User {
       name: data['name'] ?? '',
       email: data['email'] ?? '',
       emailConfirmed: data['emailConfirmed'] ?? false,
-      role: data['role'] ?? Role.student,
+      role: data['role'] ?? '',
       thumbnailUrl: data['thumbnailUrl'],
       headline: data['headline'],
       description: data['description'],

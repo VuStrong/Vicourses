@@ -11,38 +11,46 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this._authService) : super(LoginState());
 
   Future<void> login(String email, String password) async {
-    emit(LoginState(status: LoginStatus.pending));
+    emit(state.copyWith(status: LoginStatus.pending));
 
     try {
       final loginResponse = await _authService.login(email, password);
 
-      emit(LoginState(
+      emit(state.copyWith(
         status: LoginStatus.success,
-        loginResponse: loginResponse,
+        loginResponse: () => loginResponse,
+        errorMessage: () => null,
       ));
     } on AppException catch (e) {
-      emit(LoginState(
+      emit(state.copyWith(
         status: LoginStatus.failed,
-        errorMessage: e.message,
+        loginResponse: () => null,
+        errorMessage: () => e.message,
       ));
     }
   }
 
   Future<void> loginWithGoogle(String idToken) async {
-    emit(LoginState(status: LoginStatus.pending));
+    emit(state.copyWith(status: LoginStatus.pending));
 
     try {
       final loginResponse = await _authService.loginWithGoogle(idToken);
 
-      emit(LoginState(
+      emit(state.copyWith(
         status: LoginStatus.success,
-        loginResponse: loginResponse,
+        loginResponse: () => loginResponse,
+        errorMessage: () => null,
       ));
     } on AppException catch (e) {
-      emit(LoginState(
+      emit(state.copyWith(
         status: LoginStatus.failed,
-        errorMessage: e.message,
+        loginResponse: () => null,
+        errorMessage: () => e.message,
       ));
     }
+  }
+
+  void togglePasswordObscure() {
+    emit(state.copyWith(passwordObscure: !state.passwordObscure));
   }
 }
