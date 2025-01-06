@@ -15,22 +15,28 @@ class RegisterCubit extends Cubit<RegisterState> {
     required String email,
     required String password,
   }) async {
-    emit(RegisterState(status: RegisterStatus.pending));
+    emit(state.copyWith(status: RegisterStatus.pending));
 
     try {
       await _authService.register(name: name, email: email, password: password);
 
       final loginResponse = await _authService.login(email, password);
 
-      emit(RegisterState(
+      emit(state.copyWith(
         status: RegisterStatus.success,
-        loginResponse: loginResponse,
+        loginResponse: () => loginResponse,
+        errorMessage: () => null,
       ));
     } on AppException catch (e) {
-      emit(RegisterState(
+      emit(state.copyWith(
         status: RegisterStatus.failed,
-        errorMessage: e.message,
+        loginResponse: () => null,
+        errorMessage: () => e.message,
       ));
     }
+  }
+
+  void togglePasswordObscure() {
+    emit(state.copyWith(passwordObscure: !state.passwordObscure));
   }
 }

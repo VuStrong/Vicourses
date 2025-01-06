@@ -10,7 +10,6 @@ Future<void> showSuccessDialog({
       return AlertDialog(
         title: const Text(
           'Success!',
-          style: TextStyle(color: Colors.cyanAccent),
         ),
         content: Text(text),
         actions: [

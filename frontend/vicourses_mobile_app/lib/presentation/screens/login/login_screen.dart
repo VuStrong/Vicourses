@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vicourses_mobile_app/presentation/common_blocs/user/user.dart';
-import 'package:vicourses_mobile_app/presentation/common_widgets/inputs/text_input.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/dialogs/error_dialog.dart';
 import 'package:vicourses_mobile_app/presentation/screens/login/cubit/login.dart';
 import 'package:vicourses_mobile_app/routes/app_routes.dart';
@@ -23,8 +22,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-
-  final ValueNotifier<bool> passwordNotifier = ValueNotifier(true);
 
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
@@ -51,69 +48,71 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginCubit>(
-        create: (_) => LoginCubit(AuthService()),
-        child: BlocListener<LoginCubit, LoginState>(
-          listener: (context, state) async {
-            if (state.status == LoginStatus.pending) {
-              context.loaderOverlay.show();
+      create: (_) => LoginCubit(AuthService()),
+      child: BlocListener<LoginCubit, LoginState>(
+        listenWhen: (prev, current) => prev.status != current.status,
+        listener: (context, state) async {
+          if (state.status == LoginStatus.pending) {
+            return context.loaderOverlay.show();
+          }
 
-              return;
-            }
+          context.loaderOverlay.hide();
 
-            context.loaderOverlay.hide();
+          if (state.status == LoginStatus.failed) {
+            await showErrorDialog(
+              context: context,
+              error: state.errorMessage ?? '',
+            );
+            return;
+          }
 
-            if (state.status == LoginStatus.failed) {
-              await showErrorDialog(
-                context: context,
-                error: state.errorMessage ?? '',
-              );
-              return;
-            }
-
+          if (state.status == LoginStatus.success) {
             context
                 .read<UserBloc>()
                 .add(LoginUserEvent(loginResponse: state.loginResponse!));
-          },
-          child: Scaffold(
-            body: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                DecoratedBox(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xFF007140),
-                        Color(0xFF007130),
-                        Color(0xFF007120),
-                      ],
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.1,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.loginHeading,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 34,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                      ],
-                    ),
+          }
+        },
+        child: Scaffold(
+          body: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DecoratedBox(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF007140),
+                      Color(0xFF007130),
+                      Color(0xFF007120),
+                    ],
                   ),
                 ),
-                _buildForm(context),
-              ],
-            ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.1,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.loginHeading,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 34,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                    ],
+                  ),
+                ),
+              ),
+              _buildForm(context),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _buildForm(BuildContext context) {
@@ -127,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             _emailField(context),
             _passwordField(context),
+            _forgotPasswordButton(context),
             const SizedBox(height: 20),
             Row(
               children: [
@@ -184,52 +184,79 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _emailField(BuildContext context) {
-    return TextInput(
+    return TextFormField(
       controller: emailController,
-      labelText: 'Email',
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       validator: (value) {
         String msg = AppLocalizations.of(context)!.emailInvalid;
 
-        return value!.isEmpty
-            ? msg
-            : widget.emailRegex.hasMatch(value)
-                ? null
-                : msg;
+        if (value?.isEmpty ?? true) return msg;
+
+        return widget.emailRegex.hasMatch(value!) ? null : msg;
       },
+      decoration: const InputDecoration(
+        labelText: 'Email',
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      style: const TextStyle(
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
   Widget _passwordField(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: passwordNotifier,
-      builder: (_, passwordObscure, __) {
-        return TextInput(
-          obscureText: passwordObscure,
+    return BlocBuilder<LoginCubit, LoginState>(
+      buildWhen: (prev, cur) => prev.passwordObscure != cur.passwordObscure,
+      builder: (context, state) {
+        return TextFormField(
           controller: passwordController,
-          labelText: AppLocalizations.of(context)!.password,
-          textInputAction: TextInputAction.done,
           keyboardType: TextInputType.visiblePassword,
+          textInputAction: TextInputAction.done,
           validator: (value) {
-            return value!.isEmpty
-                ? AppLocalizations.of(context)!.enterPassword
-                : null;
+            if (value?.isEmpty ?? true) {
+              return AppLocalizations.of(context)!.requiredField;
+            }
+
+            return null;
           },
-          suffixIcon: IconButton(
-            onPressed: () => passwordNotifier.value = !passwordObscure,
-            style: IconButton.styleFrom(
-              minimumSize: const Size.square(48),
+          obscureText: state.passwordObscure,
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () {
+                context.read<LoginCubit>().togglePasswordObscure();
+              },
+              style: IconButton.styleFrom(
+                minimumSize: const Size.square(48),
+              ),
+              icon: Icon(
+                state.passwordObscure
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                size: 20,
+              ),
             ),
-            icon: Icon(
-              passwordObscure
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              size: 20,
-            ),
+            labelText: AppLocalizations.of(context)!.password,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+          ),
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
           ),
         );
       },
+    );
+  }
+
+  Widget _forgotPasswordButton(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        context.push(AppRoutes.forgotPassword);
+      },
+      child: Text(
+        '${AppLocalizations.of(context)!.forgotPassword}?',
+      ),
     );
   }
 

@@ -110,4 +110,22 @@ class AuthService extends ApiService {
       );
     }
   }
+
+  Future<void> sendPasswordResetLink(String email) async {
+    String body = jsonEncode({
+      'email': email,
+    });
+
+    try {
+      await dio.post(
+        '/api/us/v1/auth/password-reset-link',
+        data: body,
+      );
+    } on DioException catch (e) {
+      throw AppException(
+        statusCode: e.response?.statusCode ?? 400,
+        message: e.response?.data?['message'],
+      );
+    }
+  }
 }

@@ -4,13 +4,16 @@
   "study": "Study",
   "wishlist": "Wishlist",
   "account": "Account",
+  "cancel": "Cancel",
+  "requiredField": "This field is required",
   "password": "Password",
-  "enterPassword": "Enter password",
-  "passwordLength": "Password must be between 8 and 50 characters",
   "login": "Login",
   "register": "Register",
   "logout": "Logout",
+  "logoutConfirm": "Do you want to logout?",
   "orLoginWith": "Or login with",
+  "forgotPassword": "Forgot password",
+  "forgotPasswordInstruction": "Enter the email address you used to register your account. We'll send an email with a link to reset your password.",
   "emailInvalid": "Email invalid",
   "loginHeading": "Login to Vicourses",
   "confirmAccount": "Confirm account",
@@ -21,6 +24,38 @@
   "alreadyHaveAccount": "Already have an account",
   "notHaveAccount": "Don't have an account",
   "username": "Username",
-  "enterUsername": "Enter your username",
-  "usernameLength": "Username must be between 2 and 50 characters"
+  "browseCategories": "Browse categories",
+  "noResults": "No results",
+  "free": "Free",
+  "accountSecurity": "Account security",
+  "accountSettings": "Account settings",
+  "changePassword": "Change password",
+  "newPassword": "New password",
+  "oldPassword": "Old password",
+  "passwordChanged": "Your password has been changed",
+  "editAccountProfile": "Edit profile",
+  "basicInfo": "Basic info",
+  "thumbnail": "Thumbnail",
+  "save": "Save",
+
+  "textLength": "This field must be between {min} and {max} characters",
+  "@textLength": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "textMax": "This field must not contains more than {max} characters",
+  "@textMax": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  }
 }

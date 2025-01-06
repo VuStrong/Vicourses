@@ -4,10 +4,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:vicourses_mobile_app/presentation/common_blocs/categories/categories.dart';
 import 'package:vicourses_mobile_app/presentation/common_blocs/user/user.dart';
 import 'package:vicourses_mobile_app/routes/app_go_router.dart';
 import 'package:vicourses_mobile_app/routes/app_routes.dart';
 import 'package:vicourses_mobile_app/services/api/auth_service.dart';
+import 'package:vicourses_mobile_app/services/api/category_service.dart';
 import 'package:vicourses_mobile_app/services/api/user_service.dart';
 import 'package:vicourses_mobile_app/utils/app_constants.dart';
 import 'package:vicourses_mobile_app/utils/local_storage.dart';
@@ -28,6 +30,10 @@ class VicoursesApp extends StatelessWidget {
         BlocProvider<UserBloc>(
           lazy: false,
           create: (_) => UserBloc(AuthService(), UserService(), LocalStorage()),
+        ),
+        BlocProvider<CategoriesCubit>(
+          lazy: false,
+          create: (_) => CategoriesCubit(CategoryService())..getCategories(),
         ),
       ],
       child: GlobalLoaderOverlay(

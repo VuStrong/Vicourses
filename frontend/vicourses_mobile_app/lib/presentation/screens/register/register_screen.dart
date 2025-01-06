@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vicourses_mobile_app/presentation/common_blocs/user/user.dart';
-import 'package:vicourses_mobile_app/presentation/common_widgets/inputs/text_input.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/dialogs/error_dialog.dart';
 import 'package:vicourses_mobile_app/presentation/screens/register/cubit/register.dart';
 import 'package:vicourses_mobile_app/routes/app_routes.dart';
@@ -23,8 +21,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-
-  final ValueNotifier<bool> passwordNotifier = ValueNotifier(true);
 
   late final TextEditingController nameController;
   late final TextEditingController emailController;
@@ -56,10 +52,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocProvider<RegisterCubit>(
         create: (_) => RegisterCubit(AuthService()),
         child: BlocListener<RegisterCubit, RegisterState>(
+          listenWhen: (prev, current) => prev.status != current.status,
           listener: (context, state) async {
             if (state.status == RegisterStatus.pending) {
               context.loaderOverlay.show();
-
               return;
             }
 
@@ -73,9 +69,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               return;
             }
 
-            context
-                .read<UserBloc>()
-                .add(LoginUserEvent(loginResponse: state.loginResponse!));
+            if (state.status == RegisterStatus.success) {
+              context
+                  .read<UserBloc>()
+                  .add(LoginUserEvent(loginResponse: state.loginResponse!));
+            }
           },
           child: Scaffold(
             body: ListView(
@@ -141,29 +139,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 20),
             Row(
-              children: [
-                Expanded(child: Divider(color: Colors.grey.shade200)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    AppLocalizations.of(context)!.orLoginWith,
-                    style: const TextStyle(
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
-                Expanded(child: Divider(color: Colors.grey.shade200)),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: _loginWithGoogleButton(context),
-                ),
-              ],
-            ),
-            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
@@ -185,71 +160,88 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _nameField(BuildContext context) {
-    return TextInput(
+    return TextFormField(
       controller: nameController,
-      labelText: AppLocalizations.of(context)!.username,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       validator: (value) {
-        String msg = AppLocalizations.of(context)!.usernameLength;
+        String msg = AppLocalizations.of(context)!.textLength(2, 50);
 
-        return value!.isEmpty
-            ? msg
-            : value.length >= 2 && value.length <= 50
-            ? null
-            : msg;
+        if (value?.isEmpty ?? true) return msg;
+
+        return value!.length >= 2 && value.length <= 50 ? null : msg;
       },
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context)!.username,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      style: const TextStyle(
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
   Widget _emailField(BuildContext context) {
-    return TextInput(
+    return TextFormField(
       controller: emailController,
-      labelText: 'Email',
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       validator: (value) {
         String msg = AppLocalizations.of(context)!.emailInvalid;
 
-        return value!.isEmpty
-            ? msg
-            : widget.emailRegex.hasMatch(value)
-                ? null
-                : msg;
+        if (value?.isEmpty ?? true) return msg;
+
+        return widget.emailRegex.hasMatch(value!) ? null : msg;
       },
+      decoration: const InputDecoration(
+        labelText: 'Email',
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      style: const TextStyle(
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
   Widget _passwordField(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: passwordNotifier,
-      builder: (_, passwordObscure, __) {
-        return TextInput(
-          obscureText: passwordObscure,
+    return BlocBuilder<RegisterCubit, RegisterState>(
+      buildWhen: (prev, cur) => prev.passwordObscure != cur.passwordObscure,
+      builder: (context, state) {
+        return TextFormField(
           controller: passwordController,
-          labelText: AppLocalizations.of(context)!.password,
-          textInputAction: TextInputAction.done,
           keyboardType: TextInputType.visiblePassword,
+          textInputAction: TextInputAction.done,
           validator: (value) {
-            String msg = AppLocalizations.of(context)!.passwordLength;
+            String msg = AppLocalizations.of(context)!.textLength(8, 50);
 
-            return value!.isEmpty
-                ? msg
-                : value.length >= 8 && value.length <= 50
-                ? null
-                : msg;
+            if (value?.isEmpty ?? true) return msg;
+
+            return value!.length >= 8 && value.length <= 50 ? null : msg;
           },
-          suffixIcon: IconButton(
-            onPressed: () => passwordNotifier.value = !passwordObscure,
-            style: IconButton.styleFrom(
-              minimumSize: const Size.square(48),
+          obscureText: state.passwordObscure,
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () {
+                context.read<RegisterCubit>().togglePasswordObscure();
+              },
+              style: IconButton.styleFrom(
+                minimumSize: const Size.square(48),
+              ),
+              icon: Icon(
+                state.passwordObscure
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                size: 20,
+              ),
             ),
-            icon: Icon(
-              passwordObscure
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              size: 20,
-            ),
+            labelText: AppLocalizations.of(context)!.password,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+          ),
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
+          style: const TextStyle(
+            fontWeight: FontWeight.w500,
           ),
         );
       },
@@ -280,22 +272,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         );
       },
-    );
-  }
-
-  Widget _loginWithGoogleButton(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: () {
-        //
-      },
-      icon: SvgPicture.asset(
-        'assets/svg/google.svg',
-        width: 14,
-      ),
-      label: const Text(
-        'Google',
-        style: TextStyle(color: Colors.black),
-      ),
     );
   }
 }
