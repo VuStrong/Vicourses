@@ -15,6 +15,7 @@ import 'package:vicourses_mobile_app/presentation/screens/search/search_results_
 import 'package:vicourses_mobile_app/presentation/screens/search/search_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/splash/splash_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/study/study_screen.dart';
+import 'package:vicourses_mobile_app/presentation/screens/user_profile/user_profile_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/wishlist/wishlist_screen.dart';
 import 'package:vicourses_mobile_app/routes/app_routes.dart';
 
@@ -25,7 +26,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 class AppGoRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.splash,
     routes: [
       GoRoute(
         path: '/splash',
@@ -85,26 +86,31 @@ class AppGoRouter {
             builder: (_, __) => const WishlistScreen(),
           ),
           GoRoute(
-            path: '/account',
-            builder: (_, __) => const AccountOverviewScreen(),
-            routes: [
-              GoRoute(
-                path: 'security',
-                builder: (_, __) => const AccountSecurityScreen(),
-                parentNavigatorKey: _rootNavigatorKey,
-              ),
-              GoRoute(
-                path: 'password',
-                builder: (_, __) => const ChangePasswordScreen(),
-                parentNavigatorKey: _rootNavigatorKey,
-              ),
-              GoRoute(
-                path: 'edit-profile',
-                builder: (_, __) => const EditProfileScreen(),
-                parentNavigatorKey: _rootNavigatorKey,
-              ),
-            ]
+            path: '/user/:id',
+            builder: (_, state) => UserProfileScreen(
+              userId: state.pathParameters['id'] ?? '',
+            ),
           ),
+          GoRoute(
+              path: '/account',
+              builder: (_, __) => const AccountOverviewScreen(),
+              routes: [
+                GoRoute(
+                  path: 'security',
+                  builder: (_, __) => const AccountSecurityScreen(),
+                  parentNavigatorKey: _rootNavigatorKey,
+                ),
+                GoRoute(
+                  path: 'password',
+                  builder: (_, __) => const ChangePasswordScreen(),
+                  parentNavigatorKey: _rootNavigatorKey,
+                ),
+                GoRoute(
+                  path: 'edit-profile',
+                  builder: (_, __) => const EditProfileScreen(),
+                  parentNavigatorKey: _rootNavigatorKey,
+                ),
+              ]),
         ],
       ),
     ],

@@ -26,6 +26,8 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
           const SizedBox(height: 20),
           _accountThumb(),
           const SizedBox(height: 20),
+          _goToProfileScreenButton(context),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(left: 16),
             child: Text(
@@ -90,6 +92,27 @@ class _AccountOverviewScreenState extends State<AccountOverviewScreen> {
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _goToProfileScreenButton(BuildContext context) {
+    return BlocBuilder<UserBloc, UserState>(
+      buildWhen: (prev, current) => prev.user?.id != current.user?.id,
+      builder: (context, state) {
+        if (state.user == null) {
+          return const SizedBox();
+        }
+
+        return TextButton(
+          onPressed: () async {
+            context.push(AppRoutes.getUserProfileRoute(state.user!.id));
+          },
+          child: Text(
+            AppLocalizations.of(context)!.seeYourPublicProfile,
+            style: const TextStyle(fontSize: 18),
+          ),
         );
       },
     );

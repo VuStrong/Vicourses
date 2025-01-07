@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vicourses_mobile_app/presentation/common_blocs/user/user.dart';
@@ -25,6 +27,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: dotenv.env['GOOGLE_CLIENT_ID'],
+  );
 
   void disposeControllers() {
     emailController.dispose();
@@ -125,13 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             _emailField(context),
-            _passwordField(context),
+            _passwordField(),
             _forgotPasswordButton(context),
             const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
-                  child: _submitButton(context),
+                  child: _submitButton(),
                 ),
               ],
             ),
@@ -206,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _passwordField(BuildContext context) {
+  Widget _passwordField() {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (prev, cur) => prev.passwordObscure != cur.passwordObscure,
       builder: (context, state) {
@@ -260,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _submitButton(BuildContext context) {
+  Widget _submitButton() {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         return ElevatedButton(
@@ -285,18 +290,33 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _loginWithGoogleButton(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: () async {
-        //
+    return BlocBuilder<LoginCubit, LoginState>(
+      builder: (context, _) {
+        return OutlinedButton.icon(
+          onPressed: () async {
+            try {
+              final account = await _googleSignIn.signIn();
+              final authentication = await account?.authentication;
+
+              if (authentication?.idToken != null && context.mounted) {
+                context
+                    .read<LoginCubit>()
+                    .loginWithGoogle(authentication!.idToken!);
+              }
+            } catch (e) {
+              //
+            }
+          },
+          icon: SvgPicture.asset(
+            'assets/svg/google.svg',
+            width: 14,
+          ),
+          label: const Text(
+            'Google',
+            style: TextStyle(color: Colors.black),
+          ),
+        );
       },
-      icon: SvgPicture.asset(
-        'assets/svg/google.svg',
-        width: 14,
-      ),
-      label: const Text(
-        'Google',
-        style: TextStyle(color: Colors.black),
-      ),
     );
   }
 }

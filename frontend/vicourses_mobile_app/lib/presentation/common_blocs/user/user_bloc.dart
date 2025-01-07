@@ -19,6 +19,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<FetchUserEvent>(_onFetchUser);
     on<LoginUserEvent>(_onLoginUser);
     on<LogoutUserEvent>(_onLogoutUser);
+    on<UserUpdatedEvent>(_onUserUpdated);
 
     add(FetchUserEvent());
   }
@@ -96,5 +97,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     await _storage.deleteAll();
 
     emit(UserState(status: UserStatus.unauthenticated));
+  }
+
+  Future<void> _onUserUpdated(
+    UserUpdatedEvent event,
+    Emitter<UserState> emit,
+  ) async {
+    emit(UserState(
+      status: UserStatus.authenticated,
+      user: event.user,
+    ));
   }
 }

@@ -21,4 +21,5 @@ class AppRoutes {
   static const editProfile = '/account/edit-profile';
 
   static String getCourseDetailRoute(String id) => '/course/$id';
+  static String getUserProfileRoute(String id) => '/user/$id';
 }
