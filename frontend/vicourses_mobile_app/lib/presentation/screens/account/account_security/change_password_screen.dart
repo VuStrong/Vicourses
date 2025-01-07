@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/dialogs/error_dialog.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/dialogs/success_dialog.dart';
+import 'package:vicourses_mobile_app/presentation/common_widgets/snack_bar.dart';
 import 'package:vicourses_mobile_app/presentation/screens/account/account_security/cubit/change_password.dart';
 import 'package:vicourses_mobile_app/services/api/user_service.dart';
 
@@ -71,13 +72,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             }
 
             if (state.status == ChangePasswordStatus.success) {
-              oldPasswordController.text = '';
-              newPasswordController.text = '';
-
-              await showSuccessDialog(
+              showSnackBar(
                 context: context,
                 text: AppLocalizations.of(context)!.passwordChanged,
+                type: SnackBarType.success,
               );
+              context.pop();
             }
           },
           child: _buildForm(context),

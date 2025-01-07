@@ -39,6 +39,7 @@ class VicoursesApp extends StatelessWidget {
       child: GlobalLoaderOverlay(
         overlayColor: Colors.black.withOpacity(0.8),
         child: BlocListener<UserBloc, UserState>(
+          listenWhen: (prev, current) => prev.status != current.status,
           listener: (context, state) {
             final router = AppGoRouter.router;
 

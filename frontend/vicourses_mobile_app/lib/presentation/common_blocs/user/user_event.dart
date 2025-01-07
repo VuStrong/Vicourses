@@ -11,3 +11,9 @@ class LoginUserEvent extends UserEvent {
 }
 
 class LogoutUserEvent extends UserEvent {}
+
+class UserUpdatedEvent extends UserEvent {
+  final User user;
+
+  UserUpdatedEvent({required this.user});
+}

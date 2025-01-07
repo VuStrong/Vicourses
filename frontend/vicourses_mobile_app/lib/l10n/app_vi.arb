@@ -37,6 +37,15 @@
   "basicInfo": "Thông tin cơ bản",
   "thumbnail": "Ảnh đại diện",
   "save": "Lưu",
+  "saved": "Đã lưu các thay đổi",
+  "errorOccured": "Có lỗi xảy ra",
+  "urlInvalid": "URL không hợp lệ",
+  "socialMedias": "Các phương tiện truyền thông",
+  "selectImageFromDevice": "Chọn ảnh từ thiết bị",
+  "takeAPhoto": "Chụp ảnh",
+  "seeYourPublicProfile": "Xem hồ sơ công khai của bạn",
+  "totalStudents": "Tổng số học viên",
+  "aboutMe": "Giới thiệu về tôi",
   "textLength": "Trường này phải từ {min} đến {max} kí tự",
   "textMax": "Trường này không được chứa hơn {max} kí tự"
 }

@@ -40,7 +40,7 @@ export default async function PublicProfilePage({
     return (
         <div className="max-w-[61.2rem] mx-auto mb-10">
             <div className="p-5 flex md:flex-row flex-col gap-10 bg-white my-5 rounded-lg shadow-2xl">
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-5 flex-shrink-0">
                     <img
                         className="w-52 h-52 rounded-full object-cover object-center"
                         alt={profile.name}

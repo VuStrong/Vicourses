@@ -37,6 +37,15 @@
   "basicInfo": "Basic info",
   "thumbnail": "Thumbnail",
   "save": "Save",
+  "saved": "Saved",
+  "errorOccurred": "An error occurred",
+  "urlInvalid": "Invalid URL",
+  "socialMedias": "Social medias",
+  "selectImageFromDevice": "Select image from device",
+  "takeAPhoto": "Take a photo",
+  "seeYourPublicProfile": "See your public profile",
+  "totalStudents": "Total students",
+  "aboutMe": "About me",
 
   "textLength": "This field must be between {min} and {max} characters",
   "@textLength": {
