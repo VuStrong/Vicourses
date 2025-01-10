@@ -23,7 +23,7 @@ class ChangePasswordState {
   }) {
     return ChangePasswordState(
       status: status ?? this.status,
-      errorMessage: errorMessage?.call() ?? this.errorMessage,
+      errorMessage: errorMessage != null ? errorMessage() : this.errorMessage,
       oldPasswordObscure: oldPasswordObscure ?? this.oldPasswordObscure,
       newPasswordObscure: newPasswordObscure ?? this.newPasswordObscure,
     );

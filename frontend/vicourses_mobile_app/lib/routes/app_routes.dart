@@ -9,7 +9,7 @@ class AppRoutes {
   static const home = '/';
 
   static const search = '/search';
-  static const searchResults = '/search-results';
+  static const searchResults = '/search/results';
 
   static const study = '/study';
 
@@ -20,6 +20,10 @@ class AppRoutes {
   static const changePassword = '/account/password';
   static const editProfile = '/account/edit-profile';
 
+  static String getCategoryRoute(String slug) => '/category/$slug';
+
   static String getCourseDetailRoute(String id) => '/course/$id';
+
   static String getUserProfileRoute(String id) => '/user/$id';
+  static String getUserCoursesRoute(String id) => '/user/$id/courses';
 }

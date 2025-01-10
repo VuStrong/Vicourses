@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vicourses_mobile_app/models/course.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/star_rating.dart';
+import 'package:vicourses_mobile_app/routes/app_routes.dart';
 import 'package:vicourses_mobile_app/utils/app_constants.dart';
 
 enum CourseItemStyle {
@@ -33,6 +35,7 @@ class CourseItem extends StatelessWidget {
   Widget _tileStyle(BuildContext context) {
     return ListTile(
       isThreeLine: true,
+      contentPadding: EdgeInsets.zero,
       leading: SizedBox(
         width: 56,
         height: 56,
@@ -96,7 +99,10 @@ class CourseItem extends StatelessWidget {
           color: Colors.grey.withOpacity(0.3),
         ),
       ),
-      onTap: onTap,
+      onTap: onTap ??
+          () {
+            context.push(AppRoutes.getCourseDetailRoute(course.id));
+          },
     );
   }
 

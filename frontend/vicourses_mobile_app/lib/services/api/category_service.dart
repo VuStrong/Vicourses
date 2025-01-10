@@ -12,4 +12,14 @@ class CategoryService extends ApiService {
       return [];
     }
   }
+
+  Future<Category?> getCategory(String slug) async {
+    try {
+      final response = await dio.get('/api/cs/v1/categories/$slug');
+
+      return Category.fromMap(response.data);
+    } on DioException {
+      return null;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:vicourses_mobile_app/models/hls_manifest_response.dart';
 import 'package:vicourses_mobile_app/models/upload_response.dart';
 import 'package:vicourses_mobile_app/services/api/api_service.dart';
 import 'package:vicourses_mobile_app/utils/app_exception.dart';
@@ -11,7 +12,7 @@ class StorageService extends ApiService {
       'image': await MultipartFile.fromFile(
         image.path,
         filename: fileId,
-        contentType: DioMediaType('image','jpeg'),
+        contentType: DioMediaType('image', 'jpeg'),
       ),
       if (fileId != null) 'fileId': fileId,
     });
@@ -28,6 +29,24 @@ class StorageService extends ApiService {
         statusCode: e.response?.statusCode ?? 400,
         message: e.response?.data?['message'],
       );
+    }
+  }
+
+  Future<HlsManifestResponse?> getHlsManifest(String token) async {
+    try {
+      final response = await dio.get(
+        '/api/sts/v1/hls-manifest-url',
+        queryParameters: {
+          'token': token,
+        },
+      );
+
+      return HlsManifestResponse(
+        manifestFileUrl: response.data['manifestFileUrl'],
+        params: response.data['params'],
+      );
+    } on DioException {
+      return null;
     }
   }
 }

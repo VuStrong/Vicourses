@@ -26,7 +26,13 @@
   "username": "Username",
   "browseCategories": "Browse categories",
   "noResults": "No results",
+  "price": "Price",
   "free": "Free",
+  "paid": "Paid",
+  "level": "Level",
+  "sort": "Sort",
+  "apply": "Apply",
+  "reset": "Reset",
   "accountSecurity": "Account security",
   "accountSettings": "Account settings",
   "changePassword": "Change password",
@@ -46,6 +52,49 @@
   "seeYourPublicProfile": "See your public profile",
   "totalStudents": "Total students",
   "aboutMe": "About me",
+  "courses": "Courses",
+  "showAll": "Show all",
+  "hide": "Hide",
+  "enrolledCourses": "Enrolled courses",
+  "youAreNotEnrolledAnyCourses": "You are not enrolled any courses",
+  "emptyWishlist": "Your wishlist is empty",
+  "results": "Results",
+  "rating": "Rating",
+  "students": "Students",
+  "createdBy": "Created by",
+  "lastUpdated": "Last updated",
+  "buyNow": "Buy now",
+  "enrollNow": "Enroll now",
+  "youAreEnrolled": "You are enrolled this course",
+  "contents": "Contents",
+  "thisCourseContains": "This course contains",
+  "section": "Section",
+  "sections": "Sections",
+  "lessons": "Lessons",
+  "quizzes": "Quizzes",
+  "fullLifetimeAccess": "Full lifetime access",
+  "requirements": "Requirements",
+  "courseTarget": "Target students of this course",
+  "description": "Description",
+  "curriculum": "Curriculum",
+
+  "totalVideoDuration": "Total {total} hours of video on demand",
+  "@totalVideoDuration": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+
+  "fromNumAndAbove": "From {num} and above",
+  "@fromNumAndAbove": {
+    "placeholders": {
+      "num": {
+        "type": "int"
+      }
+    }
+  },
 
   "textLength": "This field must be between {min} and {max} characters",
   "@textLength": {

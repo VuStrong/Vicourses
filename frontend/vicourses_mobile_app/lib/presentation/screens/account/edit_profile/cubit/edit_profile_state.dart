@@ -23,9 +23,9 @@ class EditProfileState {
   }) {
     return EditProfileState(
       status: status ?? this.status,
-      image: image?.call() ?? this.image,
-      errorMessage: errorMessage?.call() ?? this.errorMessage,
-      updatedUser: updatedUser?.call() ?? this.updatedUser,
+      image: image != null ? image() : this.image,
+      errorMessage: errorMessage != null ? errorMessage() : this.errorMessage,
+      updatedUser: updatedUser != null ? updatedUser() : this.updatedUser,
     );
   }
 }

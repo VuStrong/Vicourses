@@ -4,6 +4,8 @@ class Category {
   final String slug;
   final String? parentId;
 
+  bool get isRoot => parentId == null;
+
   Category({
     required this.id,
     required this.name,
