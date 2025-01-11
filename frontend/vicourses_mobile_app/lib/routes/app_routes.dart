@@ -23,6 +23,8 @@ class AppRoutes {
   static String getCategoryRoute(String slug) => '/category/$slug';
 
   static String getCourseDetailRoute(String id) => '/course/$id';
+  static String getCourseRatingsRoute(String id) => '/course/$id/ratings';
+  static String getEditRatingRoute(String courseId) => '/course/$courseId/edit-rating';
 
   static String getUserProfileRoute(String id) => '/user/$id';
   static String getUserCoursesRoute(String id) => '/user/$id/courses';

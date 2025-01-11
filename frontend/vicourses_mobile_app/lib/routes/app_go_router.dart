@@ -8,6 +8,9 @@ import 'package:vicourses_mobile_app/presentation/screens/account/edit_profile/e
 import 'package:vicourses_mobile_app/presentation/screens/category/category_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/confirm_email/confirm_email_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/course_detail_screen.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/course_ratings_screen.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/user_rating.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/edit_rating_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/home/home_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/login/login_screen.dart';
@@ -72,6 +75,23 @@ class AppGoRouter {
                 builder: (_, state) => CourseDetailScreen(
                   courseId: state.pathParameters['id'] ?? '',
                 ),
+                routes: [
+                  GoRoute(
+                    path: 'ratings',
+                    builder: (_, state) => CourseRatingsScreen(
+                      courseId: state.pathParameters['id'] ?? '',
+                    ),
+                    parentNavigatorKey: _rootNavigatorKey,
+                  ),
+                  GoRoute(
+                    path: 'edit-rating',
+                    builder: (_, state) => EditRatingScreen(
+                      courseId: state.pathParameters['id'] ?? '',
+                      cubit: state.extra as UserRatingCubit,
+                    ),
+                    parentNavigatorKey: _rootNavigatorKey,
+                  ),
+                ]
               ),
               GoRoute(
                 path: '/category/:slug',

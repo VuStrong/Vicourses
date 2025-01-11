@@ -6,11 +6,16 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/bullet_text_list.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/course_detail.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/course_ratings.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/public_curriculum.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/user_rating.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/course_basic_info_section.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/course_purchase_section.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/course_ratings_section.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/public_curriculum_section.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/user_rating_section.dart';
 import 'package:vicourses_mobile_app/services/api/course_service.dart';
+import 'package:vicourses_mobile_app/services/api/rating_service.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   final String courseId;
@@ -36,60 +41,89 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         BlocProvider<PublicCurriculumCubit>(
           create: (_) => PublicCurriculumCubit(CourseService()),
         ),
+        BlocProvider<CourseRatingsCubit>(
+          create: (_) => CourseRatingsCubit(RatingService(), limit: 3),
+        ),
+        BlocProvider<UserRatingCubit>(
+          create: (_) => UserRatingCubit(RatingService()),
+        ),
       ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: BlocBuilder<CourseDetailCubit, CourseDetailState>(
-            buildWhen: (prev, current) => prev.course != current.course,
-            builder: (_, state) => Text(state.course?.title ?? ''),
+      child: MultiBlocListener(
+        listeners: [
+          // listener to fetch course resources after course loaded
+          BlocListener<CourseDetailCubit, CourseDetailState>(
+            listenWhen: (prev, current) =>
+                current.course != null && prev.course != current.course,
+            listener: (context, state) {
+              context
+                  .read<PublicCurriculumCubit>()
+                  .fetchPublicCurriculum(state.course!.id);
+
+              context.read<CourseRatingsCubit>().fetchRatings(state.course!.id);
+            },
           ),
-          actions: [_shareButton()],
+          // if user has enrolled, fetch his rating to this course
+          BlocListener<CourseDetailCubit, CourseDetailState>(
+            listenWhen: (prev, current) => current.enrolled && !prev.enrolled,
+            listener: (context, state) {
+              context.read<UserRatingCubit>().fetchUserRating(state.course!.id);
+            },
+          ),
+        ],
+        child: _scaffold(),
+      ),
+    );
+  }
+
+  Widget _scaffold() {
+    return Scaffold(
+      appBar: AppBar(
+        title: BlocBuilder<CourseDetailCubit, CourseDetailState>(
+          buildWhen: (prev, current) => prev.course != current.course,
+          builder: (_, state) => Text(state.course?.title ?? ''),
         ),
-        body: BlocConsumer<CourseDetailCubit, CourseDetailState>(
-          // listener to fetch course resources when course loaded
-          listenWhen: (prev, current) =>
-              current.course != null && prev.course != current.course,
-          listener: (context, state) {
-            context
-                .read<PublicCurriculumCubit>()
-                .fetchPublicCurriculum(state.course!.id);
-          },
-          buildWhen: (prev, current) =>
-              prev.isLoading != current.isLoading ||
-              prev.course != current.course,
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        actions: [_shareButton()],
+      ),
+      body: BlocBuilder<CourseDetailCubit, CourseDetailState>(
+        buildWhen: (prev, current) =>
+            prev.isLoading != current.isLoading ||
+            prev.course != current.course,
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            if (state.course == null) {
-              return Center(
-                child: Text(AppLocalizations.of(context)!.noResults),
-              );
-            }
-
-            return ListView(
-              padding: const EdgeInsets.all(10),
-              children: [
-                CourseBasicInfoSection(course: state.course!),
-                CoursePurchaseSection(course: state.course!),
-                _learnContentsSection(context, state),
-                const SizedBox(height: 20),
-                const PublicCurriculumSection(),
-                const SizedBox(height: 30),
-                _metricsSection(context, state),
-                const SizedBox(height: 20),
-                _requirementsSection(context, state),
-                const SizedBox(height: 20),
-                _targetsSection(context, state),
-                const SizedBox(height: 20),
-                if (state.course!.description != null)
-                  _descriptionSection(context, state),
-                const SizedBox(height: 50),
-              ],
+          if (state.course == null) {
+            return Center(
+              child: Text(AppLocalizations.of(context)!.noResults),
             );
-          },
-        ),
+          }
+
+          return ListView(
+            padding: const EdgeInsets.all(10),
+            children: [
+              CourseBasicInfoSection(course: state.course!),
+              CoursePurchaseSection(course: state.course!),
+              _learnContentsSection(context, state),
+              const SizedBox(height: 20),
+              const PublicCurriculumSection(),
+              const SizedBox(height: 30),
+              _metricsSection(context, state),
+              const SizedBox(height: 20),
+              _requirementsSection(context, state),
+              const SizedBox(height: 20),
+              _targetsSection(context, state),
+              const SizedBox(height: 20),
+              if (state.course!.description != null)
+                _descriptionSection(context, state),
+              const SizedBox(height: 20),
+              UserRatingSection(courseId: state.course!.id),
+              const SizedBox(height: 20),
+              CourseRatingsSection(course: state.course!),
+              const SizedBox(height: 50),
+            ],
+          );
+        },
       ),
     );
   }

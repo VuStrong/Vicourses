@@ -77,6 +77,13 @@
   "courseTarget": "Target students of this course",
   "description": "Description",
   "curriculum": "Curriculum",
+  "studentReviews": "Student reviews",
+  "instructorResponse": "Instructor response",
+  "yourRating": "Your rating",
+  "edit": "Edit",
+  "delete": "Delete",
+  "writeFeedback": "Write feedback",
+  "newestCourses": "Newest courses",
 
   "totalVideoDuration": "Total {total} hours of video on demand",
   "@totalVideoDuration": {

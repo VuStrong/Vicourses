@@ -91,7 +91,7 @@ class CourseItem extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
-          )
+          ),
         ],
       ),
       shape: Border(
@@ -107,6 +107,70 @@ class CourseItem extends StatelessWidget {
   }
 
   Widget _cardStyle(BuildContext context) {
-    return const ListTile();
+    return InkWell(
+      onTap: onTap ??
+          () {
+            context.push(AppRoutes.getCourseDetailRoute(course.id));
+          },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: course.thumbnailUrl != null
+                ? Image.network(
+                    course.thumbnailUrl!,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    AppConstants.defaultCourseImagePath,
+                    fit: BoxFit.cover,
+                  ),
+          ),
+          Text(
+            course.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              overflow: TextOverflow.ellipsis,
+            ),
+            maxLines: 2,
+          ),
+          Text(
+            course.user.name,
+            style: const TextStyle(
+              fontSize: 12,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Text(
+                course.rating.toString(),
+                style: const TextStyle(
+                  color: Colors.orangeAccent,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(width: 4),
+              StarRating(
+                initialRating: course.rating.toDouble(),
+                readonly: true,
+                itemSize: 18,
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            course.isPaid
+                ? '\$ ${course.price}'
+                : AppLocalizations.of(context)!.free,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
