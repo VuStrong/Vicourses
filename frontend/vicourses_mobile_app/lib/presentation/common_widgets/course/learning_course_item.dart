@@ -54,7 +54,7 @@ class LearningCourseItem extends StatelessWidget {
         ),
       ),
       onTap: () {
-        context.push(AppRoutes.getCourseDetailRoute(course.id));
+        context.push(AppRoutes.getLearningRoute(course.id));
       },
     );
   }

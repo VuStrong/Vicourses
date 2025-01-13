@@ -223,18 +223,18 @@ class _FilterDrawer extends StatelessWidget {
                   .read<SearchCubit>()
                   .setSort(value ?? CourseSort.relevance);
             },
-            items: const [
+            items: [
               DropdownMenuItem<String>(
                 value: CourseSort.relevance,
-                child: Text(CourseSort.relevance),
+                child: Text(AppLocalizations.of(context)!.relevance),
               ),
               DropdownMenuItem<String>(
                 value: CourseSort.highestRated,
-                child: Text(CourseSort.highestRated),
+                child: Text(AppLocalizations.of(context)!.highestRated),
               ),
               DropdownMenuItem<String>(
                 value: CourseSort.newest,
-                child: Text(CourseSort.newest),
+                child: Text(AppLocalizations.of(context)!.newest),
               ),
             ],
           )

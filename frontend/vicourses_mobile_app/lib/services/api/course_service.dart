@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:vicourses_mobile_app/models/course.dart';
+import 'package:vicourses_mobile_app/models/lesson.dart';
 import 'package:vicourses_mobile_app/models/public_curriculum.dart';
 import 'package:vicourses_mobile_app/services/api/api_service.dart';
 import 'package:vicourses_mobile_app/utils/app_exception.dart';
@@ -149,6 +150,16 @@ class CourseService extends ApiService {
       final response = await dio.get('/api/cs/v1/courses/$courseId/public-curriculum');
 
       return PublicCurriculum.fromMap(response.data);
+    } on DioException {
+      return null;
+    }
+  }
+
+  Future<Lesson?> getLesson(String lessonId) async {
+    try {
+      final response = await dio.get('/api/cs/v1/lessons/$lessonId');
+
+      return Lesson.fromMap(response.data);
     } on DioException {
       return null;
     }

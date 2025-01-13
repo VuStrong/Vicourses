@@ -4,17 +4,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vicourses_mobile_app/presentation/common_blocs/user/user.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/course/learning_course_item.dart';
-import 'package:vicourses_mobile_app/presentation/screens/study/cubit/enrolled_courses.dart';
+import 'package:vicourses_mobile_app/presentation/screens/enrolled_courses/cubit/enrolled_courses.dart';
 import 'package:vicourses_mobile_app/services/api/course_service.dart';
 
-class StudyScreen extends StatefulWidget {
-  const StudyScreen({super.key});
+class EnrolledCoursesScreen extends StatefulWidget {
+  const EnrolledCoursesScreen({super.key});
 
   @override
-  State<StudyScreen> createState() => _StudyScreenState();
+  State<EnrolledCoursesScreen> createState() => _EnrolledCoursesScreenState();
 }
 
-class _StudyScreenState extends State<StudyScreen> {
+class _EnrolledCoursesScreenState extends State<EnrolledCoursesScreen> {
   late RefreshController _refreshController;
 
   @override

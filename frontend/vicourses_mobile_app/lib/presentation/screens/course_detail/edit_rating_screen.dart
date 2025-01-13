@@ -121,6 +121,7 @@ class _EditRatingScreenState extends State<EditRatingScreen> {
       decoration: InputDecoration(
         hintText: AppLocalizations.of(context)!.writeFeedback,
       ),
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
       validator: (value) {
         final msg = AppLocalizations.of(context)!.textLength(1, 400);
 

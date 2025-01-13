@@ -185,22 +185,22 @@ class _FilterDrawer extends StatelessWidget {
             onChanged: (String? value) {
               context.read<CategoryCubit>().setSort(value ?? CourseSort.newest);
             },
-            items: const [
+            items: [
               DropdownMenuItem<String>(
                 value: CourseSort.highestRated,
-                child: Text(CourseSort.highestRated),
+                child: Text(AppLocalizations.of(context)!.highestRated),
               ),
               DropdownMenuItem<String>(
                 value: CourseSort.newest,
-                child: Text(CourseSort.newest),
+                child: Text(AppLocalizations.of(context)!.newest),
               ),
               DropdownMenuItem<String>(
                 value: CourseSort.priceAsc,
-                child: Text(CourseSort.priceAsc),
+                child: Text(AppLocalizations.of(context)!.priceLowToHigh),
               ),
               DropdownMenuItem<String>(
                 value: CourseSort.priceDesc,
-                child: Text(CourseSort.priceDesc),
+                child: Text(AppLocalizations.of(context)!.priceHighToLow),
               ),
             ],
           )

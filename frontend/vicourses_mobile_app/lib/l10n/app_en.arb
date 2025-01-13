@@ -84,6 +84,53 @@
   "delete": "Delete",
   "writeFeedback": "Write feedback",
   "newestCourses": "Newest courses",
+  "comments": "Comments",
+  "writeComment": "Write comment",
+  "newest": "Newest",
+  "oldest": "Oldest",
+  "highestUpvoted": "Highest upvoted",
+  "highestRated": "Highest rated",
+  "priceHighToLow": "Price high to low",
+  "priceLowToHigh": "Price low to high",
+  "relevance": "Relevance",
+  "deleted": "Deleted",
+  "showMore": "Show more",
+  "showReplies": "Show replies",
+  "startDoingQuizzes": "Start doing quizzes",
+  "check": "Check",
+  "notCompletedQuizzesMessage": "You must answer all quizzes to check",
+  "answerAllQuizzesCorrect": "Great!, you answered all questions correctly.",
+  "tryAgain": "Try again",
+
+  "answerCorrectQuizzes": "You answered {num}/{total} questions correctly.",
+  "@quizNumber": {
+    "placeholders": {
+      "num": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+
+  "quizNumber": "Quiz number {number}",
+  "@quizNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+
+  "replyTo": "Reply to {name}",
+  "@replyTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
 
   "totalVideoDuration": "Total {total} hours of video on demand",
   "@totalVideoDuration": {

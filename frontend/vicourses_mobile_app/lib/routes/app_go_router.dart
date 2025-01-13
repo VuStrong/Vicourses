@@ -13,12 +13,13 @@ import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/us
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/edit_rating_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/home/home_screen.dart';
+import 'package:vicourses_mobile_app/presentation/screens/learning/learning_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/login/login_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/register/register_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/search/search_results_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/search/search_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/splash/splash_screen.dart';
-import 'package:vicourses_mobile_app/presentation/screens/study/study_screen.dart';
+import 'package:vicourses_mobile_app/presentation/screens/enrolled_courses/enrolled_courses_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/user_profile/user_courses_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/user_profile/user_profile_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/wishlist/wishlist_screen.dart';
@@ -56,6 +57,12 @@ class AppGoRouter {
         path: '/forgot-password',
         builder: (_, __) => ForgotPasswordScreen(),
       ),
+      GoRoute(
+        path: '/learn/:id',
+        builder: (_, state) => LearningScreen(
+          courseId: state.pathParameters['id'] ?? '',
+        ),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, __, navigationShell) {
           return ScaffoldWithBottomBar(navigationShell: navigationShell);
@@ -71,28 +78,27 @@ class AppGoRouter {
                 ),
               ),
               GoRoute(
-                path: '/course/:id',
-                builder: (_, state) => CourseDetailScreen(
-                  courseId: state.pathParameters['id'] ?? '',
-                ),
-                routes: [
-                  GoRoute(
-                    path: 'ratings',
-                    builder: (_, state) => CourseRatingsScreen(
-                      courseId: state.pathParameters['id'] ?? '',
+                  path: '/course/:id',
+                  builder: (_, state) => CourseDetailScreen(
+                        courseId: state.pathParameters['id'] ?? '',
+                      ),
+                  routes: [
+                    GoRoute(
+                      path: 'ratings',
+                      builder: (_, state) => CourseRatingsScreen(
+                        courseId: state.pathParameters['id'] ?? '',
+                      ),
+                      parentNavigatorKey: _rootNavigatorKey,
                     ),
-                    parentNavigatorKey: _rootNavigatorKey,
-                  ),
-                  GoRoute(
-                    path: 'edit-rating',
-                    builder: (_, state) => EditRatingScreen(
-                      courseId: state.pathParameters['id'] ?? '',
-                      cubit: state.extra as UserRatingCubit,
+                    GoRoute(
+                      path: 'edit-rating',
+                      builder: (_, state) => EditRatingScreen(
+                        courseId: state.pathParameters['id'] ?? '',
+                        cubit: state.extra as UserRatingCubit,
+                      ),
+                      parentNavigatorKey: _rootNavigatorKey,
                     ),
-                    parentNavigatorKey: _rootNavigatorKey,
-                  ),
-                ]
-              ),
+                  ]),
               GoRoute(
                 path: '/category/:slug',
                 builder: (_, state) => CategoryScreen(
@@ -140,7 +146,7 @@ class AppGoRouter {
               GoRoute(
                 path: '/study',
                 pageBuilder: (_, __) => const NoTransitionPage(
-                  child: StudyScreen(),
+                  child: EnrolledCoursesScreen(),
                 ),
               ),
             ],

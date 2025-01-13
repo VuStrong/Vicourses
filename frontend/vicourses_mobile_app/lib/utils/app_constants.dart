@@ -30,3 +30,9 @@ class LessonType {
   static const String video = "Video";
   static const String quiz = "Quiz";
 }
+
+class VideoStatus {
+  static const String beingProcessed = "BeingProcessed";
+  static const String processed = "Processed";
+  static const String processingFailed = "ProcessingFailed";
+}
