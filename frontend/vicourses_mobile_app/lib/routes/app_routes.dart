@@ -25,6 +25,7 @@ class AppRoutes {
   static String getCourseDetailRoute(String id) => '/course/$id';
   static String getCourseRatingsRoute(String id) => '/course/$id/ratings';
   static String getEditRatingRoute(String courseId) => '/course/$courseId/edit-rating';
+  static String getCoursePreviewVideoRoute(String courseId) => '/course/$courseId/preview-video';
 
   static String getLearningRoute(String courseId) => '/learn/$courseId';
 

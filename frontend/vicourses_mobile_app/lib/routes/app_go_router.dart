@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vicourses_mobile_app/models/course.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/scaffold_with_bottom_bar.dart';
 import 'package:vicourses_mobile_app/presentation/screens/account/account_overview/account_overview_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/account/account_security/account_security_screen.dart';
@@ -11,6 +12,7 @@ import 'package:vicourses_mobile_app/presentation/screens/course_detail/course_d
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/course_ratings_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/user_rating.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/edit_rating_screen.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/preview_video_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/home/home_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/learning/learning_screen.dart';
@@ -78,27 +80,35 @@ class AppGoRouter {
                 ),
               ),
               GoRoute(
-                  path: '/course/:id',
-                  builder: (_, state) => CourseDetailScreen(
-                        courseId: state.pathParameters['id'] ?? '',
-                      ),
-                  routes: [
-                    GoRoute(
-                      path: 'ratings',
-                      builder: (_, state) => CourseRatingsScreen(
-                        courseId: state.pathParameters['id'] ?? '',
-                      ),
-                      parentNavigatorKey: _rootNavigatorKey,
+                path: '/course/:id',
+                builder: (_, state) => CourseDetailScreen(
+                  courseId: state.pathParameters['id'] ?? '',
+                ),
+                routes: [
+                  GoRoute(
+                    path: 'ratings',
+                    builder: (_, state) => CourseRatingsScreen(
+                      courseId: state.pathParameters['id'] ?? '',
                     ),
-                    GoRoute(
-                      path: 'edit-rating',
-                      builder: (_, state) => EditRatingScreen(
-                        courseId: state.pathParameters['id'] ?? '',
-                        cubit: state.extra as UserRatingCubit,
-                      ),
-                      parentNavigatorKey: _rootNavigatorKey,
+                    parentNavigatorKey: _rootNavigatorKey,
+                  ),
+                  GoRoute(
+                    path: 'edit-rating',
+                    builder: (_, state) => EditRatingScreen(
+                      courseId: state.pathParameters['id'] ?? '',
+                      cubit: state.extra as UserRatingCubit,
                     ),
-                  ]),
+                    parentNavigatorKey: _rootNavigatorKey,
+                  ),
+                  GoRoute(
+                    path: 'preview-video',
+                    builder: (_, state) => PreviewVideoScreen(
+                      course: state.extra as CourseDetail,
+                    ),
+                    parentNavigatorKey: _rootNavigatorKey,
+                  ),
+                ],
+              ),
               GoRoute(
                 path: '/category/:slug',
                 builder: (_, state) => CategoryScreen(

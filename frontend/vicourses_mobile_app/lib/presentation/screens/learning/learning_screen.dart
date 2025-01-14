@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vicourses_mobile_app/models/lesson.dart';
+import 'package:vicourses_mobile_app/presentation/common_widgets/hls_video_player.dart';
 import 'package:vicourses_mobile_app/presentation/screens/learning/comments_tab.dart';
 import 'package:vicourses_mobile_app/presentation/screens/learning/cubit/comments.dart';
 import 'package:vicourses_mobile_app/presentation/screens/learning/cubit/learning.dart';
@@ -88,7 +89,7 @@ class _LearningScreenState extends State<LearningScreen> {
       );
     }
 
-    return Center(child: Text(lesson.video!.originalFileName));
+    return HlsVideoPlayer(token: lesson.video!.token);
   }
 
   Widget _quizLesson(BuildContext context, Lesson lesson) {

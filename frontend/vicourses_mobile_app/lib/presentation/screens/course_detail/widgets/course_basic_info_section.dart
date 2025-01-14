@@ -60,7 +60,10 @@ class CourseBasicInfoSection extends StatelessWidget {
         child: Center(
           child: IconButton(
             onPressed: () {
-              //
+              context.push(
+                AppRoutes.getCoursePreviewVideoRoute(course.id),
+                extra: course,
+              );
             },
             icon: const Icon(
               Icons.play_arrow,
