@@ -7,6 +7,7 @@ class StarRating extends StatelessWidget {
   final bool readonly;
   final double itemSize;
   final EdgeInsetsGeometry itemPadding;
+  final double minRating;
   final void Function(double)? onRatingUpdate;
 
   const StarRating({
@@ -16,6 +17,7 @@ class StarRating extends StatelessWidget {
     this.readonly = false,
     this.itemSize = 20,
     this.itemPadding = EdgeInsets.zero,
+    this.minRating = 0,
     this.onRatingUpdate,
   });
 
@@ -28,6 +30,7 @@ class StarRating extends StatelessWidget {
       direction: Axis.horizontal,
       allowHalfRating: allowHalfRating,
       itemCount: 5,
+      minRating: minRating,
       ratingWidget: RatingWidget(
         full: const Icon(
           Icons.star_purple500_outlined,

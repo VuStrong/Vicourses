@@ -26,7 +26,13 @@
   "username": "Username",
   "browseCategories": "Browse categories",
   "noResults": "No results",
+  "price": "Price",
   "free": "Free",
+  "paid": "Paid",
+  "level": "Level",
+  "sort": "Sort",
+  "apply": "Apply",
+  "reset": "Reset",
   "accountSecurity": "Account security",
   "accountSettings": "Account settings",
   "changePassword": "Change password",
@@ -46,6 +52,103 @@
   "seeYourPublicProfile": "See your public profile",
   "totalStudents": "Total students",
   "aboutMe": "About me",
+  "courses": "Courses",
+  "showAll": "Show all",
+  "hide": "Hide",
+  "enrolledCourses": "Enrolled courses",
+  "youAreNotEnrolledAnyCourses": "You are not enrolled any courses",
+  "emptyWishlist": "Your wishlist is empty",
+  "results": "Results",
+  "rating": "Rating",
+  "students": "Students",
+  "createdBy": "Created by",
+  "lastUpdated": "Last updated",
+  "buyNow": "Buy now",
+  "enrollNow": "Enroll now",
+  "youAreEnrolled": "You are enrolled this course",
+  "contents": "Contents",
+  "thisCourseContains": "This course contains",
+  "section": "Section",
+  "sections": "Sections",
+  "lessons": "Lessons",
+  "quizzes": "Quizzes",
+  "fullLifetimeAccess": "Full lifetime access",
+  "requirements": "Requirements",
+  "courseTarget": "Target students of this course",
+  "description": "Description",
+  "curriculum": "Curriculum",
+  "studentReviews": "Student reviews",
+  "instructorResponse": "Instructor response",
+  "yourRating": "Your rating",
+  "edit": "Edit",
+  "delete": "Delete",
+  "writeFeedback": "Write feedback",
+  "newestCourses": "Newest courses",
+  "comments": "Comments",
+  "writeComment": "Write comment",
+  "newest": "Newest",
+  "oldest": "Oldest",
+  "highestUpvoted": "Highest upvoted",
+  "highestRated": "Highest rated",
+  "priceHighToLow": "Price high to low",
+  "priceLowToHigh": "Price low to high",
+  "relevance": "Relevance",
+  "deleted": "Deleted",
+  "showMore": "Show more",
+  "showReplies": "Show replies",
+  "startDoingQuizzes": "Start doing quizzes",
+  "check": "Check",
+  "notCompletedQuizzesMessage": "You must answer all quizzes to check",
+  "answerAllQuizzesCorrect": "Great!, you answered all questions correctly.",
+  "tryAgain": "Try again",
+
+  "answerCorrectQuizzes": "You answered {num}/{total} questions correctly.",
+  "@quizNumber": {
+    "placeholders": {
+      "num": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+
+  "quizNumber": "Quiz number {number}",
+  "@quizNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+
+  "replyTo": "Reply to {name}",
+  "@replyTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
+  "totalVideoDuration": "Total {total} hours of video on demand",
+  "@totalVideoDuration": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+
+  "fromNumAndAbove": "From {num} and above",
+  "@fromNumAndAbove": {
+    "placeholders": {
+      "num": {
+        "type": "int"
+      }
+    }
+  },
 
   "textLength": "This field must be between {min} and {max} characters",
   "@textLength": {

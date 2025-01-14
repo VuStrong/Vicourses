@@ -28,8 +28,8 @@ class RegisterState {
   }) {
     return RegisterState(
       status: status ?? this.status,
-      errorMessage: errorMessage?.call() ?? this.errorMessage,
-      loginResponse: loginResponse?.call() ?? this.loginResponse,
+      errorMessage: errorMessage != null ? errorMessage() : this.errorMessage,
+      loginResponse: loginResponse != null ? loginResponse() : this.loginResponse,
       passwordObscure: passwordObscure ?? this.passwordObscure,
     );
   }

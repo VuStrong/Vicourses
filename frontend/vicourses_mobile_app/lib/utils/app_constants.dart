@@ -19,3 +19,20 @@ class CourseLevel {
   static const String intermediate = "Intermediate";
   static const String expert = "Expert";
 }
+
+class CourseStatus {
+  static const String unpublished = "Unpublished";
+  static const String waitingToVerify = "WaitingToVerify";
+  static const String published = "Published";
+}
+
+class LessonType {
+  static const String video = "Video";
+  static const String quiz = "Quiz";
+}
+
+class VideoStatus {
+  static const String beingProcessed = "BeingProcessed";
+  static const String processed = "Processed";
+  static const String processingFailed = "ProcessingFailed";
+}

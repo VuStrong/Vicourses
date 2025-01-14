@@ -58,21 +58,18 @@ class _SearchScreenState extends State<SearchScreen> {
 
               return Column(
                 children: state.categories!
-                    .map(
-                      (category) => ListTile(
-                        title: Text(
-                          category.name,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        contentPadding: const EdgeInsets.only(
-                          left: 14,
-                          right: 14,
-                        ),
-                        onTap: () {
-                          //
-                        },
-                      ),
-                    )
+                    .map((category) => ListTile(
+                          title: Text(
+                            category.name,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 14),
+                          onTap: () {
+                            context.push(
+                                AppRoutes.getCategoryRoute(category.slug));
+                          },
+                        ))
                     .toList(),
               );
             },
