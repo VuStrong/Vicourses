@@ -23,7 +23,7 @@ export default function Sidebar({
             ></div>
             <aside className={`fixed left-auto lg:!translate-x-0 lg:right-0 top-0 h-screen w-[80%] md:w-96 bg-white border-l border-gray-700 
                 transition-transform z-[1003] lg:z-[999] overflow-y-scroll pb-20 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
-                <Curriculum courseId={courseId} lessonId={lessonId} />
+                <Curriculum courseId={courseId} initialLessonId={lessonId} />
             </aside>
         </>
     );

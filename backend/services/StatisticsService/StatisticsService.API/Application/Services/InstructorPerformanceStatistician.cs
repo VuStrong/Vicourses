@@ -67,6 +67,7 @@ namespace StatisticsService.API.Application.Services
                 from = to.AddDays(-7);
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
+                    .OrderBy(m => m.Date)
                     .GroupBy(m => m.Date)
                     .Select(m => new InstructorMetricsDto
                     {
@@ -81,6 +82,7 @@ namespace StatisticsService.API.Application.Services
                 from = to.AddMonths(-1);
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
+                    .OrderBy(m => m.Date)
                     .GroupBy(m => m.Date)
                     .Select(m => new InstructorMetricsDto
                     {
@@ -95,6 +97,7 @@ namespace StatisticsService.API.Application.Services
                  from = to.AddYears(-1);
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
+                    .OrderBy(m => m.Date)
                     .GroupBy(m => new { m.Date.Year, m.Date.Month })
                     .Select(m => new InstructorMetricsDto
                     {
@@ -107,6 +110,7 @@ namespace StatisticsService.API.Application.Services
             else
             {
                 return query
+                    .OrderBy(m => m.Date)
                     .GroupBy(m => new { m.Date.Year, m.Date.Month })
                     .Select(m => new InstructorMetricsDto
                     {

@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/bullet_text_list.dart';
+import 'package:vicourses_mobile_app/presentation/common_widgets/snack_bar.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/course_detail.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/course_ratings.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/public_curriculum.dart';
@@ -14,6 +16,7 @@ import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/course_ratings_section.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/public_curriculum_section.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/user_rating_section.dart';
+import 'package:vicourses_mobile_app/routes/app_routes.dart';
 import 'package:vicourses_mobile_app/services/api/course_service.dart';
 import 'package:vicourses_mobile_app/services/api/rating_service.dart';
 
@@ -67,6 +70,34 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             listenWhen: (prev, current) => current.enrolled && !prev.enrolled,
             listener: (context, state) {
               context.read<UserRatingCubit>().fetchUserRating(state.course!.id);
+            },
+          ),
+          BlocListener<CourseDetailCubit, CourseDetailState>(
+            listenWhen: (prev, current) =>
+                prev.enrollingStatus != current.enrollingStatus,
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+              if (state.enrollingStatus == EnrollingStatus.pending) {
+                return showSnackBar(
+                  context: context,
+                  text: AppLocalizations.of(context)!.waitForEnrollingMessage,
+                  duration: 2000 * 2000,
+                  showCloseIcon: false,
+                );
+              }
+
+              if (state.enrollingStatus == EnrollingStatus.failed) {
+                return showSnackBar(
+                  context: context,
+                  text: AppLocalizations.of(context)!.errorOccurred,
+                  type: SnackBarType.error,
+                );
+              }
+
+              if (state.enrollingStatus == EnrollingStatus.success) {
+                context.push(AppRoutes.getLearningRoute(state.course!.id));
+              }
             },
           ),
         ],

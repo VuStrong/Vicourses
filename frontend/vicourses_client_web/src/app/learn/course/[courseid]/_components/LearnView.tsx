@@ -9,28 +9,26 @@ import { Loader } from "@/components/common";
 import LessonVideo from "./LessonVideo";
 import LessonQuizzes from "./LessonQuizzes";
 import CommentsContainer from "./comment/CommentsContainer";
+import useCurriculum from "../_hooks/useCurriculum";
 
-export default function LearnView({
-    lessonId,
-}: {
-    lessonId?: string;
-}) {
+export default function LearnView() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [lesson, setLesson] = useState<Lesson | null>(null);
+    const currentLesson = useCurriculum(state => state.currentLesson);
     const { data: session, status } = useSession();
 
     useEffect(() => {
-        if (status === "authenticated" && lessonId) {
+        if (status === "authenticated" && currentLesson) {
             (async () => {
                 setIsLoading(true);
 
-                const result = await getLesson(lessonId, session.accessToken);
+                const result = await getLesson(currentLesson.id, session.accessToken);
 
                 setLesson(result);
                 setIsLoading(false);
             })();
         }
-    }, [lessonId, status]);
+    }, [currentLesson, status]);
 
     if (isLoading) {
         return (
