@@ -52,6 +52,7 @@ Here's an overview of folders and their purposes in the project:
 ├── /frontend                        # Frontend codebase
 └────────────/vicourses_client_web   # Client web codebase
 └────────────/vicourses_admin_web    # Admin web codebase
+└────────────/vicourses_mobile_app   # Mobile app codebase
 
 ```
 ## Screenshots
