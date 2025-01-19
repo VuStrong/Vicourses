@@ -38,6 +38,7 @@ namespace StatisticsService.API.Application.Services
 
             var monthMetrics = await _dbContext.AdminMetrics
                 .Where(m => m.Date >= from && m.Date <= to)
+                .OrderBy(m => m.Date)
                 .Select(m => new AdminMetricsDto
                 {
                     Label = m.Date.ToString(),
@@ -85,7 +86,7 @@ namespace StatisticsService.API.Application.Services
 
             if (from != null)
             {
-                query = query.Where(m => m.Date >= from.Value && m.Date <= to);
+                query = query.Where(m => m.Date >= from.Value && m.Date <= to).OrderBy(m => m.Date);
             }
 
             List<AdminMetricsDto> metrics;
