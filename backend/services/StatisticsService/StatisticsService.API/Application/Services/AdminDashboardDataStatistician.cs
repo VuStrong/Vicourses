@@ -86,13 +86,13 @@ namespace StatisticsService.API.Application.Services
 
             if (from != null)
             {
-                query = query.Where(m => m.Date >= from.Value && m.Date <= to).OrderBy(m => m.Date);
+                query = query.Where(m => m.Date >= from.Value && m.Date <= to);
             }
 
             List<AdminMetricsDto> metrics;
             if (dateScope == DateScope.Week || dateScope == DateScope.Month)
             {
-                metrics = await query.Select(m => new AdminMetricsDto
+                metrics = await query.OrderBy(m => m.Date).Select(m => new AdminMetricsDto
                 {
                     Label = m.Date.ToString(),
                     Revenue = m.Revenue
@@ -102,6 +102,8 @@ namespace StatisticsService.API.Application.Services
             else
             {
                 metrics = await query.GroupBy(m => new { m.Date.Year, m.Date.Month })
+                    .OrderBy(m => m.Key.Year)
+                    .ThenBy(m => m.Key.Month)
                     .Select(m => new AdminMetricsDto
                     {
                         Label = $"{m.Key.Month}/{m.Key.Year}",
