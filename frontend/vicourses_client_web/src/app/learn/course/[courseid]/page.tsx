@@ -1,11 +1,13 @@
 import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+
 import { auth } from "@/libs/auth";
 import { checkEnroll, getCourseById } from "@/services/api/course";
-import Header from "./_components/Header";
+import BottomNav from "./_components/BottomNav";
 import LearnView from "./_components/LearnView";
 import Sidebar from "./_components/Sidebar";
-import BottomNav from "./_components/BottomNav";
+import Header from "./_components/Header";
+import { CurriculumStoreProvider } from "./_hooks/useCurriculum";
 
 export async function generateMetadata({
     params,
@@ -25,10 +27,10 @@ export async function generateMetadata({
 export default async function CourseLearnPage({
     params,
     searchParams,
-}: {
+}: Readonly<{
     params: { courseid: string };
     searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+}>) {
     const session = await auth();
     if (!session) redirect("/");
 
@@ -36,7 +38,7 @@ export default async function CourseLearnPage({
 
     if (!course) notFound();
 
-    if (session?.user.id !== course.user.id) {
+    if (session.user.id !== course.user.id) {
         const enrolled = await checkEnroll(course.id, session.accessToken);
 
         if (!enrolled) {
@@ -51,13 +53,13 @@ export default async function CourseLearnPage({
         : undefined;
 
     return (
-        <>
+        <CurriculumStoreProvider>
             <Header course={course} />
             <Sidebar courseId={course.id} lessonId={lessonId} />
             <BottomNav />
             <main className="w-full lg:w-[calc(100%-24rem)]">
-                <LearnView lessonId={lessonId} />
+                <LearnView />
             </main>
-        </>
-    )
+        </CurriculumStoreProvider>
+    );
 }

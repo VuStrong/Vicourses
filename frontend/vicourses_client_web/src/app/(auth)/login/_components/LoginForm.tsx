@@ -45,7 +45,9 @@ export default function LoginForm() {
     };
 
     const handleGoogleLogin = () => {
-        signIn("google");
+        const pageToRedirect = searchParams?.get("callbackUrl") ?? "/";
+
+        signIn("google", { redirectTo: decodeURIComponent(pageToRedirect) });
     };
 
     return (

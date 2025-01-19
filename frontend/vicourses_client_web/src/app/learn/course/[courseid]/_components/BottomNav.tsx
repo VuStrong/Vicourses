@@ -1,19 +1,17 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@material-tailwind/react";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { IoMenu } from "react-icons/io5";
 
 import useSidebar from "../_hooks/useSidebar";
-import useLessonNavigation from "../_hooks/useLessonNavigation";
+import useCurriculum from "../_hooks/useCurriculum";
 
 export default function BottomNav() {
     const toggleSidebar = useSidebar((state) => state.toggle);
-    const prevLessonId = useLessonNavigation(state => state.prevId);
-    const nextLessonId = useLessonNavigation(state => state.nextId);
-    const router = useRouter();
-    const pathname = usePathname();
+    const prevLesson = useCurriculum(state => state.prevLesson);
+    const nextLesson = useCurriculum(state => state.nextLesson);
+    const setCurrentLesson = useCurriculum(state => state.setCurrentLesson);
 
     return (
         <div className="fixed bottom-0 left-0 w-full flex items-center justify-between p-2 bg-[#f0f0f0] z-[1000] border-t border-gray-600">
@@ -27,11 +25,12 @@ export default function BottomNav() {
             </div>
             <div className="flex gap-2">
                 <Button
-                    disabled={!prevLessonId}
+                    disabled={!prevLesson}
                     onClick={() => {
-                        router.push(`${pathname}?lesson=${prevLessonId}`);
+                        setCurrentLesson(prevLesson!.id);
                     }}
                     className={`bg-white rounded-full px-5 text-primary border border-primary flex gap-2 items-center`}
+                    title={`${prevLesson?.title || ""}`}
                 >
                     <GrPrevious size={16} />
                     <span className="md:block hidden">
@@ -39,11 +38,12 @@ export default function BottomNav() {
                     </span>
                 </Button>
                 <Button
-                    disabled={!nextLessonId}
+                    disabled={!nextLesson}
                     onClick={() => {
-                        router.push(`${pathname}?lesson=${nextLessonId}`);
+                        setCurrentLesson(nextLesson!.id);
                     }}
                     className={`bg-primary rounded-full px-5 text-white flex gap-2 items-center`}
+                    title={`${nextLesson?.title || ""}`}
                 >
                     <span className="md:block hidden">
                         Next lesson

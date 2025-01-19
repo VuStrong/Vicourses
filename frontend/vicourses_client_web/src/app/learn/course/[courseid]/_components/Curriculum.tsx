@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import {
     Accordion,
     AccordionBody,
@@ -14,8 +13,7 @@ import { Loader } from "@/components/common";
 import { PublicCurriculum } from "@/libs/types/course";
 import { LessonType } from "@/libs/types/lesson";
 import { formatLength } from "@/libs/utils";
-import { getPublicCurriculum } from "@/services/api/course";
-import useLessonNavigation from "../_hooks/useLessonNavigation";
+import useCurriculum from "../_hooks/useCurriculum";
 
 function getSectionIdByLesson(curriculum: PublicCurriculum, lessonId: string) {
     for (const section of curriculum.sections) {
@@ -31,71 +29,36 @@ function getSectionIdByLesson(curriculum: PublicCurriculum, lessonId: string) {
 
 export default function Curriculum({
     courseId,
-    lessonId,
+    initialLessonId,
 }: {
     courseId: string;
-    lessonId?: string;
+    initialLessonId?: string;
 }) {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [curriculum, setCurriculum] = useState<PublicCurriculum | null>(null);
-    const [openSections, setOpenSections] = useState<string[]>([]);
-    const router = useRouter();
-    const { data: session, status } = useSession();
+    const isLoading = useCurriculum((state) => state.isLoadingCurriculum);
+    const curriculum = useCurriculum((state) => state.curriculum);
+    const currentLesson = useCurriculum((state) => state.currentLesson);
+    const fetchCurriculum = useCurriculum((state) => state.fetchCurriculum);
+    const setCurrentLesson = useCurriculum((state) => state.setCurrentLesson);
 
-    const setLessonIds = useLessonNavigation(
-        (state) => state.setIdsFromPublicCurriculum
-    );
-    const setCurrentLessonId = useLessonNavigation(
-        (state) => state.setCurrentId
-    );
+    const [openSections, setOpenSections] = useState<string[]>([]);
+    const { data: session, status } = useSession();
 
     useEffect(() => {
         if (status === "authenticated") {
-            (async () => {
-                setIsLoading(true);
-
-                const result = await getPublicCurriculum(
-                    courseId,
-                    session.accessToken
-                );
-
-                if (result) {
-                    setCurriculum(result);
-                    setIsLoading(false);
-                    setLessonIds(result, lessonId);
-
-                    if (lessonId) {
-                        const sectionToOpen = getSectionIdByLesson(
-                            result,
-                            lessonId
-                        );
-
-                        if (sectionToOpen) setOpenSections([sectionToOpen]);
-
-                        return;
-                    }
-
-                    const lessonToRedirect = result.sections[0]?.lessons[0];
-
-                    if (!lessonToRedirect) return;
-
-                    router.push(
-                        `/learn/course/${courseId}?lesson=${lessonToRedirect.id}`
-                    );
-                }
-            })();
+            fetchCurriculum(courseId, session.accessToken, initialLessonId);
         }
     }, [courseId, status]);
 
     useEffect(() => {
-        if (lessonId && curriculum) {
-            setCurrentLessonId(lessonId);
-
-            const sectionToOpen = getSectionIdByLesson(curriculum, lessonId);
+        if (currentLesson && curriculum) {
+            const sectionToOpen = getSectionIdByLesson(
+                curriculum,
+                currentLesson.id
+            );
 
             if (sectionToOpen) setOpenSections([sectionToOpen]);
         }
-    }, [lessonId]);
+    }, [currentLesson]);
 
     const onClickSection = (sectionId: string) => {
         if (openSections.includes(sectionId)) {
@@ -106,7 +69,7 @@ export default function Curriculum({
     };
 
     const onClickLesson = (lessonId: string) => {
-        router.push(`/learn/course/${courseId}?lesson=${lessonId}`);
+        setCurrentLesson(lessonId);
     };
 
     return (
@@ -151,7 +114,9 @@ export default function Curriculum({
                                         <LessonItem
                                             key={lesson.id}
                                             lesson={lesson}
-                                            active={lesson.id === lessonId}
+                                            active={
+                                                lesson.id === currentLesson?.id
+                                            }
                                             onClick={() =>
                                                 onClickLesson(lesson.id)
                                             }
