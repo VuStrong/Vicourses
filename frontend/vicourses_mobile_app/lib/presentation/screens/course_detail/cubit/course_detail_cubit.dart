@@ -28,4 +28,27 @@ class CourseDetailCubit extends Cubit<CourseDetailState> {
 
     emit(state.copyWith(isCheckingEnroll: false, enrolled: enrolled));
   }
+
+  Future<void> enroll() async {
+    if (state.course == null ||
+        state.enrolled ||
+        state.enrollingStatus == EnrollingStatus.pending) return;
+
+    emit(state.copyWith(
+      enrollingStatus: EnrollingStatus.pending,
+    ));
+
+    try {
+      await _courseService.enrollInFreeCourse(state.course!.id);
+
+      emit(state.copyWith(
+        enrolled: true,
+        enrollingStatus: EnrollingStatus.success,
+      ));
+    } on Exception {
+      emit(state.copyWith(
+        enrollingStatus: EnrollingStatus.failed,
+      ));
+    }
+  }
 }

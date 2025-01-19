@@ -12,14 +12,21 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> fetchHomeContent() async {
     emit(HomeState(isLoading: true));
 
-    final result = await _courseService.getCourses(
-      limit: 10,
-      sort: 'Newest',
-    );
+    final results = await Future.wait([
+      _courseService.getCourses(
+        limit: 10,
+        sort: 'Newest',
+      ),
+      _courseService.getCourses(
+        limit: 10,
+        sort: 'HighestRated',
+      ),
+    ]);
 
     emit(HomeState(
       isLoading: false,
-      courses: result?.items,
+      newestCourses: results[0]?.items,
+      highestRatedCourses: results[1]?.items,
     ));
   }
 }

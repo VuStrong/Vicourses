@@ -2,10 +2,12 @@ part of 'home_cubit.dart';
 
 class HomeState {
   final bool isLoading;
-  final List<Course>? courses;
+  final List<Course>? newestCourses;
+  final List<Course>? highestRatedCourses;
 
   HomeState({
     this.isLoading = false,
-    this.courses,
+    this.newestCourses,
+    this.highestRatedCourses,
   });
 }

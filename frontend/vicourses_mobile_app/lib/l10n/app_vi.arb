@@ -101,6 +101,8 @@
   "notCompletedQuizzesMessage": "Hãy trả lời tất cả các câu đố",
   "answerAllQuizzesCorrect": "Tuyệt!, bạn đã trả lời đúng hết các câu hỏi.",
   "tryAgain": "Thử lại",
+  "waitForEnrollingMessage": "Chờ chút!, đừng rời đi, chúng tôi đang ghi danh bạn",
+  "paymentRedirectMessage": "Tính năng thanh toán trên ứng dụng di động hiện không khả dụng. Bạn sẽ được chuyển hướng đến trang web của chúng tôi để hoàn tất thanh toán",
   "answerCorrectQuizzes": "Bạn đã trả lời đúng {num}/{total} câu hỏi",
   "quizNumber": "Câu đố số {number}",
   "replyTo": "Phản hồi tới {name}",

@@ -8,7 +8,6 @@ import 'package:vicourses_mobile_app/presentation/common_blocs/categories/catego
 import 'package:vicourses_mobile_app/presentation/common_blocs/user/user.dart';
 import 'package:vicourses_mobile_app/presentation/common_blocs/wishlist/wishlist.dart';
 import 'package:vicourses_mobile_app/routes/app_go_router.dart';
-import 'package:vicourses_mobile_app/routes/app_routes.dart';
 import 'package:vicourses_mobile_app/services/api/auth_service.dart';
 import 'package:vicourses_mobile_app/services/api/category_service.dart';
 import 'package:vicourses_mobile_app/services/api/user_service.dart';
@@ -46,22 +45,8 @@ class VicoursesApp extends StatelessWidget {
         overlayColor: Colors.black.withOpacity(0.8),
         child: BlocListener<UserBloc, UserState>(
           listenWhen: (prev, current) => prev.status != current.status,
-          listener: (context, state) {
-            final router = AppGoRouter.router;
-
-            if (state.status == UserStatus.loading) {
-              return router.go(AppRoutes.splash);
-            }
-
-            if (state.status == UserStatus.authenticated) {
-              if (!state.user!.emailConfirmed) {
-                return router.go(AppRoutes.confirmEmail);
-              }
-
-              router.go(AppRoutes.home);
-            } else {
-              router.go(AppRoutes.login);
-            }
+          listener: (_, __) {
+            AppGoRouter.router.refresh();
           },
           child: MaterialApp.router(
             title: AppConstants.appName,

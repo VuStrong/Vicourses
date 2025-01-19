@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vicourses_mobile_app/models/course.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/add_to_wishlist_button.dart';
 import 'package:vicourses_mobile_app/presentation/screens/course_detail/cubit/course_detail.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/enroll_button.dart';
+import 'package:vicourses_mobile_app/presentation/screens/course_detail/widgets/pay_button.dart';
 
 class CoursePurchaseSection extends StatelessWidget {
   final CourseDetail course;
@@ -53,50 +55,18 @@ class CoursePurchaseSection extends StatelessWidget {
         if (course.isPaid) {
           return Row(
             children: [
-              Expanded(child: _buyButton(context)),
+              Expanded(child: PayButton(courseId: course.id)),
               AddToWishlistButton(courseId: course.id),
             ],
           );
         }
 
-        return Row(
+        return const Row(
           children: [
-            Expanded(child: _enrollButton(context)),
+            Expanded(child: EnrollButton()),
           ],
         );
       },
-    );
-  }
-
-  Widget _buyButton(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColor,
-        shape: const RoundedRectangleBorder(),
-      ),
-      onPressed: () {
-        //
-      },
-      child: Text(
-        AppLocalizations.of(context)!.buyNow,
-        style: const TextStyle(color: Colors.white),
-      ),
-    );
-  }
-
-  Widget _enrollButton(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.black,
-        shape: const RoundedRectangleBorder(),
-      ),
-      onPressed: () {
-        //
-      },
-      child: Text(
-        AppLocalizations.of(context)!.enrollNow,
-        style: const TextStyle(color: Colors.white),
-      ),
     );
   }
 

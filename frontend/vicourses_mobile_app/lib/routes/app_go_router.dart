@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vicourses_mobile_app/models/course.dart';
+import 'package:vicourses_mobile_app/presentation/common_blocs/user/user.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/scaffold_with_bottom_bar.dart';
 import 'package:vicourses_mobile_app/presentation/screens/account/account_overview/account_overview_screen.dart';
 import 'package:vicourses_mobile_app/presentation/screens/account/account_security/account_security_screen.dart';
@@ -38,6 +40,28 @@ class AppGoRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: AppRoutes.splash,
+    redirect: (context, state) {
+      final userState = context.read<UserBloc>().state;
+      final status = userState.status;
+      final isGuestRoute = guestRoutes.contains(state.uri.path);
+
+      if (status == UserStatus.authenticated) {
+        final emailConfirmed = userState.user!.emailConfirmed;
+        final needToGoHome = isGuestRoute ||
+            state.uri.path == AppRoutes.splash ||
+            state.uri.path == AppRoutes.confirmEmail;
+
+        if (!emailConfirmed) {
+          return AppRoutes.confirmEmail;
+        } else if (needToGoHome) {
+          return AppRoutes.home;
+        }
+      } else if (status == UserStatus.unauthenticated && !isGuestRoute) {
+        return AppRoutes.login;
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/splash',
@@ -204,4 +228,10 @@ class AppGoRouter {
       ),
     ],
   );
+
+  static final List<String> guestRoutes = [
+    AppRoutes.login,
+    AppRoutes.register,
+    AppRoutes.forgotPassword,
+  ];
 }

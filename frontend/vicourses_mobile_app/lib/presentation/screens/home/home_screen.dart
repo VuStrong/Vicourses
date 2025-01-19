@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vicourses_mobile_app/models/category.dart';
+import 'package:vicourses_mobile_app/models/course.dart';
 import 'package:vicourses_mobile_app/presentation/common_blocs/categories/categories.dart';
 import 'package:vicourses_mobile_app/presentation/common_widgets/course/course_item.dart';
 import 'package:vicourses_mobile_app/presentation/screens/home/cubit/home.dart';
@@ -30,16 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
             _banner(),
             const SizedBox(height: 30),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: _categoriesSection(context),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 30,
-              ),
-              child: _newestCoursesSection(),
-            ),
+            _coursesSectionsBuilder(),
             const SizedBox(height: 50),
           ],
         ),
@@ -48,12 +43,34 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _banner() {
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: Image.network(
-        'https://res.cloudinary.com/dsrcm9jcs/image/upload/v1734940749/Others/banner1.jpg',
-        fit: BoxFit.cover,
-      ),
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Image.network(
+            'https://res.cloudinary.com/dsrcm9jcs/image/upload/v1734940749/Others/banner1.jpg',
+            fit: BoxFit.cover,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Study what you are interested in',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Skills for your present (and your future). Start studying with us.',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 
@@ -123,46 +140,79 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _newestCoursesSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppLocalizations.of(context)!.newestCourses,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+  Widget _coursesSectionsBuilder() {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            _CoursesSection(
+              title: AppLocalizations.of(context)!.newestCourses,
+              isLoading: state.isLoading,
+              courses: state.newestCourses,
+            ),
+            _CoursesSection(
+              title: AppLocalizations.of(context)!.highestRated,
+              isLoading: state.isLoading,
+              courses: state.highestRatedCourses,
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _CoursesSection extends StatelessWidget {
+  final String title;
+  final List<Course>? courses;
+  final bool isLoading;
+
+  const _CoursesSection({
+    required this.title,
+    this.courses,
+    this.isLoading = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 20,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (state.courses == null) return const SizedBox();
-
-            return SizedBox(
+          const SizedBox(height: 10),
+          if (isLoading) const Center(child: CircularProgressIndicator()),
+          if (!isLoading && courses != null)
+            SizedBox(
               height: 240,
-              child: ListView(
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                children: state.courses!.map((course) {
+                itemCount: courses!.length,
+                itemBuilder: (context, index) {
                   return Container(
                     width: 240,
                     padding: const EdgeInsets.only(right: 20),
                     child: CourseItem(
-                      course: course,
+                      course: courses![index],
                       style: CourseItemStyle.card,
                     ),
                   );
-                }).toList(),
+                },
               ),
-            );
-          },
-        )
-      ],
+            ),
+        ],
+      ),
     );
   }
 }
