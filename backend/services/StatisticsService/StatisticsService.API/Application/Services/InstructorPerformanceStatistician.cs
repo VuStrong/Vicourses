@@ -67,8 +67,8 @@ namespace StatisticsService.API.Application.Services
                 from = to.AddDays(-7);
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
-                    .OrderBy(m => m.Date)
                     .GroupBy(m => m.Date)
+                    .OrderBy(m => m.Key)
                     .Select(m => new InstructorMetricsDto
                     {
                         Label = m.Key.ToString(),
@@ -82,8 +82,8 @@ namespace StatisticsService.API.Application.Services
                 from = to.AddMonths(-1);
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
-                    .OrderBy(m => m.Date)
                     .GroupBy(m => m.Date)
+                    .OrderBy(m => m.Key)
                     .Select(m => new InstructorMetricsDto
                     {
                         Label = m.Key.ToString(),
@@ -97,8 +97,9 @@ namespace StatisticsService.API.Application.Services
                  from = to.AddYears(-1);
 
                 return query.Where(m => m.Date >= from && m.Date <= to)
-                    .OrderBy(m => m.Date)
                     .GroupBy(m => new { m.Date.Year, m.Date.Month })
+                    .OrderBy(m => m.Key.Year)
+                    .ThenBy(m => m.Key.Month)
                     .Select(m => new InstructorMetricsDto
                     {
                         Label = $"{m.Key.Month}/{m.Key.Year}",
@@ -110,8 +111,9 @@ namespace StatisticsService.API.Application.Services
             else
             {
                 return query
-                    .OrderBy(m => m.Date)
                     .GroupBy(m => new { m.Date.Year, m.Date.Month })
+                    .OrderBy(m => m.Key.Year)
+                    .ThenBy(m => m.Key.Month)
                     .Select(m => new InstructorMetricsDto
                     {
                         Label = $"{m.Key.Month}/{m.Key.Year}",
