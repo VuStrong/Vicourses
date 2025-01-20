@@ -46,7 +46,7 @@ const CurriculumStoreContext = createContext<StoreApi<CurriculumState> | null>(
     null
 );
 
-const curriculumStore = createStore<CurriculumState>((set) => ({
+const createCurriculumStore = () => createStore<CurriculumState>((set) => ({
     isLoadingCurriculum: false,
     curriculum: null,
     lessons: [],
@@ -146,7 +146,7 @@ export const CurriculumStoreProvider = ({
 }) => {
     const storeRef = useRef<StoreApi<CurriculumState>>();
     if (!storeRef.current) {
-        storeRef.current = curriculumStore;
+        storeRef.current = createCurriculumStore();
     }
 
     return (
