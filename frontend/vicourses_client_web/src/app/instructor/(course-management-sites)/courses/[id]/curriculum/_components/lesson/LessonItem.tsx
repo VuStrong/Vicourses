@@ -73,7 +73,7 @@ export default function LessonItem({
                     initialState={state}
                     session={session}
                     close={() => setOpenFormEdit(false)}
-                    onEdited={(state) => setState({ ...state })}
+                    onEdited={(editedState) => setState({ ...editedState })}
                 />
             ) : (
                 <div
@@ -209,7 +209,7 @@ function FormEdit({
                 session?.accessToken || ""
             );
 
-            onEdited(data);
+            onEdited({ ...initialState, ...data });
             reset(data);
             close();
         } catch (error: any) {

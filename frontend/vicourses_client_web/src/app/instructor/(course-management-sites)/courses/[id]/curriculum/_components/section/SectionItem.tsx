@@ -42,6 +42,7 @@ export default function SectionItem({
         description: section.description || "",
     });
     const openModal = useDeleteCurriculumItemModal((state) => state.open);
+    const [expanded, setExpanded] = useState<boolean>(false);
     const [openFormEdit, setOpenFormEdit] = useState<boolean>(false);
 
     const { attributes, listeners, setNodeRef, transform, transition } =
@@ -97,12 +98,20 @@ export default function SectionItem({
                             </button>
                         </div>
                     </div>
-                    <div {...listeners} {...attributes} className="cursor-move">
-                        <IoMdMenu size={24} />
+                    <div className="flex gap-2 items-center">
+                        <button
+                            onClick={() => setExpanded(!expanded)}
+                            className={expanded ? "rotate-180" : ""}
+                        >
+                            &#11206;
+                        </button>
+                        <div {...listeners} {...attributes} className="cursor-move">
+                            <IoMdMenu size={24} />
+                        </div>
                     </div>
                 </div>
             )}
-            <div className="pt-8 pl-0 md:pl-8 flex flex-col gap-5 min-h-[65px]">
+            <div className={`pt-8 pl-0 md:pl-8 ${expanded ? 'flex' : 'hidden'} flex-col gap-5 min-h-[65px]`}>
                 <SortableContext
                     items={section.lessons}
                     strategy={verticalListSortingStrategy}
