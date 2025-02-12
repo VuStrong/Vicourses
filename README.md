@@ -11,12 +11,11 @@ This project is an online learning platform that allows instructors to upload co
 
 ## Technologies Overview
 - Database: MySQL, MongoDB
-- Dotnet 8
 - ASP.NET Core 8
 - Entity Framework Core
 - Ocelot Api Gateway
-- Nodejs
-- Expressjs
+- NodeJS
+- ExpressJS
 - Golang
 - Redis
 - Elasticsearch
@@ -25,21 +24,25 @@ This project is an online learning platform that allows instructors to upload co
 - Data replication across services for higher availability, scalability, performance
 - Distributed logging using ElasticSearch, Filebeat and Kibana
 - Docker
-- Nextjs 14
+- React
+- NextJS 14
+- Flutter
 ## Features
-- User registration, login, email confirmation, password reset, Google login and user profile management
-- Instructor dashboard to manage courses (courses, sections, lessons, coupons, ...), view and respond ratings, view instructor performance (revenue, enrollment, refund)
-- Admin dashboard to manage users, courses, categories 
+- Login, register, confirm email, reset password, google login.
+- User profile management.
+- Browse courses.
+- User wishlist.
+- Course ratings.
+- Learning activities: watch videos, take quizzes, comment.
+- Instructor dashboard to manage courses, view and respond ratings, view instructor performance (revenue, enrollment, refund metrics).
+- Course curriculum management: Manage sections, lessons. Upload videos, create quizzes.
+- Coupon management for instructor.
+- Admin dashboard to manage users, courses, categories.
 - Asynchronous processing to generate HLS streaming segments with different resolutions for uploaded videos
-- Search and discovery of courses
-- Lesson commenting
-- Course rating
-- User wishlist
 - Send email
-- Image, video upload
 - Online payment using Paypal Gateway
-- Login and link Paypal account for the Payouts feature
-- Refund
+- Login and link Paypal account
+- View purchase history, refund
 - ...
 ## Folder Structure
 Here's an overview of folders and their purposes in the project:
@@ -64,16 +67,16 @@ Here's an overview of folders and their purposes in the project:
 
 [MORE SCREENSHOTS](./images/screenshots.md)
 ## Running with Docker
-To run the backend and its necessary infrastructure, make sure that you have Docker, Docker Compose and OpenSSL installed on your machine.
+To run the backend and its necessary infrastructure, navigate to the **deployments** directory, make sure that you have Docker, Docker Compose and OpenSSL installed on your machine.
 
-**Optional**, there are some environment variables you may want to set if you want to use some features below: (all ``.env`` files is in **deployments/services/** directory)
- - Google login: set the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`  in **user_service/.env** file
- - Pay with paypal or link paypal account: provide your paypal clientid and secret to `.env` file in **user_service/** and **payment_service/**
- - Send email: provide SMTP configuration to `.env` file in **email_service/**
-  - Upload, get files: provide AWS S3, Cloudfront configuration to `.env` file in **storage_service/** and Cloudfront key pair in **storage_service/cf-keypair/**
-  - Video processing: provide AWS S3 and Rclone configuration to `.env` file in **video_processing_service/**
+Optional, there are some environment variables you may want to set if you want to use some features below:
+ - Google login: provide google clientid to `services/user_service/.env` file
+ - Pay with paypal or link paypal account: provide paypal clientid and secret to `services/user_service/.env` and `services/payment_service/.env` file
+ - Send email: provide SMTP configuration to `services/email_service/.env` file
+  - Upload, get files: provide AWS S3, Cloudfront configuration to `services/storage_service/.env` file and Cloudfront key pair to `services/storage_service/cf-keypair/` directory
+  - Video processing: provide AWS S3 and Rclone configuration to `services/video_processing_service/.env` file
 
-Navigate to the **deployments** directory and run the following commands:
+At the **deployments** directory, run the following command:
 
 **Windows**
    ```shell
