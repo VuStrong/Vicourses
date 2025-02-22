@@ -90,6 +90,7 @@ namespace RatingService.API.Application.Services
 
             var ratings = await query
                 .Include(r => r.User)
+                .Include(r => r.Course)
                 .OrderByDescending(r => r.CreatedAt)
                 .Skip(skip)
                 .Take(limit)
@@ -126,7 +127,7 @@ namespace RatingService.API.Application.Services
 
             var newAvgRating = (course.AvgRating * course.RatingCount + rating.Star) / (course.RatingCount + 1);
 
-            course.AvgRating = newAvgRating;
+            course.AvgRating = decimal.Round(newAvgRating, 1, MidpointRounding.AwayFromZero);
             course.RatingCount++;
 
             try
@@ -185,7 +186,7 @@ namespace RatingService.API.Application.Services
 
                 var newAvgRating = (course.AvgRating * course.RatingCount + difference) / course.RatingCount;
 
-                course.AvgRating = newAvgRating;
+                course.AvgRating = decimal.Round(newAvgRating, 1, MidpointRounding.AwayFromZero);
 
                 updated = true;
                 ratingUpdated = true;
@@ -229,7 +230,7 @@ namespace RatingService.API.Application.Services
                 newAvgRating = (course.AvgRating * course.RatingCount - rating.Star) / (course.RatingCount - 1);
             }
 
-            course.AvgRating = newAvgRating;
+            course.AvgRating = decimal.Round(newAvgRating, 1, MidpointRounding.AwayFromZero);
             course.RatingCount--;
 
             _dbContext.Ratings.Remove(rating);

@@ -12,7 +12,7 @@ using RatingService.API.Infrastructure;
 namespace RatingService.API.Infrastructure.Migrations
 {
     [DbContext(typeof(RatingServiceDbContext))]
-    [Migration("20241212123132_InitialCreate")]
+    [Migration("20250222091227_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,6 +42,13 @@ namespace RatingService.API.Infrastructure.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<string>("ThumbnailUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

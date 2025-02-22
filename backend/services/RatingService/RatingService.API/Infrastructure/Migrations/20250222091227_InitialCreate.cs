@@ -22,6 +22,10 @@ namespace RatingService.API.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     InstructorId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ThumbnailUrl = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<int>(type: "int", nullable: false),
                     AvgRating = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     RatingCount = table.Column<int>(type: "int", nullable: false)

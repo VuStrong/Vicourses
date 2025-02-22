@@ -1,26 +1,26 @@
-﻿using EventBus;
+using EventBus;
 using Microsoft.EntityFrameworkCore;
 using RatingService.API.Application.IntegrationEvents.Course;
 using RatingService.API.Infrastructure;
 
 namespace RatingService.API.Application.IntegrationEventHandlers.Course
 {
-    public class CoursePublishedIntegrationEventHandler : IIntegrationEventHandler<CoursePublishedIntegrationEvent>
+    public class CourseInfoUpdatedIntegrationEventHandler : IIntegrationEventHandler<CourseInfoUpdatedIntegrationEvent>
     {
         private readonly RatingServiceDbContext _context;
-        private readonly ILogger<CoursePublishedIntegrationEventHandler> _logger;
+        private readonly ILogger<CourseInfoUpdatedIntegrationEventHandler> _logger;
 
-        public CoursePublishedIntegrationEventHandler(
+        public CourseInfoUpdatedIntegrationEventHandler(
             RatingServiceDbContext context,
-            ILogger<CoursePublishedIntegrationEventHandler> logger)
+            ILogger<CourseInfoUpdatedIntegrationEventHandler> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        public async Task Handle(CoursePublishedIntegrationEvent @event)
+        public async Task Handle(CourseInfoUpdatedIntegrationEvent @event)
         {
-            _logger.LogInformation($"[Rating Service] Handle CoursePublishedIntegrationEvent: {@event.Id}");
+            _logger.LogInformation($"[Rating Service] Handle CourseInfoUpdatedIntegrationEvent: {@event.Id}");
 
             var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == @event.Id);
 
@@ -34,7 +34,7 @@ namespace RatingService.API.Application.IntegrationEventHandlers.Course
             }
         }
 
-        private async Task AddCourse(CoursePublishedIntegrationEvent @event)
+        private async Task AddCourse(CourseInfoUpdatedIntegrationEvent @event)
         {
             var course = new Models.Course(@event.Id, @event.User.Id, @event.Title)
             {
@@ -46,9 +46,8 @@ namespace RatingService.API.Application.IntegrationEventHandlers.Course
             await _context.SaveChangesAsync();
         }
 
-        private async Task UpdateCourse(Models.Course course, CoursePublishedIntegrationEvent @event)
+        private async Task UpdateCourse(Models.Course course, CourseInfoUpdatedIntegrationEvent @event)
         {
-            course.Status = Models.CourseStatus.Published;
             course.Title = @event.Title;
             course.ThumbnailUrl = @event.ThumbnailUrl;
 

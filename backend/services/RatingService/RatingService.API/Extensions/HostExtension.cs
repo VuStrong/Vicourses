@@ -182,6 +182,11 @@ namespace RatingService.API.Extensions
                     opt.ExchangeOptions.ExchangeName = "course.unpublished";
                     opt.QueueOptions.QueueName = "rating_service_course.unpublished";
                 });
+                c.ConfigureConsume<CourseInfoUpdatedIntegrationEvent>(opt =>
+                {
+                    opt.ExchangeOptions.ExchangeName = "course.info.updated";
+                    opt.QueueOptions.QueueName = "rating_service_course.info.updated";
+                });
                 c.ConfigureConsume<UserEnrolledIntegrationEvent>(opt =>
                 {
                     opt.ExchangeOptions.ExchangeName = "user.enrolled";
@@ -197,6 +202,7 @@ namespace RatingService.API.Extensions
             .AddIntegrationEventHandler<UserInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CoursePublishedIntegrationEventHandler>()
             .AddIntegrationEventHandler<CourseUnpublishedIntegrationEventHandler>()
+            .AddIntegrationEventHandler<CourseInfoUpdatedIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserEnrolledIntegrationEventHandler>()
             .AddIntegrationEventHandler<UserUnenrolledIntegrationEventHandler>();
         }

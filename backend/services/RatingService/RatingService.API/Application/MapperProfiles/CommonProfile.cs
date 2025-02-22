@@ -10,6 +10,7 @@ namespace RatingService.API.Application.MapperProfiles
         {
             CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
             CreateMap<User, PublicUserDto>();
+            CreateMap<Course, PublicCourseDto>();
         }
     }
 }
