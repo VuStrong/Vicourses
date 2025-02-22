@@ -4,6 +4,7 @@ export const ratingsFake: Rating[] = [
     {
         id: "ratingid1",
         courseId: "course1",
+        course: null,
         userId: "user1",
         user: {
             id: "user1",
@@ -20,6 +21,7 @@ export const ratingsFake: Rating[] = [
     {
         id: "ratingid2",
         courseId: "course1",
+        course: null,
         userId: "user1",
         user: {
             id: "user2",
