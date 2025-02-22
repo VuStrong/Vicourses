@@ -1,6 +1,7 @@
 export type Rating = {
     id: string;
     courseId: string;
+    course: CourseInRating | null;
     userId: string;
     user: UserInRating;
     feedback: string;
@@ -9,6 +10,14 @@ export type Rating = {
     responded: boolean;
     response: string | null;
     respondedAt: string | null;
+}
+
+type CourseInRating = {
+    id: string;
+    title: string;
+    thumbnailUrl: string | null;
+    avgRating: number;
+    ratingCount: number;
 }
 
 type UserInRating = {

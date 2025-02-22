@@ -17,11 +17,15 @@ import {
 } from "react-hook-form";
 import toast from "react-hot-toast";
 
-import { DEFAULT_USER_AVATAR_URL } from "@/libs/constants";
+import { DEFAULT_COURSE_THUMBNAIL_URL, DEFAULT_USER_AVATAR_URL } from "@/libs/constants";
 import { Rating } from "@/libs/types/rating";
 import { respondRating } from "@/services/api/rating";
 
-export default function RatingItem({ initialRating }: { initialRating: Rating }) {
+export default function RatingItem({
+    initialRating,
+}: {
+    initialRating: Rating;
+}) {
     const [rating, setRating] = useState<Rating>(initialRating);
     const [open, setOpen] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -59,7 +63,7 @@ export default function RatingItem({ initialRating }: { initialRating: Rating })
     };
 
     const handleCloseForm = () => {
-        if (!isSubmitting){
+        if (!isSubmitting) {
             reset();
         }
         setOpen(false);
@@ -67,6 +71,26 @@ export default function RatingItem({ initialRating }: { initialRating: Rating })
 
     return (
         <div className="border border-gray-700 p-5">
+            {rating.course && (
+                <div className="flex gap-3 mb-5 pb-2 border-b border-gray-600">
+                    <img
+                        className="flex-[1/5] max-w-[100px] object-cover aspect-video border border-gray-700 flex-shrink-0"
+                        src={
+                            rating.course.thumbnailUrl || DEFAULT_COURSE_THUMBNAIL_URL
+                        }
+                        alt={rating.course.title}
+                    />
+                    <div>
+                        <div className="text-black font-semibold line-clamp-2">
+                            {rating.course.title}
+                        </div>
+                        <div className="text-gray-800">
+                            Rating: {rating.course.avgRating}
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="flex gap-3">
                 <Avatar
                     src={rating.user.thumbnailUrl || DEFAULT_USER_AVATAR_URL}
